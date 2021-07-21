@@ -20,7 +20,7 @@ namespace wdfeerMod.Projectiles
             if (timeLeft<=0)
             {
                 // Play explosion sound
-                Main.PlaySound(SoundID.Item15, projectile.position);
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2,14), projectile.position);
                 // Smoke Dust spawn
                 for (int i = 0; i < 50; i++) {
                         int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 2f);

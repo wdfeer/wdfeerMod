@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
@@ -10,7 +9,6 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetDefaults()
         {
-            Tooltip.SetDefault("Can manually Explode mid-flight");
             item.damage = 160; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 14;
             item.melee = true; // sets the damage type to ranged
@@ -24,7 +22,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 750000; // how much the item sells for (measured in copper)
             item.rare = 8; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item11; // The sound that this item plays when used.
             item.shoot = ModContent.ProjectileType<Projectiles.FalcorProj>(); //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 18f; // the speed of the projectile (measured in pixels per frame)
         }
@@ -43,8 +40,14 @@ namespace wdfeerMod.Items.Weapons
         int proj = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active) Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer,0,false);
-            else proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),ModContent.ProjectileType<Projectiles.FalcorProj>(),damage,knockBack,Main.LocalPlayer.cHead);            
+            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active) 
+                 Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer,0,false);
+            else 
+            {
+                proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),ModContent.ProjectileType<Projectiles.FalcorProj>(),damage,knockBack,Main.LocalPlayer.cHead);  
+                Main.PlaySound(SoundID.Item1,position);
+            }
+                          
             return false;
         }
     }
