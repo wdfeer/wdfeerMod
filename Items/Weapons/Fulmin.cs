@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
+using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
@@ -21,12 +21,11 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 8; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = 3; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item11; // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/FulminSound").WithVolume(0.6f);
             item.shoot = ModContent.ProjectileType<Projectiles.FulminProj>(); 
             item.shootSpeed = 36f; // the speed of the projectile (measured in pixels per frame)
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
