@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
@@ -32,9 +33,9 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(1329, 20);
+            recipe.AddIngredient(ItemID.ShadowScale, 20);
             recipe.AddIngredient(331, 2);
-            recipe.AddRecipeGroup("Wood", 4);
+            recipe.AddRecipeGroup("Wood", 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -42,9 +43,9 @@ namespace wdfeerMod.Items.Weapons
 
             recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(86, 20);
+            recipe.AddIngredient(ItemID.TissueSample, 20);
             recipe.AddIngredient(331, 2);
-            recipe.AddRecipeGroup("Wood", 4);
+            recipe.AddRecipeGroup("Wood", 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -52,11 +53,11 @@ namespace wdfeerMod.Items.Weapons
 
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            // Add the Onfire buff to the NPC for 1 second when the weapon hits an NPC
-            // 60 frames = 1 second
-            if (rand.Next(1, 101) <= 12) target.AddBuff(31, 300);
-        }  
+            Vector2 spread = new Vector2(speedY,-speedX);
+            Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.02f,0.02f),type,damage,knockBack,Main.LocalPlayer.cHead);
+            return false;
+        }
     }
 }
