@@ -1,0 +1,57 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\Users\\Lenovo laptop\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\wdfeerMod\\wdfeerMod.csproj": {}
+  },
+  "projects": {
+    "c:\\Users\\Lenovo laptop\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\wdfeerMod\\wdfeerMod.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Users\\Lenovo laptop\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\wdfeerMod\\wdfeerMod.csproj",
+        "projectName": "wdfeerMod",
+        "projectPath": "c:\\Users\\Lenovo laptop\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\wdfeerMod\\wdfeerMod.csproj",
+        "packagesPath": "C:\\Users\\Lenovo laptop\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\Lenovo laptop\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\wdfeerMod\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo laptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net45"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net45": {
+            "targetAlias": "net45",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net45": {
+          "targetAlias": "net45",
+          "dependencies": {
+            "tModLoader.CodeAssist": {
+              "target": "Package",
+              "version": "[0.1.*, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
