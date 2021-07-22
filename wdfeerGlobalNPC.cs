@@ -28,7 +28,7 @@ namespace wdfeerMod
 				npc.lifeRegen -= slashProcs*2;
             }else slashProcs = 0;
 
-            if (npc.HasBuff(BuffID.Frozen)) npc.color = new Color(0.5f,0.5f,1f);
+            if (npc.HasBuff(BuffID.Frozen)) npc.color = new Color(0.6f,0.6f,1f);
             else if (npc.HasBuff(BuffID.Slow)) npc.color = new Color(0.8f,0.8f,1f);
             else npc.color = new Color(1f,1f,1f);
         }
