@@ -16,8 +16,8 @@ namespace wdfeerMod.Items.Weapons
             item.noUseGraphic = true;
             item.width = 32; // hitbox width of the item
             item.height = 32; // hitbox height of the item
-            item.useTime = 15; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 15; // The length of the item's use animation in ticks (60 ticks == 1 second.)
+            item.useTime = 12; // The item's use time in ticks (60 ticks == 1 second.)
+            item.useAnimation = 12; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.SwingThrow; // how you use the item (swinging, holding out, etc)
             item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 750000; // how much the item sells for (measured in copper)
