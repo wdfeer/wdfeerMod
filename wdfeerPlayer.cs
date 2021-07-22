@@ -12,12 +12,26 @@ namespace wdfeerMod
         public bool condOv;
         public bool aviator;
         public bool corrProj;
+        public bool slashProc;
+        public int slashProcs;
         public override void ResetEffects()
         {
             vitalS=false;
             condOv=false;
             aviator=false;
             corrProj=false;
+
+            slashProc = false;
+        }
+        public override void UpdateBadLifeRegen()
+        {
+            if (slashProc) 
+            {
+				if (player.lifeRegen > 0) {
+					player.lifeRegen = 0;
+				}
+				player.lifeRegen -= slashProcs*2;
+            }else slashProcs = 0;
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {

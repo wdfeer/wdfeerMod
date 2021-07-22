@@ -47,9 +47,8 @@ namespace wdfeerMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            // Add the Onfire buff to the NPC for 1 second when the weapon hits an NPC
-            // 60 frames = 1 second
-            if (rand.Next(0,100) <=20) target.AddBuff(BuffID.Confused, 300*(crit ? 2 : 1));            
+            target.AddBuff(mod.BuffType("SlashProc"), 300);
+            target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs+=12*(crit ? 2 : 1);                    
         }
     }
 }
