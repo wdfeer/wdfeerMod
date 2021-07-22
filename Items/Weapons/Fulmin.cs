@@ -29,21 +29,15 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(1329, 24);
-            recipe.AddIngredient(ItemID.Topaz, 3);
-            recipe.AddRecipeGroup("IronBar", 16);
-            // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
+            recipe.AddIngredient(ItemID.ShadowScale, 8);
+            recipe.AddIngredient(ItemID.Feather,8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
 
             recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(86, 24);
-            recipe.AddIngredient(ItemID.Topaz, 3);
-            recipe.AddRecipeGroup("IronBar", 16);
-            // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
+            recipe.AddIngredient(ItemID.TissueSample, 8);
+            recipe.AddIngredient(ItemID.Feather,8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe

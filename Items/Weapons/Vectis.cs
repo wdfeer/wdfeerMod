@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Weapons
         Random rand = new Random();
         public override void SetDefaults()
         {
-            item.damage = 80; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 88; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 25;
             item.ranged = true; // sets the damage type to ranged
             item.width = 63; // hitbox width of the item
@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Weapons
             item.rare = 4; // the color that the item's name will be in-game
             item.UseSound = SoundID.Item40; // The sound that this item plays when used.
             item.autoReuse = false; // if you can hold click to automatically use it again
-            item.shootSpeed = 64f; // the speed of the projectile (measured in pixels per frame)
+            item.shootSpeed = 48f; // the speed of the projectile (measured in pixels per frame)
             item.shoot = ProjectileID.SniperBullet;
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }

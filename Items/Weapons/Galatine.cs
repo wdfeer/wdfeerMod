@@ -36,11 +36,11 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.IronBar, 16);
-            recipe.AddIngredient(ItemID.Ruby, 4);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 2);
+            recipe.AddRecipeGroup("IronBar", 12);
+            recipe.AddIngredient(ItemID.Wire, 8);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
-            recipe.AddTile(TileID.Furnaces); // Set the crafting tile to ExampleWorkbench
+            recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
         }

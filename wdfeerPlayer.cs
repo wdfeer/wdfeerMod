@@ -12,7 +12,6 @@ namespace wdfeerMod
         public bool condOv;
         public bool aviator;
         public bool corrProj;
-        public bool glaxion;
         public bool slashProc;
         public int slashProcs;
         public override void ResetEffects()
@@ -91,12 +90,6 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage+=Convert.ToInt32(target.defense*defMult*0.18f);
             }   
-
-            if (glaxion && proj.type == ProjectileID.MagnetSphereBolt && Main.rand.Next(0,100) <= 34) 
-            {
-                if (target.HasBuff(BuffID.Slow)) target.AddBuff(BuffID.Frozen,100);
-                else target.AddBuff(BuffID.Slow,100);
-            }
         }
     }
 }

@@ -16,19 +16,17 @@ namespace wdfeerMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            base.SetDefaults();
-            // Not calling base.SetDefaults() will override everything
-            // Here we inherit all the properties from our abstract item and just change the rarity            
-            item.rare = ItemRarityID.Yellow;
+            base.SetDefaults();           
+            item.rare = 6;
         }
 
         public override void AddRecipes()
         {
             // because we don't call base.AddRecipes(), we erase the previously defined recipe and can now make a different one
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofNight, 8);
+            recipe.AddIngredient(ItemID.AnkhCharm,1);
             recipe.AddIngredient(ItemID.AvengerEmblem, 1);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

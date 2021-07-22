@@ -21,7 +21,7 @@ namespace wdfeerMod.Items.Weapons
             item.useStyle = ItemUseStyleID.SwingThrow; // how you use the item (swinging, holding out, etc)
             item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 750000; // how much the item sells for (measured in copper)
-            item.rare = 8; // the color that the item's name will be in-game
+            item.rare = 7; // the color that the item's name will be in-game
             item.shoot = ModContent.ProjectileType<Projectiles.FalcorProj>(); //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 18f; // the speed of the projectile (measured in pixels per frame)
         }

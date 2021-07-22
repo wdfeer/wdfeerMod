@@ -16,9 +16,7 @@ namespace wdfeerMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            base.SetDefaults();
-            // Not calling base.SetDefaults() will override everything
-            // Here we inherit all the properties from our abstract item and just change the rarity            
+            base.SetDefaults();       
             item.rare = ItemRarityID.Orange;
         }
 
