@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 120;
             item.crit = 46;
             item.knockBack = 3;
             item.magic = true;
@@ -24,9 +24,10 @@ namespace wdfeerMod.Items.Weapons
             item.scale = 1.2f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item5.WithPitchVariance(0.4f);
-            item.useTime = 72;
-            item.useAnimation = 72;
-            item.autoReuse = true;
+            item.useTime = 66;
+            item.useAnimation = 66;
+            item.rare = 4;
+            item.value = 120000;
             item.shoot = mod.ProjectileType("LenzProj1");
             item.shootSpeed = 20f;
         }
