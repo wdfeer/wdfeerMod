@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using System;
 
 namespace wdfeerMod.Projectiles
 {
@@ -10,8 +11,12 @@ namespace wdfeerMod.Projectiles
     {
         public override bool InstancePerEntity => true;
         Projectile proj;
+        public float critMult = 1.0f;
+        public int slashChance = 0;
         public int glaxionProcs = 0;
         public bool glaxionVandal = false;
+        NPC[] hitNPCs = new NPC[64];
+        int hitCount = 0;
         bool exploding = false;
         public override void SetDefaults(Projectile projectile)
         {
@@ -26,8 +31,15 @@ namespace wdfeerMod.Projectiles
             }
             return base.OnTileCollide(projectile,oldVelocity);
         }
-        NPC[] hitNPCs = new NPC[99];
-        int hitCount = 0;
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (crit) damage = Convert.ToInt32(critMult*damage);
+            if (slashChance > 0 && Main.rand.Next(0,100) <= slashChance) 
+            {
+                target.AddBuff(mod.BuffType("SlashProc"),300);
+                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage*0.2f);
+            }
+        }
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
             if (glaxionProcs > 0 && Main.rand.Next(0,100) < glaxionProcs)

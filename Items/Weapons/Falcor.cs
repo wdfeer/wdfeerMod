@@ -7,6 +7,10 @@ namespace wdfeerMod.Items.Weapons
 {
     public class Falcor : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Can explode mid-flight");
+        }
         public override void SetDefaults()
         {
             item.damage = 145; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.

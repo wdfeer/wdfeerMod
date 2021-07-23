@@ -8,6 +8,10 @@ namespace wdfeerMod.Items.Weapons
 {
     public class GlaxionVandal : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Will slow and freeze enemies \nDeals damage in an AoE on impact");
+        }
         public override void SetDefaults()
         {
             item.damage = 64; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.

@@ -8,6 +8,10 @@ namespace wdfeerMod.Items.Weapons
 {
     public class Fluctus : ModItem
     {        
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("16% Slash Proc chance \nInfinite Punch Through");
+        }
         public override void SetDefaults()
         {
             item.damage = 100; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
@@ -47,9 +51,12 @@ namespace wdfeerMod.Items.Weapons
             spawnOffset *= item.width;
             position += spawnOffset;
             
-            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead); 
-            float rotation = Convert.ToSingle( -Math.Atan2(speedX,speedY) + Math.PI/2) ;           
-            Main.projectile[proj].rotation = rotation;
+            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);              
+            var projectile = Main.projectile[proj];    
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 16;   
+            float rotation = Convert.ToSingle( -Math.Atan2(speedX,speedY) + Math.PI/2) ;   
+            projectile.rotation = rotation;
+            
 
             return false;
         }    

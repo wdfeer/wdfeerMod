@@ -7,6 +7,10 @@ namespace wdfeerMod.Items.Weapons
 {
     public class Fulmin : ModItem
     {        
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("+20% Critical Damage");
+        }
         public override void SetDefaults()
         {
             item.damage = 24; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
@@ -41,6 +45,15 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
-        }        
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);
+            var projectile = Main.projectile[proj];
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.2f;
+
+            return false;
+        }
     }
 }

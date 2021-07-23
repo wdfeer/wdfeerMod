@@ -8,15 +8,19 @@ namespace wdfeerMod.Items.Weapons
     public class Gram : ModItem
     {
         Random rand = new Random();
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Applies Slash Procs on hit");
+        }
         public override void SetDefaults()
         {
-            item.damage = 69; // The damage your item deals
+            item.damage = 59; // The damage your item deals
             item.melee = true; // Whether your item is part of the melee class
             item.width = 58; // The item texture's width
             item.height = 58; // The item texture's height
             item.useTime = 63; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
             item.useAnimation = 63; // The time span of the using animation of the weapon, suggest setting it the same as useTime.
-            item.knockBack = 12; // The force of knockback of the weapon. Maximum is 20
+            item.knockBack = 11; // The force of knockback of the weapon. Maximum is 20
             item.value = Item.buyPrice(silver:75); // The value of the weapon in copper coins
             item.rare = ItemRarityID.Orange; // The rarity of the weapon, from -1 to 13. You can also use ItemRarityID.TheColorRarity
             item.UseSound = SoundID.Item1; // The sound when the weapon is being used

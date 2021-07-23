@@ -29,12 +29,6 @@ namespace wdfeerMod.Projectiles
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 0.6f);
             } 
-
-            if (Main.rand.Next(0,100) <= 16) 
-            {
-                target.AddBuff(mod.BuffType("SlashProc"), 300);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs+=Convert.ToInt32(damage * 0.25f);
-            }        
         }  
     }
 }

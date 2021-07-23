@@ -6,25 +6,29 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Boar : ModItem
+    public class Corinth : ModItem
     {
         Random rand = new Random();
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("+40% Critical Damage");
+        }
         public override void SetDefaults()
         {
-            item.damage = 2; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-            item.crit = 10;
+            item.damage = 9; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.crit = 30;
             item.ranged = true; // sets the damage type to ranged
-            item.width = 40; // hitbox width of the item
-            item.height = 17; // hitbox height of the item
-            item.scale=1.1f;
-            item.useTime = 15; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 15; // The length of the item's use animation in ticks (60 ticks == 1 second.)
+            item.width = 64; // hitbox width of the item
+            item.height = 19; // hitbox height of the item
+            item.scale=1f;
+            item.useTime = 51; // The item's use time in ticks (60 ticks == 1 second.)
+            item.useAnimation = 51; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = ItemRarityID.Green; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(0.7f); // The sound that this item plays when used.
+            item.UseSound = SoundID.Item36.WithVolume(1f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
@@ -34,13 +38,18 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.Boomstick,1);
-            recipe.AddIngredient(ItemID.Wire,4);
-            // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
-            recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
-            recipe.SetResult(this); // Set the result to this item (ExampleSword)
-            recipe.AddRecipe(); // When your done, add the recipe
+            recipe.AddIngredient(ItemID.SilverBar,16);
+            recipe.AddIngredient(ItemID.Bone,8);
+            recipe.AddTile(TileID.Anvils); 
+            recipe.SetResult(this); 
+            recipe.AddRecipe(); 
+
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.TungstenBar,16);
+            recipe.AddIngredient(ItemID.Bone,8);
+            recipe.AddTile(TileID.Anvils); 
+            recipe.SetResult(this); 
+            recipe.AddRecipe(); 
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,7 +57,9 @@ namespace wdfeerMod.Items.Weapons
             Vector2 spread = new Vector2(speedY,-speedX);
             for (int i = 0; i < 5; i++)
             {
-                Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.11f,0.11f),type,damage,knockBack,Main.LocalPlayer.cHead);
+                int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.075f,0.75f),type,damage,knockBack,Main.LocalPlayer.cHead);
+                var projectile = Main.projectile[proj];
+                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
             }
             return false;
         }

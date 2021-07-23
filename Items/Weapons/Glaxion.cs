@@ -8,9 +8,13 @@ namespace wdfeerMod.Items.Weapons
 {
     public class Glaxion : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Will slow and freeze enemies");
+        }
         public override void SetDefaults()
         {
-            item.damage = 22; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 18; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 8;
             item.ranged = true; // sets the damage type to ranged
             item.width = 64; // hitbox width of the item

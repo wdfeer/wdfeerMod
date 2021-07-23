@@ -43,10 +43,7 @@ namespace wdfeerMod.Projectiles
         {
             Random rand = new Random();
 
-            if (rand.Next(0,100) <= Main.LocalPlayer.rangedCrit) crit = true; else crit = false;
-
-            damage = crit ? Convert.ToInt32(damage * 1.2f) : damage;
-            if (rand.Next(1, 101) <= 16) target.AddBuff(BuffID.Electrified,200);           
+            if (rand.Next(0,100) <= Main.LocalPlayer.rangedCrit) crit = true; else crit = false;      
         }  
     }
 }
