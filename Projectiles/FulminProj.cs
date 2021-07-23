@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 
 namespace wdfeerMod.Projectiles
 {
-
     internal class FulminProj : ModProjectile
     {
         public override void SetDefaults()
@@ -28,22 +27,23 @@ namespace wdfeerMod.Projectiles
         {
             if (projectile.timeLeft <= 8)
             {
-                projectile.alpha = 512/projectile.timeLeft;
+                projectile.alpha = 512 / projectile.timeLeft;
             }
             Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 0.6f);
         }
         public override void Kill(int timeLeft)
         {
             // Smoke Dust spawn
-            for (int i = 0; i < 8; i++) {
-                    Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 1.2f);
-                }
+            for (int i = 0; i < 8; i++)
+            {
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 1.2f);
+            }
         }
-        public override void ModifyHitNPC (NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Random rand = new Random();
 
-            if (rand.Next(0,100) <= Main.LocalPlayer.rangedCrit) crit = true; else crit = false;      
-        }  
+            if (rand.Next(0, 100) <= Main.LocalPlayer.rangedCrit) crit = true; else crit = false;
+        }
     }
 }

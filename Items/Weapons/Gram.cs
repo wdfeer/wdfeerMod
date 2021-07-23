@@ -21,7 +21,7 @@ namespace wdfeerMod.Items.Weapons
             item.useTime = 63; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
             item.useAnimation = 63; // The time span of the using animation of the weapon, suggest setting it the same as useTime.
             item.knockBack = 11; // The force of knockback of the weapon. Maximum is 20
-            item.value = Item.buyPrice(silver:75); // The value of the weapon in copper coins
+            item.value = Item.buyPrice(silver: 75); // The value of the weapon in copper coins
             item.rare = ItemRarityID.Orange; // The rarity of the weapon, from -1 to 13. You can also use ItemRarityID.TheColorRarity
             item.UseSound = SoundID.Item1; // The sound when the weapon is being used
             item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
@@ -40,7 +40,7 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.Bone, 4);           
+            recipe.AddIngredient(ItemID.Bone, 4);
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
@@ -51,7 +51,7 @@ namespace wdfeerMod.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("SlashProc"), 300);
-            target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs+=Convert.ToInt32(damage * 0.25f);         
+            target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.25f);
         }
     }
 }

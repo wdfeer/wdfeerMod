@@ -38,8 +38,8 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.ShadowScale,16);
-            recipe.AddIngredient(ItemID.Wire,8);
+            recipe.AddIngredient(ItemID.ShadowScale, 16);
+            recipe.AddIngredient(ItemID.Wire, 8);
             recipe.AddRecipeGroup("IronBar", 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
@@ -48,8 +48,8 @@ namespace wdfeerMod.Items.Weapons
 
             recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.TissueSample,16);
-            recipe.AddIngredient(ItemID.Wire,8);
+            recipe.AddIngredient(ItemID.TissueSample, 16);
+            recipe.AddIngredient(ItemID.Wire, 8);
             recipe.AddRecipeGroup("IronBar", 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
@@ -59,10 +59,10 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY,-speedX);
+            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 4; i++)
             {
-                Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.09f,0.09f),type,damage,knockBack,Main.LocalPlayer.cHead);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.09f, 0.09f), type, damage, knockBack, Main.LocalPlayer.cHead);
             }
             return false;
         }

@@ -7,7 +7,7 @@ using System;
 namespace wdfeerMod.Items.Weapons
 {
     public class Fluctus : ModItem
-    {        
+    {
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("16% Slash Proc chance \nInfinite Punch Through");
@@ -42,23 +42,23 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
-        }   
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX,speedY);
+            Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
             spawnOffset *= item.width;
             position += spawnOffset;
-            
-            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);              
-            var projectile = Main.projectile[proj];    
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 16;   
-            float rotation = Convert.ToSingle( -Math.Atan2(speedX,speedY) + Math.PI/2) ;   
+
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+            var projectile = Main.projectile[proj];
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 16;
+            float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY) + Math.PI / 2);
             projectile.rotation = rotation;
-            
+
 
             return false;
-        }    
+        }
     }
 }

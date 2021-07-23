@@ -55,8 +55,8 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY,-speedX);
-            Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.02f,0.02f),type,damage,knockBack,Main.LocalPlayer.cHead);
+            Vector2 spread = new Vector2(speedY, -speedX);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.02f, 0.02f), type, damage, knockBack, Main.LocalPlayer.cHead);
             return false;
         }
     }

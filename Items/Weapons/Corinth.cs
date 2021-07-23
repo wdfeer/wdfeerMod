@@ -20,7 +20,7 @@ namespace wdfeerMod.Items.Weapons
             item.ranged = true; // sets the damage type to ranged
             item.width = 64; // hitbox width of the item
             item.height = 19; // hitbox height of the item
-            item.scale=1f;
+            item.scale = 1f;
             item.useTime = 51; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 51; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
@@ -38,26 +38,26 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SilverBar,16);
-            recipe.AddIngredient(ItemID.Bone,8);
-            recipe.AddTile(TileID.Anvils); 
-            recipe.SetResult(this); 
-            recipe.AddRecipe(); 
+            recipe.AddIngredient(ItemID.SilverBar, 16);
+            recipe.AddIngredient(ItemID.Bone, 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TungstenBar,16);
-            recipe.AddIngredient(ItemID.Bone,8);
-            recipe.AddTile(TileID.Anvils); 
-            recipe.SetResult(this); 
-            recipe.AddRecipe(); 
+            recipe.AddIngredient(ItemID.TungstenBar, 16);
+            recipe.AddIngredient(ItemID.Bone, 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY,-speedX);
+            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 5; i++)
             {
-                int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.075f,0.75f),type,damage,knockBack,Main.LocalPlayer.cHead);
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.075f, 0.75f), type, damage, knockBack, Main.LocalPlayer.cHead);
                 var projectile = Main.projectile[proj];
                 projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
             }

@@ -45,14 +45,14 @@ namespace wdfeerMod.Items.Weapons
         int proj = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active) 
-                 Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer,0,false);
-            else 
+            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active)
+                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
+            else
             {
-                proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);  
-                Main.PlaySound(SoundID.Item1,position);
+                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+                Main.PlaySound(SoundID.Item1, position);
             }
-                          
+
             return false;
         }
     }

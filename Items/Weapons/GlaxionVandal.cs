@@ -26,7 +26,7 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 500000; // how much the item sells for (measured in copper)
             item.rare = ItemRarityID.Cyan; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item91.WithPitchVariance(Main.rand.NextFloat(-0.1f,0.1f)).WithVolume(0.67f); // The sound that this item plays when used.
+            item.UseSound = SoundID.Item91.WithPitchVariance(Main.rand.NextFloat(-0.1f, 0.1f)).WithVolume(0.67f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ProjectileID.MagnetSphereBolt;
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
@@ -37,25 +37,25 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Glaxion"), 1);
             recipe.AddIngredient(ItemID.FragmentVortex, 8);
-            recipe.AddTile(412); 
+            recipe.AddTile(412);
             recipe.SetResult(this);
-            recipe.AddRecipe(); 
+            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX,speedY);
+            Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
             spawnOffset *= item.width;
             position += spawnOffset;
 
-            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead); 
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             Main.projectile[proj].magic = false;
             Main.projectile[proj].ranged = true;
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.glaxionProcs = 38;
             globalProj.glaxionVandal = true;
-            
+
 
             return false;
         }

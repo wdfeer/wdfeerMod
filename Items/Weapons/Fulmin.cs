@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 namespace wdfeerMod.Items.Weapons
 {
     public class Fulmin : ModItem
-    {        
+    {
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+20% Critical Damage");
@@ -27,21 +27,21 @@ namespace wdfeerMod.Items.Weapons
             item.rare = 3; // the color that the item's name will be in-game
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/FulminSound").WithVolume(0.6f);
-            item.shoot = ModContent.ProjectileType<Projectiles.FulminProj>(); 
+            item.shoot = ModContent.ProjectileType<Projectiles.FulminProj>();
             item.shootSpeed = 36f; // the speed of the projectile (measured in pixels per frame)
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ShadowScale, 8);
-            recipe.AddIngredient(ItemID.Feather,8);
+            recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TissueSample, 8);
-            recipe.AddIngredient(ItemID.Feather,8);
+            recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
@@ -49,7 +49,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
             projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.2f;
 

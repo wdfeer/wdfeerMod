@@ -16,7 +16,7 @@ namespace wdfeerMod.Items.Weapons
             item.ranged = true; // sets the damage type to ranged
             item.width = 40; // hitbox width of the item
             item.height = 17; // hitbox height of the item
-            item.scale=1.1f;
+            item.scale = 1.1f;
             item.useTime = 15; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 15; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
@@ -35,8 +35,8 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.Boomstick,1);
-            recipe.AddIngredient(ItemID.Wire,4);
+            recipe.AddIngredient(ItemID.Boomstick, 1);
+            recipe.AddIngredient(ItemID.Wire, 4);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -45,10 +45,10 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY,-speedX);
+            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 5; i++)
             {
-                Projectile.NewProjectile(position,new Vector2(speedX,speedY) + spread*Main.rand.NextFloat(-0.11f,0.11f),type,damage,knockBack,Main.LocalPlayer.cHead);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.11f, 0.11f), type, damage, knockBack, Main.LocalPlayer.cHead);
             }
             return false;
         }

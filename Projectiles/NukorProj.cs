@@ -48,13 +48,13 @@ namespace wdfeerMod.Projectiles
             {
                 hits++;
                 globalProj.Explode(320);
-                for (int i = 0; i < target.width/4; i++) 
+                for (int i = 0; i < target.width / 4; i++)
                 {
-                    int dustIndex = Dust.NewDust(target.position, Convert.ToInt32(target.width*target.scale), Convert.ToInt32(target.height*target.scale), 162, 0f, 0f, 100, default(Color), 1.6f);
+                    int dustIndex = Dust.NewDust(target.position, Convert.ToInt32(target.width * target.scale), Convert.ToInt32(target.height * target.scale), 162, 0f, 0f, 100, default(Color), 1.6f);
                     var dust = Main.dust[dustIndex];
                     dust.noGravity = true;
-                }     
-            }            
+                }
+            }
         }
         public override bool? CanHitNPC(NPC target)
         {

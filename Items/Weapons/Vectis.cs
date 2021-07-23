@@ -46,12 +46,12 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX,speedY);
+            Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
             spawnOffset *= item.width;
 
             position += spawnOffset;
-            Projectile.NewProjectile(position,new Vector2(speedX,speedY),ProjectileID.BulletHighVelocity,damage,knockBack,Main.LocalPlayer.cHead);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.BulletHighVelocity, damage, knockBack, Main.LocalPlayer.cHead);
             return false;
         }
     }

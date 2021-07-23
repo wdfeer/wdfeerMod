@@ -22,13 +22,13 @@ namespace wdfeerMod.Projectiles
             projectile.tileCollide = false;
             // These 2 help the projectile hitbox be centered on the projectile sprite.
         }
-        public override void ModifyHitNPC (NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             // Smoke Dust spawn
-            for (int i = 0; i < 8; i++) 
+            for (int i = 0; i < 8; i++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 0.6f);
-            } 
-        }  
+            }
+        }
     }
 }

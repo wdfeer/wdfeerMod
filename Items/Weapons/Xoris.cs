@@ -34,8 +34,8 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(mod.ItemType("Falcor"),1);
-            recipe.AddIngredient(ItemID.FragmentSolar,8);
+            recipe.AddIngredient(mod.ItemType("Falcor"), 1);
+            recipe.AddIngredient(ItemID.FragmentSolar, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(412); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -46,19 +46,19 @@ namespace wdfeerMod.Items.Weapons
         int explosionCount = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active) 
+            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active)
             {
                 bool crit = false;
-                if (explosionCount >= 3) {crit = true; explosionCount = 0;}
-                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer,0,crit);
+                if (explosionCount >= 3) { crit = true; explosionCount = 0; }
+                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer, 0, crit);
                 explosionCount++;
-            }                 
-            else 
-            {
-                proj = Projectile.NewProjectile(position,new Vector2(speedX,speedY),type,damage,knockBack,Main.LocalPlayer.cHead);  
-                Main.PlaySound(SoundID.Item1,position);
             }
-                          
+            else
+            {
+                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+                Main.PlaySound(SoundID.Item1, position);
+            }
+
             return false;
         }
     }
