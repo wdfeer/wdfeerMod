@@ -12,6 +12,7 @@ namespace wdfeerMod
         public bool condOv;
         public bool aviator;
         public bool corrProj;
+        public bool hunterMuni;
         public bool slashProc;
         public int slashProcs;
         public override void ResetEffects()
@@ -20,6 +21,7 @@ namespace wdfeerMod
             condOv = false;
             aviator = false;
             corrProj = false;
+            hunterMuni = false;
 
             slashProc = false;
         }
@@ -71,6 +73,11 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
+            if (hunterMuni && crit && Main.rand.Next(0,100) < 30) 
+            {
+                target.AddBuff(mod.BuffType("SlashProc"), 360);
+                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+            }
         }
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -91,6 +98,11 @@ namespace wdfeerMod
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
+            }
+            if (hunterMuni && crit && Main.rand.Next(0,100) < 30) 
+            {
+                target.AddBuff(mod.BuffType("SlashProc"), 240);
+                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
             }
         }
     }

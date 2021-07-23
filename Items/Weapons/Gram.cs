@@ -51,7 +51,7 @@ namespace wdfeerMod.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("SlashProc"), 300);
-            target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.25f);
+            target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
         }
     }
 }
