@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Nukor : ModItem
+    public class KuvaNukor : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Will confuse enemies \n+100% Critical Damage\nLimited range");
+            Tooltip.SetDefault("Will confuse enemies\nCan hit up to 3 enemies\n+120% Critical Damage\nLimited range");
         }
         public override void SetDefaults()
         {
-            item.damage = 7; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-            item.crit = 0;
+            item.damage = 13; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.crit = 3;
             item.magic = true;
             item.width = 32; // hitbox width of the item
             item.height = 24; // hitbox height of the item
@@ -30,22 +30,15 @@ namespace wdfeerMod.Items.Weapons
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ModContent.ProjectileType<Projectiles.NukorProj>();
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
-            item.mana = 2;
+            item.mana = 3;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddRecipeGroup("IronBar", 12);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            recipe.AddRecipeGroup("IronBar", 12);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(mod.ItemType("Nukor"));
+            recipe.AddIngredient(mod.ItemType("Kuva"), 7);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -58,8 +51,12 @@ namespace wdfeerMod.Items.Weapons
             position += spawnOffset;
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+            var a = 0;
+            var b = false;
+            Main.projectile[proj].modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.critMult = 2;
+            globalProj.critMult = 2.5f;
+            globalProj.kuvaNukor = true;
 
             return false;
         }

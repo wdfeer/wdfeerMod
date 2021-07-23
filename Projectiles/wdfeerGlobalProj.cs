@@ -15,8 +15,9 @@ namespace wdfeerMod.Projectiles
         public int slashChance = 0;
         public int glaxionProcs = 0;
         public bool glaxionVandal = false;
-        NPC[] hitNPCs = new NPC[64];
-        int hitCount = 0;
+        public bool kuvaNukor = false;
+        public NPC[] hitNPCs = new NPC[64];
+        public int hits = 0;
         bool exploding = false;
         public override void SetDefaults(Projectile projectile)
         {
@@ -47,14 +48,13 @@ namespace wdfeerMod.Projectiles
                 if (target.HasBuff(BuffID.Slow)) target.AddBuff(BuffID.Frozen,100);
                 else target.AddBuff(BuffID.Slow,100);
             }
-            if (glaxionVandal) 
+            if (glaxionVandal || (kuvaNukor && projectile.type == ModContent.ProjectileType<Projectiles.NukorProj>()))
             {
-                hitNPCs[hitCount] = target;
-                hitCount++;
-
-                Explode(128);
-                return;
-            }                       
+                hitNPCs[hits] = target;
+                hits++;
+                if (glaxionVandal) Explode(128);
+                return;                 
+            }                                
             base.OnHitNPC(projectile, target, damage, knockback, crit);
         }
         public override bool? CanHitNPC (Projectile projectile, NPC target)

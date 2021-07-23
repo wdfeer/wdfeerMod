@@ -14,10 +14,6 @@ namespace wdfeerMod
         {
             slashProc = false;
         }
-        public override void SetDefaults(NPC npc)
-        {
-            
-        }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if (slashProc) 
