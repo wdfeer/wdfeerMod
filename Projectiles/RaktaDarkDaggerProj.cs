@@ -18,13 +18,13 @@ namespace wdfeerMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            target.AddBuff(BuffID.Confused,300);
+            target.AddBuff(BuffID.Confused, 300);
             int manaAdd = Main.LocalPlayer.statManaMax / (Main.LocalPlayer.HasBuff(BuffID.ManaSickness) ? 30 : 15);
             int manaSpare = Main.LocalPlayer.statMana + manaAdd - Main.LocalPlayer.statManaMax;
-            if (manaSpare > 0) damage+=manaSpare * 5/4;
+            if (manaSpare > 0) damage += manaSpare * 5 / 4;
             Main.LocalPlayer.statMana += manaAdd;
 
-            damage = Convert.ToInt32((1-projectile.alpha/255)*damage);
+            damage = Convert.ToInt32((1 - projectile.alpha / 255) * damage);
             projectile.alpha += 85;
         }
     }
