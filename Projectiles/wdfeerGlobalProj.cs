@@ -16,6 +16,8 @@ namespace wdfeerMod.Projectiles
         public int glaxionProcs = 0;
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
+        public Vector2 baseVelocity;
+        public Vector2 offset;
         public NPC[] hitNPCs = new NPC[64];
         public int hits = 0;
         public bool exploding = false;
@@ -92,7 +94,7 @@ namespace wdfeerMod.Projectiles
         }
         public override void AI(Projectile projectile)
         {
-            if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width/2,projectile.height/2);
+            if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2);
         }
         public void Impale(NPC target)
         {
