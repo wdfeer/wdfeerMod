@@ -13,14 +13,15 @@ namespace wdfeerMod.Projectiles
         public override void SetDefaults()
         {
             globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
-            projectile.width = 48;
-            projectile.height = 48;
+            projectile.width = 32;
+            projectile.height = 32;
             projectile.magic = true;
             projectile.friendly = true;
             projectile.extraUpdates = 0;
             projectile.penetrate = -1;
             projectile.timeLeft = 200;
             projectile.hide = true;
+            projectile.usesIDStaticNPCImmunity = true;
         }
         bool playedSound = false;
         public override void AI()
@@ -28,7 +29,7 @@ namespace wdfeerMod.Projectiles
             if (projectile.timeLeft >= 95)
             {
                 if (projectile.velocity != Vector2.Zero) projectile.velocity = Vector2.Zero;
-                projectile.position = Main.LocalPlayer.position + globalProj.offset;
+                projectile.position = Main.LocalPlayer.position + globalProj.v2;
                 var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, globalProj.baseVelocity.X + Main.LocalPlayer.velocity.X, globalProj.baseVelocity.Y + Main.LocalPlayer.velocity.Y)];
                 dust.noGravity = true;
 
@@ -37,6 +38,7 @@ namespace wdfeerMod.Projectiles
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/OpticorSound"));
                     playedSound = true;
                 }
+                if (Main.LocalPlayer.dead) projectile.Kill();
             }
             else
             {

@@ -17,7 +17,12 @@ namespace wdfeerMod.Projectiles
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
-        public Vector2 offset;
+        public Vector2 v2;
+        public int falloffStartDist = -1;
+        public int falloffMaxDist = -1;
+        public float falloffMax = 0;
+        public float distTraveled = 0;
+        public bool falloffEnabled => falloffStartDist != -1;
         public NPC[] hitNPCs = new NPC[64];
         public int hits = 0;
         public bool exploding = false;
@@ -43,6 +48,16 @@ namespace wdfeerMod.Projectiles
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 300);
                 target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+            }
+
+            if (falloffEnabled)
+            {
+                distTraveled = (projectile.position - v2).Length();
+                if (distTraveled > falloffStartDist)
+                {
+                    float mult = 1f - falloffMax * (distTraveled < falloffMaxDist ? (distTraveled - falloffStartDist) / (falloffMaxDist - falloffStartDist) : 1.0f);
+                    damage = Convert.ToInt32(damage * mult);
+                }
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
