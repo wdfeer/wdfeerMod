@@ -50,8 +50,9 @@ namespace wdfeerMod.Items.Weapons
             position += spawnOffset;
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            Main.projectile[proj].magic = false;
-            Main.projectile[proj].ranged = true;
+            var projectile = Main.projectile[proj];
+            projectile.magic = false;
+            projectile.ranged = true;
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.glaxionProcs = 38;
             globalProj.glaxionVandal = true;

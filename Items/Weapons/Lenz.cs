@@ -9,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Slows all nearby enemies on impact, \nexplodes after a short while");
+            Tooltip.SetDefault("Slows all nearby enemies on impact, \nExplodes after a short while");
         }
         public override void SetDefaults()
         {

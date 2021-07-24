@@ -16,6 +16,8 @@ namespace wdfeerMod.Projectiles
             projectile.width = 6;
             projectile.timeLeft = 120;
             projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

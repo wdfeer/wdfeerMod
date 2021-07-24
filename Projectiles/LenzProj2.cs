@@ -19,6 +19,8 @@ namespace wdfeerMod.Projectiles
             projectile.knockBack = 12;
             projectile.timeLeft = 78;
             projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {            
