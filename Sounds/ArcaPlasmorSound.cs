@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace wdfeerMod.Sounds
 {
-    public class OpticorSound : ModSound
+    public class ArcaPlasmorSound : ModSound
     {
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {

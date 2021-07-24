@@ -15,7 +15,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 12; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
             item.melee = true; // sets the damage type to ranged
             item.noMelee = false; //so the item's animation doesn't do damage
@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Weapons
             item.useTime = 72; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 72; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
+            item.knockBack = 3; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = ItemRarityID.Green; // the color that the item's name will be in-game
             item.UseSound = SoundID.Item36.WithVolume(0.9f); // The sound that this item plays when used.
@@ -55,6 +55,8 @@ namespace wdfeerMod.Items.Weapons
             {
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.14f, 0.14f), type, damage, knockBack, Main.LocalPlayer.cHead);
                 var projectile = Main.projectile[proj];
+                projectile.ranged = false;
+                projectile.melee = true;
                 var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 gProj.v2 = projectile.position;
                 gProj.falloffStartDist = 300;
