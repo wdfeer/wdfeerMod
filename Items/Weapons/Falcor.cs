@@ -9,11 +9,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Can explode mid-flight");
+            Tooltip.SetDefault("Can explode mid-flight applying Electricity procs\n 36% Slash chance on Hit");
         }
         public override void SetDefaults()
         {
-            item.damage = 145; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 120; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 14;
             item.melee = true; // sets the damage type to ranged
             item.noMelee = true;

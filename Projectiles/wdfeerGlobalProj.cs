@@ -13,6 +13,7 @@ namespace wdfeerMod.Projectiles
         public Projectile proj;
         public float critMult = 1.0f;
         public int slashChance = 0;
+        public int electroChance = 0;
         public int glaxionProcs = 0;
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
@@ -48,6 +49,11 @@ namespace wdfeerMod.Projectiles
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 300);
                 target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+            }
+            if (electroChance > 0 && Main.rand.Next(0, 100) <= electroChance)
+            {
+                target.AddBuff(BuffID.Electrified, 300);
+                target.GetGlobalNPC<wdfeerGlobalNPC>().electroProcs += Convert.ToInt32(damage * 0.2f);
             }
 
             if (falloffEnabled)

@@ -9,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Can explode mid-flight \nEvery fourth explosion deals 3x the damage");
+            Tooltip.SetDefault("Can explode mid-flight with an 18% Electricity proc chance \nEvery fourth explosion deals 3x the damage");
         }
         public override void SetDefaults()
         {

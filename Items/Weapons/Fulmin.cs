@@ -9,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+20% Critical Damage");
+            Tooltip.SetDefault("+20% Critical Damage\n16% Electricity proc chance");
         }
         public override void SetDefaults()
         {

@@ -13,6 +13,7 @@ namespace wdfeerMod.Projectiles
             projectile.CloneDefaults(ProjectileID.ThornChakram);
             projectile.width = 32;
             projectile.height = 32;
+            projectile.GetGlobalProjectile<wdfeerGlobalProj>().slashChance = 36;
         }
 
         public override void Kill(int timeLeft)
@@ -62,6 +63,8 @@ namespace wdfeerMod.Projectiles
         {
             if (target == Main.LocalPlayer && damage == 0)
             {
+                projectile.GetGlobalProjectile<wdfeerGlobalProj>().electroChance = 100;
+                projectile.GetGlobalProjectile<wdfeerGlobalProj>().slashChance = 0;
                 projectile.timeLeft = 3;
                 projectile.velocity = new Vector2(0, 0);
                 projectile.tileCollide = false;

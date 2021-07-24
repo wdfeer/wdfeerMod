@@ -19,9 +19,7 @@ namespace wdfeerMod.Projectiles
             projectile.timeLeft = 18;
             projectile.rotation = 255f;
             projectile.light = 0.2f;
-            // These 2 help the projectile hitbox be centered on the projectile sprite.
-            drawOffsetX = 0;
-            drawOriginOffsetY = 0;
+            projectile.GetGlobalProjectile<wdfeerGlobalProj>().electroChance = 16;
         }
         public override void AI()
         {
@@ -29,14 +27,14 @@ namespace wdfeerMod.Projectiles
             {
                 projectile.alpha = 512 / projectile.timeLeft;
             }
-            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 0.6f);
+            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 75, default(Color), 0.6f);
         }
         public override void Kill(int timeLeft)
         {
             // Smoke Dust spawn
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 16; i++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 75, default(Color), 1.2f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 75, default(Color), 1.2f);
             }
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
