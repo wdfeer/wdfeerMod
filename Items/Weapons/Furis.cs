@@ -13,8 +13,8 @@ namespace wdfeerMod.Items.Weapons
         {
             item.damage = 4; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.ranged = true; // sets the damage type to ranged
-            item.width = 29; // hitbox width of the item
-            item.height = 20; // hitbox height of the item
+            item.width = 16; // hitbox width of the item
+            item.height = 14; // hitbox height of the item
             item.useTime = 6; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 6; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
