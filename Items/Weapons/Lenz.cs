@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 120;
+            item.damage = 200;
             item.crit = 46;
             item.knockBack = 3;
             item.magic = true;

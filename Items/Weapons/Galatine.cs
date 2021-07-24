@@ -14,7 +14,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 58; // The damage your item deals
+            item.damage = 42; // The damage your item deals
             item.melee = true; // Whether your item is part of the melee class
             item.width = 58; // The item texture's width
             item.height = 58; // The item texture's height
@@ -27,13 +27,7 @@ namespace wdfeerMod.Items.Weapons
             item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
             item.crit = 10; // The critical strike chance the weapon has. The player, by default, has 4 critical strike chance
             item.scale = 1.1f;
-            //The useStyle of the item. 
-            //Use useStyle 1 for normal swinging or for throwing
-            //use useStyle 2 for an item that drinks such as a potion,
-            //use useStyle 3 to make the sword act like a shortsword
-            //use useStyle 4 for use like a life crystal,
-            //and use useStyle 5 for staffs or guns
-            item.useStyle = ItemUseStyleID.SwingThrow; // 1 is the useStyle
+            item.useStyle = ItemUseStyleID.SwingThrow; 
         }
 
         public override void AddRecipes()
@@ -41,7 +35,6 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
             recipe.AddRecipeGroup("IronBar", 12);
-            recipe.AddIngredient(ItemID.Wire, 8);
             recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
