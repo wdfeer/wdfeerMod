@@ -73,10 +73,11 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
-            if (hunterMuni && crit && Main.rand.Next(0,100) < 30) 
+            if (hunterMuni && crit && Main.rand.Next(0, 100) < 30)
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 360);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+                var slashDamage = damage / 5;
+                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 360, ref slashDamage);
             }
         }
 
@@ -99,10 +100,11 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
-            if (hunterMuni && crit && Main.rand.Next(0,100) < 30) 
+            if (hunterMuni && crit && Main.rand.Next(0, 100) < 30)
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 240);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+                var slashDamage = damage / 5;
+                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 240, ref slashDamage);
             }
         }
     }

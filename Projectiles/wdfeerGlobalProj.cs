@@ -48,12 +48,14 @@ namespace wdfeerMod.Projectiles
             if (slashChance > 0 && Main.rand.Next(0, 100) <= slashChance)
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 300);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
+                int slashDamage = damage / 5;
+                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
             }
             if (electroChance > 0 && Main.rand.Next(0, 100) <= electroChance)
             {
                 target.AddBuff(BuffID.Electrified, 300);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().electroProcs += Convert.ToInt32(damage * 0.2f);
+                int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
             }
 
             if (falloffEnabled)

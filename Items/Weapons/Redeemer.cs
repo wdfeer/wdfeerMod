@@ -18,7 +18,7 @@ namespace wdfeerMod.Items.Weapons
             item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
             item.melee = true; // sets the damage type to ranged
-            item.noMelee = false; //so the item's animation doesn't do damage
+            item.noMelee = true; //so the item's animation doesn't do damage
             item.width = 48; // hitbox width of the item
             item.height = 24; // hitbox height of the item
             item.scale = 1f;
@@ -64,17 +64,6 @@ namespace wdfeerMod.Items.Weapons
                 gProj.falloffMax = 0.83f;
             }
             return false;
-        }
-
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        {
-            damage *= 6;
-            if (rand.Next(0, 100) <= 22)
-            {
-                target.AddBuff(mod.BuffType("SlashProc"), 300);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().slashProcs += Convert.ToInt32(damage * 0.2f);
-            }
-            base.ModifyHitNPC(player, target, ref damage, ref knockBack, ref crit);
         }
     }
 }
