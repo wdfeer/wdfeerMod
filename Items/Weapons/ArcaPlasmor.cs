@@ -26,7 +26,7 @@ namespace wdfeerMod.Items.Weapons
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 7; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 150000; // how much the item sells for (measured in copper)
-            item.rare = 9; // the color that the item's name will be in-game
+            item.rare = 4; // the color that the item's name will be in-game
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ArcaPlasmorSound");
             item.shoot = ModContent.ProjectileType<Projectiles.ArcaPlasmorProj>();
@@ -61,7 +61,7 @@ namespace wdfeerMod.Items.Weapons
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
-            float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY) + Math.PI / 2);
+            float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 
             return false;

@@ -11,7 +11,7 @@ namespace wdfeerMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 32;
+            projectile.width = 80;
             projectile.height = 80;
             projectile.scale = 0.75f;
             projectile.alpha = 128;
@@ -20,13 +20,12 @@ namespace wdfeerMod.Projectiles
             projectile.scale = 0.9f;
             projectile.timeLeft = 32;
             projectile.light = 0.5f;
-            projectile.tileCollide = false;
-            // These 2 help the projectile hitbox be centered on the projectile sprite.
+            projectile.tileCollide = true;
         }
         public override void AI()
         {
             var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
-            dust.scale = 0.6f;
+            dust.scale = 0.75f;
             projectile.alpha = 256 - projectile.timeLeft * 4;
             projectile.light = projectile.timeLeft / 64;
         }
@@ -35,7 +34,8 @@ namespace wdfeerMod.Projectiles
         {
             if (projectile.timeLeft > 8)
             {
-                projectile.timeLeft -= 4;
+                projectile.timeLeft = 8;
+                projectile.velocity *= 0.4f;
             }
             if (!hitATile)
                 for (int i = 0; i < 16; i++)
@@ -57,7 +57,7 @@ namespace wdfeerMod.Projectiles
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 180, 0f, 0f, 75, default(Color), 0.6f);
             }
 
-            if (Main.rand.Next(0,100) <= 28) target.AddBuff(BuffID.Confused,300);
+            if (Main.rand.Next(0, 100) <= 28) target.AddBuff(BuffID.Confused, 300);
         }
     }
 }

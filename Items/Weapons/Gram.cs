@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Weapons
             item.rare = ItemRarityID.Orange; // The rarity of the weapon, from -1 to 13. You can also use ItemRarityID.TheColorRarity
             item.UseSound = SoundID.Item1; // The sound when the weapon is being used
             item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
-            item.crit = 15; // The critical strike chance the weapon has. The player, by default, has 4 critical strike chance
+            item.crit = 11; // The critical strike chance the weapon has. The player, by default, has 4 critical strike chance
             item.scale = 1.25f;
             //The useStyle of the item. 
             //Use useStyle 1 for normal swinging or for throwing

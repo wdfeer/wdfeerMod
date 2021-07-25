@@ -55,7 +55,7 @@ namespace wdfeerMod
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            damage = vitalS && crit ? Convert.ToInt32(damage * 1.4f) : damage;
+            damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
 
             if (condOv)
             {
@@ -82,7 +82,7 @@ namespace wdfeerMod
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = vitalS && crit ? Convert.ToInt32(damage * 1.4f) : damage;
+            damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
             if (condOv)
             {
                 float buffs = 0;

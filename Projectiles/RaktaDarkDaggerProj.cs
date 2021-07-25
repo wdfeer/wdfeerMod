@@ -11,7 +11,7 @@ namespace wdfeerMod.Projectiles
         {
             projectile.CloneDefaults(ProjectileID.MagicDagger);
             projectile.height = 48;
-            projectile.width = 11;
+            projectile.width = 48;
             projectile.scale = 0.8f;
             projectile.alpha = 0;
             projectile.penetrate = 3;

@@ -15,7 +15,7 @@ namespace wdfeerMod.Items.Weapons
         public override void SetDefaults()
         {
             item.damage = 100; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-            item.crit = 22;
+            item.crit = 18;
             item.ranged = true; // sets the damage type to ranged
             item.width = 91; // hitbox width of the item
             item.height = 96; // hitbox height of the item
@@ -31,6 +31,10 @@ namespace wdfeerMod.Items.Weapons
             item.UseSound = SoundID.Item38.WithVolume(0.5f);
             item.shoot = ModContent.ProjectileType<Projectiles.FluctusProj>();
             item.shootSpeed = 30f; // the speed of the projectile (measured in pixels per frame)
+        }
+        public override Vector2? HoldoutOffset()
+        {
+            return null;
         }
         public override void AddRecipes()
         {
@@ -54,9 +58,8 @@ namespace wdfeerMod.Items.Weapons
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
             projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 16;
-            float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY) + Math.PI / 2);
+            float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
-
 
             return false;
         }

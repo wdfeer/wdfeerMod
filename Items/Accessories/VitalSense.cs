@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+40% Critical Damage");
+            Tooltip.SetDefault("+25% Critical Damage");
         }
 
         public override void SetDefaults()

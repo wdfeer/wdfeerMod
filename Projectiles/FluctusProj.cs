@@ -11,8 +11,8 @@ namespace wdfeerMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 80;
+            projectile.width = 84;
+            projectile.height = 84;
             projectile.alpha = 32;
             projectile.friendly = true;
             projectile.penetrate = -1;
@@ -20,7 +20,16 @@ namespace wdfeerMod.Projectiles
             projectile.timeLeft = 45;
             projectile.light = 0.5f;
             projectile.tileCollide = false;
-            // These 2 help the projectile hitbox be centered on the projectile sprite.
+        }
+        public override void AI()
+        {
+            if (projectile.timeLeft == 45)
+            {
+                if (projectile.velocity.Y > Math.Abs(projectile.velocity.X))
+                    drawOriginOffsetY = -12;
+                else if (projectile.velocity.Y < -Math.Abs(projectile.velocity.X))
+                    drawOriginOffsetY = 12;
+            } 
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
