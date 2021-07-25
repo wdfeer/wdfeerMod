@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 566;
             item.crit = 46;
             item.knockBack = 3;
             item.magic = true;
@@ -23,10 +23,10 @@ namespace wdfeerMod.Items.Weapons
             item.height = 48;
             item.scale = 1.2f;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item5.WithPitchVariance(0.4f);
+            item.UseSound = SoundID.Item5.WithPitchVariance(-0.2f);
             item.useTime = 66;
             item.useAnimation = 66;
-            item.rare = 4;
+            item.rare = 9;
             item.value = 120000;
             item.shoot = mod.ProjectileType("LenzProj1");
             item.shootSpeed = 20f;
@@ -34,8 +34,8 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DaedalusStormbow, 1);
-            recipe.AddIngredient(ItemID.Grenade, 8);
+            recipe.AddIngredient(ItemID.Tsunami, 1);
+            recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
             recipe.AddIngredient(ItemID.IceRod, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

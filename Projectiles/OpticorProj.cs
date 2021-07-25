@@ -22,6 +22,7 @@ namespace wdfeerMod.Projectiles
             projectile.timeLeft = 200;
             projectile.hide = true;
             projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 6;
         }
         bool playedSound = false;
         public override void AI()

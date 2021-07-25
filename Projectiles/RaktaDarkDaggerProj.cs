@@ -15,6 +15,7 @@ namespace wdfeerMod.Projectiles
             projectile.scale = 0.8f;
             projectile.alpha = 0;
             projectile.penetrate = 3;
+            projectile.light = 0;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

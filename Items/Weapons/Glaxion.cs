@@ -35,15 +35,15 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceBlock, 48);
-            recipe.AddIngredient(ItemID.CobaltBar, 4);
+            recipe.AddIngredient(ItemID.FrostCore, 1);
+            recipe.AddIngredient(ItemID.CobaltBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceBlock, 48);
-            recipe.AddIngredient(ItemID.PalladiumBar, 8);
+            recipe.AddIngredient(ItemID.FrostCore, 1);
+            recipe.AddIngredient(ItemID.PalladiumBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

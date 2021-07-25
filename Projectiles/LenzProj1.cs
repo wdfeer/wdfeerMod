@@ -31,8 +31,12 @@ namespace wdfeerMod.Projectiles
             damage /= 16;
             target.AddBuff(BuffID.Slow, 144);
             if (canImpale)
+            {
                 hitNpc = target;
-            canImpale = false;
+                damage *= 3;
+                canImpale = false;
+            }
+                
             globalProj.proj = projectile;
             globalProj.Explode(320);
         }
