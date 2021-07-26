@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Weapons
         Random rand = new Random();
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+40% Critical Damage \n4% Slash Proc chance per pellet");
+            Tooltip.SetDefault("Right Click to fire a manually exploding projectile\n+40% Critical Damage \n4% Slash Proc chance per pellet");
         }
         public override void SetDefaults()
         {
@@ -36,7 +36,31 @@ namespace wdfeerMod.Items.Weapons
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-4,0);
+            return new Vector2(-4, 0);
+        }
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.crit = 0;
+                item.useTime = 40;
+                item.useAnimation = 40;
+                item.shootSpeed = 12f;
+                item.UseSound = null;
+            }
+            else
+            {
+                item.crit = 26;
+                item.useTime = 42;
+                item.useAnimation = 42;
+                item.shootSpeed = 20f;
+                item.UseSound = SoundID.Item36;
+            }
+            return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {
@@ -47,16 +71,34 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        Projectile altFireProj;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
-            for (int i = 0; i < 5; i++)
+            if (player.altFunctionUse != 2)
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.075f, 0.075f), type, damage, knockBack, Main.LocalPlayer.cHead);
-                var projectile = Main.projectile[proj];
-                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
-                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 4;
+                Vector2 spread = new Vector2(speedY, -speedX);
+                for (int i = 0; i < 5; i++)
+                {
+                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.07f, 0.07f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                    var projectile = Main.projectile[proj];
+                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
+                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 4;
+                }
+            }
+            else
+            {
+                if (altFireProj == null || altFireProj.modProjectile == null || !altFireProj.active)
+                {
+                    Main.PlaySound(SoundID.Item61);
+
+                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 6, knockBack, Main.LocalPlayer.cHead);
+                    altFireProj = Main.projectile[proj];
+                    altFireProj.timeLeft = 80;
+                    altFireProj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
+                }else
+                {
+                    altFireProj.modProjectile.OnHitPvp(Main.LocalPlayer,0,false);
+                }
             }
             return false;
         }

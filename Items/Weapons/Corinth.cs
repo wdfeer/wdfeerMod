@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Weapons
         Random rand = new Random();
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+40% Critical Damage");
+            Tooltip.SetDefault("Right Click to fire a projectile that explodes in the air\n+40% Critical Damage");
         }
         public override void SetDefaults()
         {
@@ -28,7 +28,7 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = ItemRarityID.Green; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(1f); // The sound that this item plays when used.
+            item.UseSound = SoundID.Item36; // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
@@ -36,7 +36,28 @@ namespace wdfeerMod.Items.Weapons
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-4,0);
+            return new Vector2(-4, 0);
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.crit = 0;
+                item.shootSpeed = 16f;
+                item.UseSound = SoundID.Item61;
+            }
+            else
+            {
+                item.crit = 26;
+                item.shootSpeed = 20f;
+                item.UseSound = SoundID.Item36;
+            }
+            return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {
@@ -57,12 +78,21 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
-            for (int i = 0; i < 5; i++)
+            if (player.altFunctionUse != 2)
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.08f, 0.08f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                Vector2 spread = new Vector2(speedY, -speedX);
+                for (int i = 0; i < 5; i++)
+                {
+                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.08f, 0.08f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                    var projectile = Main.projectile[proj];
+                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
+                }
+            }
+            else
+            {
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 7 / 2, knockBack, Main.LocalPlayer.cHead);
                 var projectile = Main.projectile[proj];
-                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
+                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
             }
             return false;
         }
