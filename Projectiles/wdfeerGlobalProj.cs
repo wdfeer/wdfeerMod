@@ -15,6 +15,8 @@ namespace wdfeerMod.Projectiles
         public int slashChance = 0;
         public int electroChance = 0;
         public int glaxionProcs = 0;
+        public Vector2 ProcChance1 = Vector2.Zero;
+        public Vector2 ProcChance2 = Vector2.Zero;
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
@@ -45,6 +47,8 @@ namespace wdfeerMod.Projectiles
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (crit) damage = Convert.ToInt32(critMult * damage);
+            if (ProcChance1 != Vector2.Zero && Main.rand.Next(0, 100) <= ProcChance1.Y) target.AddBuff(Convert.ToInt32(ProcChance1.X), 300);
+            if (ProcChance2 != Vector2.Zero && Main.rand.Next(0, 100) <= ProcChance2.Y) target.AddBuff(Convert.ToInt32(ProcChance2.X), 300);
             if (slashChance > 0 && Main.rand.Next(0, 100) <= slashChance)
             {
                 target.AddBuff(mod.BuffType("SlashProc"), 300);

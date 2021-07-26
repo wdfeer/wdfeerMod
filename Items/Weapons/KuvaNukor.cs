@@ -14,23 +14,23 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 17; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 17;
             item.crit = 3;
             item.magic = true;
-            item.width = 32; // hitbox width of the item
-            item.height = 24; // hitbox height of the item
-            item.useTime = 6; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 6; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = 20000; // how much the item sells for (measured in copper)
-            item.rare = 4; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item91.WithPitchVariance(Main.rand.NextFloat(-0.2f, 0.2f)).WithVolume(0.6f); // The sound that this item plays when used.
-            item.autoReuse = true; // if you can hold click to automatically use it again
+            item.width = 32;
+            item.height = 24;
+            item.useTime = 6;
+            item.useAnimation = 6;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.noMelee = true;
+            item.knockBack = 0;
+            item.value = 20000;
+            item.rare = 4;
+            item.UseSound = SoundID.Item91.WithPitchVariance(Main.rand.NextFloat(-0.2f, 0.2f)).WithVolume(0.6f);
+            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Projectiles.NukorProj>();
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
-            item.mana = 3;
+            item.shootSpeed = 16f;
+            item.mana = 4;
         }
 
         public override void AddRecipes()

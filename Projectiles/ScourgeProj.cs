@@ -20,8 +20,8 @@ namespace wdfeerMod.Projectiles
             projectile.extraUpdates = 100;
             projectile.timeLeft = 60;
             projectile.hide = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
