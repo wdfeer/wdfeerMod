@@ -57,12 +57,6 @@ namespace wdfeerMod
                     break;
             }
         }
-        public Color baseColor;
-        public override void ResetEffects(NPC npc)
-        {
-            if (!npc.HasBuff(BuffID.Frozen) && !npc.HasBuff(BuffID.Slow))
-                baseColor = npc.color;
-        }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
@@ -82,16 +76,33 @@ namespace wdfeerMod
                     totalDamage += procs[i].type == 0 ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
             }
-            var baseV3 = baseColor.ToVector3();
-            if (npc.HasBuff(BuffID.Frozen)) npc.color = new Color(0.9f * baseV3.X, 0.9f * baseV3.Y, baseV3.Z);
-            else if (npc.HasBuff(BuffID.Slow)) npc.color = new Color(0.95f * baseV3.X, 0.95f * baseV3.Y, baseV3.Z);
-            else npc.color = baseColor;
         }
 
         public override void AI(NPC npc)
         {
-            if (npc.HasBuff(BuffID.Frozen) && !npc.boss) npc.velocity *= 0f;
-            else if (npc.HasBuff(BuffID.Slow) && !npc.boss) npc.velocity *= 0.9f;
+            if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
+            {
+                npc.velocity *= 0f;
+
+                for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
+                {
+                    int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 67, default(Color), 1f);
+                    var dust = Main.dust[dustIndex];
+                    dust.noGravity = true;
+                }
+            }
+            else if (npc.HasBuff(BuffID.Slow) && !npc.boss)
+            {
+                npc.velocity *= 0.9f;
+
+                for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
+                {
+                    int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 68, 0f, 0f, 67, default(Color), 0.6f);
+                    var dust = Main.dust[dustIndex];
+                    dust.velocity *= 0.2f;
+                    dust.noGravity = true;
+                }
+            }
 
             if (npc.HasBuff(BuffID.Electrified))
             {
@@ -99,6 +110,7 @@ namespace wdfeerMod
                 {
                     int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 67, default(Color), 0.5f);
                     var dust = Main.dust[dustIndex];
+                    dust.velocity *= 0.3f;
                     dust.noGravity = true;
                 }
             }

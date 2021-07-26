@@ -10,7 +10,7 @@ namespace wdfeerMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Material for some Grineer weapons");
+            Tooltip.SetDefault("Material for some weapons");
         }
         public override void SetDefaults()
         {
