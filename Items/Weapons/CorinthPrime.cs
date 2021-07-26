@@ -34,7 +34,10 @@ namespace wdfeerMod.Items.Weapons
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
-
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-4,0);
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

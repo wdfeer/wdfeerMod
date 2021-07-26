@@ -20,7 +20,7 @@ namespace wdfeerMod.Items.Weapons
             item.useAnimation = 40; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
+            item.knockBack = 9; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = Item.buyPrice(gold: 12); // how much the item sells for (measured in copper)
             item.rare = 8; // the color that the item's name will be in-game
             item.UseSound = SoundID.Item40; // The sound that this item plays when used.

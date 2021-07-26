@@ -34,7 +34,10 @@ namespace wdfeerMod.Items.Weapons
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
-
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-4,0);
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -57,7 +60,7 @@ namespace wdfeerMod.Items.Weapons
             Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 5; i++)
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.075f, 0.75f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.08f, 0.08f), type, damage, knockBack, Main.LocalPlayer.cHead);
                 var projectile = Main.projectile[proj];
                 projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
             }

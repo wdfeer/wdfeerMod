@@ -110,7 +110,7 @@ namespace wdfeerMod
                 {
                     int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 67, default(Color), 0.5f);
                     var dust = Main.dust[dustIndex];
-                    dust.velocity *= 0.3f;
+                    dust.velocity *= 0.6f;
                     dust.noGravity = true;
                 }
             }
