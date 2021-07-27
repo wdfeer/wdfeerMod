@@ -28,7 +28,7 @@ namespace wdfeerMod.Items.Weapons
             item.UseSound = SoundID.Item11.WithVolume(0.8f);
             item.autoReuse = true;
             item.shoot = 10;
-            item.shootSpeed = 16f;
+            item.shootSpeed = 15f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override bool ConsumeAmmo(Player player)
