@@ -33,14 +33,16 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShadowScale, 8);
+            recipe.AddIngredient(ItemID.ShadowScale, 12);
             recipe.AddIngredient(ItemID.Feather, 8);
+            recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TissueSample, 8);
+            recipe.AddIngredient(ItemID.IllegalGunParts);
+            recipe.AddIngredient(ItemID.TissueSample, 12);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)

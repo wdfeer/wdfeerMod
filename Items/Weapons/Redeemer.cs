@@ -38,7 +38,7 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("IronBar", 18);
-            recipe.AddRecipeGroup("Wood", 12);
+            recipe.AddIngredient(ItemID.IllegalGunParts,1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
