@@ -13,7 +13,7 @@ namespace wdfeerMod.Projectiles
             globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
             projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             projectile.height = 32;
-            projectile.width = 6;
+            projectile.width = 32;
             projectile.timeLeft = 60;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;

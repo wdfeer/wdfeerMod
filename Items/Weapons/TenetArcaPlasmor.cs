@@ -6,27 +6,27 @@ using System;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class ArcaPlasmor : ModItem
+    public class TenetArcaPlasmor : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots a piercing projectile\nMight confuse enemies\n-20% Critical Damage");
+            Tooltip.SetDefault("Shoots a piercing projectile\nMight confuse enemies");
         }
         public override void SetDefaults()
         {
-            item.damage = 222; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 797; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 18;
             item.magic = true; // sets the damage type to ranged
             item.mana = 8;
             item.width = 48; // hitbox width of the item
             item.height = 16; // hitbox height of the item
-            item.useTime = 54; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 54; // The length of the item's use animation in ticks (60 ticks == 1 second.)
+            item.useTime = 60; // The item's use time in ticks (60 ticks == 1 second.)
+            item.useAnimation = 60; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 7; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 150000; // how much the item sells for (measured in copper)
-            item.rare = 4; // the color that the item's name will be in-game
+            item.rare = 10; // the color that the item's name will be in-game
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ArcaPlasmorSound");
             item.shoot = ModContent.ProjectileType<Projectiles.ArcaPlasmorProj>();
@@ -36,16 +36,9 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.CobaltBar,22);
-            recipe.AddIngredient(ItemID.SoulofLight,12);
-            // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
-            recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
-            recipe.SetResult(this); // Set the result to this item (ExampleSword)
-            recipe.AddRecipe(); // When your done, add the recipe
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PalladiumBar,22);
-            recipe.AddIngredient(ItemID.SoulofLight,12);
+            recipe.AddIngredient(mod.ItemType("ArcaPlasmor"),1);
+            recipe.AddIngredient(ItemID.Nanites,16);
+            recipe.AddIngredient(ItemID.FragmentNebula,8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -61,8 +54,8 @@ namespace wdfeerMod.Items.Weapons
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().ProcChance1 = new Vector2(31,28);
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().ProcChance1 = new Vector2(31,34);
+            projectile.timeLeft = 44;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

@@ -58,6 +58,7 @@ namespace wdfeerMod.Items.Weapons
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.4f;
             proj.penetrate = 3;
+            proj.extraUpdates = 0;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;
 

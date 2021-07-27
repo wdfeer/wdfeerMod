@@ -27,7 +27,7 @@ namespace wdfeerMod.Items.Weapons
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
-            item.rare = ItemRarityID.Green; // the color that the item's name will be in-game
+            item.rare = 3; // the color that the item's name will be in-game
             item.UseSound = SoundID.Item36; // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
