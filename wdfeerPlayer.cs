@@ -3,6 +3,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace wdfeerMod
 {
@@ -105,6 +106,47 @@ namespace wdfeerMod
                 target.AddBuff(mod.BuffType("SlashProc"), 240);
                 var slashDamage = damage / 5;
                 target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 240, ref slashDamage);
+            }
+        }
+        public Vector2 offsetP;
+        public float speedXP;
+        public float speedYP;
+        public int typeP;
+        public int damageP;
+        public float knockbackP;
+        public int burstInterval = -1;
+        public int burstsMax = 2;
+        public int burstCount = 1;
+        int burstTimer = 0;
+        public ModItem burstItem;
+        public override void PreUpdate()
+        {
+            if (player.dead) return;
+            if (burstInterval != -1)
+            {
+                if (burstCount < burstsMax)
+                {
+                    burstTimer++;
+                    if (burstTimer >= burstInterval)
+                    {
+                        burstCount++;
+                        burstTimer = 0;
+
+                        Vector2 posi = player.position + offsetP;
+                        float x = speedXP;
+                        float y = speedYP;
+                        int t = typeP;
+                        int dmg = damageP;
+                        float kb = knockbackP;
+                        burstItem.Shoot(player, ref posi, ref x, ref y, ref t, ref dmg, ref kb);                       
+                    }
+                }
+                else 
+                {
+                    burstInterval = -1;
+                    burstsMax = 2;
+                    burstCount = 1;
+                }
             }
         }
     }
