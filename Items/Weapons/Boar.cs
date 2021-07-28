@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("An automatic shotgun\nThe damage isn't increased by the bullet's damage");
+            Tooltip.SetDefault("An automatic shotgun\n-50% Damage");
         }
         public override void SetDefaults()
         {
@@ -53,8 +53,8 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            damage /= 2;
             Vector2 spread = new Vector2(speedY, -speedX);
-            damage = item.damage;
             for (int i = 0; i < 4; i++)
             {
                 var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.12f, 0.12f), type, damage, knockBack, Main.LocalPlayer.cHead)];

@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("50% Chance not to consume ammo");
+            Tooltip.SetDefault("50% Chance not to consume ammo\n-50% Damage");
         }
         public override void SetDefaults()
         {
-            item.damage = 2;
+            item.damage = 7;
             item.ranged = true;
             item.width = 16;
             item.height = 14;
@@ -55,6 +55,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            damage /= 2;
             Vector2 spread = new Vector2(speedY, -speedX);
             Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.025f, 0.025f), type, damage, knockBack, Main.LocalPlayer.cHead);
             return false;
