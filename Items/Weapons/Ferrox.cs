@@ -14,10 +14,10 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 320; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 178; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 28;
             item.magic = true; // sets the damage type to ranged
-            item.mana = 9;
+            item.mana = 13;
             item.width = 95; // hitbox width of the item
             item.height = 6; // hitbox height of the item
             item.scale = 1f;

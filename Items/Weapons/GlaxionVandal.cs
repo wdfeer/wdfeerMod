@@ -14,9 +14,10 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 64; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 57; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
-            item.ranged = true; // sets the damage type to ranged
+            item.magic = true; 
+            item.mana = 4;
             item.width = 64; // hitbox width of the item
             item.height = 14; // hitbox height of the item
             item.useTime = 5; // The item's use time in ticks (60 ticks == 1 second.)
@@ -51,8 +52,6 @@ namespace wdfeerMod.Items.Weapons
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
-            projectile.magic = false;
-            projectile.ranged = true;
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.glaxionProcs = 38;
             globalProj.glaxionVandal = true;

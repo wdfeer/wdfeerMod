@@ -16,9 +16,8 @@ namespace wdfeerMod.Items.Weapons
             item.damage = 566;
             item.crit = 46;
             item.knockBack = 3;
-            item.magic = true;
+            item.ranged = true;
             item.noMelee = true;
-            item.mana = 48;
             item.width = 30;
             item.height = 48;
             item.scale = 1.2f;

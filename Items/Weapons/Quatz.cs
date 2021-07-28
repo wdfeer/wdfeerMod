@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Weapons
         Random rand = new Random();
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Right Click to use the Burst fire mode\nIn auto has a 27% Electricity proc chance\nGains a bonus to critical stats in Burst mode");
+            Tooltip.SetDefault("Right Click to use the Burst fire mode\nIn auto has a 27% Electricity proc chance\nGains a bonus to critical stats and accuraccy in Burst mode");
         }
         public override void SetDefaults()
         {
@@ -63,6 +63,7 @@ namespace wdfeerMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
+                item.damage = 1;
                 item.useTime = 23;
                 item.useAnimation = 23;
                 item.crit = 23;
@@ -72,6 +73,7 @@ namespace wdfeerMod.Items.Weapons
             }
             else
             {
+                item.damage = 2;
                 item.useTime = 4;
                 item.useAnimation = 4;
                 item.crit = 9;
@@ -84,10 +86,10 @@ namespace wdfeerMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 spread = new Vector2(speedY, -speedX);
-
             for (int i = 0; i < (player.altFunctionUse == 2 ? 4 : 1); i++)
             {
-                var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.012f, 0.012f), type, damage, knockBack, Main.LocalPlayer.cHead)];
+                float spreadMult = player.altFunctionUse == 2 ? 0.012f : 0.024f;
+                var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult,-spreadMult), type, damage, knockBack, Main.LocalPlayer.cHead)];
                 var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 if (player.altFunctionUse == 2)
                     globalProj.critMult = 1.25f;

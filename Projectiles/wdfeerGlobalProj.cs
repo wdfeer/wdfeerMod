@@ -40,6 +40,7 @@ namespace wdfeerMod.Projectiles
             if (glaxionVandal)
             {
                 Explode(64);
+                projectile.damage = projectile.damage * 2 / 3;
                 return false;
             }
             return base.OnTileCollide(projectile, oldVelocity);
@@ -83,7 +84,11 @@ namespace wdfeerMod.Projectiles
             {
                 hitNPCs[hits] = target;
                 hits++;
-                if (glaxionVandal) Explode(128);
+                if (glaxionVandal) 
+                {
+                    Explode(128);
+                    projectile.damage /= 2;
+                }
                 return;
             }
             base.OnHitNPC(projectile, target, damage, knockback, crit);

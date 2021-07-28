@@ -17,7 +17,7 @@ namespace wdfeerMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 11;
+            item.damage = 6;
             item.knockBack = 4f;
             item.mana = 10;
             item.width = 18;
@@ -51,14 +51,14 @@ namespace wdfeerMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Boomstick, 1);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
+            recipe.AddIngredient(ItemID.DemoniteBar, 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Boomstick, 1);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 8);
+            recipe.AddIngredient(ItemID.CrimtaneBar, 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
