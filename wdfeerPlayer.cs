@@ -118,10 +118,12 @@ namespace wdfeerMod
         public int burstsMax = 2;
         public int burstCount = 1;
         int burstTimer = 0;
+        public Int64 longTimer = 0;
         public ModItem burstItem;
         public override void PreUpdate()
         {
             if (player.dead) return;
+            longTimer++;
             if (burstInterval != -1)
             {
                 if (burstCount < burstsMax)

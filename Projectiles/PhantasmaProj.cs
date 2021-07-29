@@ -45,13 +45,13 @@ namespace wdfeerMod.Projectiles
                 chainLeft -= 1;
                 if (!globalProj.exploding)
                 {
-                    globalProj.Explode(1);
+                    globalProj.Explode(150);
                     projectile.damage = projectile.damage * 3 / 4;
                 }
                 else
-                {
+                { 
                     Vector2 offset = target.Center - projectile.Center;
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 10; i++)
                     {
                         var dust = Main.dust[Dust.NewDust(projectile.Center - new Vector2(12, 12) + Main.rand.NextFloat(0, 1) * offset, 24, 24, 187)];
                         dust.noGravity = true;

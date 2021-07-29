@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Right Click to cast a slow, exploding projectile\n-25% Critical Damage");
+            Tooltip.SetDefault("Shoots a chaining beam\nRight Click to cast a slow, exploding projectile\nHas a 37% chance to confuse enemies\n-25% Critical Damage");
         }
         public override void SetDefaults()
         {
-            item.damage = 32;
+            item.damage = 39;
             item.crit = 0;
             item.magic = true;
             item.width = 40;
@@ -26,11 +26,10 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 0;
             item.value = Item.buyPrice(gold: 4);
             item.rare = 8;
-            item.UseSound = SoundID.Item91.WithPitchVariance(-0.5f).WithVolume(0.6f);
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Projectiles.PhantasmaProj>();
             item.shootSpeed = 16f;
-            item.mana = 6;
+            item.mana = 5;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -40,11 +39,13 @@ namespace wdfeerMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
+                item.mana = 22;
                 item.useTime = 30;
                 item.useAnimation = 30;
             }
             else
             {
+                item.mana = 5;
                 item.useTime = 5;
                 item.useAnimation = 5;
             }
@@ -59,7 +60,13 @@ namespace wdfeerMod.Items.Weapons
                 speedX *= 0.9f;
                 speedY *= 0.9f;
                 type = mod.ProjectileType("PhantasmaProj2");
-            } 
+
+                Main.PlaySound(SoundID.Item117.WithVolume(0.6f), position);
+            }
+            else
+            {
+                Main.PlaySound(SoundID.Item72.WithPitchVariance(-0.2f).WithVolume(0.4f), position);
+            }
 
             Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
@@ -69,7 +76,7 @@ namespace wdfeerMod.Items.Weapons
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 0.75f;
-
+            globalProj.ProcChance1 = new Vector2(BuffID.Confused, 37);
             return false;
         }
 
