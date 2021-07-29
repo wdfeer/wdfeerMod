@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
@@ -10,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Always shoots golden bullets\nRight Click to switch between Auto, Burst and Semi-auto fire modes\n+40%, 50% or 70% Critical damage in Auto, Burst or Semi");
+            Tooltip.SetDefault("Right Click to switch between Auto, Burst and Semi-auto fire modes\n+40%, 50% or 70% Critical damage in Auto, Burst or Semi\n75% Chance not to consume ammo in Auto");
         }
         int mode = 1;
         public int Mode // 0 is Auto, 1 is Burst, 2 is Semi
@@ -46,18 +45,19 @@ namespace wdfeerMod.Items.Weapons
                     item.autoReuse = false;
                     break;
             }
-            item.damage = 25;
+            item.damage = 22;
             item.ranged = true;
             item.noMelee = true;
-            item.width = 48;
-            item.height = 24;
+            item.width = 39;
+            item.height = 9;
+            item.scale = 1.1f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 3;
             item.value = Item.buyPrice(gold: 8);
             item.rare = 5;
-            item.shoot = ProjectileID.GoldenBullet;
+            item.shoot = 10;
             item.shootSpeed = 17f;
-            item.ammo = AmmoID.Bullet;
+            item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
@@ -68,11 +68,16 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        public override bool ConsumeAmmo(Player player)
+        {
+            if (Mode == 0 && Main.rand.Next(0,100) < 75) return false;
+            return base.ConsumeAmmo(player);
+        }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        Int64 lastModeChange;
+        int lastModeChange;
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
