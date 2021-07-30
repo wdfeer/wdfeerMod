@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Opticor : ModItem
+    public class Opticor : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -52,14 +52,8 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
             Vector2 velocity = new Vector2(speedX, speedY);
-            var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead)];
-            proj.magic = false;
-            proj.ranged = true;
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.25f;
             globalProj.baseVelocity = velocity;

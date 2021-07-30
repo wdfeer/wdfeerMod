@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class StradavarPrime : ModItem
+    public class StradavarPrime : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,7 +57,7 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Stradavar"),1);
+            recipe.AddIngredient(mod.ItemType("Stradavar"), 1);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
@@ -91,13 +91,9 @@ namespace wdfeerMod.Items.Weapons
         {
             Main.PlaySound(SoundID.Item11, position);
 
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
+
             Vector2 spread = new Vector2(speedY, -speedX);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(0.003f, -0.003f) * (Mode == 0 ? 2f : 1), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, Mode == 0 ? 0.005f : 0.002f, item.width);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
             if (Mode == 1 && projectile.penetrate < 2 && projectile.penetrate != -1) projectile.penetrate = 2;

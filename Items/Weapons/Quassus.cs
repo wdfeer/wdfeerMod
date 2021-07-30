@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Quassus : ModItem
+    public class Quassus : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Throws 5 projectiles that inflict Slash");
+            Tooltip.SetDefault("Throws 6 projectiles that inflict Slash");
         }
         public override void SetDefaults()
         {
@@ -45,14 +45,12 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-        int proj = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
-                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.14f, 0.14f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f);
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 100));
             }
             Main.PlaySound(SoundID.Item1, position);
 

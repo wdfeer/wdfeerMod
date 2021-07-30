@@ -6,9 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Ballistica : ModItem
+    public class Ballistica : wdfeerWeapon
     {
-        Random rand = new Random();
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Shoots 4 arrows at once");
@@ -59,10 +58,9 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 4; i++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.09f, 0.09f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.09f, item.width);
             }
             return false;
         }

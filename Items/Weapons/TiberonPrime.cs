@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class TiberonPrime : ModItem
+    public class TiberonPrime : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -70,7 +70,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool ConsumeAmmo(Player player)
         {
-            if (Mode == 0 && Main.rand.Next(0,100) < 75) return false;
+            if (Mode == 0 && Main.rand.Next(0, 100) < 75) return false;
             return base.ConsumeAmmo(player);
         }
         public override bool AltFunctionUse(Player player)
@@ -94,36 +94,12 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item11, position);
-            if (Mode == 1)
-            {
-                var modPlayer = Main.LocalPlayer.GetModPlayer<wdfeerPlayer>();
-                if (modPlayer.burstInterval == -1)
-                {
-                    modPlayer.offsetP = position - player.position;
-                    modPlayer.burstItem = item.modItem;
-                    modPlayer.burstInterval = 4;
-                    modPlayer.burstsMax = 3;
-                    modPlayer.burstCount = 1;
-                    modPlayer.speedXP = speedX;
-                    modPlayer.speedYP = speedY;
-                    modPlayer.typeP = type;
-                    modPlayer.damageP = damage;
-                    modPlayer.knockbackP = knockBack;
-                }
-            }
-
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-            Vector2 spread = new Vector2(speedY, -speedX);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(0.002f, -0.002f), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, SoundID.Item11, 3, 4);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.slashChance = Mode == 0 ? 9 : 0;
+            if (Mode == 0)
+                gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 9));
             gProj.critMult = Mode == 0 ? 1.4f : (Mode == 1 ? 1.5f : 1.7f);
 
             return false;

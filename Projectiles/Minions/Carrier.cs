@@ -56,7 +56,7 @@ namespace wdfeerMod.Projectiles.Minions
             if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
             {
                 projectile.timeLeft = 2;
-                player.AddBuff(BuffID.AmmoReservation,30);
+                player.AddBuff(BuffID.AmmoReservation, 30);
             }
             #endregion
 

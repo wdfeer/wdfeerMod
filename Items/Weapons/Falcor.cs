@@ -50,6 +50,7 @@ namespace wdfeerMod.Items.Weapons
             else
             {
                 proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 36));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

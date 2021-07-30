@@ -16,7 +16,7 @@ namespace wdfeerMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            base.SetDefaults();       
+            base.SetDefaults();
             item.rare = ItemRarityID.Orange;
         }
 
@@ -32,23 +32,23 @@ namespace wdfeerMod.Items.Accessories
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-            if (!FoundAccessoryWithId(ItemID.WormScarf)) player.GetModPlayer<wdfeerPlayer>().aviator=true;			
-		}
+        {
+            if (!FoundAccessoryWithId(ItemID.WormScarf)) player.GetModPlayer<wdfeerPlayer>().aviator = true;
+        }
 
         public bool FoundAccessoryWithId(int id)
-		{
-			int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
+        {
+            int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
             for (int i = 3; i < 3 + maxAccessoryIndex; i++)
             {
-            
+
                 Item otherAccessory = Main.LocalPlayer.armor[i];
                 // IsAir makes sure we don't check for "empty" slots
                 // IsTheSameAs() compares two items and returns true if their types match
                 // "is ExclusiveAccessory" is a way of performing pattern matching
                 // Here, inheritance helps us determine if the given item is indeed one of our ExclusiveAccessory ones
                 if (!otherAccessory.IsAir &&
-                    otherAccessory.netID==id)
+                    otherAccessory.netID == id)
                 {
                     // If we find an item that matches these criteria, return both the index and the item itself
                     // The second argument is just for convenience, technically we don't need it since we can get the item from just i
@@ -57,6 +57,6 @@ namespace wdfeerMod.Items.Accessories
             }
             // If no item is found, we return default values for index and item, always check one of them with this default when you call this method!
             return false;
-		}
+        }
     }
 }

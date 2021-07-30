@@ -62,7 +62,7 @@ namespace wdfeerMod.Items.Weapons
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
             projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().ProcChance1 = new Vector2(31,28);
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(31,28));
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

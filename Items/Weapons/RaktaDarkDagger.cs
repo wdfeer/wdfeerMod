@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class RaktaDarkDagger : ModItem
+    public class RaktaDarkDagger : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -47,8 +47,7 @@ namespace wdfeerMod.Items.Weapons
         int proj = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            Main.PlaySound(SoundID.Item1, position);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
 
             return false;
         }

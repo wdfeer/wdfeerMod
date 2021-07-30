@@ -4,7 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using System;
-
+using System.Collections.Generic;
 namespace wdfeerMod.Projectiles
 {
     public class wdfeerGlobalProj : GlobalProjectile
@@ -12,15 +12,19 @@ namespace wdfeerMod.Projectiles
         public override bool InstancePerEntity => true;
         public Projectile proj;
         public float critMult = 1.0f;
-        public int slashChance = 0;
-        public int electroChance = 0;
+        public List<ProcChance> procChances = new List<ProcChance>();
         public int glaxionProcs = 0;
-        public Vector2 ProcChance1 = Vector2.Zero;
-        public Vector2 ProcChance2 = Vector2.Zero;
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
         public Vector2 v2;
+        public void SetFalloff(Vector2 startPos, int startDist, int endDist, float maxDmgDecrease)
+        {
+            v2 = startPos;
+            falloffStartDist = startDist;
+            falloffMaxDist = endDist;
+            falloffMax = maxDmgDecrease;
+        }
         public int falloffStartDist = -1;
         public int falloffMaxDist = -1;
         public float falloffMax = 0;
@@ -48,19 +52,22 @@ namespace wdfeerMod.Projectiles
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (crit) damage = Convert.ToInt32(critMult * damage);
-            if (ProcChance1 != Vector2.Zero && Main.rand.Next(0, 100) <= ProcChance1.Y) target.AddBuff(Convert.ToInt32(ProcChance1.X), 300);
-            if (ProcChance2 != Vector2.Zero && Main.rand.Next(0, 100) <= ProcChance2.Y) target.AddBuff(Convert.ToInt32(ProcChance2.X), 300);
-            if (slashChance > 0 && Main.rand.Next(0, 100) <= slashChance)
+
+            foreach (var proc in procChances)
             {
-                target.AddBuff(mod.BuffType("SlashProc"), 300);
-                int slashDamage = damage / 5;
-                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
-            }
-            if (electroChance > 0 && Main.rand.Next(0, 100) <= electroChance)
-            {
-                target.AddBuff(BuffID.Electrified, 300);
-                int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
-                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
+                if (proc.Proc(target))
+                {
+                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    {
+                        int slashDamage = damage / 5;
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
+                    }
+                    else if (proc.buffID == BuffID.Electrified)
+                    {
+                        int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
+                    }
+                }
             }
 
             if (falloffEnabled)
@@ -84,7 +91,7 @@ namespace wdfeerMod.Projectiles
             {
                 hitNPCs[hits] = target;
                 hits++;
-                if (glaxionVandal) 
+                if (glaxionVandal)
                 {
                     Explode(128);
                     projectile.damage /= 2;

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    internal class KuvaBramma : ModItem
+    internal class KuvaBramma : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-6,0);
+            return new Vector2(-6, 0);
         }
         public override void AddRecipes()
         {
@@ -46,12 +46,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("KuvaBrammaProj"), damage, knockBack, Main.LocalPlayer.cHead);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
 
             return false;
         }

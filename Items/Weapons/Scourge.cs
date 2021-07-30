@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Scourge : ModItem
+    public class Scourge : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -40,8 +40,8 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bone,16);
-            recipe.AddIngredient(ItemID.MeteoriteBar,8);
+            recipe.AddIngredient(ItemID.Bone, 16);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -49,12 +49,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width - 20;
-
-            position += spawnOffset;
-            var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead)];
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 20);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.4f;
             proj.penetrate = 3;

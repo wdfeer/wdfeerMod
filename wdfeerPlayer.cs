@@ -119,7 +119,7 @@ namespace wdfeerMod
         public int burstCount = 1;
         int burstTimer = 0;
         public int longTimer = 0;
-        public ModItem burstItem;
+        public Items.Weapons.wdfeerWeapon burstItem;
         public override void PreUpdate()
         {
             if (player.dead) return;
@@ -140,10 +140,10 @@ namespace wdfeerMod
                         int t = typeP;
                         int dmg = damageP;
                         float kb = knockbackP;
-                        burstItem.Shoot(player, ref posi, ref x, ref y, ref t, ref dmg, ref kb);                       
+                        burstItem.Shoot(player, ref posi, ref x, ref y, ref t, ref dmg, ref kb);
                     }
                 }
-                else 
+                else
                 {
                     burstInterval = -1;
                     burstsMax = 2;

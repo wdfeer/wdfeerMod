@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    internal class Cernos : ModItem
+    internal class Cernos : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -32,19 +32,19 @@ namespace wdfeerMod.Items.Weapons
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-4,0);
+            return new Vector2(-4, 0);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemonBow,1);
+            recipe.AddIngredient(ItemID.DemonBow, 1);
             recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TendonBow,1);
+            recipe.AddIngredient(ItemID.TendonBow, 1);
             recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
@@ -52,15 +52,10 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= 60;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            if (Main.projectile[proj].penetrate < 2 && Main.projectile[proj].penetrate != -1)Main.projectile[proj].penetrate = 2;
-            Main.projectile[proj].usesLocalNPCImmunity = true;
-            Main.projectile[proj].localNPCHitCooldown = -1;
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 4);
+            if (proj.penetrate < 2 && proj.penetrate != -1) proj.penetrate = 2;
+            proj.usesLocalNPCImmunity = true;
+            proj.localNPCHitCooldown = -1;
             return false;
         }
     }

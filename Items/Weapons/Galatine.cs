@@ -27,7 +27,7 @@ namespace wdfeerMod.Items.Weapons
             item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
             item.crit = 10; // The critical strike chance the weapon has. The player, by default, has 4 critical strike chance
             item.scale = 1.1f;
-            item.useStyle = ItemUseStyleID.SwingThrow; 
+            item.useStyle = ItemUseStyleID.SwingThrow;
         }
 
         public override void AddRecipes()

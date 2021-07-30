@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class OpticorVandal : ModItem
+    public class OpticorVandal : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -37,22 +37,16 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Opticor"), 1);
             recipe.AddIngredient(ItemID.FragmentNebula, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(412);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
             Vector2 velocity = new Vector2(speedX, speedY);
-            var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead)];
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.timeLeft = 128;
-            proj.magic = false;
-            proj.ranged = true;
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.3f;
             globalProj.baseVelocity = velocity;

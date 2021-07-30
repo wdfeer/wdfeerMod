@@ -17,7 +17,7 @@ namespace wdfeerMod.Projectiles
 
         public override void AI()
         {
-            var dust = Main.dust[Dust.NewDust(projectile.position,projectile.width,projectile.height,226)];
+            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
         }
 
         public override void Kill(int timeLeft)
@@ -69,30 +69,15 @@ namespace wdfeerMod.Projectiles
         {
             if (target == Main.LocalPlayer && damage == 0)
             {
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().slashChance = 0;
-                projectile.timeLeft = 3;
-                projectile.velocity = new Vector2(0, 0);
-                projectile.tileCollide = false;
-                // Set to transparent. This projectile technically lives as  transparent for about 3 frames
-                projectile.alpha = 255;
-                // change the hitbox size, centered about the original projectile center. This makes the projectile damage enemies during the explosion.
-                projectile.position = projectile.Center;
-                //projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                //projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = Convert.ToInt32(240);
-                projectile.height = Convert.ToInt32(240);
-                projectile.scale = 1f;
-                projectile.Center = projectile.position;//projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                //projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.damage = Convert.ToInt32(projectile.damage * 0.9f);
-                projectile.knockBack = 12;
+                projectile.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Find(x => x.buffID == mod.BuffType("SlashProc")).chance = 0;
+                projectile.GetGlobalProjectile<wdfeerGlobalProj>().Explode(240);
             }
             else base.OnHitPvp(target, damage, crit);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.GetGlobalProjectile<wdfeerGlobalProj>().slashChance == 0) target.AddBuff(BuffID.Slow,240);
+            if (projectile.GetGlobalProjectile<wdfeerGlobalProj>().exploding) target.AddBuff(BuffID.Slow, 240);
         }
     }
 }

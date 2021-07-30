@@ -30,7 +30,7 @@ namespace wdfeerMod.Projectiles
         {
             if (!globalProj.exploding)
             {
-                projectile.velocity += new Vector2(0,0.2f);
+                projectile.velocity += new Vector2(0, 0.2f);
                 for (int num = 0; num < 5; num++)
                 {
                     int num353 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);

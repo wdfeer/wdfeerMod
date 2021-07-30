@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Quatz : ModItem
+    public class Quatz : wdfeerWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -85,15 +85,14 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < (player.altFunctionUse == 2 ? 4 : 1); i++)
             {
                 float spreadMult = player.altFunctionUse == 2 ? 0.012f : 0.024f;
-                var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult,-spreadMult), type, damage, knockBack, Main.LocalPlayer.cHead)];
-                var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult, item.width);
+                var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 if (player.altFunctionUse == 2)
                     globalProj.critMult = 1.25f;
-                else globalProj.electroChance = 27;
+                else globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 27));
             }
 
             return false;

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Corinth : ModItem
+    public class Corinth : wdfeerWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -80,12 +80,10 @@ namespace wdfeerMod.Items.Weapons
         {
             if (player.altFunctionUse != 2)
             {
-                Vector2 spread = new Vector2(speedY, -speedX);
                 for (int i = 0; i < 5; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.08f, 0.08f), type, damage, knockBack, Main.LocalPlayer.cHead);
-                    var projectile = Main.projectile[proj];
-                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
+                    var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.08f, item.width);
+                    proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
                 }
             }
             else

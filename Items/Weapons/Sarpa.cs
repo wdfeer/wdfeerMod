@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Sarpa : ModItem
+    public class Sarpa : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -45,40 +45,14 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item11, position);
-
-            var modPlayer = Main.LocalPlayer.GetModPlayer<wdfeerPlayer>();
-            if (modPlayer.burstInterval == -1)
-            {
-                modPlayer.offsetP = position - player.position;
-                modPlayer.burstItem = item.modItem;
-                modPlayer.burstInterval = 3;
-                modPlayer.burstsMax = 5;
-                modPlayer.burstCount = 1;
-                modPlayer.speedXP = speedX;
-                modPlayer.speedYP = speedY;
-                modPlayer.typeP = type;
-                modPlayer.damageP = damage;
-                modPlayer.knockbackP = knockBack;
-            }
-
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-            Vector2 spread = new Vector2(speedY, -speedX);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread*Main.rand.NextFloat(0.05f,-0.05f), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 64, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
             projectile.ranged = false;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.v2 = projectile.position;
-            gProj.falloffStartDist = 500;
-            gProj.falloffMaxDist = 1000;
-            gProj.falloffMax = 0.86f;
-            gProj.slashChance = 28;
+            gProj.SetFalloff(projectile.position, 500, 1000, 0.86f);
+            gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 28));
 
             return false;
         }

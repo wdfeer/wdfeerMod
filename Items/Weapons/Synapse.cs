@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Synapse : ModItem
+    public class Synapse : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -38,7 +38,7 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.Ichor, 8);
-            recipe.AddIngredient(ItemID.MythrilBar,8);
+            recipe.AddIngredient(ItemID.MythrilBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -46,7 +46,7 @@ namespace wdfeerMod.Items.Weapons
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.Ichor, 8);
-            recipe.AddIngredient(ItemID.OrichalcumBar,8);
+            recipe.AddIngredient(ItemID.OrichalcumBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -54,15 +54,10 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width + 8;
-
-            position += spawnOffset;
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            Main.projectile[proj].timeLeft = 60;
-            var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.ProcChance1 = new Vector2(BuffID.Ichor, 9);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            proj.timeLeft = 60;
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            globalProj.procChances.Add(new ProcChance(BuffID.Ichor, 13));
 
             return false;
         }

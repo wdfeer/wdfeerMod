@@ -25,7 +25,6 @@ namespace wdfeerMod.Projectiles
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
-            globalProj.electroChance = 22;
         }
         public override void AI()
         {

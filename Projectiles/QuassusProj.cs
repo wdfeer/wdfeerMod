@@ -13,7 +13,6 @@ namespace wdfeerMod.Projectiles
             projectile.height = 8;
             projectile.width = 8;
             projectile.penetrate = 2;
-            projectile.GetGlobalProjectile<wdfeerGlobalProj>().slashChance = 100;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }

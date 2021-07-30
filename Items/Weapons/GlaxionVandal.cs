@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class GlaxionVandal : ModItem
+    public class GlaxionVandal : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace wdfeerMod.Items.Weapons
         {
             item.damage = 57; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
-            item.magic = true; 
+            item.magic = true;
             item.mana = 4;
             item.width = 64; // hitbox width of the item
             item.height = 14; // hitbox height of the item
@@ -45,14 +45,8 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
-            var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
+            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.glaxionProcs = 38;
             globalProj.glaxionVandal = true;
 

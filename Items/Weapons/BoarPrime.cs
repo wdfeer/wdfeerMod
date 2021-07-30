@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class BoarPrime : ModItem
+    public class BoarPrime : wdfeerWeapon
     {
         Random rand = new Random();
         public override void SetDefaults()
@@ -45,10 +45,9 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 6; i++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.11f, 0.11f), type, damage, knockBack, Main.LocalPlayer.cHead);
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.11f, item.width);
             }
             return false;
         }

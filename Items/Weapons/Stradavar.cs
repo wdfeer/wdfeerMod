@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Stradavar : ModItem
+    public class Stradavar : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,7 +57,7 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Minishark,1);
+            recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.Handgun, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
@@ -89,17 +89,9 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(SoundID.Item11, position);
-
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-            Vector2 spread = new Vector2(speedY, -speedX);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(0.005f, -0.005f) * (Mode == 0 ? 2f : 1), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (Mode == 0 ? 0.01f : 0.005f), item.width, SoundID.Item11);
+            proj.usesLocalNPCImmunity = true;
+            proj.localNPCHitCooldown = 3;
 
             return false;
         }

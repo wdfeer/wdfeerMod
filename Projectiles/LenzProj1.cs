@@ -29,14 +29,13 @@ namespace wdfeerMod.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage /= 16;
-            target.AddBuff(BuffID.Slow, 144);
             if (canImpale)
             {
                 hitNpc = target;
                 damage *= 3;
                 canImpale = false;
             }
-                
+
             globalProj.proj = projectile;
             globalProj.Explode(320);
         }

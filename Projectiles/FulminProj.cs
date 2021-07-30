@@ -19,7 +19,6 @@ namespace wdfeerMod.Projectiles
             projectile.timeLeft = 18;
             projectile.rotation = 255f;
             projectile.light = 0.2f;
-            projectile.GetGlobalProjectile<wdfeerGlobalProj>().electroChance = 16;
         }
         public override void AI()
         {

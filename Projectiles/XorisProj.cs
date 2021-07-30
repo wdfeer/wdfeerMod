@@ -71,7 +71,7 @@ namespace wdfeerMod.Projectiles
             if (target == Main.LocalPlayer && damage == 0)
             {
                 bigBoom = crit;
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().electroChance = 18;
+                projectile.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Electrified, 18));
                 projectile.timeLeft = 3;
                 projectile.velocity = new Vector2(0, 0);
                 projectile.tileCollide = false;

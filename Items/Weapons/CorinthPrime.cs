@@ -82,7 +82,7 @@ namespace wdfeerMod.Items.Weapons
                     int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.07f, 0.07f), type, damage, knockBack, Main.LocalPlayer.cHead);
                     var projectile = Main.projectile[proj];
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
-                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 4;
+                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 4));
                 }
             }
             else
@@ -95,9 +95,10 @@ namespace wdfeerMod.Items.Weapons
                     altFireProj = Main.projectile[proj];
                     altFireProj.timeLeft = 80;
                     altFireProj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
-                }else
+                }
+                else
                 {
-                    altFireProj.modProjectile.OnHitPvp(Main.LocalPlayer,0,false);
+                    altFireProj.modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
                 }
             }
             return false;

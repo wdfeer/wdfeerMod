@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class KuvaNukor : ModItem
+    public class KuvaNukor : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -45,16 +45,11 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= (item.width + 8);
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var a = 0;
             var b = false;
-            Main.projectile[proj].modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
-            var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            proj.modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 2.5f;
             globalProj.kuvaNukor = true;
 

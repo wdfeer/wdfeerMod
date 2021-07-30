@@ -16,7 +16,7 @@ namespace wdfeerMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            base.SetDefaults();           
+            base.SetDefaults();
             item.rare = 6;
         }
 
@@ -24,7 +24,7 @@ namespace wdfeerMod.Items.Accessories
         {
             // because we don't call base.AddRecipes(), we erase the previously defined recipe and can now make a different one
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AnkhCharm,1);
+            recipe.AddIngredient(ItemID.AnkhCharm, 1);
             recipe.AddIngredient(ItemID.AvengerEmblem, 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
@@ -32,9 +32,9 @@ namespace wdfeerMod.Items.Accessories
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			// Here we add an additional effect
-			player.GetModPlayer<wdfeerPlayer>().condOv = true;
-		}
+        {
+            // Here we add an additional effect
+            player.GetModPlayer<wdfeerPlayer>().condOv = true;
+        }
     }
 }

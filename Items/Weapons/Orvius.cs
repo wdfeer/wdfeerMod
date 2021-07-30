@@ -33,15 +33,15 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar,8);
-            recipe.AddIngredient(mod.ItemType("Kuva"),3);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 8);
+            recipe.AddIngredient(mod.ItemType("Kuva"), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumBar,8);
-            recipe.AddIngredient(mod.ItemType("Kuva"),3);
+            recipe.AddIngredient(ItemID.TitaniumBar, 8);
+            recipe.AddIngredient(mod.ItemType("Kuva"), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -56,7 +56,7 @@ namespace wdfeerMod.Items.Weapons
             {
                 proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
                 Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.1f;
-                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().slashChance = 20;
+                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 20));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

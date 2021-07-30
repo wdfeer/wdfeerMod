@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Xoris : ModItem
+    public class Xoris : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -55,8 +55,7 @@ namespace wdfeerMod.Items.Weapons
             }
             else
             {
-                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-                Main.PlaySound(SoundID.Item1, position);
+                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
             }
 
             return false;

@@ -6,7 +6,7 @@ using System;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class TenetArcaPlasmor : ModItem
+    public class TenetArcaPlasmor : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -36,25 +36,19 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(mod.ItemType("ArcaPlasmor"),1);
-            recipe.AddIngredient(ItemID.Nanites,16);
-            recipe.AddIngredient(ItemID.FragmentNebula,8);
+            recipe.AddIngredient(mod.ItemType("ArcaPlasmor"), 1);
+            recipe.AddIngredient(ItemID.Nanites, 16);
+            recipe.AddIngredient(ItemID.FragmentNebula, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
-            recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
+            recipe.AddTile(412); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().ProcChance1 = new Vector2(31,34);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(31, 34));
             projectile.timeLeft = 44;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;

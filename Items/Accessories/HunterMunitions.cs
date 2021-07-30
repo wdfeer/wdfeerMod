@@ -38,9 +38,9 @@ namespace wdfeerMod.Items.Accessories
             recipe.AddRecipe();
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			// Here we add an additional effect
-			player.GetModPlayer<wdfeerPlayer>().hunterMuni=true;
-		}
+        {
+            // Here we add an additional effect
+            player.GetModPlayer<wdfeerPlayer>().hunterMuni = true;
+        }
     }
 }

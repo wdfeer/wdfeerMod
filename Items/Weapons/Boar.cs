@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Boar : ModItem
+    public class Boar : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -54,10 +54,9 @@ namespace wdfeerMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             damage /= 2;
-            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 4; i++)
             {
-                var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.12f, 0.12f), type, damage, knockBack, Main.LocalPlayer.cHead)];
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.12f, item.width);
             }
             return false;
         }

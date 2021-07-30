@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    internal class Lenz : ModItem
+    internal class Lenz : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace wdfeerMod.Items.Weapons
             item.rare = 9;
             item.value = 120000;
             item.shoot = mod.ProjectileType("LenzProj1");
-            item.shootSpeed = 20f;
+            item.shootSpeed = 24f;
         }
         public override void AddRecipes()
         {
@@ -42,13 +42,8 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
+            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Slow, 100, 144));
             return false;
         }
     }

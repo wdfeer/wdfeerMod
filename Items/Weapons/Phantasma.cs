@@ -76,7 +76,7 @@ namespace wdfeerMod.Items.Weapons
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 0.75f;
-            globalProj.ProcChance1 = new Vector2(BuffID.Confused, 37);
+            globalProj.procChances.Add(new ProcChance(BuffID.Confused, 37));
             return false;
         }
 

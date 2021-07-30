@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Redeemer : ModItem
+    public class Redeemer : wdfeerWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -38,7 +38,7 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("IronBar", 18);
-            recipe.AddIngredient(ItemID.IllegalGunParts,1);
+            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -46,15 +46,9 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-            Vector2 spread = new Vector2(speedY, -speedX);
             for (int i = 0; i < 6; i++)
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.14f, 0.14f), type, damage, knockBack, Main.LocalPlayer.cHead);
-                var projectile = Main.projectile[proj];
+                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f, item.width);
                 projectile.ranged = false;
                 projectile.melee = true;
                 var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
