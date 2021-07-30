@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 18;
             item.crit = 26;
             item.melee = true;
             item.noMelee = true;

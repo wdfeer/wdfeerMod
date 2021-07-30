@@ -10,6 +10,7 @@ namespace wdfeerMod.Projectiles
         public override void SetDefaults()
         {
             projectile.friendly = true;
+            projectile.melee = true;
             projectile.height = 8;
             projectile.width = 8;
             projectile.penetrate = 2;
@@ -27,6 +28,7 @@ namespace wdfeerMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (Main.rand.Next(0,100) < Main.LocalPlayer.meleeCrit) crit = true; else crit = false;
             target.AddBuff(BuffID.Venom, 300);
         }
     }

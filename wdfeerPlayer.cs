@@ -15,6 +15,9 @@ namespace wdfeerMod
         public bool aviator;
         public bool corrProj;
         public bool hunterMuni;
+        public bool berserker;
+        public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
+        private int berserkerProcs;
         public float electroMult = 1;
         public List<ProcChance> procChances = new List<ProcChance>();
         public bool slashProc;
@@ -26,6 +29,8 @@ namespace wdfeerMod
             aviator = false;
             corrProj = false;
             hunterMuni = false;
+            berserker = false;
+            
             electroMult = 1;
 
             procChances = new List<ProcChance>();
@@ -43,6 +48,8 @@ namespace wdfeerMod
                 player.lifeRegen -= slashProcs * 2;
             }
             else slashProcs = 0;
+
+            if (!player.HasBuff(mod.BuffType("BerserkerBuff"))) BerserkerProcs = 0;
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
@@ -79,6 +86,11 @@ namespace wdfeerMod
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
+            }
+            if (berserker && crit) 
+            {
+                player.AddBuff(mod.BuffType("BerserkerBuff"),360);
+                BerserkerProcs++;
             }
 
             if (hunterMuni && crit)
@@ -117,11 +129,15 @@ namespace wdfeerMod
                 dmg = dmg * (1 + buffs / 10);
                 damage = Convert.ToInt32(dmg);
             }
-
             if (corrProj)
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
+            }
+            if (berserker && proj.melee && crit) 
+            {
+                player.AddBuff(mod.BuffType("BerserkerBuff"),360);
+                BerserkerProcs++;
             }
         }
         public Vector2 offsetP;
