@@ -9,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Inflicts Confused and replenishes mana on hit\nSpare mana will increase the damage\nMana Sickness reduces mana gain by 50%");
+            Tooltip.SetDefault("Inflicts Confused and replenishes mana on hit\nSpare mana will increase the damage\nMana Sickness reduces mana gain by 60%");
         }
         public override void SetDefaults()
         {

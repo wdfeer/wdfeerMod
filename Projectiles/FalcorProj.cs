@@ -13,6 +13,8 @@ namespace wdfeerMod.Projectiles
             projectile.CloneDefaults(ProjectileID.ThornChakram);
             projectile.width = 32;
             projectile.height = 32;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void Kill(int timeLeft)
@@ -57,31 +59,6 @@ namespace wdfeerMod.Projectiles
                     Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y - 1.5f;
                 }
             }
-        }
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            if (target == Main.LocalPlayer && damage == 0)
-            {
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Electrified, 100));
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Find(x => x.buffID == mod.BuffType("SlashProc")).chance = 0;
-                projectile.timeLeft = 3;
-                projectile.velocity = new Vector2(0, 0);
-                projectile.tileCollide = false;
-                // Set to transparent. This projectile technically lives as  transparent for about 3 frames
-                projectile.alpha = 255;
-                // change the hitbox size, centered about the original projectile center. This makes the projectile damage enemies during the explosion.
-                projectile.position = projectile.Center;
-                //projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                //projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 320;
-                projectile.height = 320;
-                projectile.scale = 1f;
-                projectile.Center = projectile.position;//projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                //projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.damage = Convert.ToInt32(projectile.damage * 0.9f);
-                projectile.knockBack = 12;
-            }
-            else base.OnHitPvp(target, damage, crit);
         }
     }
 }

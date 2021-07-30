@@ -94,7 +94,14 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, SoundID.Item11, 3, 4);
+            int bursts = -1;
+            int interval = 0;
+            if (Mode == 1)
+            {
+                bursts = 3;
+                interval = 4;
+            }
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, SoundID.Item11, bursts, interval);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();

@@ -6,13 +6,15 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Projectiles.Minions
 {
-    public class Carrier : ModProjectile
+    public class Wyrm : ModProjectile
     {
-        public int attackInterval = 60;
+        public int attackInterval = 36;
         public int attackTimer = 0;
+        public int blastInterval = 480;
+        public int blastTimer = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carrier Sentinel");
+            DisplayName.SetDefault("Wyrm Sentinel");
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 
@@ -27,9 +29,9 @@ namespace wdfeerMod.Projectiles.Minions
 
         public sealed override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 48;
-            projectile.scale = 1.6f;
+            projectile.width = 24;
+            projectile.height = 32;
+            projectile.scale = 1f;
             // Makes the minion go through tiles freely
             projectile.tileCollide = false;
 
@@ -56,7 +58,6 @@ namespace wdfeerMod.Projectiles.Minions
             if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
             {
                 projectile.timeLeft = 2;
-                player.AddBuff(BuffID.AmmoReservation, 30);
             }
             #endregion
 
@@ -154,13 +155,16 @@ namespace wdfeerMod.Projectiles.Minions
             #region Movement and Shooting
 
             // Default movement parameters (here for attacking)
-            float speed = 8f;
+            float speed = 9f;
             float inertia = 20f;
+
+            attackTimer--;
+            blastTimer--;
 
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 320f)
+                if (distanceFromTarget > 560f || blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f)
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;
@@ -168,19 +172,33 @@ namespace wdfeerMod.Projectiles.Minions
                     direction *= speed;
                     projectile.velocity = (projectile.velocity * (inertia - 1) + direction) / inertia;
                 }
-                else if (attackTimer <= 0)
+                else
                 {
-                    for (int i = 0; i < 6; i++)
+                    if (attackTimer <= 0)
                     {
                         Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
                         Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.18f, 0.18f), ProjectileID.Bullet, projectile.damage, projectile.knockBack, projectile.owner)];
+                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
+                        proj.tileCollide = false;
                         proj.ranged = false;
                         proj.minion = true;
+
+                        attackTimer = attackInterval;
                     }
-                    attackTimer = attackInterval;
+
+                    if (blastTimer <= 0 && distanceFromTarget < 200f && distanceToIdlePosition < 480f)
+                    {
+                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
+                        proj.friendly = true;
+                        proj.GetGlobalProjectile<wdfeerGlobalProj>().Explode(400);
+                        for (int i = 0; i < 80; i++)
+                        {
+                            Dust.NewDust(proj.position, proj.width, proj.height, 31, Scale: 0.5f);
+                        }
+
+                        blastTimer = blastInterval;
+                    }
                 }
-                else attackTimer -= 1;
             }
             else
             {
@@ -188,7 +206,7 @@ namespace wdfeerMod.Projectiles.Minions
                 if (distanceToIdlePosition > 600f)
                 {
                     // Speed up the minion if it's away from the player
-                    speed = 12f;
+                    speed = 13f;
                     inertia = 60f;
                 }
                 else

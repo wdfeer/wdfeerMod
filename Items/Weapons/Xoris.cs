@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 320; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 322; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 20;
             item.melee = true; // sets the damage type to ranged
             item.noMelee = true;
@@ -42,20 +42,20 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddRecipe(); // When your done, add the recipe
         }
 
-        int proj = 0;
+        Projectile proj;
         int explosionCount = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active)
+            if (proj != null && proj.modProjectile != null && proj.active)
             {
                 bool crit = false;
                 if (explosionCount >= 3) { crit = true; explosionCount = 0; }
-                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer, 0, crit);
+                proj.modProjectile.OnHitPvp(Main.LocalPlayer, 0, crit);
                 explosionCount++;
             }
             else
             {
-                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
+                proj = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
             }
 
             return false;

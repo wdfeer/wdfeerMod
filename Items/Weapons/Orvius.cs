@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Orvius : ModItem
+    public class Orvius : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -47,16 +47,16 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddRecipe();
         }
 
-        int proj = 0;
+        Projectile proj;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active)
-                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
+            if (proj != null && proj.active)
+                proj.modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
             else
             {
-                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.1f;
-                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 20));
+                proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.1f;
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 20));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

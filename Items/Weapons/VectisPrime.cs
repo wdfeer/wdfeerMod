@@ -8,7 +8,10 @@ namespace wdfeerMod.Items.Weapons
 {
     public class VectisPrime : wdfeerWeapon
     {
-        Random rand = new Random();
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Shots penetrate an enemy");
+        }
         public override void SetDefaults()
         {
             item.damage = 210; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
@@ -49,6 +52,7 @@ namespace wdfeerMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 8));
+            proj.penetrate = 2;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;
             return false;

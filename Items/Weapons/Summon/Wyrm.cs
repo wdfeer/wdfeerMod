@@ -5,19 +5,19 @@ using Terraria.ModLoader;
 using Terraria.ID;
 namespace wdfeerMod.Items.Weapons.Summon
 {
-    public class Carrier : ModItem
+    public class Wyrm : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carrier");
-            Tooltip.SetDefault("Summons a Carrier Sentinel to fight and save ammo for you\nOnly one Carrier can be active at a time");
+            DisplayName.SetDefault("Wyrm");
+            Tooltip.SetDefault("Summons a Wyrm Sentinel to shoot lasers for you\nPeriodically releases a high-knockback shockwave\nOnly one Wyrm can be active at a time");
             ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
             ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 6;
+            item.damage = 25;
             item.knockBack = 4f;
             item.mana = 10;
             item.width = 18;
@@ -33,9 +33,9 @@ namespace wdfeerMod.Items.Weapons.Summon
             // These below are needed for a minion weapon
             item.noMelee = true;
             item.summon = true;
-            item.buffType = ModContent.BuffType<Buffs.CarrierBuff>();
+            item.buffType = ModContent.BuffType<Buffs.WyrmBuff>();
             // No buffTime because otherwise the item tooltip would say something like "1 minute duration"
-            item.shoot = ModContent.ProjectileType<Projectiles.Minions.Carrier>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Minions.Wyrm>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -50,15 +50,8 @@ namespace wdfeerMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Boomstick, 1);
-            recipe.AddIngredient(ItemID.DemoniteBar, 16);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Boomstick, 1);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 16);
+            recipe.AddIngredient(ItemID.SpaceGun, 1);
+            recipe.AddIngredient(ItemID.Bone, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

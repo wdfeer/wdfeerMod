@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Falcor : ModItem
+    public class Falcor : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -42,15 +42,20 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddRecipe(); // When your done, add the recipe
         }
 
-        int proj = 0;
+        Projectile proj;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.projectile[proj].type == type && Main.projectile[proj].owner == Main.LocalPlayer.cHead && Main.projectile[proj].active)
-                Main.projectile[proj].modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
+            if (proj != null && proj.modProjectile != null && proj.active)
+            {
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Electrified, 100));
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Find(x => x.buffID == mod.BuffType("SlashProc")).chance = 0;
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(320);
+                proj.idStaticNPCHitCooldown = 4;
+            }
             else
             {
-                proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 36));
+                proj = ShootWith(position,speedX,speedY,type,damage,knockBack);
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 36));
                 Main.PlaySound(SoundID.Item1, position);
             }
 
