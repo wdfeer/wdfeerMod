@@ -13,7 +13,6 @@ namespace wdfeerMod.Projectiles
         public Projectile proj;
         public float critMult = 1.0f;
         public List<ProcChance> procChances = new List<ProcChance>();
-        public int glaxionProcs = 0;
         public bool glaxionVandal = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
@@ -80,31 +79,16 @@ namespace wdfeerMod.Projectiles
                 }
             }
         }
+        public Action<Projectile, NPC> onHit = (Projectile proj, NPC target) => { };
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
-            if (glaxionProcs > 0 && Main.rand.Next(0, 100) < glaxionProcs)
-            {
-                if (target.HasBuff(BuffID.Slow)) target.AddBuff(BuffID.Frozen, 100);
-                else target.AddBuff(BuffID.Slow, 100);
-            }
-            if (glaxionVandal || (kuvaNukor && projectile.type == ModContent.ProjectileType<Projectiles.NukorProj>()))
-            {
-                hitNPCs[hits] = target;
-                hits++;
-                if (glaxionVandal)
-                {
-                    Explode(128);
-                    projectile.damage /= 2;
-                }
-                return;
-            }
+            onHit(projectile, target);
             base.OnHitNPC(projectile, target, damage, knockback, crit);
         }
+        public Func<NPC, bool?> canHitNPC = (NPC target) => { return null; };
         public override bool? CanHitNPC(Projectile projectile, NPC target)
         {
-            if (!glaxionVandal) return null;
-            else if (hitNPCs.Contains<NPC>(target)) return false;
-            else return null;
+            return canHitNPC(target);
         }
         public void Explode(int radius)
         {
@@ -118,21 +102,19 @@ namespace wdfeerMod.Projectiles
             proj.penetrate = -1;
             proj.Center = proj.position;
         }
+        public Action<Projectile, int> kill = (Projectile proj, int timeLeft) => { };
         public override void Kill(Projectile projectile, int timeLeft)
         {
+            kill(projectile, timeLeft);
             if (glaxionVandal && timeLeft <= 0)
             {
-                for (int i = 0; i < proj.width / 16; i++)
-                {
-                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 226, 0f, 0f, 80, default(Color), 1.2f);
-                    var dust = Main.dust[dustIndex];
-                    dust.noGravity = true;
-                    dust.velocity *= 0.75f;
-                }
+
             }
         }
+        public Action ai = () => { };
         public override void AI(Projectile projectile)
         {
+            ai();
             if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2);
         }
         public void Impale(NPC target)

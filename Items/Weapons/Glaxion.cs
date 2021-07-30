@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
@@ -54,7 +54,19 @@ namespace wdfeerMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.glaxionProcs = 34;
+            globalProj.onHit = (Projectile projectile, NPC target) =>
+            {
+                if (Main.rand.Next(0, 100) < 30)
+                {
+                    if (target.HasBuff(BuffID.Slow)) target.AddBuff(BuffID.Frozen, 100);
+                    else target.AddBuff(BuffID.Slow, 100);
+                }
+            };
+            globalProj.canHitNPC = (NPC target) =>
+            {
+                if (globalProj.hitNPCs.Contains<NPC>(target)) return false;
+                return null;
+            };
 
             return false;
         }

@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Projectiles.Minions
 {
-    public class Carrier : ModProjectile
+    public class Djinn : ModProjectile
     {
-        public int attackInterval = 60;
+        public int attackInterval = 18;
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carrier Sentinel");
+            DisplayName.SetDefault("Djinn Sentinel");
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 
@@ -27,9 +27,9 @@ namespace wdfeerMod.Projectiles.Minions
 
         public sealed override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 48;
-            projectile.scale = 1.6f;
+            projectile.width = 15;
+            projectile.height = 32;
+            projectile.scale = 1f;
             // Makes the minion go through tiles freely
             projectile.tileCollide = false;
 
@@ -39,7 +39,7 @@ namespace wdfeerMod.Projectiles.Minions
             // Only determines the damage type
             projectile.minion = true;
             // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
-            projectile.minionSlots = 1f;
+            projectile.minionSlots = 3f;
             // Needed so the minion doesn't despawn on collision with enemies or tiles
             projectile.penetrate = -1;
         }
@@ -51,12 +51,11 @@ namespace wdfeerMod.Projectiles.Minions
             // This is the "active check", makes sure the minion is alive while the player is alive, and despawns if not
             if (player.dead || !player.active)
             {
-                player.ClearBuff(ModContent.BuffType<Buffs.CarrierBuff>());
+                player.ClearBuff(ModContent.BuffType<Buffs.DjinnBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
+            if (player.HasBuff(ModContent.BuffType<Buffs.DjinnBuff>()))
             {
                 projectile.timeLeft = 2;
-                player.AddBuff(BuffID.AmmoReservation, 30);
             }
             #endregion
 
@@ -74,7 +73,7 @@ namespace wdfeerMod.Projectiles.Minions
             // Teleport to player if distance is too big
             Vector2 vectorToIdlePosition = idlePosition - projectile.Center;
             float distanceToIdlePosition = vectorToIdlePosition.Length();
-            if (Main.myPlayer == player.whoAmI && distanceToIdlePosition > 1800f)
+            if (Main.myPlayer == player.whoAmI && distanceToIdlePosition > 2000f)
             {
                 // Whenever you deal with non-regular events that change the behavior or position drastically, make sure to only run the code on the owner of the projectile,
                 // and then set netUpdate to true
@@ -112,7 +111,7 @@ namespace wdfeerMod.Projectiles.Minions
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 float between = Vector2.Distance(npc.Center, projectile.Center);
                 // Reasonable distance away so it doesn't target across multiple screens
-                if (between < 1300f)
+                if (between < 1600f)
                 {
                     distanceFromTarget = between;
                     targetCenter = npc.Center;
@@ -148,13 +147,15 @@ namespace wdfeerMod.Projectiles.Minions
             #region Movement and Shooting
 
             // Default movement parameters (here for attacking)
-            float speed = 8f;
+            float speed = 9f;
             float inertia = 20f;
+
+            attackTimer--;
 
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 320f)
+                if (distanceFromTarget > 560f)
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;
@@ -162,29 +163,34 @@ namespace wdfeerMod.Projectiles.Minions
                     direction *= speed;
                     projectile.velocity = (projectile.velocity * (inertia - 1) + direction) / inertia;
                 }
-                else if (attackTimer <= 0)
+
+                if (distanceFromTarget < 800f && attackTimer <= 0)
                 {
-                    Main.PlaySound(SoundID.Item36.WithVolume(0.8f), projectile.position);
-                    for (int i = 0; i < 6; i++)
-                    {
-                        Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
-                        Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.18f, 0.18f), ProjectileID.Bullet, projectile.damage, projectile.knockBack, projectile.owner)];
-                        proj.ranged = false;
-                        proj.minion = true;
-                        proj.timeLeft = 80;
-                    }
+                    Main.PlaySound(SoundID.Item17, projectile.position);
+
+                    Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Center) * 16;
+                    Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+                    var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, projVelocity + spread * Main.rand.NextFloat(-0.09f, 0.09f), ProjectileID.PoisonDart, projectile.damage, projectile.knockBack, projectile.owner)];
+                    proj.tileCollide = false;
+                    proj.hostile = false;
+                    proj.friendly = true;
+                    proj.extraUpdates = 3;
+                    proj.ranged = false;
+                    proj.minion = true;
+                    proj.timeLeft = 120;
+                    proj.GetGlobalProjectile<wdfeerGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
+                    proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Venom, 44));
+
                     attackTimer = attackInterval;
                 }
-                else attackTimer -= 1;
             }
             else
             {
                 // Minion doesn't have a target: return to player and idle
-                if (distanceToIdlePosition > 400f)
+                if (distanceToIdlePosition > 600f)
                 {
                     // Speed up the minion if it's away from the player
-                    speed = 12f;
+                    speed = 13f;
                     inertia = 60f;
                 }
                 else

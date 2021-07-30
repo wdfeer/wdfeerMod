@@ -53,9 +53,9 @@ namespace wdfeerMod.Projectiles.Minions
             // This is the "active check", makes sure the minion is alive while the player is alive, and despawns if not
             if (player.dead || !player.active)
             {
-                player.ClearBuff(ModContent.BuffType<Buffs.CarrierBuff>());
+                player.ClearBuff(ModContent.BuffType<Buffs.WyrmBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
+            if (player.HasBuff(ModContent.BuffType<Buffs.WyrmBuff>()))
             {
                 projectile.timeLeft = 2;
             }
@@ -144,12 +144,6 @@ namespace wdfeerMod.Projectiles.Minions
                     }
                 }
             }
-
-            // friendly needs to be set to true so the minion can deal contact damage
-            // friendly needs to be set to false so it doesn't damage things like target dummies while idling
-            // Both things depend on if it has a target or not, so it's just one assignment here
-            // You don't need this assignment if your minion is shooting things instead of dealing contact damage
-            projectile.friendly = foundTarget;
             #endregion
 
             #region Movement and Shooting
@@ -164,7 +158,7 @@ namespace wdfeerMod.Projectiles.Minions
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 560f || blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f)
+                if (distanceFromTarget > 640f || blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f)
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;
@@ -174,22 +168,12 @@ namespace wdfeerMod.Projectiles.Minions
                 }
                 else
                 {
-                    if (attackTimer <= 0)
-                    {
-                        Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
-                        Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
-                        proj.tileCollide = false;
-                        proj.ranged = false;
-                        proj.minion = true;
-
-                        attackTimer = attackInterval;
-                    }
-
                     if (blastTimer <= 0 && distanceFromTarget < 200f && distanceToIdlePosition < 480f)
                     {
                         var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
                         proj.friendly = true;
+                        proj.usesLocalNPCImmunity = true;
+                        proj.localNPCHitCooldown = -1;
                         proj.GetGlobalProjectile<wdfeerGlobalProj>().Explode(400);
                         for (int i = 0; i < 80; i++)
                         {
@@ -198,6 +182,21 @@ namespace wdfeerMod.Projectiles.Minions
 
                         blastTimer = blastInterval;
                     }
+                }
+
+                if (distanceFromTarget < 800f && attackTimer <= 0)
+                {
+                    Main.PlaySound(SoundID.Item12, projectile.position);
+
+                    Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
+                    Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+                    var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
+                    proj.tileCollide = false;
+                    proj.timeLeft = 60;
+                    proj.ranged = false;
+                    proj.minion = true;
+
+                    attackTimer = attackInterval;
                 }
             }
             else

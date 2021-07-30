@@ -49,9 +49,13 @@ namespace wdfeerMod.Items.Weapons
             var a = 0;
             var b = false;
             proj.modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.critMult = 2.5f;
-            globalProj.kuvaNukor = true;
+            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            gProj.critMult = 2.5f;
+            gProj.onHit = (Projectile projectile, NPC target) =>
+            {
+                gProj.hitNPCs[gProj.hits] = target;
+                gProj.hits++;
+            };
 
             return false;
         }

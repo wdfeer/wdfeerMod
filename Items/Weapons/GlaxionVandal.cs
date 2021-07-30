@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
@@ -46,9 +46,37 @@ namespace wdfeerMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
-            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.glaxionProcs = 38;
-            globalProj.glaxionVandal = true;
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            gProj.onHit = (Projectile proj, NPC target) =>
+            {
+                if (Main.rand.Next(0, 100) < 34)
+                {
+                    if (target.HasBuff(BuffID.Slow)) target.AddBuff(BuffID.Frozen, 100);
+                    else target.AddBuff(BuffID.Slow, 100);
+                }
+
+                gProj.hitNPCs[gProj.hits] = target;
+                gProj.hits++;
+                gProj.Explode(128);
+                proj.damage /= 2;
+            };
+            gProj.canHitNPC = (NPC target) =>
+            {
+                if (gProj.hitNPCs.Contains<NPC>(target)) return false;
+                return null;
+            };
+            gProj.kill = (Projectile proj, int timeLeft) =>
+            {
+                if (timeLeft <= 0)
+                    for (int i = 0; i < proj.width / 16; i++)
+                    {
+                        int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 226, 0f, 0f, 80, default(Color), 1.2f);
+                        var dust = Main.dust[dustIndex];
+                        dust.noGravity = true;
+                        dust.velocity *= 0.75f;
+                    }
+            };
+            gProj.glaxionVandal = true;
 
 
             return false;
