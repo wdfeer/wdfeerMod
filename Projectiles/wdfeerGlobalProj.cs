@@ -50,8 +50,12 @@ namespace wdfeerMod.Projectiles
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            wdfeerPlayer modPl = Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>();
+
             if (crit) damage = Convert.ToInt32(critMult * damage);
 
+            if (modPl.hunterMuni && crit) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
+            procChances.AddRange(modPl.procChances);
             foreach (var proc in procChances)
             {
                 if (proc.Proc(target))
@@ -64,6 +68,7 @@ namespace wdfeerMod.Projectiles
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                        electroDamage = (int)(electroDamage * modPl.electroMult);
                         target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
                     }
                 }

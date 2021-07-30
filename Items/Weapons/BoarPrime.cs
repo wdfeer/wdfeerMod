@@ -45,7 +45,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.11f, item.width);
             }

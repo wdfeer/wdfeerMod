@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,8 @@ namespace wdfeerMod
         public bool aviator;
         public bool corrProj;
         public bool hunterMuni;
+        public float electroMult = 1;
+        public List<ProcChance> procChances = new List<ProcChance>();
         public bool slashProc;
         public int slashProcs;
         public override void ResetEffects()
@@ -23,6 +26,9 @@ namespace wdfeerMod
             aviator = false;
             corrProj = false;
             hunterMuni = false;
+            electroMult = 1;
+
+            procChances = new List<ProcChance>();
 
             slashProc = false;
         }
@@ -74,16 +80,31 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
-            if (hunterMuni && crit && Main.rand.Next(0, 100) < 30)
+
+            if (hunterMuni && crit)
+                new ProcChance(mod.BuffType("SlashProc"), 30, 360).Proc(target);
+            foreach (var proc in procChances)
             {
-                target.AddBuff(mod.BuffType("SlashProc"), 360);
-                var slashDamage = damage / 5;
-                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 360, ref slashDamage);
+                if (proc.Proc(target))
+                {
+                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    {
+                        int slashDamage = damage / 5;
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
+                    }
+                    else if (proc.buffID == BuffID.Electrified)
+                    {
+                        int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                        electroDamage = (int)(electroDamage * electroMult);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
+                    }
+                }
             }
         }
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+
             damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
             if (condOv)
             {
@@ -96,16 +117,11 @@ namespace wdfeerMod
                 dmg = dmg * (1 + buffs / 10);
                 damage = Convert.ToInt32(dmg);
             }
+
             if (corrProj)
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
-            }
-            if (hunterMuni && crit && Main.rand.Next(0, 100) < 30)
-            {
-                target.AddBuff(mod.BuffType("SlashProc"), 240);
-                var slashDamage = damage / 5;
-                target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 240, ref slashDamage);
             }
         }
         public Vector2 offsetP;
