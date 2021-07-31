@@ -158,7 +158,7 @@ namespace wdfeerMod.Projectiles.Minions
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 640f || blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f)
+                if (distanceFromTarget > 640f || (blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f))
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;
@@ -170,6 +170,8 @@ namespace wdfeerMod.Projectiles.Minions
                 {
                     if (blastTimer <= 0 && distanceFromTarget < 200f && distanceToIdlePosition < 480f)
                     {
+                        Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.35f), projectile.position);
+
                         var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
                         proj.friendly = true;
                         proj.usesLocalNPCImmunity = true;

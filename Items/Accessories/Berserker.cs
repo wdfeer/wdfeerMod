@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+5% Melee Attack Speed for 6s after a Melee Critical Hit\nStacks 3x");
+            Tooltip.SetDefault("+7% Melee Speed for 6s after a Melee Critical Hit\nStacks 3x");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace wdfeerMod.Items.Accessories
         {
             // because we don't call base.AddRecipes(), we erase the previously defined recipe and can now make a different one
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FeralClaws, 1);
+            recipe.AddIngredient(ItemID.PowerGlove, 1);
             recipe.AddIngredient(ItemID.WarriorEmblem, 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

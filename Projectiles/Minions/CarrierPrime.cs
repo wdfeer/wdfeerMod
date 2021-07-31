@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Projectiles.Minions
 {
-    public class Carrier : ModProjectile
+    public class CarrierPrime : ModProjectile
     {
         public int attackInterval = 60;
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Carrier Sentinel");
+            DisplayName.SetDefault("Carrier Prime Sentinel");
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 
@@ -27,9 +27,9 @@ namespace wdfeerMod.Projectiles.Minions
 
         public sealed override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 48;
-            projectile.scale = 1.6f;
+            projectile.width = 19;
+            projectile.height = 32;
+            projectile.scale = 1f;
             // Makes the minion go through tiles freely
             projectile.tileCollide = false;
 
@@ -39,7 +39,7 @@ namespace wdfeerMod.Projectiles.Minions
             // Only determines the damage type
             projectile.minion = true;
             // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
-            projectile.minionSlots = 1f;
+            projectile.minionSlots = 3f;
             // Needed so the minion doesn't despawn on collision with enemies or tiles
             projectile.penetrate = -1;
         }
@@ -51,12 +51,11 @@ namespace wdfeerMod.Projectiles.Minions
             // This is the "active check", makes sure the minion is alive while the player is alive, and despawns if not
             if (player.dead || !player.active)
             {
-                player.ClearBuff(ModContent.BuffType<Buffs.CarrierBuff>());
+                player.ClearBuff(ModContent.BuffType<Buffs.CarrierPrimeBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
+            if (player.HasBuff(ModContent.BuffType<Buffs.CarrierPrimeBuff>()))
             {
                 projectile.timeLeft = 2;
-                player.AddBuff(BuffID.AmmoReservation, 30);
             }
             #endregion
 
@@ -162,14 +161,14 @@ namespace wdfeerMod.Projectiles.Minions
                     direction *= speed;
                     projectile.velocity = (projectile.velocity * (inertia - 1) + direction) / inertia;
                 }
-                if (attackTimer <= 0 && distanceFromTarget < 400f)
+                if (attackTimer <= 0 && distanceFromTarget < 480f)
                 {
-                    Main.PlaySound(SoundID.Item36.WithVolume(0.75f), projectile.position);
+                    Main.PlaySound(SoundID.Item36.WithVolume(0.8f), projectile.position);
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
                         Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.18f, 0.18f), ProjectileID.Bullet, projectile.damage, projectile.knockBack, projectile.owner)];
+                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.16f, 0.16f), ProjectileID.GoldenBullet, projectile.damage, projectile.knockBack, projectile.owner)];
                         proj.ranged = false;
                         proj.minion = true;
                         proj.timeLeft = 80;

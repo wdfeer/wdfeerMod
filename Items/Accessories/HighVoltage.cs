@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+12% Damage from Electricity debuffs\n+12% Chance to apply Electricity debuffs");
+            Tooltip.SetDefault("+12% Damage from Electricity debuffs\n+12% Chance to inflict Electricity debuffs");
         }
 
         public override void SetDefaults()

@@ -12,7 +12,7 @@ namespace wdfeerMod.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Berserker Buff");
-            Description.SetDefault("Gain a bonus to Attack Speed");
+            Description.SetDefault("Gain a bonus to Melee Speed");
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
 
@@ -23,7 +23,7 @@ namespace wdfeerMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeSpeed *= 1 + (0.05f * player.GetModPlayer<wdfeerPlayer>().BerserkerProcs);
+            player.meleeSpeed *= 1 + (0.07f * player.GetModPlayer<wdfeerPlayer>().BerserkerProcs);
             Main.buffTexture[Type] = textures[player.GetModPlayer<wdfeerPlayer>().BerserkerProcs - 1];
         }
     }
