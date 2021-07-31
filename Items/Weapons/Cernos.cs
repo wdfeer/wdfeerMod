@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 18;
             item.crit = 32;
             item.knockBack = 5;
             item.ranged = true;
@@ -38,14 +38,14 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DemonBow, 1);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TendonBow, 1);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -37,7 +37,8 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Glaxion"), 1);
-            recipe.AddIngredient(ItemID.FragmentVortex, 8);
+            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            recipe.AddIngredient(ItemID.FragmentNebula, 8);
             recipe.AddTile(412);
             recipe.SetResult(this);
             recipe.AddRecipe();

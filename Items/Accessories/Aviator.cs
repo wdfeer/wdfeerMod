@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+25% Damage Resistance while airborne. Doesn't stack with the Worm Scarf");
+            Tooltip.SetDefault("+25% Damage Resistance while airborne. Doesn't stack with the Worm Scarf\nExpert Exclusive");
         }
 
         public override void SetDefaults()

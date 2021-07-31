@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 389;
+            item.damage = 379;
             item.crit = 31;
             item.knockBack = 3;
             item.ranged = true;
@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Weapons
             item.UseSound = SoundID.Item38;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.rare = 8;
+            item.rare = 10;
             item.value = 120000;
             item.shoot = mod.ProjectileType("KuvaBrammaProj");
             item.shootSpeed = 20f;
@@ -40,6 +40,7 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Kuva"), 12);
             recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
+            recipe.AddIngredient(ItemID.Phantasm,1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 566;
+            item.damage = 586;
             item.crit = 46;
             item.knockBack = 3;
             item.ranged = true;
@@ -36,6 +36,7 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddIngredient(ItemID.Tsunami, 1);
             recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
             recipe.AddIngredient(ItemID.IceRod, 1);
+            recipe.AddIngredient(mod.ItemType("Fieldron"));
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

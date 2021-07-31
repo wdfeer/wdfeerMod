@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 120; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 166; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
             item.melee = true; // sets the damage type to ranged
             item.noMelee = true;
@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Weapons
             item.useStyle = ItemUseStyleID.SwingThrow; // how you use the item (swinging, holding out, etc)
             item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 750000; // how much the item sells for (measured in copper)
-            item.rare = 7; // the color that the item's name will be in-game
+            item.rare = 8; // the color that the item's name will be in-game
             item.shoot = ModContent.ProjectileType<Projectiles.FalcorProj>(); //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 18f; // the speed of the projectile (measured in pixels per frame)
         }
@@ -34,8 +34,8 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddIngredient(ItemID.Nanites, 16);
-            recipe.AddIngredient(ItemID.RocketIII, 4);
+            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            recipe.AddIngredient(ItemID.ChlorophyteBar,8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)

@@ -17,8 +17,8 @@ namespace wdfeerMod.Items
             base.SetDefaults();
             item.rare = 5; // the color that the item's name will be in-game
             item.maxStack = 99;
-            item.width = 16;
-            item.height = 15;
+            item.width = 32;
+            item.height = 32;
         }
 
         public override void AddRecipes()

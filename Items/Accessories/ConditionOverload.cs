@@ -17,7 +17,7 @@ namespace wdfeerMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 6;
+            item.rare = 7;
         }
 
         public override void AddRecipes()

@@ -37,7 +37,7 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
             recipe.AddIngredient(mod.ItemType("ArcaPlasmor"), 1);
-            recipe.AddIngredient(ItemID.Nanites, 16);
+            recipe.AddIngredient(mod.ItemType("Fieldron"));
             recipe.AddIngredient(ItemID.FragmentNebula, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(412); // Set the crafting tile to ExampleWorkbench

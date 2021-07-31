@@ -36,6 +36,7 @@ namespace wdfeerMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Opticor"), 1);
+            recipe.AddIngredient(mod.ItemType("Fieldron"));
             recipe.AddIngredient(ItemID.FragmentNebula, 12);
             recipe.AddTile(412);
             recipe.SetResult(this);

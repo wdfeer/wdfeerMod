@@ -118,5 +118,11 @@ namespace wdfeerMod
                 for (int i = 0; i < procCounter; i++)
                     procs[i].Update();
         }
+        public int[] martianTypes = {NPCID.MartianDrone,NPCID.MartianEngineer,NPCID.MartianSaucerCore,NPCID.MartianTurret,NPCID.MartianOfficer,NPCID.MartianWalker};
+        public override void NPCLoot(NPC npc)
+        {
+            if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
+        }
     }
 }
