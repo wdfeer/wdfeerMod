@@ -176,7 +176,7 @@ namespace wdfeerMod.Projectiles.Minions
                     proj.magic = false;
                     proj.minion = true;
                     proj.timeLeft = 120;
-                    proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Slow, 100, 60));
+                    proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Slow, 100, 4));
 
                     attackTimer = attackInterval;
                 }

@@ -22,6 +22,16 @@ namespace wdfeerMod
         public List<ProcChance> procChances = new List<ProcChance>();
         public bool slashProc;
         public int slashProcs;
+        public int arcaSciscoStacks
+        {
+            get => ArcaSciscoStacks;
+            set
+            {
+                if (value > 4) value = 4;
+                ArcaSciscoStacks = value;
+            }
+        }
+        public int ArcaSciscoStacks = 0;
         public override void ResetEffects()
         {
             vitalS = false;
@@ -30,7 +40,7 @@ namespace wdfeerMod
             corrProj = false;
             hunterMuni = false;
             berserker = false;
-            
+
             electroMult = 1;
 
             procChances = new List<ProcChance>();
@@ -50,6 +60,15 @@ namespace wdfeerMod
             else slashProcs = 0;
 
             if (!player.HasBuff(mod.BuffType("BerserkerBuff"))) BerserkerProcs = 0;
+            if (!player.HasBuff(mod.BuffType("ArcaSciscoBuff")))
+            {
+                if (arcaSciscoStacks > 1)
+                {
+                    player.AddBuff(mod.BuffType("ArcaSciscoBuff"),180);
+                    arcaSciscoStacks--;
+                }
+                else arcaSciscoStacks = 0;
+            }
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
@@ -87,9 +106,9 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
-            if (berserker && crit) 
+            if (berserker && crit)
             {
-                player.AddBuff(mod.BuffType("BerserkerBuff"),360);
+                player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
 
@@ -134,9 +153,9 @@ namespace wdfeerMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += Convert.ToInt32(target.defense * defMult * 0.18f);
             }
-            if (berserker && proj.melee && crit) 
+            if (berserker && proj.melee && crit)
             {
-                player.AddBuff(mod.BuffType("BerserkerBuff"),360);
+                player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
         }
@@ -156,6 +175,7 @@ namespace wdfeerMod
         {
             if (player.dead) return;
             longTimer++;
+            #region burst
             if (burstInterval != -1)
             {
                 if (burstCount < burstsMax)
@@ -182,6 +202,7 @@ namespace wdfeerMod
                     burstCount = 1;
                 }
             }
+            #endregion           
         }
     }
 }
