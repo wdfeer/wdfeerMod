@@ -16,6 +16,7 @@ namespace wdfeerMod
         public bool corrProj;
         public bool hunterMuni;
         public bool berserker;
+        public bool avenger;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -40,6 +41,7 @@ namespace wdfeerMod
             corrProj = false;
             hunterMuni = false;
             berserker = false;
+            avenger = false;
 
             electroMult = 1;
 
@@ -77,6 +79,11 @@ namespace wdfeerMod
                 player.UpdateTouchingTiles();
                 if (!player.TouchedTiles.Any()) damage = Convert.ToInt32(damage * 0.75f);
             }
+
+            if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
+            {
+                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
+            }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
@@ -84,6 +91,11 @@ namespace wdfeerMod
             {
                 player.UpdateTouchingTiles();
                 if (!player.TouchedTiles.Any()) damage = Convert.ToInt32(damage * 0.75f);
+            }
+
+            if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
+            {
+                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)

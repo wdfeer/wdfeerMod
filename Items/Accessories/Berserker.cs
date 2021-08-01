@@ -35,6 +35,6 @@ namespace wdfeerMod.Items.Accessories
         {
             // Here we add an additional effect
             player.GetModPlayer<wdfeerPlayer>().berserker = true;
-        }
+        }      
     }
 }

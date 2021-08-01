@@ -123,6 +123,9 @@ namespace wdfeerMod
         {
             if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
+
+            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 2)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneAvenger>());
         }
     }
 }

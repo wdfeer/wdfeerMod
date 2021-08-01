@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +9,7 @@ namespace wdfeerMod.Items.Accessories
 {
     public abstract class ExclusiveAccessory : ModItem
     {
+        public float worldScale = 0.5f;
         public override void SetDefaults()
         {
             item.width = 64;
@@ -111,6 +113,13 @@ namespace wdfeerMod.Items.Accessories
             }
             // If no item is found, we return default values for index and item, always check one of them with this default when you call this method!
             return (-1, null);
+        }
+
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            scale /= 2;
+            return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
     }
 }
