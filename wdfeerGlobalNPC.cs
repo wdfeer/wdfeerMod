@@ -130,9 +130,9 @@ namespace wdfeerMod
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
 
-            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 10)
+            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
             {
-                var rand = Main.rand.Next(2);
+                var rand = Main.rand.Next(4);
                 switch (rand)
                 {
                     case 0:
@@ -143,6 +143,12 @@ namespace wdfeerMod
                         break;
                     case 2:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneAcceleration>());
+                        break;
+                    case 3:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneStrike>());
+                        break;
+                    case 4:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneEnergize>());
                         break;
                     default:
                         break;

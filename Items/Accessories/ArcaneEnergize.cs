@@ -9,11 +9,11 @@ namespace wdfeerMod.Items.Accessories
 {
     // Here we add our accessories, note that they inherit from ExclusiveAccessory, and not ModItem
 
-    public class ArcaneAvenger : ExclusiveAccessory
+    public class ArcaneEnergize : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("21% Chance to get +45% Critical Chance for 12s after getting hit for more than 4 damage\nMay drop from any boss in Expert Mode");
+            Tooltip.SetDefault("On mana star pickup: 60% Chance to grant an extra 100 mana\nMay drop from any boss in Expert Mode");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace wdfeerMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().avenger = true;
+            player.GetModPlayer<wdfeerPlayer>().arcaneEnergize = true;
         }
     }
 }

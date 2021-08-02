@@ -8,6 +8,8 @@ namespace wdfeerMod.Items
     public class wdfeerGlobalItem : GlobalItem
     {
         public override bool InstancePerEntity => true;
+        public override bool CloneNewInstances => true;
+        public bool energized = false;
         public override void SetDefaults(Item item)
         {
             if (item.type == ItemID.Grenade) item.ammo = item.type;

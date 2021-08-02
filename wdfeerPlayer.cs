@@ -21,6 +21,7 @@ namespace wdfeerMod
         public bool acceleration;
         public bool hypeThrusters;
         public bool arcaneStrike;
+        public bool arcaneEnergize;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -50,6 +51,7 @@ namespace wdfeerMod
             acceleration = false;
             hypeThrusters = false;
             arcaneStrike = false;
+            arcaneEnergize = false;
 
             electroMult = 1;
 
@@ -235,7 +237,35 @@ namespace wdfeerMod
                     burstCount = 1;
                 }
             }
-            #endregion           
+            #endregion   
+
+            GrabItems();
+        }
+
+        private void GrabItems() // Needed for the Arcane Energize
+        {
+            for (int j = 0; j < 400; j++)
+            {
+                if (!Main.item[j].active || Main.item[j].noGrabDelay != 0 || Main.item[j].owner != this.player.whoAmI || !ItemLoader.CanPickup(Main.item[j], this.player))
+                {
+                    continue;
+                }
+
+                if (new Rectangle((int)this.player.position.X - 2, (int)this.player.position.Y - 2, this.player.width + 2, this.player.height + 2).Intersects(new Rectangle((int)Main.item[j].position.X, (int)Main.item[j].position.Y, Main.item[j].width, Main.item[j].height)))
+                {
+                    if ((Main.item[j].type == 184 || Main.item[j].type == 1735 || Main.item[j].type == 1868) && !Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized && arcaneEnergize)
+                    {
+                        if (Main.rand.Next(100) < 60)
+                        {
+                            this.player.statMana += 100;
+                            this.player.ManaEffect(100);
+                            Main.PlaySound(94,Main.item[j].Center);
+                        }
+
+                        Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized = true;
+                    }
+                }
+            }
         }
     }
 }
