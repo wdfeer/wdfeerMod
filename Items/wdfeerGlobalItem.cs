@@ -10,7 +10,7 @@ namespace wdfeerMod.Items
         public override bool InstancePerEntity => true;
         public override void SetDefaults(Item item)
         {
-            if (item.type == ItemID.Grenade) item.ammo = item.type;            
+            if (item.type == ItemID.Grenade) item.ammo = item.type;
         }
         public override float UseTimeMultiplier(Item item, Player player)
         {
@@ -18,8 +18,16 @@ namespace wdfeerMod.Items
             {
                 return 1.15f;
             }
-                
+
             return base.UseTimeMultiplier(item, player);
+        }
+        public override void VerticalWingSpeeds(Item item, Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
+        {
+            if (player.GetModPlayer<wdfeerPlayer>().hypeThrusters)
+            {
+                maxAscentMultiplier *= 1.25f;
+                constantAscend *= 1.25f;
+            }
         }
     }
 }

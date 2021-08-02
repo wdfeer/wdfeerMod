@@ -19,6 +19,7 @@ namespace wdfeerMod
         public bool avenger;
         public bool guardian;
         public bool acceleration;
+        public bool hypeThrusters;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -46,6 +47,7 @@ namespace wdfeerMod
             avenger = false;
             guardian = false;
             acceleration = false;
+            hypeThrusters = false;
 
             electroMult = 1;
 

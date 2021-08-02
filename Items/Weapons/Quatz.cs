@@ -11,11 +11,11 @@ namespace wdfeerMod.Items.Weapons
         Random rand = new Random();
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Right Click to use the Burst fire mode\nIn auto has a 27% Electricity proc chance\nGains a bonus to critical stats and accuraccy in Burst mode");
+            Tooltip.SetDefault("Right Click to use the Burst fire mode\nIn auto has a 27% Electricity proc chance and 70% chance not to consume ammo\nGains a bonus to critical stats, damage and accuraccy in Burst mode");
         }
         public override void SetDefaults()
         {
-            item.damage = 2; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 1; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 9;
             item.ranged = true; // sets the damage type to ranged
             item.width = 32; // hitbox width of the item
@@ -83,6 +83,12 @@ namespace wdfeerMod.Items.Weapons
             }
             return base.CanUseItem(player);
         }
+        public override bool ConsumeAmmo(Player player)
+        {
+            if (player.altFunctionUse != 2 && Main.rand.Next(100) < 70)
+                return false;
+            return base.ConsumeAmmo(player);
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int i = 0; i < (player.altFunctionUse == 2 ? 4 : 1); i++)
@@ -91,7 +97,10 @@ namespace wdfeerMod.Items.Weapons
                 var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult, item.width);
                 var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 if (player.altFunctionUse == 2)
+                {
                     globalProj.critMult = 1.25f;
+                    projectile.damage += 2;
+                }                   
                 else globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 27));
             }
 

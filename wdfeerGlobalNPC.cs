@@ -75,6 +75,9 @@ namespace wdfeerMod
                 for (int i = 0; i < procCounter; i++)
                     totalDamage += procs[i].type == 0 ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
+                if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
+                    npc.lifeRegenExpectedLossPerSecond = totalDamage;
+
             }
         }
 
