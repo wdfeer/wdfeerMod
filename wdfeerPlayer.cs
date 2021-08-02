@@ -17,6 +17,8 @@ namespace wdfeerMod
         public bool hunterMuni;
         public bool berserker;
         public bool avenger;
+        public bool guardian;
+        public bool acceleration;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -42,6 +44,8 @@ namespace wdfeerMod
             hunterMuni = false;
             berserker = false;
             avenger = false;
+            guardian = false;
+            acceleration = false;
 
             electroMult = 1;
 
@@ -84,6 +88,10 @@ namespace wdfeerMod
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
             }
+            if (guardian && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
+            {
+                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"),1200);
+            }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
@@ -96,6 +104,10 @@ namespace wdfeerMod
             if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
+            }
+            if (guardian && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
+            {
+                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"),1200);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -147,7 +159,6 @@ namespace wdfeerMod
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-
             damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
             if (condOv)
             {
@@ -170,6 +181,8 @@ namespace wdfeerMod
                 player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
+            if (acceleration && crit && !proj.melee && Main.rand.Next(100) < 30)
+                player.AddBuff(mod.BuffType("ArcaneAccelerationBuff"),540);
         }
         public Vector2 offsetP;
         public float speedXP;

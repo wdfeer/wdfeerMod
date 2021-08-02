@@ -12,5 +12,14 @@ namespace wdfeerMod.Items
         {
             if (item.type == ItemID.Grenade) item.ammo = item.type;            
         }
+        public override float UseTimeMultiplier(Item item, Player player)
+        {
+            if (!item.melee && player.HasBuff(mod.BuffType("ArcaneAccelerationBuff")))
+            {
+                return 1.15f;
+            }
+                
+            return base.UseTimeMultiplier(item, player);
+        }
     }
 }

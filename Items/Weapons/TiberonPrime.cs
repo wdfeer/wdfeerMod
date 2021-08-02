@@ -99,7 +99,7 @@ namespace wdfeerMod.Items.Weapons
             if (Mode == 1)
             {
                 bursts = 3;
-                interval = 4;
+                interval = item.useTime / 5;
             }
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, SoundID.Item11, bursts, interval);
             projectile.usesLocalNPCImmunity = true;
