@@ -20,6 +20,7 @@ namespace wdfeerMod
         public bool guardian;
         public bool acceleration;
         public bool hypeThrusters;
+        public bool arcaneStrike;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -48,6 +49,7 @@ namespace wdfeerMod
             guardian = false;
             acceleration = false;
             hypeThrusters = false;
+            arcaneStrike = false;
 
             electroMult = 1;
 
@@ -72,7 +74,7 @@ namespace wdfeerMod
             {
                 if (arcaSciscoStacks > 1)
                 {
-                    player.AddBuff(mod.BuffType("ArcaSciscoBuff"),180);
+                    player.AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
                     arcaSciscoStacks--;
                 }
                 else arcaSciscoStacks = 0;
@@ -88,11 +90,11 @@ namespace wdfeerMod
 
             if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
+                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
             }
             if (guardian && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"),1200);
+                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
@@ -105,11 +107,11 @@ namespace wdfeerMod
 
             if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"),720);
+                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
             }
             if (guardian && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"),1200);
+                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -137,6 +139,8 @@ namespace wdfeerMod
                 player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
+            if (arcaneStrike && Main.rand.Next(100) < 15)
+                player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
 
             if (hunterMuni && crit)
                 new ProcChance(mod.BuffType("SlashProc"), 30, 360).Proc(target);
@@ -183,8 +187,10 @@ namespace wdfeerMod
                 player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
+            if (arcaneStrike && Main.rand.Next(100) < 15)
+                player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
             if (acceleration && crit && !proj.melee && Main.rand.Next(100) < 30)
-                player.AddBuff(mod.BuffType("ArcaneAccelerationBuff"),540);
+                player.AddBuff(mod.BuffType("ArcaneAccelerationBuff"), 540);
         }
         public Vector2 offsetP;
         public float speedXP;

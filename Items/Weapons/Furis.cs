@@ -39,14 +39,14 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Megashark, 1);
+            recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.TinBar, 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Megashark, 1);
+            recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.CopperBar, 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

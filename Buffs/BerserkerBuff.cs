@@ -23,7 +23,7 @@ namespace wdfeerMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeSpeed *= 1 + (0.07f * player.GetModPlayer<wdfeerPlayer>().BerserkerProcs);
+            player.meleeSpeed += (0.07f * player.GetModPlayer<wdfeerPlayer>().BerserkerProcs);
             Main.buffTexture[Type] = textures[player.GetModPlayer<wdfeerPlayer>().BerserkerProcs - 1];
         }
 

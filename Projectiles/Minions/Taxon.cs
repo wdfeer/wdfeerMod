@@ -154,7 +154,7 @@ namespace wdfeerMod.Projectiles.Minions
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 800f)
+                if (distanceFromTarget > 800f || !Collision.CanHitLine(projectile.Center, 1, 1, targetCenter, 1, 1))
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;
@@ -163,7 +163,7 @@ namespace wdfeerMod.Projectiles.Minions
                     projectile.velocity = (projectile.velocity * (inertia - 1) + direction) / inertia;
                 }
 
-                if (distanceFromTarget < 1000f && attackTimer <= 0)
+                if (distanceFromTarget < 1000f && attackTimer <= 0 && Collision.CanHitLine(projectile.Center, 1, 1, targetCenter, 1, 1))
                 {
                     Main.PlaySound(SoundID.Item12.WithVolume(0.33f), projectile.position);
 

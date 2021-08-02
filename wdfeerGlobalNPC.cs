@@ -122,10 +122,13 @@ namespace wdfeerMod
                     procs[i].Update();
         }
         public int[] martianTypes = { NPCID.MartianDrone, NPCID.MartianEngineer, NPCID.MartianSaucerCore, NPCID.MartianTurret, NPCID.MartianOfficer, NPCID.MartianWalker };
+        public int[] goblins = { NPCID.GoblinArcher, NPCID.GoblinSorcerer, NPCID.GoblinWarrior, NPCID.GoblinThief, NPCID.GoblinSummoner };
         public override void NPCLoot(NPC npc)
         {
             if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
+            else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
 
             if (npc.boss && Main.expertMode && Main.rand.Next(100) < 10)
             {

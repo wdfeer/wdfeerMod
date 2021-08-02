@@ -1,4 +1,6 @@
 using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,24 +9,25 @@ namespace wdfeerMod.Items.Accessories
 {
     // Here we add our accessories, note that they inherit from ExclusiveAccessory, and not ModItem
 
-    public class HunterMunitions : ExclusiveAccessory
+    public class ArcaneStrike : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("30% Chance to proc Slash on Critical Hits\n+50% Proc duration on True Melee hits");
+            Tooltip.SetDefault("15% On hit for +18% Melee Speed for 18s\nMay drop from any boss in Expert Mode");
         }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            // Not calling base.SetDefaults() will override everything
-            // Here we inherit all the properties from our abstract item and just change the rarity            
-            item.rare = 2;
+            item.rare = -12;
+            item.width = 32;
+            item.height = 32;
         }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().hunterMuni = true;
+            player.GetModPlayer<wdfeerPlayer>().arcaneStrike = true;
         }
     }
 }
