@@ -132,7 +132,7 @@ namespace wdfeerMod
 
             if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
             {
-                var rand = Main.rand.Next(4);
+                var rand = Main.rand.Next(5);
                 switch (rand)
                 {
                     case 0:
@@ -149,6 +149,9 @@ namespace wdfeerMod
                         break;
                     case 4:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneEnergize>());
+                        break;
+                    case 5:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcanePulse>());
                         break;
                     default:
                         break;

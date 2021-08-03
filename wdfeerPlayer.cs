@@ -22,6 +22,7 @@ namespace wdfeerMod
         public bool hypeThrusters;
         public bool arcaneStrike;
         public bool arcaneEnergize;
+        public bool arcanePulse;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -52,6 +53,7 @@ namespace wdfeerMod
             hypeThrusters = false;
             arcaneStrike = false;
             arcaneEnergize = false;
+            arcanePulse = false;
 
             electroMult = 1;
 
@@ -259,7 +261,19 @@ namespace wdfeerMod
                         {
                             this.player.statMana += 100;
                             this.player.ManaEffect(100);
-                            Main.PlaySound(94,Main.item[j].Center);
+                            Main.PlaySound(SoundID.MenuTick);
+                        }
+
+                        Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized = true;
+                    }
+                    else if ((Main.item[j].type == 58 || Main.item[j].type == 1734 || Main.item[j].type == 1867) && arcanePulse && !Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
+                    {
+                        if (Main.rand.Next(100) < 60)
+                        {
+                            this.player.statLife += 40;
+                            this.player.HealEffect(40);
+                            this.player.AddBuff(mod.BuffType("ArcanePulseBuff"), 900);
+                            Main.PlaySound(SoundID.MenuTick);
                         }
 
                         Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized = true;
