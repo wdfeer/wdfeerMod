@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace wdfeerMod
 {
@@ -20,6 +21,7 @@ namespace wdfeerMod
         public bool guardian;
         public bool acceleration;
         public bool hypeThrusters;
+        public bool quickThink;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;
@@ -51,6 +53,7 @@ namespace wdfeerMod
             guardian = false;
             acceleration = false;
             hypeThrusters = false;
+            quickThink = false;
             arcaneStrike = false;
             arcaneEnergize = false;
             arcanePulse = false;
@@ -117,6 +120,19 @@ namespace wdfeerMod
             {
                 player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
+        }
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if (quickThink && !player.HasBuff(BuffID.ManaSickness))
+            {
+                if (player.statMana > damage * 8)
+                {
+                    player.statMana -= (int)(damage * 8);
+                    return false;
+                }
+                else player.statMana = 0;                                
+            }
+            return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {

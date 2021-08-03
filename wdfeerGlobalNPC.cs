@@ -157,7 +157,8 @@ namespace wdfeerMod
                         break;
                 }
             }
-
+            if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 10)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
         }
     }
 }
