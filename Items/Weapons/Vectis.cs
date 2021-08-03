@@ -29,7 +29,7 @@ namespace wdfeerMod.Items.Weapons
             item.UseSound = SoundID.Item40; // The sound that this item plays when used.
             item.autoReuse = false; // if you can hold click to automatically use it again
             item.shootSpeed = 48f; // the speed of the projectile (measured in pixels per frame)
-            item.shoot = ProjectileID.BulletHighVelocity;
+            item.shoot = 10;
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
 
@@ -60,6 +60,7 @@ namespace wdfeerMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            proj.extraUpdates = 1;
             proj.penetrate = 2;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

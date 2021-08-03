@@ -14,10 +14,10 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 41; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 24; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 0;
             item.magic = true; // sets the damage type to ranged
-            item.mana = 4;
+            item.mana = 5;
             item.width = 95; // hitbox width of the item
             item.height = 15; // hitbox height of the item
             item.scale = 1f;
@@ -39,9 +39,23 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bone, 16);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
+            ModRecipe recipe = new ModRecipe(mod);          
+            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
+            recipe.AddIngredient(ItemID.Emerald, 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);          
+            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
+            recipe.AddIngredient(ItemID.Ruby, 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);          
+            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
+            recipe.AddIngredient(ItemID.Diamond, 3);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

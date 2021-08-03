@@ -14,7 +14,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 210; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 200; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 26;
             item.ranged = true; // sets the damage type to ranged
             item.width = 63; // hitbox width of the item
@@ -23,13 +23,13 @@ namespace wdfeerMod.Items.Weapons
             item.useAnimation = 40; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 9; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
+            item.knockBack = 8; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = Item.buyPrice(gold: 12); // how much the item sells for (measured in copper)
             item.rare = 8; // the color that the item's name will be in-game
             item.UseSound = SoundID.Item40; // The sound that this item plays when used.
             item.autoReuse = false; // if you can hold click to automatically use it again
             item.shootSpeed = 48f; // the speed of the projectile (measured in pixels per frame)
-            item.shoot = ProjectileID.BulletHighVelocity;
+            item.shoot = 10;
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
         public override Vector2? HoldoutOffset()
@@ -52,6 +52,7 @@ namespace wdfeerMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 8));
+            proj.extraUpdates = 2;
             proj.penetrate = 2;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

@@ -13,7 +13,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 24; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 22; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 26;
             item.ranged = true; // sets the damage type to ranged
             item.width = 48; // hitbox width of the item
@@ -33,16 +33,7 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShadowScale, 12);
-            recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
-            recipe.SetResult(this); // Set the result to this item (ExampleSword)
-            recipe.AddRecipe(); // When your done, add the recipe
-
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.TissueSample, 12);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)

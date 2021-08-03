@@ -11,6 +11,7 @@ namespace wdfeerMod.Buffs
             Description.SetDefault("Cannot trigger Arcane Pulse");
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
+            Main.debuff[Type] = true;
         }
     }
 }

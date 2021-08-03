@@ -38,15 +38,20 @@ namespace wdfeerMod.Projectiles
         {
             proj = projectile;
         }
+        public Action onTileCollide = () => {};
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
+            onTileCollide();
+
             if (glaxionVandal)
             {
                 Explode(64);
                 projectile.damage = projectile.damage * 2 / 3;
-                return false;
             }
+            
+            if (!exploding)
             return base.OnTileCollide(projectile, oldVelocity);
+            else return false;
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
