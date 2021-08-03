@@ -121,10 +121,18 @@ namespace wdfeerMod
                 for (int i = 0; i < procCounter; i++)
                     procs[i].Update();
         }
+        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().synthDeconstruct && projectile.minion)
+                heartDropChance = 15;
+        }
         public int[] martianTypes = { NPCID.MartianDrone, NPCID.MartianEngineer, NPCID.MartianSaucerCore, NPCID.MartianTurret, NPCID.MartianOfficer, NPCID.MartianWalker };
         public int[] goblins = { NPCID.GoblinArcher, NPCID.GoblinSorcerer, NPCID.GoblinWarrior, NPCID.GoblinThief, NPCID.GoblinSummoner };
+        public int heartDropChance = 0; //Percent
         public override void NPCLoot(NPC npc)
         {
+            if (npc.SpawnedFromStatue) return;
+
             if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
@@ -157,8 +165,12 @@ namespace wdfeerMod
                         break;
                 }
             }
+
             if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 10)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+
+            if (Main.rand.Next(100) < heartDropChance)
+                Item.NewItem(npc.getRect(), ItemID.Heart);
         }
     }
 }

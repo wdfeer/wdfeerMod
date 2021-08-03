@@ -30,7 +30,7 @@ namespace wdfeerMod.Projectiles.Minions
             projectile.width = 15;
             projectile.height = 32;
             projectile.scale = 1f;
-            // Makes the minion go through tiles freely
+            projectile.light = 0;
             projectile.tileCollide = false;
 
             // These below are needed for a minion weapon

@@ -22,6 +22,7 @@ namespace wdfeerMod
         public bool acceleration;
         public bool hypeThrusters;
         public bool quickThink;
+        public bool synthDeconstruct;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;
@@ -54,13 +55,12 @@ namespace wdfeerMod
             acceleration = false;
             hypeThrusters = false;
             quickThink = false;
+            synthDeconstruct = false;
             arcaneStrike = false;
             arcaneEnergize = false;
             arcanePulse = false;
 
             electroMult = 1;
-
-            procChances = new List<ProcChance>();
 
             slashProc = false;
         }
