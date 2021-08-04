@@ -5,29 +5,28 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class RaktaDarkDagger : wdfeerWeapon
+    public class Karyst : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Inflicts Confused and replenishes mana on hit\nSpare mana will increase the damage\nMana Sickness reduces mana gain by 60%");
+            Tooltip.SetDefault("A heavy throwing dagger that inflicts poison\n+10% Movement Speed while held");
         }
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.crit = 8;
-            item.magic = true;
-            item.mana = 2;
+            item.damage = 29;
+            item.crit = 6;
+            item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.width = 11;
-            item.height = 48;
-            item.useTime = 24;
-            item.useAnimation = 24;
+            item.width = 32;
+            item.height = 32;
+            item.useTime = 57;
+            item.useAnimation = 57;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = 750000;
+            item.knockBack = 7;
+            item.value = Item.buyPrice(); 
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.RaktaDarkDaggerProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.KarystProj>();
             item.autoReuse = true;
             item.shootSpeed = 16f;
         }
@@ -35,9 +34,9 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MagicDagger, 1);
-            recipe.AddIngredient(ItemID.SoulofNight, 16);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddRecipeGroup("IronBar",8);
+            recipe.AddIngredient(ItemID.Stinger, 4);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -46,6 +45,10 @@ namespace wdfeerMod.Items.Weapons
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
 
             return false;
+        }
+        public override void HoldItem(Player player)
+        {
+            player.moveSpeed += 0.11f;
         }
     }
 }

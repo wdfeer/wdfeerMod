@@ -14,14 +14,14 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 42; // The damage your item deals
+            item.damage = 40; // The damage your item deals
             item.melee = true; // Whether your item is part of the melee class
             item.width = 58; // The item texture's width
             item.height = 58; // The item texture's height
-            item.useTime = 60; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
-            item.useAnimation = 60; // The time span of the using animation of the weapon, suggest setting it the same as useTime.
+            item.useTime = 48; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
+            item.useAnimation = 48; // The time span of the using animation of the weapon, suggest setting it the same as useTime.
             item.knockBack = 9; // The force of knockback of the weapon. Maximum is 20
-            item.value = Item.buyPrice(silver: 75); // The value of the weapon in copper coins
+            item.value = Item.buyPrice(silver: 180); // The value of the weapon in copper coins
             item.rare = ItemRarityID.Orange; // The rarity of the weapon, from -1 to 13. You can also use ItemRarityID.TheColorRarity
             item.UseSound = SoundID.Item1; // The sound when the weapon is being used
             item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
@@ -33,9 +33,9 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
-            recipe.AddRecipeGroup("IronBar", 12);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
+            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe           
+            recipe.AddIngredient(ItemID.Muramasa);
+            recipe.AddIngredient(ItemID.MeteoriteBar,8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
