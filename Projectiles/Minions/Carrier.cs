@@ -154,7 +154,7 @@ namespace wdfeerMod.Projectiles.Minions
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 320f)
+                if (distanceFromTarget > 320f || !Collision.CanHitLine(projectile.Center, 1, 1, targetCenter, 1, 1))
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
                     Vector2 direction = targetCenter - projectile.Center;

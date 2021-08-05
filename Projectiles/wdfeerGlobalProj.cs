@@ -60,6 +60,7 @@ namespace wdfeerMod.Projectiles
             if (crit) damage = Convert.ToInt32(critMult * damage);
 
             if (modPl.hunterMuni && crit) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
+            if (modPl.internalBleed) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
             procChances.AddRange(modPl.procChances);
             foreach (var proc in procChances)
             {

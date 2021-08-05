@@ -23,6 +23,7 @@ namespace wdfeerMod
         public bool hypeThrusters;
         public bool quickThink;
         public bool synthDeconstruct;
+        public bool internalBleed;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;
@@ -30,6 +31,7 @@ namespace wdfeerMod
         private int berserkerProcs;
         public float electroMult = 1;
         public List<ProcChance> procChances = new List<ProcChance>();
+        public List<ProcChance> tempProcChances = new List<ProcChance>();
         public bool slashProc;
         public int slashProcs;
         public int arcaSciscoStacks
@@ -56,6 +58,7 @@ namespace wdfeerMod
             hypeThrusters = false;
             quickThink = false;
             synthDeconstruct = false;
+            internalBleed = true;
             arcaneStrike = false;
             arcaneEnergize = false;
             arcanePulse = false;
@@ -130,7 +133,7 @@ namespace wdfeerMod
                     player.statMana -= (int)(damage * 8);
                     return false;
                 }
-                else player.statMana = 0;                                
+                else player.statMana = 0;
             }
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
@@ -163,7 +166,10 @@ namespace wdfeerMod
                 player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
 
             if (hunterMuni && crit)
-                new ProcChance(mod.BuffType("SlashProc"), 30, 360).Proc(target);
+                tempProcChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 360));
+            if (internalBleed)
+                tempProcChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
+            #region Procs
             foreach (var proc in procChances)
             {
                 if (proc.Proc(target))
@@ -181,8 +187,26 @@ namespace wdfeerMod
                     }
                 }
             }
+            foreach (var proc in tempProcChances)
+            {
+                if (proc.Proc(target))
+                {
+                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    {
+                        int slashDamage = damage / 5;
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
+                    }
+                    else if (proc.buffID == BuffID.Electrified)
+                    {
+                        int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                        electroDamage = (int)(electroDamage * electroMult);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
+                    }
+                }
+            }
+            tempProcChances = new List<ProcChance>();
+            #endregion
         }
-
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
