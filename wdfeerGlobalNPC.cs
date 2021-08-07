@@ -144,7 +144,11 @@ namespace wdfeerMod
 
             if (npc.type == NPCID.DemonEye && Main.rand.NextFloat(100) < 0.75f)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
-            if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
+            else if (npc.type == NPCID.BigMimicCorruption && Main.rand.Next(100) < 20)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+            else if (npc.type == NPCID.BigMimicCrimson && Main.rand.Next(100) < 20)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+            else if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());

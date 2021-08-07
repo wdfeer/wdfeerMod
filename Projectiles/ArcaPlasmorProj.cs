@@ -27,10 +27,13 @@ namespace wdfeerMod.Projectiles
         public override void AI()
         {
             if (projectile.timeLeft >= 40) tenet = true;
-            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
-            dust.scale = 0.75f;
-            projectile.alpha = 256 - projectile.timeLeft * (tenet ? 3 : 4);
-            projectile.light = projectile.timeLeft * 0.01f;
+            for (int i = 0; i < (tenet ? 2 : 1); i++)
+            {
+                var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
+                dust.scale = 0.75f;
+                projectile.alpha = 256 - projectile.timeLeft * (tenet ? 3 : 4);
+                projectile.light = projectile.timeLeft * 0.01f;
+            }
         }
         bool hitATile = false;
         public override bool OnTileCollide(Vector2 oldVelocity)

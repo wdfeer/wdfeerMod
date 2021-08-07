@@ -24,6 +24,7 @@ namespace wdfeerMod
         public bool quickThink;
         public bool synthDeconstruct;
         public bool internalBleed;
+        public bool argonScope;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;
@@ -58,7 +59,8 @@ namespace wdfeerMod
             hypeThrusters = false;
             quickThink = false;
             synthDeconstruct = false;
-            internalBleed = true;
+            internalBleed = false;
+            argonScope = false;
             arcaneStrike = false;
             arcaneEnergize = false;
             arcanePulse = false;
@@ -237,6 +239,8 @@ namespace wdfeerMod
                 player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
                 BerserkerProcs++;
             }
+            if (argonScope && (Vector2.Normalize(target.velocity) + Vector2.Normalize(proj.velocity)).Length() < 0.4f)
+                player.AddBuff(mod.BuffType("ArgonScopeBuff"),541);
             if (arcaneStrike && Main.rand.Next(100) < 15)
                 player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
             if (acceleration && crit && !proj.melee && Main.rand.Next(100) < 30)
