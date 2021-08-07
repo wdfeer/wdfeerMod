@@ -14,7 +14,7 @@ namespace wdfeerMod.Projectiles
             projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             projectile.height = 32;
             projectile.width = 32;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 240;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;

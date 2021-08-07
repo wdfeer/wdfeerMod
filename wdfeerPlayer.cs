@@ -64,6 +64,7 @@ namespace wdfeerMod
             arcanePulse = false;
 
             electroMult = 1;
+            procChances = new List<ProcChance>();
 
             slashProc = false;
         }
@@ -106,6 +107,8 @@ namespace wdfeerMod
             {
                 player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
+
+            if (npc.HasBuff(BuffID.Weak)) damage = (int)(damage * (npc.boss ? 0.88f : 0.8f));
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
@@ -123,6 +126,9 @@ namespace wdfeerMod
             {
                 player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
+
+            var npc = Main.npc[proj.owner];
+            if (npc.HasBuff(BuffID.Weak)) damage = (int)(damage * (npc.boss ? 0.88f : 0.8f));
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {

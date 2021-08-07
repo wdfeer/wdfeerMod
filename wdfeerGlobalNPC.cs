@@ -80,7 +80,6 @@ namespace wdfeerMod
 
             }
         }
-
         public override void AI(NPC npc)
         {
             if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
@@ -117,6 +116,16 @@ namespace wdfeerMod
                     dust.noGravity = true;
                 }
             }
+            if (npc.HasBuff(BuffID.Weak))
+            {
+                for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
+                {
+                    int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 1, 0f, 0f, 67, default(Color), 0.35f);
+                    var dust = Main.dust[dustIndex];
+                    dust.velocity *= 0.2f;
+                    dust.noGravity = true;
+                }
+            }
             if (npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc")))
                 for (int i = 0; i < procCounter; i++)
                     procs[i].Update();
@@ -133,6 +142,8 @@ namespace wdfeerMod
         {
             if (npc.SpawnedFromStatue) return;
 
+            if (npc.type == NPCID.DemonEye && Main.rand.NextFloat(100) < 0.75f)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
             if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
@@ -168,6 +179,8 @@ namespace wdfeerMod
 
             if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 10)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+            else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
 
             if (Main.rand.Next(100) < heartDropChance)
                 Item.NewItem(npc.getRect(), ItemID.Heart);
