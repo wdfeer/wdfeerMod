@@ -24,6 +24,9 @@ namespace wdfeerMod.Projectiles
             projectile.maxPenetrate = 1;
             projectile.timeLeft = 44;
             projectile.hide = true;
+
+            projectile.localNPCHitCooldown = -1;
+            projectile.usesLocalNPCImmunity = true;
         }
         public override void AI()
         {

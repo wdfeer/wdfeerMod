@@ -148,10 +148,19 @@ namespace wdfeerMod
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
             else if (npc.type == NPCID.BigMimicCrimson && Main.rand.Next(100) < 20)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+            else if (npc.type == NPCID.FireImp && Main.rand.Next(100) < 5)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
             else if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
+            else if (npc.type == NPCID.QueenBee && Main.rand.Next(100) < 33)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
+            else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
+            else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+
 
             if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
             {
@@ -180,11 +189,6 @@ namespace wdfeerMod
                         break;
                 }
             }
-
-            if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 10)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
-            else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
 
             if (Main.rand.Next(100) < heartDropChance)
                 Item.NewItem(npc.getRect(), ItemID.Heart);

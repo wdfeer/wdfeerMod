@@ -12,16 +12,8 @@ namespace wdfeerMod.Items
         public bool energized = false;
         public override void SetDefaults(Item item)
         {
+            base.SetDefaults(item);
             if (item.type == ItemID.Grenade) item.ammo = item.type;
-        }
-        public override float UseTimeMultiplier(Item item, Player player)
-        {
-            if (!item.melee && player.HasBuff(mod.BuffType("ArcaneAccelerationBuff")))
-            {
-                return 1.15f;
-            }
-
-            return base.UseTimeMultiplier(item, player);
         }
         public override void VerticalWingSpeeds(Item item, Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {

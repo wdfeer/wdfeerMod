@@ -45,6 +45,8 @@ namespace wdfeerMod
             }
         }
         public int ArcaSciscoStacks = 0;
+        public int penetrate = 0; //Extra projectile penetration
+        public float FireRateMult = 1;
         public override void ResetEffects()
         {
             vitalS = false;
@@ -66,6 +68,8 @@ namespace wdfeerMod
             arcanePulse = false;
 
             electroMult = 1;
+            penetrate = 0;
+            FireRateMult = 1;
             procChances = new List<ProcChance>();
 
             slashProc = false;
@@ -114,6 +118,8 @@ namespace wdfeerMod
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
+
+
             if (aviator)
             {
                 player.UpdateTouchingTiles();
@@ -240,11 +246,17 @@ namespace wdfeerMod
                 BerserkerProcs++;
             }
             if (argonScope && (Vector2.Normalize(target.velocity) + Vector2.Normalize(proj.velocity)).Length() < 0.4f)
-                player.AddBuff(mod.BuffType("ArgonScopeBuff"),541);
+                player.AddBuff(mod.BuffType("ArgonScopeBuff"), 541);
             if (arcaneStrike && Main.rand.Next(100) < 15)
                 player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
             if (acceleration && crit && !proj.melee && Main.rand.Next(100) < 30)
                 player.AddBuff(mod.BuffType("ArcaneAccelerationBuff"), 540);
+        }
+        public override float UseTimeMultiplier(Item item)
+        {
+            if (!item.melee)
+                return FireRateMult;
+            return base.UseTimeMultiplier(item);
         }
         public Vector2 offsetP;
         public float speedXP;
@@ -290,7 +302,6 @@ namespace wdfeerMod
                 }
             }
             #endregion   
-
             GrabItems();
         }
 

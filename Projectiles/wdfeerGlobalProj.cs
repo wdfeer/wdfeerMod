@@ -34,11 +34,13 @@ namespace wdfeerMod.Projectiles
         public bool exploding = false;
         bool impaled => impaledNPC != null && impaledNPC.active;
         NPC impaledNPC;
+        public bool extraPenetrationApplied = false;
         public override void SetDefaults(Projectile projectile)
         {
             proj = projectile;
+            base.SetDefaults(projectile);
         }
-        public Action onTileCollide = () => {};
+        public Action onTileCollide = () => { };
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
             onTileCollide();
@@ -48,15 +50,24 @@ namespace wdfeerMod.Projectiles
                 Explode(64);
                 projectile.damage = projectile.damage * 2 / 3;
             }
-            
+
             if (!exploding)
-            return base.OnTileCollide(projectile, oldVelocity);
+                return base.OnTileCollide(projectile, oldVelocity);
             else return false;
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             wdfeerPlayer modPl = Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>();
-
+            if (projectile.penetrate >= 0 && !extraPenetrationApplied)
+            {
+                projectile.penetrate += modPl.penetrate;
+                extraPenetrationApplied = true;
+                if (!projectile.usesLocalNPCImmunity || !projectile.usesIDStaticNPCImmunity)
+                {
+                    projectile.usesLocalNPCImmunity = true;
+                    projectile.localNPCHitCooldown = projectile.velocity.Length() * (projectile.extraUpdates+1) > 16f ? 3 : 6;
+                }
+            }
             if (crit) damage = Convert.ToInt32(critMult * damage);
 
             if (modPl.hunterMuni && crit) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
@@ -117,10 +128,6 @@ namespace wdfeerMod.Projectiles
         public override void Kill(Projectile projectile, int timeLeft)
         {
             kill(projectile, timeLeft);
-            if (glaxionVandal && timeLeft <= 0)
-            {
-
-            }
         }
         public Action ai = () => { };
         public override void AI(Projectile projectile)

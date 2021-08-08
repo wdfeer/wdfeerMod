@@ -12,5 +12,10 @@ namespace wdfeerMod.Buffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
         }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.GetModPlayer<wdfeerPlayer>().FireRateMult += 0.15f;
+        }
     }
 }
