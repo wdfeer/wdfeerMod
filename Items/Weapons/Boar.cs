@@ -19,7 +19,7 @@ namespace wdfeerMod.Items.Weapons
             item.ranged = true; // sets the damage type to ranged
             item.width = 40; // hitbox width of the item
             item.height = 17; // hitbox height of the item
-            item.scale = 1.1f;
+            item.scale = 1.2f;
             item.useTime = 16; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 16; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
