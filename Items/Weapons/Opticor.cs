@@ -54,6 +54,7 @@ namespace wdfeerMod.Items.Weapons
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            proj.timeLeft = (int)(146 + 54 / Main.player[item.owner].GetModPlayer<wdfeerPlayer>().FireRateMult);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.25f;
             globalProj.baseVelocity = velocity;

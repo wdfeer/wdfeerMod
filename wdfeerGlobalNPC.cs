@@ -161,7 +161,18 @@ namespace wdfeerMod
             else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
 
-
+            if (npc.rarity > 0 && npc.friendly)
+            {
+                var rand = Main.rand.Next(0);
+                switch (rand)
+                {
+                    case 0:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.VileAcceleration>());
+                        break;
+                    default:
+                        break;
+                }
+            }
             if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
             {
                 var rand = Main.rand.Next(5);
