@@ -161,21 +161,25 @@ namespace wdfeerMod
             else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
 
-            if (npc.rarity > 0 && npc.friendly)
+            if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 20)
             {
-                var rand = Main.rand.Next(0);
+                var rand = Main.rand.Next(3);
                 switch (rand)
                 {
                     case 0:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.VileAcceleration>());
                         break;
-                    default:
+                    case 1:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.CriticalDelay>());
+                        break;
+                    case 2:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HollowPoint>());
                         break;
                 }
             }
             if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
             {
-                var rand = Main.rand.Next(5);
+                var rand = Main.rand.Next(6);
                 switch (rand)
                 {
                     case 0:
@@ -195,8 +199,6 @@ namespace wdfeerMod
                         break;
                     case 5:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcanePulse>());
-                        break;
-                    default:
                         break;
                 }
             }

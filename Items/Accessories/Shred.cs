@@ -22,7 +22,7 @@ namespace wdfeerMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().FireRateMult += 0.1f;
+            player.GetModPlayer<wdfeerPlayer>().fireRateMult += 0.1f;
             player.GetModPlayer<wdfeerPlayer>().penetrate += 1;
         }
     }

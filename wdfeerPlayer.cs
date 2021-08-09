@@ -11,7 +11,6 @@ namespace wdfeerMod
 {
     public class wdfeerPlayer : ModPlayer
     {
-        public bool vitalS;
         public bool condOv;
         public bool aviator;
         public bool corrProj;
@@ -46,10 +45,10 @@ namespace wdfeerMod
         }
         public int ArcaSciscoStacks = 0;
         public int penetrate = 0; //Extra projectile penetration
-        public float FireRateMult = 1;
+        public float fireRateMult = 1;
+        public float critDmgMult = 1;
         public override void ResetEffects()
         {
-            vitalS = false;
             condOv = false;
             aviator = false;
             corrProj = false;
@@ -69,7 +68,8 @@ namespace wdfeerMod
 
             electroMult = 1;
             penetrate = 0;
-            FireRateMult = 1;
+            fireRateMult = 1;
+            critDmgMult = 1;
             procChances = new List<ProcChance>();
 
             slashProc = false;
@@ -102,7 +102,7 @@ namespace wdfeerMod
             if (aviator)
             {
                 player.UpdateTouchingTiles();
-                if (!player.TouchedTiles.Any()) damage = Convert.ToInt32(damage * 0.75f);
+                if (!player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
             }
 
             if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
@@ -123,7 +123,7 @@ namespace wdfeerMod
             if (aviator)
             {
                 player.UpdateTouchingTiles();
-                if (!player.TouchedTiles.Any()) damage = Convert.ToInt32(damage * 0.75f);
+                if (!player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
             }
 
             if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
@@ -153,7 +153,7 @@ namespace wdfeerMod
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
+            damage = crit ? (int)(damage * critDmgMult) : damage;
 
             if (condOv)
             {
@@ -164,12 +164,12 @@ namespace wdfeerMod
                 }
                 float dmg = damage;
                 dmg = dmg * (1 + buffs / 10);
-                damage = Convert.ToInt32(dmg);
+                damage = (int)(dmg);
             }
             if (corrProj)
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
-                damage += Convert.ToInt32(target.defense * defMult * 0.18f);
+                damage += (int)(target.defense * defMult * 0.18f);
             }
             if (berserker && crit)
             {
@@ -223,7 +223,7 @@ namespace wdfeerMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = vitalS && crit ? Convert.ToInt32(damage * 1.25f) : damage;
+            damage = crit ? (int)(damage * critDmgMult) : damage;
             if (condOv)
             {
                 float buffs = 0;
@@ -233,12 +233,12 @@ namespace wdfeerMod
                 }
                 float dmg = damage;
                 dmg = dmg * (1 + buffs / 10);
-                damage = Convert.ToInt32(dmg);
+                damage = (int)(dmg);
             }
             if (corrProj)
             {
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
-                damage += Convert.ToInt32(target.defense * defMult * 0.18f);
+                damage += (int)(target.defense * defMult * 0.18f);
             }
             if (berserker && proj.melee && crit)
             {
@@ -255,7 +255,7 @@ namespace wdfeerMod
         public override float UseTimeMultiplier(Item item)
         {
             if (!item.melee)
-                return FireRateMult;
+                return fireRateMult;
             return base.UseTimeMultiplier(item);
         }
         public Vector2 offsetP;
