@@ -15,7 +15,7 @@ namespace wdfeerMod.Items.Weapons
             {
                 Vector2 spawnOffset = new Vector2(speedX, speedY);
                 spawnOffset.Normalize();
-                spawnOffset *= item.width;
+                spawnOffset *= offset;
                 position += spawnOffset;
             }
 
@@ -40,7 +40,7 @@ namespace wdfeerMod.Items.Weapons
             if (sound != null) Main.PlaySound(sound, position);
 
             Vector2 spread = new Vector2(speedY, -speedX);
-            var proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, Main.LocalPlayer.cHead);
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, Main.LocalPlayer.cHead);
             return Main.projectile[proj];
         }
     }

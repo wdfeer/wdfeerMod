@@ -302,10 +302,10 @@ namespace wdfeerMod
                 }
             }
             #endregion   
-            GrabItems();
+            if (arcaneEnergize || arcanePulse) GrabItems();
         }
 
-        private void GrabItems() // Needed for the Arcane Energize
+        private void GrabItems() // Needed for the Arcane Energize and Pulse
         {
             for (int j = 0; j < 400; j++)
             {

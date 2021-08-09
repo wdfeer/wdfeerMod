@@ -38,7 +38,6 @@ namespace wdfeerMod.Projectiles
         public override void SetDefaults(Projectile projectile)
         {
             proj = projectile;
-            base.SetDefaults(projectile);
         }
         public Action onTileCollide = () => { };
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
