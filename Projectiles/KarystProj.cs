@@ -15,6 +15,9 @@ namespace wdfeerMod.Projectiles
             projectile.width = 32;
             projectile.penetrate = 2;
             projectile.friendly = true;
+
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 12;
         }
         public override void AI()
         {

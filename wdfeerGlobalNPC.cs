@@ -161,9 +161,9 @@ namespace wdfeerMod
             else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
 
-            if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 20)
+            if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 33)
             {
-                var rand = Main.rand.Next(3);
+                var rand = Main.rand.Next(4);
                 switch (rand)
                 {
                     case 0:
@@ -174,6 +174,9 @@ namespace wdfeerMod
                         break;
                     case 2:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HollowPoint>());
+                        break;
+                    case 3:
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HeavyCaliber>());
                         break;
                 }
             }
