@@ -40,7 +40,7 @@ namespace wdfeerMod.Items.Weapons
             if (sound != null) Main.PlaySound(sound, position);
 
             Vector2 spread = new Vector2(speedY, -speedX);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, Main.LocalPlayer.cHead);
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, item.owner);
             return Main.projectile[proj];
         }
     }
