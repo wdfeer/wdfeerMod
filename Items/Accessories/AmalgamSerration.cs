@@ -18,6 +18,7 @@ namespace wdfeerMod.Items.Accessories
         {
             base.SetDefaults();
             item.rare = 5;
+            item.value = Item.buyPrice(gold: 8);
         }
 
         public override void AddRecipes()
@@ -31,7 +32,6 @@ namespace wdfeerMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.magicDamageMult += 0.1f;

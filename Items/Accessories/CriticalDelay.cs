@@ -18,6 +18,7 @@ namespace wdfeerMod.Items.Accessories
         {
             base.SetDefaults();        
             item.rare = 4;
+            item.value = Item.buyPrice(gold: 2);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

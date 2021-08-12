@@ -17,7 +17,7 @@ namespace wdfeerMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 6;
+            item.damage = 8;
             item.knockBack = 4f;
             item.mana = 10;
             item.width = 18;

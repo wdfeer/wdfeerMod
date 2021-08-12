@@ -20,6 +20,7 @@ namespace wdfeerMod.Items.Accessories
             // Not calling base.SetDefaults() will override everything
             // Here we inherit all the properties from our abstract item and just change the rarity            
             item.rare = 2;
+            item.value = Item.buyPrice(gold: 1);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

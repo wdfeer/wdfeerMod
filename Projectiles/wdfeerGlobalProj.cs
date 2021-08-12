@@ -13,7 +13,6 @@ namespace wdfeerMod.Projectiles
         public Projectile proj;
         public float critMult = 1.0f;
         public List<ProcChance> procChances = new List<ProcChance>();
-        public bool glaxionVandal = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
         public Vector2 v2;
@@ -43,13 +42,6 @@ namespace wdfeerMod.Projectiles
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
             onTileCollide();
-
-            if (glaxionVandal)
-            {
-                Explode(64);
-                projectile.damage = projectile.damage * 2 / 3;
-            }
-
             if (!exploding)
                 return base.OnTileCollide(projectile, oldVelocity);
             else return false;
@@ -61,7 +53,7 @@ namespace wdfeerMod.Projectiles
             {
                 projectile.penetrate += modPl.penetrate;
                 extraPenetrationApplied = true;
-                if (!projectile.usesLocalNPCImmunity || !projectile.usesIDStaticNPCImmunity)
+                if (!projectile.usesLocalNPCImmunity && !projectile.usesIDStaticNPCImmunity)
                 {
                     projectile.usesLocalNPCImmunity = true;
                     projectile.localNPCHitCooldown = projectile.velocity.Length() * (projectile.extraUpdates+1) > 16f ? 3 : 6;
@@ -100,10 +92,10 @@ namespace wdfeerMod.Projectiles
                 }
             }
         }
-        public Action<Projectile, NPC> onHit = (Projectile proj, NPC target) => { };
+        public Action<NPC> onHit = (NPC target) => { };
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
-            onHit(projectile, target);
+            onHit(target);
             base.OnHitNPC(projectile, target, damage, knockback, crit);
         }
         public Func<NPC, bool?> canHitNPC = (NPC target) => { return null; };

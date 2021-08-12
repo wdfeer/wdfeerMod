@@ -22,6 +22,7 @@ namespace wdfeerMod.Items.Accessories
             item.rare = -12;
             item.width = 32;
             item.height = 32;
+            item.value = Item.buyPrice(gold: 4);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

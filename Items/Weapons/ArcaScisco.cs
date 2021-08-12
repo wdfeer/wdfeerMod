@@ -52,10 +52,10 @@ namespace wdfeerMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.onHit = (Projectile projectile, NPC target) =>
+            globalProj.onHit = (NPC target) =>
             {
-                Main.player[projectile.owner].AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
-                Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().arcaSciscoStacks++;
+                Main.player[proj.owner].AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
+                Main.player[proj.owner].GetModPlayer<wdfeerPlayer>().arcaSciscoStacks++;
             };
             globalProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"),5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
 

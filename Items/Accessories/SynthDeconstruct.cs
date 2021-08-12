@@ -22,6 +22,7 @@ namespace wdfeerMod.Items.Accessories
             item.rare = 2;
             item.width = 32;
             item.height = 32;
+            item.value = Item.buyPrice(silver: 50);
         }
 
         public override void AddRecipes()

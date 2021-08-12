@@ -54,7 +54,7 @@ namespace wdfeerMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.onHit = (Projectile projectile, NPC target) =>
+            globalProj.onHit = (NPC target) =>
             {
                 if (Main.rand.Next(0, 100) < 30)
                 {

@@ -48,7 +48,12 @@ namespace wdfeerMod.Items.Weapons
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.onHit = (Projectile proj, NPC target) =>
+            gProj.onTileCollide = () =>
+            {
+                gProj.Explode(64);
+                projectile.damage = projectile.damage * 2 / 3;
+            };
+            gProj.onHit = (NPC target) =>
             {
                 if (Main.rand.Next(0, 100) < 34)
                 {
@@ -59,7 +64,7 @@ namespace wdfeerMod.Items.Weapons
                 gProj.hitNPCs[gProj.hits] = target;
                 gProj.hits++;
                 gProj.Explode(128);
-                proj.damage /= 2;
+                projectile.damage /= 2;
             };
             gProj.canHitNPC = (NPC target) =>
             {
@@ -77,8 +82,6 @@ namespace wdfeerMod.Items.Weapons
                         dust.velocity *= 0.75f;
                     }
             };
-            gProj.glaxionVandal = true;
-
 
             return false;
         }

@@ -20,6 +20,7 @@ namespace wdfeerMod.Items.Accessories
             // Not calling base.SetDefaults() will override everything
             // Here we inherit all the properties from our abstract item and just change the rarity            
             item.rare = 5;
+            item.value = Item.buyPrice(gold: 4);
         }
 
         public override void AddRecipes()

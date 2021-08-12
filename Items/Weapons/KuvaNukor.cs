@@ -51,7 +51,7 @@ namespace wdfeerMod.Items.Weapons
             proj.modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             gProj.critMult = 2.5f;
-            gProj.onHit = (Projectile projectile, NPC target) =>
+            gProj.onHit = (NPC target) =>
             {
                 gProj.hitNPCs[gProj.hits] = target;
                 gProj.hits++;

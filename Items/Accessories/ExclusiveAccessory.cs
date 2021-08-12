@@ -15,10 +15,9 @@ namespace wdfeerMod.Items.Accessories
             item.width = 64;
             item.height = 64;
             item.accessory = true;
-            item.value = Item.sellPrice(gold: 15);
+            item.value = Item.sellPrice(gold: 1);
             item.rare = ItemRarityID.Green;
         }
-
         public override bool CanEquipAccessory(Player player, int slot)
         {
             // To prevent the accessory from being equipped, we need to return false if there is one already in another slot

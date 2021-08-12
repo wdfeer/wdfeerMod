@@ -43,7 +43,7 @@ namespace wdfeerMod
                 ArcaSciscoStacks = value;
             }
         }
-        public int ArcaSciscoStacks = 0;
+        int ArcaSciscoStacks = 0;
         public float spreadMult;
         public int penetrate = 0; //Extra projectile penetration
         public float fireRateMult = 1;

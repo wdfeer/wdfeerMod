@@ -18,6 +18,7 @@ namespace wdfeerMod.Items.Accessories
         {
             base.SetDefaults();
             item.rare = 7;
+            item.value = Item.buyPrice(gold: 15);
         }
 
         public override void AddRecipes()

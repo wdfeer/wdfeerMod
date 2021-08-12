@@ -63,7 +63,7 @@ namespace wdfeerMod.Items.Weapons
                 proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(180);
                 proj.damage /= 3;
             };
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onHit = (Projectile p, NPC victim) => proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onTileCollide();
+            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onHit = (NPC victim) => proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onTileCollide();
             proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().kill = (Projectile p, int timeLeft) =>
             {
                 if (p.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().exploding)
