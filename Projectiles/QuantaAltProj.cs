@@ -30,7 +30,7 @@ namespace wdfeerMod.Projectiles
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile p = Main.projectile[i];
-                    if (p.active && (p.type == mod.ProjectileType("QuantaProj") || (p.type == projectile.type && p != projectile)) && Rectangle.Intersect(projectile.getRect(), p.getRect()) != Rectangle.Empty)
+                    if (p.active && (p.type == mod.ProjectileType("QuantaProj") || (p.type == projectile.type && p != projectile && p.GetGlobalProjectile<wdfeerGlobalProj>().exploding)) && Rectangle.Intersect(projectile.getRect(), p.getRect()) != Rectangle.Empty)
                     {
                         gProj.Explode(300);
                         projectile.damage = (int)(projectile.damage * 1.2f);
