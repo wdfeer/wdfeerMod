@@ -13,11 +13,11 @@ namespace wdfeerMod.Projectiles
         public override void SetDefaults()
         {
             globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.magic = true;
             projectile.friendly = true;
-            projectile.extraUpdates = 100;
+            projectile.extraUpdates = 1;
             projectile.timeLeft = 60;
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
@@ -27,6 +27,7 @@ namespace wdfeerMod.Projectiles
         {
             int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 131, 0f, 0f, 80, default(Color), 0.8f);
             var dust = Main.dust[dustIndex];
+            dust.velocity *= 0.2f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

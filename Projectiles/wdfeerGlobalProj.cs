@@ -103,17 +103,20 @@ namespace wdfeerMod.Projectiles
         {
             return canHitNPC(target);
         }
-        public void Explode(int radius)
+        public void Explode(int radius, Action action = null)
         {
             if (exploding) return; else exploding = true;
             proj.width = radius;
             proj.height = radius;
+            proj.scale = 1f;
             proj.tileCollide = false;
             proj.velocity *= 0;
             proj.alpha = 255;
             proj.timeLeft = 3;
             proj.penetrate = -1;
             proj.Center = proj.position;
+
+            if (action != null) action();
         }
         public Action<Projectile, int> kill = (Projectile proj, int timeLeft) => { };
         public override void Kill(Projectile projectile, int timeLeft)
