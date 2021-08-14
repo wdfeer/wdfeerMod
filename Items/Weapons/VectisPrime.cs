@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Has to reload after every second shot\nShots penetrate an enemy");
+            Tooltip.SetDefault("Shoots a high-velocity bullet that penetrates through an enemy\nHas to reload after every second shot");
         }
         public override void SetDefaults()
         {
@@ -73,9 +73,12 @@ namespace wdfeerMod.Items.Weapons
             sound.Play();
             shots++;
 
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            var proj = ShootWith(position, speedX, speedY, ProjectileID.SniperBullet, damage, knockBack, offset: item.width);
             proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 8));
-            proj.extraUpdates = 2;
+            proj.ranged = true;
+            proj.friendly = true;
+            proj.hostile = false;
+            proj.extraUpdates = 6;
             proj.penetrate = 2;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

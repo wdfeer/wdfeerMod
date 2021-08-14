@@ -6,69 +6,60 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Gorgon : wdfeerWeapon
+    public class GorgonWraith : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Takes a while to spool up, shoots rapidly but inaccurately\n-25% Critical Damage\n40% Chance not to consume ammo");
+            Tooltip.SetDefault("Shoots rapidly but inaccurately\n-5% Critical Damage\n60% Chance not to consume ammo");
         }
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.crit = 13;
+            item.damage = 7;
+            item.crit = 11;
             item.ranged = true;
-            item.width = 50;
-            item.height = 19;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.width = 17;
+            item.height = 49;
+            item.useTime = 19;
+            item.useAnimation = 19;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
-            item.knockBack = 1;
-            item.value = Item.buyPrice(gold: 3);
+            item.knockBack = 3;
+            item.value = Item.buyPrice(gold: 6);
             item.rare = 3;
-            item.UseSound = SoundID.Item11.WithVolume(0.75f);
+            item.UseSound = SoundID.Item11.WithVolume(0.7f);
             item.autoReuse = true;
             item.shoot = 10;
-            item.shootSpeed = 14f;
+            item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override bool ConsumeAmmo(Player player)
         {
-            if (Main.rand.Next(0, 100) <= 40) return false;
+            if (Main.rand.Next(0, 100) <= 60) return false;
             return base.ConsumeAmmo(player);
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Minishark);
-            recipe.AddIngredient(ItemID.JungleSpores,9);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
             timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
-            if (item.useTime > 6)
+            if (item.useTime > 5)
             {
-                item.useTime -= 2;
-                item.useAnimation -= 2;
-                if (item.useTime < 6)
+                item.useTime -= 3;
+                item.useAnimation -= 3;
+                if (item.useTime < 5)
                 {
-                    item.useTime = 6;
-                    item.useAnimation = 6;
+                    item.useTime = 5;
+                    item.useAnimation = 5;
                 }
             }
-            else if (timeSinceLastShot > 14)
+            else if (timeSinceLastShot > 17)
             {
                 item.useTime += timeSinceLastShot / 3;
                 item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > 22)
+                if (item.useTime > 19)
                 {
-                    item.useTime = 22;
-                    item.useAnimation = 22;
+                    item.useTime = 19;
+                    item.useAnimation = 19;
                 }
             }
             lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
@@ -77,9 +68,9 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 40 ? 0.03f : 0.08f), 52);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 40 ? 0.02f : 0.07f), 52);
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.critMult = 0.75f;
+            gProj.critMult = 0.95f;
             return false;
         }
     }

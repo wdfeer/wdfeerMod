@@ -149,10 +149,12 @@ namespace wdfeerMod
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
             else if (npc.type == NPCID.FireImp && Main.rand.Next(100) < 5)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
-            else if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
+            else if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 3)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
             else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 2)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
+            else if (npc.type == NPCID.BrainofCthulhu && Main.rand.Next(100) < 33)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
             else if (npc.type == NPCID.QueenBee && Main.rand.Next(100) < 33)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
             else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)

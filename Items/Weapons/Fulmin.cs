@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Fulmin : ModItem
+    public class Fulmin : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -35,15 +35,14 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.Feather, 8);
-            recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
+            recipe.AddTile(TileID.Anvils); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack);
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.2f;
             globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 16));

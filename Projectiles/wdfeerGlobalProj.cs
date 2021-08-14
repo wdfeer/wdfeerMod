@@ -56,7 +56,7 @@ namespace wdfeerMod.Projectiles
                 if (!projectile.usesLocalNPCImmunity && !projectile.usesIDStaticNPCImmunity)
                 {
                     projectile.usesLocalNPCImmunity = true;
-                    projectile.localNPCHitCooldown = projectile.velocity.Length() * (projectile.extraUpdates+1) > 16f ? 3 : 6;
+                    projectile.localNPCHitCooldown = projectile.velocity.Length() * (projectile.extraUpdates + 1) > 16f ? 3 : 6;
                 }
             }
             if (crit) damage = Convert.ToInt32(critMult * damage);
@@ -127,11 +127,13 @@ namespace wdfeerMod.Projectiles
         public override void AI(Projectile projectile)
         {
             ai();
-            if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2);
+            if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2) + impaleOffset;
         }
-        public void Impale(NPC target)
+        Vector2 impaleOffset = Vector2.Zero;
+        public void Impale(NPC target, float xOffset = 0, float yOffset = 0)
         {
             impaledNPC = target;
+            impaleOffset = new Vector2(xOffset, yOffset);
         }
     }
 }

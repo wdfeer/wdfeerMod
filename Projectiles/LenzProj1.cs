@@ -45,9 +45,13 @@ namespace wdfeerMod.Projectiles
         {
             if (timeLeft <= 0 && globalProj.exploding)
             {
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("LenzProj2"), projectile.damage, projectile.knockBack, projectile.owner);
+                var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("LenzProj2"), projectile.damage, projectile.knockBack, projectile.owner)];
                 if (hitNpc != null && hitNpc.active)
-                    Main.projectile[proj].GetGlobalProjectile<wdfeerGlobalProj>().Impale(hitNpc);
+                {
+                    Vector2 offset = projectile.Center - hitNpc.Center;
+
+                    proj.GetGlobalProjectile<wdfeerGlobalProj>().Impale(hitNpc, offset.X, offset.Y);
+                }
                 for (int i = 0; i < 45; i++)
                 {
                     int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1.2f);
