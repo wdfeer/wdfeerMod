@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wdfeerMod.Items.Weapons
 {
@@ -27,7 +27,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = ItemRarityID.Green; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(0.7f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
@@ -37,22 +36,26 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("IronBar",12);
+            recipe.AddRecipeGroup("IronBar", 12);
             recipe.AddIngredient(ItemID.PlatinumBar, 6);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("IronBar",16);
+            recipe.AddRecipeGroup("IronBar", 16);
             recipe.AddIngredient(ItemID.SilverBar, 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/BoarPrimeSound").CreateInstance();
+            sound.Volume = 0.5f;
+            sound.Pitch += Main.rand.NextFloat(-0.1f,0.2f);
+            sound.Play();
             for (int i = 0; i < 4; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.12f, item.width);

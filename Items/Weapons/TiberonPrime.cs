@@ -92,8 +92,14 @@ namespace wdfeerMod.Items.Weapons
             }
             return base.CanUseItem(player);
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/TiberonPrimeSound").CreateInstance();
+            sound.Volume = 0.16f;
+            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
+            sound.Play();
+
             int bursts = -1;
             int interval = 0;
             if (Mode == 1)
@@ -101,7 +107,7 @@ namespace wdfeerMod.Items.Weapons
                 bursts = 3;
                 interval = item.useTime / 5;
             }
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, SoundID.Item11, bursts, interval);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, bursts: bursts, burstInterval: interval);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();

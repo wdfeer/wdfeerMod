@@ -26,7 +26,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 2;
             item.value = Item.buyPrice(gold: 5);
             item.rare = 9;
-            item.UseSound = SoundID.Item75.WithVolume(0.3f);
             item.autoReuse = true;
             item.shoot = ProjectileID.MartianWalkerLaser;
             item.shootSpeed = 16f;
@@ -75,8 +74,14 @@ namespace wdfeerMod.Items.Weapons
 
             return base.CanUseItem(player);
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/SupraVandalSound").CreateInstance();
+            sound.Volume = 0.5f;
+            sound.Pitch += Main.rand.NextFloat(0f, 0.2f);
+            sound.Play();
+
             var proj = ShootWith(position, speedX, speedY, ProjectileID.NanoBullet, damage, knockBack, (timeSinceLastShot > 30 ? 0 : 0.065f), 50);
             proj.extraUpdates = 2;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();

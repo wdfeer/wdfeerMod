@@ -28,7 +28,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 7; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = 5; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(1f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ProjectileID.GoldenBullet; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
@@ -44,9 +43,14 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/RedeemerPrimeSound").CreateInstance();
+            sound.Volume = 0.45f;
+            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
+            sound.Play();
+
             for (int i = 0; i < 6; i++)
             {
                 var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.13f, item.width);

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class CorinthPrime : ModItem
+    public class CorinthPrime : wdfeerWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -28,7 +28,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 150000; // how much the item sells for (measured in copper)
             item.rare = 5; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(0.9f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
@@ -71,16 +70,21 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         Projectile altFireProj;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
             {
+                sound = mod.GetSound("Sounds/CorinthPrimeSound").CreateInstance();
+                sound.Volume = 0.4f;
+                sound.Pitch += Main.rand.NextFloat(0, 0.1f);
+                sound.Play();
+
                 Vector2 spread = new Vector2(speedY, -speedX);
                 for (int i = 0; i < 5; i++)
-                {
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.07f, 0.07f), type, damage, knockBack, Main.LocalPlayer.cHead);
-                    var projectile = Main.projectile[proj];
+                {                   
+                    var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, 0.07f, 60);
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 4));
                 }

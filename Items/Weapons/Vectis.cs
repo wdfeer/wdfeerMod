@@ -56,9 +56,14 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddRecipe(); // When your done, add the recipe
 
         }
-
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/VectisPrimeSound2").CreateInstance();
+            sound.Volume = 0.55f;
+            sound.Pitch += Main.rand.NextFloat(0f, 0.2f);
+            sound.Play();
+
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.extraUpdates = 1;
             proj.penetrate = 2;

@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wdfeerMod.Items.Weapons
 {
@@ -24,7 +25,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 3; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 1500; // how much the item sells for (measured in copper)
             item.rare = 5; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item36.WithVolume(0.75f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
@@ -42,9 +42,13 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
         }
-
+        SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/BoarPrimeSound").CreateInstance();
+            sound.Pitch += Main.rand.NextFloat(-0.1f,0.1f);
+            sound.Volume = 0.64f;
+            sound.Play();
             for (int i = 0; i < 5; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.11f, item.width);

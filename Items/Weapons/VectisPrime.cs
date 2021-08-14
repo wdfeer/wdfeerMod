@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shots penetrate an enemy");
+            Tooltip.SetDefault("Has to reload after every second shot\nShots penetrate an enemy");
         }
         public override void SetDefaults()
         {
@@ -47,9 +47,32 @@ namespace wdfeerMod.Items.Weapons
             recipe.AddRecipe();
 
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
+        int shots = 0;
+        string soundPath => shots % 2 == 0 ? "Sounds/VectisPrimeSound1" : "Sounds/VectisPrimeSound2";
+        public override bool CanUseItem(Player player)
+        {
+            if (shots % 2 == 0)
+            {
+                item.useTime = 40;
+                item.useAnimation = 40;
+            }
+            else
+            {
+                item.useTime = 66;
+                item.useAnimation = 66;
+            }
 
+            return base.CanUseItem(player);
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound(soundPath).CreateInstance();
+            sound.Volume = 0.55f;
+            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
+            sound.Play();
+            shots++;
+
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 8));
             proj.extraUpdates = 2;
