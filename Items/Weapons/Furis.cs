@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("40% Chance not to consume ammo\n-50% Damage");
+            Tooltip.SetDefault("40% Chance not to consume ammo");
         }
         public override void SetDefaults()
         {
-            item.damage = 7;
+            item.damage = 3;
             item.ranged = true;
             item.width = 16;
             item.height = 14;
@@ -28,7 +28,7 @@ namespace wdfeerMod.Items.Weapons
             item.UseSound = SoundID.Item11.WithVolume(0.8f);
             item.autoReuse = true;
             item.shoot = 10;
-            item.shootSpeed = 15f;
+            item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override bool ConsumeAmmo(Player player)
@@ -55,8 +55,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            damage /= 2;
-            ShootWith(position, speedX, speedY, type, damage, knockBack, 0.025f);
+            ShootWith(position, speedX, speedY, type, damage, knockBack, 0.05f);
             return false;
         }
     }

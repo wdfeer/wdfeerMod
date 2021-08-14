@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("An automatic shotgun\n-50% Damage");
+            Tooltip.SetDefault("An automatic shotgun");
         }
         public override void SetDefaults()
         {
-            item.damage = 6; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 3; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 6;
             item.ranged = true; // sets the damage type to ranged
             item.width = 40; // hitbox width of the item
@@ -53,7 +53,6 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            damage /= 2;
             for (int i = 0; i < 4; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.12f, item.width);
