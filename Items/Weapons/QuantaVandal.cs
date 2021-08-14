@@ -24,7 +24,7 @@ namespace wdfeerMod.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = Item.buyPrice(gold: 12); // how much the item sells for (measured in copper)
+            item.value = Item.buyPrice(gold: 8); // how much the item sells for (measured in copper)
             item.rare = 9; // the color that the item's name will be in-game
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ProjectileID.MagnetSphereBolt;
@@ -54,7 +54,7 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Quanta"));
             recipe.AddIngredient(mod.ItemType("Fieldron"), 2);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -76,12 +76,10 @@ namespace wdfeerMod.Items.Weapons
                 }
             else
             {
-                var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("QuantaAltProj"), damage * 9, knockBack, offset: 52);
+                var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("QuantaAltProj"), damage * 9, knockBack, offset: 52, sound: SoundID.Item92);
                 var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 globalProj.critMult = 1.2f;
                 globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 45));
-
-                Main.PlaySound(SoundID.Item45, position);
             }
 
             return false;

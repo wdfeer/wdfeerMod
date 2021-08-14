@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("50% Chance not to consume ammo\n-50% Damage");
+            Tooltip.SetDefault("40% Chance not to consume ammo\n-50% Damage");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool ConsumeAmmo(Player player)
         {
-            if (Main.rand.Next(0, 100) <= 50) return false;
+            if (Main.rand.Next(0, 100) <= 40) return false;
             return base.ConsumeAmmo(player);
         }
         public override void AddRecipes()

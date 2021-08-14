@@ -27,6 +27,7 @@ namespace wdfeerMod.Items.Weapons
             item.value = Item.buyPrice(gold: 10);
             item.rare = 4;
             item.shoot = ModContent.ProjectileType<Projectiles.QuassusProj>();
+            item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.shootSpeed = 16f;
         }

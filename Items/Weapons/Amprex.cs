@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Inflicts Electricity debuffs\n+10% Critical Damage\nLimited range but chains between nearby enemies");
+            Tooltip.SetDefault("Inflicts Electricity debuffs\n+10% Critical Damage\nLimited range, chains between nearby enemies");
         }
         public override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 0;
             item.value = Item.buyPrice(gold: 5);
             item.rare = 7;
-            item.UseSound = SoundID.Item91.WithPitchVariance(-0.4f).WithVolume(0.6f);
+            item.UseSound = SoundID.Item93.WithPitchVariance(0f).WithVolume(0.1f);
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Projectiles.AmprexProj>();
             item.shootSpeed = 16f;
@@ -52,7 +52,7 @@ namespace wdfeerMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, offset: 64);
+            var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, offset: 64, sound: SoundID.Item91.WithVolume(0.3f));
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.1f;
             globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 22));

@@ -77,7 +77,6 @@ namespace wdfeerMod
                 npc.lifeRegen -= totalDamage;
                 if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
-
             }
         }
         public override void AI(NPC npc)

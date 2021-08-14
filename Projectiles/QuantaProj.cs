@@ -54,5 +54,9 @@ namespace wdfeerMod.Projectiles
                 }
             }
         }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.PlaySound(SoundID.DD2_LightningBugZap.WithVolume(0.15f));
+        }
     }
 }

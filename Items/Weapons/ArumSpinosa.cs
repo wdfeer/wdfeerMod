@@ -27,6 +27,7 @@ namespace wdfeerMod.Items.Weapons
             item.value = Item.buyPrice(gold: 10); // how much the item sells for (measured in copper)
             item.rare = 5; // the color that the item's name will be in-game
             item.shoot = ModContent.ProjectileType<Projectiles.ArumSpinosaProj>();
+            item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
         }

@@ -21,6 +21,7 @@ namespace wdfeerMod.Projectiles
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.hide = true;
+            projectile.light = 0.4f;
         }
         public override void AI()
         {

@@ -45,7 +45,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 64, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 48, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
             projectile.ranged = false;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;

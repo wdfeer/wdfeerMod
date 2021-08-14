@@ -28,14 +28,10 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 50000; // how much the item sells for (measured in copper)
             item.rare = 7; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item91.WithPitchVariance(-0.2f).WithVolume(1f); // The sound that this item plays when used.
+            item.UseSound = SoundID.Item125.WithPitchVariance(-0.3f).WithVolume(0.9f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ProjectileID.MagnetSphereBolt;
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
-        }
-        public override Vector2? HoldoutOrigin()
-        {
-            return null;
         }
         public override Vector2? HoldoutOffset()
         {
