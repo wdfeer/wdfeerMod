@@ -21,7 +21,7 @@ namespace wdfeerMod.Projectiles
         }
         public override void AI()
         {
-            projectile.velocity += new Microsoft.Xna.Framework.Vector2(0,0.4f);
+            projectile.velocity.Y += 0.4f;
             projectile.rotation += 0.4f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -16,6 +16,7 @@ namespace wdfeerMod.Items
         {
             base.SetDefaults();
             item.rare = 5; // the color that the item's name will be in-game
+            item.value = Item.buyPrice(silver: 10);
             item.maxStack = 99;
             item.width = 32;
             item.height = 32;
