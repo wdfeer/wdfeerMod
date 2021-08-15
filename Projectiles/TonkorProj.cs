@@ -37,7 +37,7 @@ namespace wdfeerMod.Projectiles
         {
             Explode();
 
-            if (target.type == NPCID.EaterofWorldsHead)
+            if (target.type == NPCID.EaterofWorldsHead && !Main.hardMode)
                 damage /= 2;
             if (Main.rand.Next(100) < Main.player[projectile.owner].rangedCrit)
                 crit = true;

@@ -38,13 +38,8 @@ namespace wdfeerMod.Items.Weapons
             gProj.critMult = 1.25f;
             gProj.ai = () =>
             {
-                if (proj.velocity.Y < 10)
-                    proj.velocity.Y += 0.2f;
-            };
-            gProj.onTileCollide = () =>
-            {
-                if (proj.timeLeft > 5)
-                    gProj.Explode(80);
+                if (proj.velocity.Y < 10) 
+                    proj.velocity.Y += 0.1f;
             };
             return false;
         }
