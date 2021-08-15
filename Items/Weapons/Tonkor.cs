@@ -9,7 +9,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Launches grenades that explode on impact without self-damage\nDamage is not affected by used grenade's damage\nDeals halved damage to the Eater of Worlds\n+25% Critical Damage");
+            Tooltip.SetDefault("Launches grenades that explode on impact without self-damage\nDamage is not affected by the used grenade's damage\nDeals halved damage to the Eater of Worlds\n+25% Critical Damage");
         }
         public override void SetDefaults()
         {
