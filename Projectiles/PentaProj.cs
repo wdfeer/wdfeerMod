@@ -10,6 +10,7 @@ namespace wdfeerMod.Projectiles
     {
         wdfeerGlobalProj globalProj;
         bool napalm => Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().napalmGrenades;
+        Vector2 stickPos = new Vector2(0, 0);
         public override void SetDefaults()
         {
             globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
@@ -18,18 +19,24 @@ namespace wdfeerMod.Projectiles
             projectile.width = 17;
             projectile.timeLeft = 1800;
             projectile.penetrate = -1;
+            projectile.light = 0.5f;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 12;
         }
         float rotationSpeed = Main.rand.NextFloat(-1, 1);
         public override void AI()
         {
-            projectile.rotation += rotationSpeed;
-            if (projectile.velocity.Y < 32)
-                projectile.velocity.Y += 0.25f;
+            if (stickPos == Vector2.Zero)
+            {
+                projectile.rotation += rotationSpeed;
+                if (projectile.velocity.Y < 32)
+                    projectile.velocity.Y += 0.25f;
+            }
+            else projectile.position = stickPos;
             if (projectile.timeLeft == 4 || Main.player[projectile.owner].dead) globalProj.Explode(150);
-            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, napalm ? 6 : 31)];
+            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, napalm ? 6 : 206)];
             dust.scale = 0.6f;
+            dust.velocity *= 1.3f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -39,11 +46,8 @@ namespace wdfeerMod.Projectiles
                 return false;
             }
 
-            if (projectile.velocity.Length() > 0.4f)
-                projectile.velocity.X -= Vector2.Normalize(projectile.velocity).X * 0.4f;
-            if (Math.Abs(rotationSpeed) > 0.02f)
-                rotationSpeed -= Math.Sign(rotationSpeed) * 0.01f;
-            else rotationSpeed *= 0.5f;
+            stickPos = Collision.TileCollision(projectile.position, Vector2.Zero, projectile.width, projectile.height);
+            projectile.velocity = Vector2.Zero;
             return false;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -79,7 +83,7 @@ namespace wdfeerMod.Projectiles
 
             if (napalm)
             {
-                var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("PentaNapalmProj"), projectile.damage / 8, 0, projectile.owner)];
+                var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("PentaNapalmProj"), projectile.damage / 6, 0, projectile.owner)];
                 proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances = globalProj.procChances;
             }
 

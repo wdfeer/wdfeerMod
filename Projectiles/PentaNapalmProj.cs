@@ -18,7 +18,7 @@ namespace wdfeerMod.Projectiles
             projectile.timeLeft = 300;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            projectile.localNPCHitCooldown = 24;
         }
         float rotationSpeed = Main.rand.NextFloat(-1, 1);
         public override void AI()

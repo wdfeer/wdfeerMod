@@ -27,7 +27,6 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = Item.buyPrice(gold: 3); // how much the item sells for (measured in copper)
             item.rare = 3; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item12.WithPitchVariance(-0.3f).WithVolume(0.67f); // The sound that this item plays when used.
             item.autoReuse = false; // if you can hold click to automatically use it again
             item.shoot = ProjectileID.MagnetSphereBolt;
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
@@ -48,6 +47,7 @@ namespace wdfeerMod.Items.Weapons
             item.crit = 14 + 5 * stacks;
             return base.CanUseItem(player);
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
@@ -57,7 +57,12 @@ namespace wdfeerMod.Items.Weapons
                 Main.player[proj.owner].AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
                 Main.player[proj.owner].GetModPlayer<wdfeerPlayer>().arcaSciscoStacks++;
             };
-            globalProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"),5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
+            globalProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
+
+            sound = mod.GetSound("Sounds/ArcaSciscoSound").CreateInstance();
+            sound.Volume = 0.5f;
+            sound.Pitch += Main.rand.NextFloat(-0.05f, 0.1f);
+            sound.Play();
 
             return false;
         }

@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Launches grenades that have to be detonated manually\nRight Click to trigger the explosions\nDirect hits deal 40% of the damage\nOnly five grenades can be active at a time\nDamage is not affected by the used grenade's damage");
+            Tooltip.SetDefault("Launches grenades that stick to surfaces and have to be detonated manually\nRight Click to trigger the explosions\nDirect hits deal 40% of the damage\nOnly five grenades can be active at a time\nDamage is not affected by the used grenade's damage");
         }
         public override void SetDefaults()
         {
@@ -68,9 +68,10 @@ namespace wdfeerMod.Items.Weapons
             }
         }
         Projectile[] projs = new Projectile[5] { new Projectile(), new Projectile(), new Projectile(), new Projectile(), new Projectile() };
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("PentaProj"), (int)(item.damage * player.rangedDamageMult), knockBack, offset: 16, sound: SoundID.Item61.WithPitchVariance(-0.2f));
+            var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("PentaProj"), (int)(item.damage * player.rangedDamageMult), knockBack, offset: 16);
             projs[nextProjIndex] = proj;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
@@ -80,6 +81,14 @@ namespace wdfeerMod.Items.Weapons
                 if (proj.velocity.Y < 10)
                     proj.velocity.Y += 0.12f;
             };
+
+            if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
+                sound = mod.GetSound("Sounds/PentaNapalmSound").CreateInstance();
+            else sound = mod.GetSound("Sounds/PentaSound").CreateInstance();
+            sound.Volume = 0.5f;
+            sound.Pitch += Main.rand.NextFloat(0f, 0.1f);
+            sound.Play();
+
             return false;
         }
     }
