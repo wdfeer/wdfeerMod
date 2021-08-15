@@ -9,6 +9,7 @@ namespace wdfeerMod.Projectiles
     internal class PentaProj : ModProjectile
     {
         wdfeerGlobalProj globalProj;
+        bool napalm => Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().napalmGrenades;
         public override void SetDefaults()
         {
             globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
@@ -27,11 +28,17 @@ namespace wdfeerMod.Projectiles
             if (projectile.velocity.Y < 32)
                 projectile.velocity.Y += 0.25f;
             if (projectile.timeLeft == 4 || Main.player[projectile.owner].dead) globalProj.Explode(150);
-            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 31)];
+            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, napalm ? 6 : 31)];
             dust.scale = 0.6f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (napalm)
+            {
+                globalProj.Explode(150);
+                return false;
+            }
+
             if (projectile.velocity.Length() > 0.4f)
                 projectile.velocity.X -= Vector2.Normalize(projectile.velocity).X * 0.4f;
             if (Math.Abs(rotationSpeed) > 0.02f)
@@ -41,26 +48,40 @@ namespace wdfeerMod.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (target.type == NPCID.EaterofWorldsHead && !Main.hardMode)
+                damage /= 2;
+            if (Main.rand.Next(100) < Main.player[projectile.owner].rangedCrit)
+                crit = true;
+
+            if (napalm)
+            {
+                globalProj.Explode(150);
+                return;
+            }
+
             if (!globalProj.exploding)
             {
                 damage = (int)(damage * 0.4f);
                 knockback = projectile.velocity.Length() * 0.1f;
             }
-
-            if (target.type == NPCID.EaterofWorldsHead && !Main.hardMode)
-                damage /= 2;
-            if (Main.rand.Next(100) < Main.player[projectile.owner].rangedCrit)
-                crit = true;
         }
         public override bool? CanHitNPC(NPC target)
         {
+            if (napalm) return null;
+
             if (globalProj.exploding || projectile.velocity.Length() > 5f)
-                return true;
+                return null;
             else return false;
         }
         public override void Kill(int timeLeft)
         {
             if (!globalProj.exploding) return;
+
+            if (napalm)
+            {
+                var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("PentaNapalmProj"), projectile.damage / 8, 0, projectile.owner)];
+                proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances = globalProj.procChances;
+            }
 
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.7f), projectile.position);
             // Smoke Dust spawn

@@ -37,7 +37,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse != 2)
+            if (player.altFunctionUse != 2 && nextProjIndex != -1)
                 return base.CanUseItem(player);
             else if (player.altFunctionUse == 2 && projs.Any<Projectile>(X => X.active && X.type == item.shoot))
             {
@@ -47,6 +47,7 @@ namespace wdfeerMod.Items.Weapons
                     projs[i].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(150);
                     projs[i].localNPCHitCooldown = -1;
                 }
+                projs = new Projectile[5] { new Projectile(), new Projectile(), new Projectile(), new Projectile(), new Projectile() };
 
                 return false;
             }
@@ -56,13 +57,14 @@ namespace wdfeerMod.Items.Weapons
         {
             get
             {
-                if (Array.FindIndex<Projectile>(projs, x => !x.active || x.type != item.shoot) >= 0 && Array.FindIndex<Projectile>(projs, x => !x.active || x.type != item.shoot) < 5) return Array.FindIndex<Projectile>(projs, x => !x.active || x.type != item.shoot);
-                else
+                int n = Array.FindIndex<Projectile>(projs, x => !x.active || x.type != item.shoot);
+                if (n >= 0 && n < 5)
                 {
-                    int firstShotIndex = Array.FindIndex<Projectile>(projs, x => x.timeLeft == projs.Min<Projectile>(X => X.timeLeft));
-                    projs[firstShotIndex].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(150);
-                    return firstShotIndex;
+                    projs[n] = new Projectile();
+                    return n;
                 }
+                else
+                    return -1;
             }
         }
         Projectile[] projs = new Projectile[5] { new Projectile(), new Projectile(), new Projectile(), new Projectile(), new Projectile() };
@@ -71,6 +73,8 @@ namespace wdfeerMod.Items.Weapons
             var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("PentaProj"), (int)(item.damage * player.rangedDamageMult), knockBack, offset: 16, sound: SoundID.Item61.WithPitchVariance(-0.2f));
             projs[nextProjIndex] = proj;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
+                gProj.procChances.Add(new ProcChance(BuffID.OnFire, 30));
             gProj.ai = () =>
             {
                 if (proj.velocity.Y < 10)

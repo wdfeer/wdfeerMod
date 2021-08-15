@@ -24,6 +24,7 @@ namespace wdfeerMod
         public bool synthDeconstruct;
         public bool internalBleed;
         public bool argonScope;
+        public bool napalmGrenades = false;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;

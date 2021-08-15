@@ -60,6 +60,15 @@ namespace wdfeerMod.Projectiles
                 }
             }
             if (crit) damage = Convert.ToInt32(critMult * damage);
+            if (falloffEnabled)
+            {
+                distTraveled = (projectile.position - v2).Length();
+                if (distTraveled > falloffStartDist)
+                {
+                    float mult = 1f - falloffMax * (distTraveled < falloffMaxDist ? (distTraveled - falloffStartDist) / (falloffMaxDist - falloffStartDist) : 1.0f);
+                    damage = Convert.ToInt32(damage * mult);
+                }
+            }
 
             if (modPl.hunterMuni && crit) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
             if (modPl.internalBleed) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
@@ -70,25 +79,15 @@ namespace wdfeerMod.Projectiles
                 {
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
-                        int slashDamage = damage / 5;
+                        int slashDamage = (crit ? 2 : 1) * damage / 5;
                         target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("slash", 300, ref slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
-                        int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
+                        int electroDamage = (crit ? 2 : 1) * damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * modPl.electroMult);
                         target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc("electro", 300, ref electroDamage);
                     }
-                }
-            }
-
-            if (falloffEnabled)
-            {
-                distTraveled = (projectile.position - v2).Length();
-                if (distTraveled > falloffStartDist)
-                {
-                    float mult = 1f - falloffMax * (distTraveled < falloffMaxDist ? (distTraveled - falloffStartDist) / (falloffMaxDist - falloffStartDist) : 1.0f);
-                    damage = Convert.ToInt32(damage * mult);
                 }
             }
         }
