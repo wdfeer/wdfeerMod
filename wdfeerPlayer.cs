@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
@@ -76,6 +77,16 @@ namespace wdfeerMod
             procChances = new List<ProcChance>();
 
             slashProc = false;
+        }
+        public override TagCompound Save()
+        {
+            return new TagCompound {
+                {"napalmGrenades", napalmGrenades}
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            napalmGrenades = tag.GetBool("napalmGrenades");
         }
         public override void UpdateBadLifeRegen()
         {

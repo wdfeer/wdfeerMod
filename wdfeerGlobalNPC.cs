@@ -176,6 +176,8 @@ namespace wdfeerMod
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
             else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+            else if (npc.type == NPCID.SkeletronPrime && Main.rand.Next(100) < 25)
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());
 
             if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 33)
             {

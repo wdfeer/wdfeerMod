@@ -43,7 +43,11 @@ namespace wdfeerMod.Projectiles
                 dust.velocity *= 0.2f;
             }
         }
-        int hits = 0;
+        int hits = 1;
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage /= hits;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.Next(0, 100) <= confusedChance) target.AddBuff(BuffID.Confused, 100);

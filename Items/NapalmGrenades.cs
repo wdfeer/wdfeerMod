@@ -11,7 +11,7 @@ namespace wdfeerMod.Items
         bool napalm => Main.player[item.owner].GetModPlayer<wdfeerPlayer>().napalmGrenades;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Use to make Penta's grenades explode on impact, leaving a damage-dealing AoE for 5 seconds that sets enemies on fire\nUse again to reverse the change");
+            Tooltip.SetDefault("Use to make Penta's and Secura Penta's grenades explode on impact, leaving a damage-dealing AoE for 5 seconds that sets enemies on fire\nUse again to reverse the change");
         }
         public override void SetDefaults()
         {
@@ -21,9 +21,10 @@ namespace wdfeerMod.Items
             item.maxStack = 1;
             item.width = 44;
             item.height = 64;
-            item.scale = 0.5f;
+            item.scale = 0.4f;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
+            item.useTime = 25;
+            item.useAnimation = 25;
         }
         public override void AddRecipes()
         {
@@ -37,7 +38,8 @@ namespace wdfeerMod.Items
         public override bool CanUseItem(Player player)
         {
             player.GetModPlayer<wdfeerPlayer>().napalmGrenades = napalm ? false : true;
-            Main.NewText($"Napalm Grenades {(napalm ? "is" : "is not")} active", Color.Yellow);
+            if (napalm) Main.PlaySound(SoundID.Item20);
+            else Main.PlaySound(SoundID.Item29);
             return base.CanUseItem(player);
         }
     }

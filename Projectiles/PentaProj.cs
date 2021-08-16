@@ -26,11 +26,12 @@ namespace wdfeerMod.Projectiles
         float rotationSpeed = Main.rand.NextFloat(-1, 1);
         public override void AI()
         {
+            if (globalProj.exploding) return;
             if (stickPos == Vector2.Zero)
             {
                 projectile.rotation += rotationSpeed;
                 if (projectile.velocity.Y < 32)
-                    projectile.velocity.Y += 0.25f;
+                    projectile.velocity.Y += 0.35f;
             }
             else projectile.position = stickPos;
             if (projectile.timeLeft == 4 || Main.player[projectile.owner].dead) globalProj.Explode(150);
@@ -46,7 +47,8 @@ namespace wdfeerMod.Projectiles
                 return false;
             }
 
-            stickPos = Collision.TileCollision(projectile.position, Vector2.Zero, projectile.width, projectile.height);
+            stickPos = projectile.position += Vector2.Normalize(oldVelocity) * 2.5f;
+            rotationSpeed = 0;
             projectile.velocity = Vector2.Zero;
             return false;
         }
