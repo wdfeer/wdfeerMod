@@ -271,7 +271,7 @@ namespace wdfeerMod
         }
         public override float UseTimeMultiplier(Item item)
         {
-            if (!item.melee)
+            if (!item.melee && item.type != mod.ItemType("Opticor") && item.type != mod.ItemType("OpticorVandal"))
                 return fireRateMult;
             return base.UseTimeMultiplier(item);
         }

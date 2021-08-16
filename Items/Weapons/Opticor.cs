@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Charges to shoot a devastating beam\n+25% Critical Damage");
+            Tooltip.SetDefault("Charges to shoot a devastating beam\nFire rate cannot be increased\n+25% Critical Damage");
         }
         public override void SetDefaults()
         {
-            item.damage = 700; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 720; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 16;
             item.magic = true; // sets the damage type to ranged
             item.mana = 77;
@@ -49,9 +49,12 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/OpticorSound").CreateInstance();
+            Main.PlaySoundInstance(sound);
+
             Vector2 velocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             wdfeerPlayer modPl = Main.player[item.owner].GetModPlayer<wdfeerPlayer>();

@@ -10,18 +10,18 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Quickly charges to shoot a powerful beam\n+30% Critical Damage");
+            Tooltip.SetDefault("Charges to shoot an annihilating beam\nFire rate cannot be increased\n+30% Critical Damage");
         }
         public override void SetDefaults()
         {
-            item.damage = 600; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 1200; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 20;
             item.magic = true; // sets the damage type to ranged
             item.mana = 42;
             item.width = 48; // hitbox width of the item
             item.height = 16; // hitbox height of the item
-            item.useTime = 48; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 48; // The length of the item's use animation in ticks (60 ticks == 1 second.)
+            item.useTime = 72; // The item's use time in ticks (60 ticks == 1 second.)
+            item.useAnimation = 72; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 20; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
@@ -42,18 +42,20 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/OpticorVandalSound").CreateInstance();
+            Main.PlaySoundInstance(sound);
+
             Vector2 velocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            proj.timeLeft = 128;
+            proj.timeLeft = 170;
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.3f;
             globalProj.baseVelocity = velocity;
             globalProj.v2 = proj.position - Main.LocalPlayer.position;
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/OpticorVandalSound"));
             return false;
         }
     }

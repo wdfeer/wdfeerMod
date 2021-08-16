@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Right Click to shoot 8 bullets in a rapid burst with very low accuraccy\n+40% Critical Damage");
+            Tooltip.SetDefault("Right Click to shoot 8 bullets in a rapid burst with very low accuraccy and lowered damage\n+40% Critical Damage");
         }
         public override void SetDefaults()
         {
@@ -76,6 +76,8 @@ namespace wdfeerMod.Items.Weapons
                 bursts = 8;
                 burstInt = 2;
                 spread = 0.22f;
+
+                damage = (int)(damage * 0.75f);
             }
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, spread, 22, player.altFunctionUse == 2 ? SoundID.Item11 : SoundID.Item41, bursts, burstInt);
             if (player.altFunctionUse != 2)

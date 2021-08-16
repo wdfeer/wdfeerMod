@@ -6,14 +6,14 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Projectiles
 {
-    internal class KarystProj : ModProjectile
+    internal class KarystPrimeProj : ModProjectile
     {
         public override void SetDefaults()
         {
             projectile.melee = true;
             projectile.height = 32;
             projectile.width = 32;
-            projectile.penetrate = 2;
+            projectile.penetrate = 3;
             projectile.friendly = true;
 
             projectile.usesLocalNPCImmunity = true;
@@ -22,8 +22,8 @@ namespace wdfeerMod.Projectiles
         public override void AI()
         {
             if (projectile.velocity.Y < 20)
-                projectile.velocity.Y += 0.4f;
-            projectile.rotation += 0.4f;
+                projectile.velocity.Y += 0.3f;
+            projectile.rotation += 0.36f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -33,7 +33,9 @@ namespace wdfeerMod.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 300);
+            if (Main.rand.NextBool())
+                target.AddBuff(BuffID.Venom, 200);
+            else target.AddBuff(BuffID.Poisoned, 200);
             projectile.velocity *= 0.8f;
         }
     }

@@ -25,6 +25,7 @@ namespace wdfeerMod.Projectiles
             projectile.idStaticNPCHitCooldown = 6;
         }
         bool playedSound = false;
+        
         public override void AI()
         {
             if (projectile.timeLeft >= 95)
@@ -36,7 +37,7 @@ namespace wdfeerMod.Projectiles
 
                 if (projectile.timeLeft == 146 && !playedSound)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/OpticorSound"));
+                    
                     playedSound = true;
                 }
                 if (Main.LocalPlayer.dead) projectile.Kill();

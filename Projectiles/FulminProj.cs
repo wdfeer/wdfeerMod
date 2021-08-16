@@ -12,7 +12,7 @@ namespace wdfeerMod.Projectiles
         {
             projectile.width = 16;
             projectile.height = 16;
-            projectile.alpha = 64;
+            projectile.alpha = 128;
             projectile.friendly = true;
             projectile.penetrate = 6;
             projectile.scale = 1.6f;
@@ -22,9 +22,9 @@ namespace wdfeerMod.Projectiles
         }
         public override void AI()
         {
-            if (projectile.timeLeft <= 8)
+            if (projectile.timeLeft <= 16)
             {
-                projectile.alpha = 512 / projectile.timeLeft;
+                projectile.alpha = 255 - projectile.timeLeft * 8;
             }
             Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 75, default(Color), 0.6f);
         }

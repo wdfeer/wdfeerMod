@@ -28,7 +28,6 @@ namespace wdfeerMod.Items.Weapons
             item.value = 150000; // how much the item sells for (measured in copper)
             item.rare = 4; // the color that the item's name will be in-game
             item.autoReuse = true; // if you can hold click to automatically use it again
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ArcaPlasmorSound");
             item.shoot = ModContent.ProjectileType<Projectiles.ArcaPlasmorProj>();
             item.shootSpeed = 30f; // the speed of the projectile (measured in pixels per frame)
         }
@@ -51,9 +50,13 @@ namespace wdfeerMod.Items.Weapons
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
             recipe.AddRecipe(); // When your done, add the recipe
         }
-
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/ArcaPlasmorSound").CreateInstance();
+            sound.Pitch += Main.rand.NextFloat(0,0.15f);
+            Main.PlaySoundInstance(sound);
+
             Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
             spawnOffset *= item.width;
