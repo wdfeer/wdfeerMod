@@ -37,8 +37,8 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddIngredient(ItemID.Handgun, 1);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
