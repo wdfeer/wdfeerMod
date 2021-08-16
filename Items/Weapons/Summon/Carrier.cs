@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carrier");
-            Tooltip.SetDefault("Summons a Carrier Sentinel to fight and save ammo for you\nOnly one Carrier can be active at a time");
+            Tooltip.SetDefault("Summons a Carrier Sentinel to fight and save ammo for you\nShoots 4 pellets once every second\nCan be affected by fire rate bonuses\nOnly one Carrier can be active at a time");
             ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
             ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }

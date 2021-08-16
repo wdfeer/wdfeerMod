@@ -111,7 +111,7 @@ namespace wdfeerMod
                 else arcaSciscoStacks = 0;
             }
         }
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (aviator)
             {
@@ -119,6 +119,10 @@ namespace wdfeerMod
                 if (!player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
             }
 
+            return true;
+        }
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
             if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
@@ -132,14 +136,6 @@ namespace wdfeerMod
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-
-
-            if (aviator)
-            {
-                player.UpdateTouchingTiles();
-                if (!player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
-            }
-
             if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
@@ -237,6 +233,13 @@ namespace wdfeerMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (proj.minion && ModContent.GetInstance<wdfeerConfig>().minionCrits)
+            {
+                int[] cc = { player.meleeCrit, player.magicCrit, player.rangedCrit };
+                if (Main.rand.Next(100) < cc.Min()) crit = true;
+                else crit = false;
+            }
+
             damage = crit ? (int)(damage * critDmgMult) : damage;
             if (condOv)
             {

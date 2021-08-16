@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wyrm");
-            Tooltip.SetDefault("Summons a Wyrm Sentinel to shoot lasers for you\nPeriodically releases a high-knockback shockwave\nOnly one Wyrm can be active at a time");
+            Tooltip.SetDefault("Summons a Wyrm Sentinel to shoot lasers for you\nPeriodically releases a high-knockback shockwave\nCan be affected by fire rate bonuses\nOnly one Wyrm can be active at a time");
             ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
             ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }

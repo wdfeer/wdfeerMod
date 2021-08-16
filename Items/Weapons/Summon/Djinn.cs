@@ -10,7 +10,7 @@ namespace wdfeerMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Djinn");
-            Tooltip.SetDefault("Summons an infested Djinn Sentinel to shoot toxic darts for you\nUses 3 minion slots\nOnly one Djinn can be active at a time");
+            Tooltip.SetDefault("Summons an infested Djinn Sentinel to shoot toxic darts 3 times per second for you\nCan be affected by fire rate bonuses\nUses 3 minion slots\nOnly one Djinn can be active at a time");
             ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
             ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }

@@ -8,7 +8,7 @@ namespace wdfeerMod.Projectiles.Minions
 {
     public class Carrier : ModProjectile
     {
-        public int attackInterval = 60;
+        public int attackInterval => (int)(60f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {

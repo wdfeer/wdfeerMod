@@ -8,9 +8,9 @@ namespace wdfeerMod.Projectiles.Minions
 {
     public class Wyrm : ModProjectile
     {
-        public int attackInterval = 36;
+        public int attackInterval => (int)(36f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
         public int attackTimer = 0;
-        public int blastInterval = 480;
+        public int blastInterval => (int)(480f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
         public int blastTimer = 0;
         public override void SetStaticDefaults()
         {

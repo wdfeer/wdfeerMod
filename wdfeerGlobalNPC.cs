@@ -173,7 +173,13 @@ namespace wdfeerMod
             else if (npc.type == NPCID.QueenBee && Main.rand.Next(100) < 33)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
             else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
+            {
+                int rand = Main.rand.Next(100);
+                if (rand < 25)
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
+                else if (rand < 60)
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Cestra>());
+            }
             else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
             else if (npc.type == NPCID.SkeletronPrime && Main.rand.Next(100) < 25)

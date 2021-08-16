@@ -8,7 +8,7 @@ namespace wdfeerMod.Projectiles.Minions
 {
     public class Taxon : ModProjectile
     {
-        public int attackInterval = 6;
+        public int attackInterval = 7;
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {
@@ -176,6 +176,7 @@ namespace wdfeerMod.Projectiles.Minions
                     proj.magic = false;
                     proj.minion = true;
                     proj.timeLeft = 120;
+                    proj.penetrate = 1;
                     proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Slow, 100, 4));
 
                     attackTimer = attackInterval;

@@ -8,7 +8,7 @@ namespace wdfeerMod.Projectiles.Minions
 {
     public class Djinn : ModProjectile
     {
-        public int attackInterval = 18;
+        public int attackInterval => (int)(20f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {
