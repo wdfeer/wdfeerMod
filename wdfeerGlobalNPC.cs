@@ -57,6 +57,22 @@ namespace wdfeerMod
                     break;
             }
         }
+        public bool eximus => eximusType != -1;
+        public int eximusType = -1;
+        public override void SetDefaults(NPC npc)
+        {
+            base.SetDefaults(npc);
+            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < 5)
+                eximusType = Main.rand.Next(0, 0);
+            if (eximus)
+            {
+                if (npc.life == npc.lifeMax) npc.life = (int)(npc.lifeMax * 1.25f);
+                npc.lifeMax = (int)(npc.lifeMax * 1.75f);
+                npc.defense = (int)(npc.defense * 1.25f);
+                npc.damage = (int)(npc.damage * 2f);
+                npc.value *= 3f;
+            }
+        }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
@@ -79,8 +95,39 @@ namespace wdfeerMod
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
             }
         }
+        public bool BossAlive()
+        {
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].boss && Main.npc[i].active) return true;
+            }
+            return false;
+        }
         public override void AI(NPC npc)
         {
+            if (eximusType == 0 && !BossAlive())
+            {
+                for (int i = 0; i < Main.player.Length; i++)
+                {
+                    Player player = Main.player[i];
+                    if (!player.active || player.dead || Vector2.Distance(npc.position, player.position) > 400) continue;
+
+                    player.manaRegen = 0;
+                    if (player.statMana > 1 && Main.rand.Next(0, 100) < 32)
+                    {
+                        player.statMana -= 1;
+
+                        Vector2 dist = npc.Center - player.Center;
+                        for (int i1 = 0; i1 < dist.Length() / 10; i1++)
+                        {
+                            var dust = Main.dust[Dust.NewDust(player.Center + dist * Main.rand.NextFloat(0, 1), 1, 1, 88)];
+                            dust.noGravity = true;
+                            dust.velocity *= 0;
+                        }
+                    }
+                }
+            }
+
             if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
             {
                 npc.velocity *= 0f;
