@@ -15,7 +15,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 1; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 3; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 9;
             item.ranged = true; // sets the damage type to ranged
             item.width = 32; // hitbox width of the item
@@ -63,7 +63,6 @@ namespace wdfeerMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.damage = 1;
                 item.useTime = 23;
                 item.useAnimation = 23;
                 item.crit = 23;
@@ -73,7 +72,6 @@ namespace wdfeerMod.Items.Weapons
             }
             else
             {
-                item.damage = 2;
                 item.useTime = 4;
                 item.useAnimation = 4;
                 item.crit = 9;
@@ -99,7 +97,8 @@ namespace wdfeerMod.Items.Weapons
                 if (player.altFunctionUse == 2)
                 {
                     globalProj.critMult = 1.25f;
-                    projectile.damage += 2;
+                    projectile.damage = (int)(projectile.damage * 1.5f);
+                    projectile.knockBack += 2f;
                 }                   
                 else globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 27));
             }

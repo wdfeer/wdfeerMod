@@ -59,11 +59,15 @@ namespace wdfeerMod
         }
         public bool eximus => eximusType != -1;
         public int eximusType = -1;
+        const int arsonTimer = 180;
+        int arsonCooldown = arsonTimer / 2;
+        int ArsonProj = 0;
+        Projectile arsonProj => Main.projectile[ArsonProj];
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < 5)
-                eximusType = Main.rand.Next(0, 0);
+            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && Main.rand.Next(100) < 6)
+                eximusType = Main.rand.Next(0, 2);
             if (eximus)
             {
                 if (npc.life == npc.lifeMax) npc.life = (int)(npc.lifeMax * 1.25f);
@@ -105,28 +109,39 @@ namespace wdfeerMod
         }
         public override void AI(NPC npc)
         {
-            if (eximusType == 0 && !BossAlive())
-            {
-                for (int i = 0; i < Main.player.Length; i++)
+            if (eximus && !BossAlive())
+                switch (eximusType)
                 {
-                    Player player = Main.player[i];
-                    if (!player.active || player.dead || Vector2.Distance(npc.position, player.position) > 400) continue;
-
-                    player.manaRegen = 0;
-                    if (player.statMana > 1 && Main.rand.Next(0, 100) < 32)
-                    {
-                        player.statMana -= 1;
-
-                        Vector2 dist = npc.Center - player.Center;
-                        for (int i1 = 0; i1 < dist.Length() / 10; i1++)
+                    case 0:
+                        if (!npc.HasPlayerTarget) break;
+                        Player player = Main.player[npc.FindClosestPlayer()];
+                        player.manaRegen = 0;
+                        if (player.statMana > 1)
                         {
-                            var dust = Main.dust[Dust.NewDust(player.Center + dist * Main.rand.NextFloat(0, 1), 1, 1, 88)];
-                            dust.noGravity = true;
-                            dust.velocity *= 0;
+                            player.statMana -= 1;
+                            Vector2 dist = npc.Center - player.Center;
+                            for (int i1 = 0; i1 < dist.Length() / 10; i1++)
+                            {
+                                var dust = Main.dust[Dust.NewDust(player.Center + dist * Main.rand.NextFloat(0, 1), 1, 1, 88)];
+                                dust.noGravity = true;
+                                dust.velocity *= 0;
+                            }
                         }
-                    }
+                        break;
+                    case 1:
+                        arsonCooldown--;
+                        if (!npc.HasPlayerTarget) break;
+                        if (arsonCooldown <= 0)
+                        {
+                            arsonCooldown = arsonTimer;
+                            ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 10 : 2, 10f, Owner: npc.whoAmI);
+                            Main.PlaySound(SoundID.Item20, npc.Center);
+                            npc.velocity *= 0.2f;
+                        }
+                        break;
+                    default:
+                        break;
                 }
-            }
 
             if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
             {
