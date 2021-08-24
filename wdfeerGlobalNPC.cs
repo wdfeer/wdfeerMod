@@ -66,7 +66,7 @@ namespace wdfeerMod
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && Main.rand.Next(100) < 6)
+            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < 6)
                 eximusType = Main.rand.Next(0, 2);
             if (eximus)
             {
@@ -115,6 +115,7 @@ namespace wdfeerMod
                     case 0:
                         if (!npc.HasPlayerTarget) break;
                         Player player = Main.player[npc.FindClosestPlayer()];
+                        if (Vector2.Distance(player.position, npc.position) > 800) break;
                         player.manaRegen = 0;
                         if (player.statMana > 1)
                         {

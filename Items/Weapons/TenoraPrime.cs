@@ -6,26 +6,26 @@ using Microsoft.Xna.Framework;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class Tenora : wdfeerWeapon
+    public class TenoraPrime : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots rapidly and precisely after spooling up\nRight Click to shoot a single shot with 6x damage and +50% critical damage\n70% Chance not to consume ammo");
+            Tooltip.SetDefault("Shoots rapidly with +10% critical damage and near-perfect accuraccy after spooling up\nRight Click to shoot a single shot with 7x damage and +50% critical damage\n70% Chance not to consume ammo");
         }
         int baseFireRate = 18;
-        int spooledFireRate => Main.rand.Next(5,7);
+        int spooledFireRate = 5;
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.crit = 24;
+            item.damage = 43;
+            item.crit = 26;
             item.ranged = true;
-            item.width = 56;
-            item.height = 10;
+            item.width = 60;
+            item.height = 16;
             item.useTime = baseFireRate;
             item.useAnimation = baseFireRate;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
-            item.knockBack = 1.9f;
+            item.knockBack = 4f;
             item.value = Item.buyPrice(gold: 5);
             item.rare = 5;
             item.autoReuse = true;
@@ -35,7 +35,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-0.5f, 0.2f);
+            return new Vector2(-0.75f, 0.3f);
         }
         public override bool ConsumeAmmo(Player player)
         {
@@ -45,9 +45,10 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Megashark);
-            recipe.AddIngredient(mod.ItemType("Pandero"), 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(mod.ItemType("Tenora"));
+            recipe.AddIngredient(ItemID.FragmentVortex, 8);
+            recipe.AddIngredient(ItemID.HallowedBar, 15);
+            recipe.AddTile(412);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -58,13 +59,13 @@ namespace wdfeerMod.Items.Weapons
         int lastShotTime = 0;
         int timeSinceLastShot => Main.player[item.owner].GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
         int spooledShots = 1;
-        float spreadMult => 1f / (spooledShots <= 16 ? (float)Math.Sqrt(Math.Sqrt(spooledShots)) : spooledShots / 8);
+        float spreadMult => 1f / (spooledShots <= 16 ? (float)Math.Sqrt(spooledShots) : spooledShots / 4);
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse != 2)
             {
                 item.autoReuse = true;
-                item.crit = 24;
+                item.crit = 26;
                 if (lastShotTime == -1)
                 {
                     item.useTime = baseFireRate;
@@ -99,9 +100,9 @@ namespace wdfeerMod.Items.Weapons
             }
             else
             {
-                item.crit = 30;
-                item.useTime = 44;
-                item.useAnimation = 44;
+                item.crit = 36;
+                item.useTime = 40;
+                item.useAnimation = 40;
                 item.autoReuse = false;
 
                 lastShotTime = -1;
@@ -111,14 +112,19 @@ namespace wdfeerMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (player.altFunctionUse == 2 ? 0 : 0.1f * spreadMult), 57, sound: (player.altFunctionUse == 2 ? SoundID.Item40 : SoundID.Item11));
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (player.altFunctionUse == 2 ? 0 : 0.09f * spreadMult), 57, sound: (player.altFunctionUse == 2 ? SoundID.Item40 : SoundID.Item11));
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             if (player.altFunctionUse == 2)
             {
                 if (proj.penetrate != -1) proj.penetrate += 1;
-                proj.damage *= 6;
-                proj.knockBack *= 3;
+                proj.damage *= 7;
+                proj.knockBack *= 4;
                 gProj.critMult = 1.5f;
+            }
+            else
+            {
+                gProj.critMult = 1.1f;
+                gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 7));
             }
             return false;
         }
