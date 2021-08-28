@@ -69,13 +69,5 @@ namespace wdfeerMod.Projectiles
             if (globalProj.hitNPCs.Contains<NPC>(target)) return false;
             return null;
         }
-        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
-        {
-            if (target == Main.LocalPlayer && damage == 0)
-            {
-                chain = true;
-                confusedChance = 50;
-            }
-        }
     }
 }

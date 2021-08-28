@@ -11,21 +11,22 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+20% Critical Chance, but -10% Fire Rate");
+            Tooltip.SetDefault("+12% (+20% in Hardmode) Critical Chance, but -10% Fire Rate");
         }
 
         public override void SetDefaults()
         {
-            base.SetDefaults();        
+            base.SetDefaults();
             item.rare = 4;
             item.value = Item.buyPrice(gold: 2);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicCrit += 20;
-            player.meleeCrit += 20;
-            player.rangedCrit += 20;
+            int critBoost = Main.hardMode ? 20 : 12;
+            player.magicCrit += critBoost;
+            player.meleeCrit += critBoost;
+            player.rangedCrit += critBoost;
             player.GetModPlayer<wdfeerPlayer>().fireRateMult -= 0.1f;
         }
     }

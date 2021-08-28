@@ -21,7 +21,11 @@ namespace wdfeerMod.Projectiles
         {
             if (projectile.timeLeft == 3) projectile.GetGlobalProjectile<wdfeerGlobalProj>().Explode(240);
 
-            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 53)];
+            for (int i = 0; i < 2; i++)
+            {
+                var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 53, Scale: 0.8f)];
+                dust.noGravity = true;
+            }
         }
         public override void Kill(int timeLeft)
         {
@@ -63,15 +67,6 @@ namespace wdfeerMod.Projectiles
                 Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X - 1.5f;
                 Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y - 1.5f;
             }
-        }
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            if (target == Main.LocalPlayer && damage == 0)
-            {
-                projectile.timeLeft = 3;
-            }
-            else
-                base.OnHitPvp(target, damage, crit);
         }
     }
 }

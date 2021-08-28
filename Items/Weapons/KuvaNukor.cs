@@ -51,7 +51,9 @@ namespace wdfeerMod.Items.Weapons
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var a = 0;
             var b = false;
-            proj.modProjectile.ModifyHitPvp(Main.LocalPlayer, ref a, ref b);
+            Projectiles.NukorProj modProj = proj.modProjectile as Projectiles.NukorProj;
+            modProj.chain = true;
+            modProj.confusedChance = 50;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             gProj.critMult = 2.5f;
             gProj.onHit = (NPC target) =>

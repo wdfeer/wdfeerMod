@@ -11,7 +11,7 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+20% Ranged and Magic damage, but -10% Accuracy");
+            Tooltip.SetDefault("+16% Ranged and Magic damage, but -12% Accuracy");
         }
 
         public override void SetDefaults()
@@ -23,9 +23,9 @@ namespace wdfeerMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamageMult += 0.2f;
-            player.rangedDamageMult += 0.2f;
-            player.GetModPlayer<wdfeerPlayer>().spreadMult += 0.1f;
+            player.magicDamageMult += 0.16f;
+            player.rangedDamageMult += 0.16f;
+            player.GetModPlayer<wdfeerPlayer>().spreadMult += 0.12f;
         }
     }
 }

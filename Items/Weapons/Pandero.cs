@@ -14,7 +14,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 17;
             item.crit = 26;
             item.ranged = true;
             item.width = 30;
@@ -77,7 +77,7 @@ namespace wdfeerMod.Items.Weapons
                 burstInt = 2;
                 spread = 0.22f;
 
-                damage = (int)(damage * 0.75f);
+                damage = (int)(damage * 0.6f);
             }
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, spread, 22, player.altFunctionUse == 2 ? SoundID.Item11 : SoundID.Item41, bursts, burstInt);
             if (player.altFunctionUse != 2)

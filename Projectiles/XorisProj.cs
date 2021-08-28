@@ -68,18 +68,14 @@ namespace wdfeerMod.Projectiles
             }
         }
         bool bigBoom = false;
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public void Explode(bool bigKaboom)
         {
-            if (target == Main.LocalPlayer && damage == 0)
-            {
-                bigBoom = crit;
-                var globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
-                globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 18));
-                globalProj.Explode(bigBoom ? 480 : 320);
-                projectile.idStaticNPCHitCooldown = 4;
-                if (bigBoom) projectile.damage = Convert.ToInt32(projectile.damage * 1.5f);
-            }
-            else base.OnHitPvp(target, damage, crit);
+            bigBoom = bigKaboom;
+            var globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 18));
+            globalProj.Explode(bigBoom ? 480 : 320);
+            projectile.idStaticNPCHitCooldown = 4;
+            if (bigBoom) projectile.damage = Convert.ToInt32(projectile.damage * 1.5f);
         }
     }
 }

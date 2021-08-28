@@ -17,6 +17,7 @@ namespace wdfeerMod.Projectiles
             projectile.width = 140;
             projectile.timeLeft = 300;
             projectile.penetrate = -1;
+            projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 24;
         }

@@ -8,7 +8,6 @@ namespace wdfeerMod.Items.Weapons
 {
     public class CorinthPrime : wdfeerWeapon
     {
-        Random rand = new Random();
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Right Click to fire a manually exploding projectile\n+40% Critical Damage \n4% Slash Proc chance per pellet");
@@ -20,7 +19,6 @@ namespace wdfeerMod.Items.Weapons
             item.ranged = true; // sets the damage type to ranged
             item.width = 64; // hitbox width of the item
             item.height = 19; // hitbox height of the item
-            item.scale = 1f;
             item.useTime = 42; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 42; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
@@ -28,7 +26,7 @@ namespace wdfeerMod.Items.Weapons
             item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 150000; // how much the item sells for (measured in copper)
             item.rare = 5; // the color that the item's name will be in-game
-            item.autoReuse = true; // if you can hold click to automatically use it again
+            item.autoReuse = false; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
@@ -41,15 +39,23 @@ namespace wdfeerMod.Items.Weapons
         {
             return true;
         }
+        public int lastAltShoot;
         public override bool CanUseItem(Player player)
         {
+            item.noUseGraphic = false;
             if (player.altFunctionUse == 2)
             {
                 item.crit = 0;
-                item.useTime = 40;
-                item.useAnimation = 40;
+                item.useTime = 20;
+                item.useAnimation = 20;
                 item.shootSpeed = 12f;
-                item.UseSound = null;
+                if (altFireProj == null || !altFireProj.active)
+                {
+                    if (player.GetModPlayer<wdfeerPlayer>().longTimer - lastAltShoot < 2 * item.useTime * item.GetGlobalItem<wdfeerGlobalItem>().UseTimeMultiplier(item, player))
+                        return false;
+                }
+                else item.noUseGraphic = true;
+
             }
             else
             {
@@ -57,7 +63,6 @@ namespace wdfeerMod.Items.Weapons
                 item.useTime = 42;
                 item.useAnimation = 42;
                 item.shootSpeed = 20f;
-                item.UseSound = SoundID.Item36;
             }
             return base.CanUseItem(player);
         }
@@ -83,8 +88,8 @@ namespace wdfeerMod.Items.Weapons
 
                 Vector2 spread = new Vector2(speedY, -speedX);
                 for (int i = 0; i < 5; i++)
-                {                   
-                    var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, 0.07f, 60);
+                {
+                    var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.07f, 60);
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 4));
                 }
@@ -94,7 +99,7 @@ namespace wdfeerMod.Items.Weapons
                 if (altFireProj == null || altFireProj.modProjectile == null || !altFireProj.active)
                 {
                     Main.PlaySound(SoundID.Item61);
-
+                    lastAltShoot = player.GetModPlayer<wdfeerPlayer>().longTimer;
                     int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 6, knockBack, Main.LocalPlayer.cHead);
                     altFireProj = Main.projectile[proj];
                     altFireProj.timeLeft = 80;
@@ -102,7 +107,7 @@ namespace wdfeerMod.Items.Weapons
                 }
                 else
                 {
-                    altFireProj.modProjectile.OnHitPvp(Main.LocalPlayer, 0, false);
+                    altFireProj.timeLeft = 3;
                 }
             }
             return false;

@@ -11,12 +11,12 @@ namespace wdfeerMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+25% Critical Damage, but -10% Damage");
+            Tooltip.SetDefault("+15% (+25% in Hardmode) critical damage, but -10% total damage");
         }
 
         public override void SetDefaults()
         {
-            base.SetDefaults();        
+            base.SetDefaults();
             item.rare = 4;
             item.width = 32;
             item.height = 32;
@@ -25,8 +25,8 @@ namespace wdfeerMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().critDmgMult += 0.25f;
-            player.GetModPlayer<wdfeerPlayer>().fireRateMult -= 0.1f;
+            player.GetModPlayer<wdfeerPlayer>().critDmgMult += Main.hardMode ? 0.25f : 0.15f;
+            player.allDamageMult -= 0.1f;
         }
     }
 }

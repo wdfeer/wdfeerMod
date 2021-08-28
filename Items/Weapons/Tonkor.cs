@@ -13,9 +13,9 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 41;
+            item.damage = 29;
             item.crit = 21;
-            item.knockBack = 6;
+            item.knockBack = 5.5f;
             item.ranged = true;
             item.noMelee = true;
             item.width = 37;

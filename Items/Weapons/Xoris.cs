@@ -48,9 +48,14 @@ namespace wdfeerMod.Items.Weapons
         {
             if (proj != null && proj.modProjectile != null && proj.active)
             {
-                bool crit = false;
-                if (explosionCount >= 3) { crit = true; explosionCount = 0; }
-                proj.modProjectile.OnHitPvp(Main.LocalPlayer, 0, crit);
+                bool bigBoom = false;
+                if (explosionCount >= 3)
+                {
+                    bigBoom = true;
+                    explosionCount = 0;
+                }
+                Projectiles.XorisProj modProj = proj.modProjectile as Projectiles.XorisProj;
+                modProj.Explode(bigBoom);
                 explosionCount++;
             }
             else
