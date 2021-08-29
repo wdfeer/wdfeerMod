@@ -59,8 +59,8 @@ namespace wdfeerMod.Projectiles
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
             for (int i = 0; i < 50; i++)
             {
-                int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, Scale: 1.2f);
-                Main.dust[dustIndex].velocity *= 1.4f;
+                var dust = Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / 3, 226, Scale: 1.15f);
+                dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * 8;
             }
         }
     }
