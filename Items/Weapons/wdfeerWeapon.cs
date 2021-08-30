@@ -6,6 +6,13 @@ namespace wdfeerMod.Items.Weapons
 {
     public abstract class wdfeerWeapon : ModItem
     {
+        public static Vector2 findOffset(float speedX, float speedY, float offset)
+        {
+            Vector2 spawnOffset = new Vector2(speedX, speedY);
+            spawnOffset.Normalize();
+            spawnOffset *= offset;
+            return spawnOffset;
+        }
         //<summary>
         //Spawns and returns a projectile with extra parameters like spread multiplier and the horizontal offset of projectile's position 
         //</summary>
@@ -13,10 +20,7 @@ namespace wdfeerMod.Items.Weapons
         {
             if (offset != 0)
             {
-                Vector2 spawnOffset = new Vector2(speedX, speedY);
-                spawnOffset.Normalize();
-                spawnOffset *= offset;
-                position += spawnOffset;
+                position += findOffset(speedX, speedY, offset);
             }
 
             if (bursts > 1 && burstInterval > 0)

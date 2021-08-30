@@ -32,7 +32,13 @@ namespace wdfeerMod
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
-        public List<ProcChance> procChances = new List<ProcChance>();
+        public Dictionary<int, ProcChance> procChances = new Dictionary<int, ProcChance>();
+        public void AddProcChance(ProcChance procChance)
+        {
+            if (!procChances.ContainsKey(procChance.buffID))
+                procChances.Add(procChance.buffID, procChance);
+            else procChances[procChance.buffID].chance = ProcChance.AddChance(procChances[procChance.buffID].chance, procChance.chance);
+        }
         public List<ProcChance> tempProcChances = new List<ProcChance>();
         public bool slashProc;
         public int slashProcs;
@@ -74,7 +80,7 @@ namespace wdfeerMod
             penetrate = 0;
             fireRateMult = 1;
             critDmgMult = 1;
-            procChances = new List<ProcChance>();
+            procChances = new Dictionary<int, ProcChance>();
 
             slashProc = false;
         }
@@ -194,8 +200,9 @@ namespace wdfeerMod
             if (internalBleed)
                 tempProcChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
             #region Procs
-            foreach (var proc in procChances)
+            foreach (var procChance in procChances)
             {
+                var proc = procChance.Value;
                 if (proc.Proc(target))
                 {
                     if (proc.buffID == mod.BuffType("SlashProc"))

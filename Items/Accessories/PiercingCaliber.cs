@@ -31,7 +31,7 @@ namespace wdfeerMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().procChances.Add(new ProcChance(BuffID.Weak, 12, 420));
+            player.GetModPlayer<wdfeerPlayer>().AddProcChance(new ProcChance(BuffID.Weak, 12, 420));
         }
     }
 }

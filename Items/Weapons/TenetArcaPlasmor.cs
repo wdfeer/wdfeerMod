@@ -14,7 +14,7 @@ namespace wdfeerMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 797; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 697; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 18;
             item.magic = true; // sets the damage type to ranged
             item.mana = 8;
@@ -51,7 +51,7 @@ namespace wdfeerMod.Items.Weapons
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(31, 34));
+            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(31, 34));
             projectile.timeLeft = 44;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;

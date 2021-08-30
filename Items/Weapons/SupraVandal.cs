@@ -85,7 +85,7 @@ namespace wdfeerMod.Items.Weapons
             var proj = ShootWith(position, speedX, speedY, ProjectileID.NanoBullet, damage, knockBack, (timeSinceLastShot > 20 ? 0 : 0.06f), 48);
             proj.extraUpdates = 3;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.procChances.Add(new ProcChance(BuffID.Weak, 20, 200));
+            gProj.AddProcChance(new ProcChance(BuffID.Weak, 20, 200));
             return false;
         }
     }

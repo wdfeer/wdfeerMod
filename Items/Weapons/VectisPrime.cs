@@ -74,7 +74,7 @@ namespace wdfeerMod.Items.Weapons
             shots++;
 
             var proj = ShootWith(position, speedX, speedY, ProjectileID.SniperBullet, damage, knockBack, offset: item.width);
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 8));
+            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 8));
             proj.ranged = true;
             proj.friendly = true;
             proj.hostile = false;

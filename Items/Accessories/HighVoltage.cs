@@ -36,7 +36,7 @@ namespace wdfeerMod.Items.Accessories
         {
             // Here we add an additional effect
             player.GetModPlayer<wdfeerPlayer>().electroMult += 0.12f;
-            player.GetModPlayer<wdfeerPlayer>().procChances.Add(new ProcChance(BuffID.Electrified, 12));
+            player.GetModPlayer<wdfeerPlayer>().AddProcChance(new ProcChance(BuffID.Electrified, 12));
         }
     }
 }

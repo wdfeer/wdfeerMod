@@ -146,6 +146,7 @@ namespace wdfeerMod
                         break;
                     case 2:
                         arcticCooldown--;
+                        if (!npc.HasPlayerTarget) break;
                         if ((arcticNPC == null || !arcticNPC.active || arcticNPC.type != ModContent.NPCType<NPCs.ArcticEximus>()) && arcticCooldown <= 0)
                         {
                             arcticCooldown = arcticTimer;

@@ -53,14 +53,37 @@ namespace wdfeerMod.Items.Weapons
         int timeSinceLastShot = 60;
         SoundEffectInstance sound;
         int shots = 0;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        Vector2 spawnVelocity;
+        Vector2 spawnPosOffset;
+        float dustSpawnDistance = 1f;
+        public override bool CanUseItem(Player player)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.critMult = 2;
-
             timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
             lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            return base.CanUseItem(player);
+        }
+        public override void UseStyle(Player player)
+        {
+            if (timeSinceLastShot < 12)
+            {
+                for (int i = 0; i < 10 * dustSpawnDistance; i++)
+                {
+                    var dust = Dust.NewDustPerfect(player.position + spawnPosOffset + spawnVelocity * 44 * Main.rand.NextFloat(0, dustSpawnDistance), 162);
+                    dust.scale = 1.2f;
+                }
+            }
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            spawnPosOffset = position + wdfeerWeapon.findOffset(speedX, speedY, item.width + 1) - player.position;
+            spawnVelocity = new Vector2(speedX, speedY);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            globalProj.kill = (Projectile projectile, int timeLeft) =>
+            {
+                dustSpawnDistance = 1 - timeLeft / 44f;
+            };
+            globalProj.critMult = 2;
 
             if (timeSinceLastShot > 12)
             {

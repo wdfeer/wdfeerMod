@@ -51,7 +51,8 @@ namespace wdfeerMod.Items.Weapons
 
             var projectile = ShootWith(position, speedX, speedY, mod.ProjectileType("TenetEnvoyProj"), damage, knockBack, offset: item.width);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            gProj.procChances.Add(new ProcChance(BuffID.Slow, 20));
+            gProj.AddProcChance(new ProcChance(BuffID.Slow, 20));
+            gProj.critMult = 1.3f;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

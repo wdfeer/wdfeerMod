@@ -70,7 +70,7 @@ namespace wdfeerMod.Items.Weapons
                     var proj = ShootWith(pos, velocity.X, velocity.Y, mod.ProjectileType("QuantaProj"), damage, knockBack);
                     var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                     globalProj.critMult = 1.2f;
-                    globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 45));
+                    globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 45));
 
                     Main.PlaySound(SoundID.Item91.WithPitchVariance(0.3f).WithVolume(0.33f), pos);
                 }
@@ -79,7 +79,7 @@ namespace wdfeerMod.Items.Weapons
                 var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("QuantaAltProj"), damage * 9, knockBack, offset: 52, sound: SoundID.Item92);
                 var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 globalProj.critMult = 1.2f;
-                globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 45));
+                globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 45));
             }
 
             return false;

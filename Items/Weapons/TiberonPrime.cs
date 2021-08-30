@@ -112,7 +112,7 @@ namespace wdfeerMod.Items.Weapons
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             if (Mode == 0)
-                gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 9));
+                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 9));
             gProj.critMult = Mode == 0 ? 1.4f : (Mode == 1 ? 1.5f : 1.7f);
 
             return false;

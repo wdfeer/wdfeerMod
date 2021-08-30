@@ -7,6 +7,10 @@ namespace wdfeerMod.Projectiles
 {
     internal class ArsonEximusProj : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arson Eximus");
+        }
         List<Player> hitPlayers = new List<Player>();
         public override void SetDefaults()
         {
@@ -17,17 +21,16 @@ namespace wdfeerMod.Projectiles
             projectile.hide = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.npcProj = true;
             projectile.timeLeft = 180;
         }
-        int sizeIncrease => 6;
+        int sizeIncrease => 5;
         public override void AI()
         {
             Vector2 oldCenter = projectile.Center;
             projectile.width += sizeIncrease;
             projectile.height += sizeIncrease;
             projectile.Center = oldCenter;
-            for (float i = 0; i < projectile.width / 16; i++)
+            for (float i = 0; i < projectile.width / 17; i++)
             {
                 Vector2 pos = projectile.Center + Vector2.Normalize(new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1))) * projectile.width / 2;
                 Dust dust = Dust.NewDustPerfect(pos, 6);

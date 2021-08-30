@@ -55,7 +55,7 @@ namespace wdfeerMod.Items.Weapons
             var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, offset: 64, sound: SoundID.Item91.WithVolume(0.3f));
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.1f;
-            globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 22));
+            globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 22));
 
             return false;
         }

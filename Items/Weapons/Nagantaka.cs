@@ -72,7 +72,7 @@ namespace wdfeerMod.Items.Weapons
             var projectile = ShootWith(position, speedX, speedY, type, player.altFunctionUse != 2 ? damage : (int)(damage * 0.8f), knockBack, spreadMult, 44, SoundID.Item98.WithVolume(0.8f), bursts: (player.altFunctionUse == 2 ? 5 : -1), burstInterval: (player.altFunctionUse == 2 ? item.useTime / 8 : -1));
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.15f;
-            globalProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 32));
+            globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 32));
 
             return false;
         }

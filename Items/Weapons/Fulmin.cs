@@ -49,7 +49,7 @@ namespace wdfeerMod.Items.Weapons
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack);
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             globalProj.critMult = 1.2f;
-            globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 16));
+            globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 16));
 
             return false;
         }

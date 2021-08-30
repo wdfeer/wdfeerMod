@@ -25,7 +25,7 @@ namespace wdfeerMod.Items.Accessories
         {
             // Here we add an additional effect
             player.allDamageMult += 0.09f;
-            player.GetModPlayer<wdfeerPlayer>().procChances.Add(new ProcChance(BuffID.OnFire, 9));
+            player.GetModPlayer<wdfeerPlayer>().AddProcChance(new ProcChance(BuffID.OnFire, 9));
         }
     }
 }

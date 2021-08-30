@@ -30,7 +30,7 @@ namespace wdfeerMod.Projectiles
         }
         public override void AI()
         {
-            for (int num = 0; num < 4; num++)
+            for (int num = 0; num < (chain ? 4 : 3); num++)
             {
                 Vector2 position2 = projectile.position;
                 position2 -= projectile.velocity * ((float)num * 0.25f);
@@ -38,7 +38,7 @@ namespace wdfeerMod.Projectiles
                 Main.dust[num353].position = position2;
                 Main.dust[num353].position.X += projectile.width / 2;
                 Main.dust[num353].position.Y += projectile.height / 2;
-                Main.dust[num353].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                Main.dust[num353].scale = (float)Main.rand.Next(70, 110) * (chain ? 0.015f : 0.01f);
                 Dust dust = Main.dust[num353];
                 dust.velocity *= 0.2f;
             }

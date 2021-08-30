@@ -179,7 +179,7 @@ namespace wdfeerMod.Projectiles.Minions
                     proj.minion = true;
                     proj.timeLeft = 120;
                     proj.GetGlobalProjectile<wdfeerGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
-                    proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Venom, 44));
+                    proj.GetGlobalProjectile<wdfeerGlobalProj>().AddProcChance(new ProcChance(BuffID.Venom, 44));
 
                     attackTimer = attackInterval;
                 }

@@ -12,7 +12,13 @@ namespace wdfeerMod.Projectiles
         public override bool InstancePerEntity => true;
         public Projectile proj;
         public float critMult = 1.0f;
-        public List<ProcChance> procChances = new List<ProcChance>();
+        public Dictionary<int, ProcChance> procChances = new Dictionary<int, ProcChance>();
+        public void AddProcChance(ProcChance procChance)
+        {
+            if (!procChances.ContainsKey(procChance.buffID))
+                procChances.Add(procChance.buffID, procChance);
+            else procChances[procChance.buffID].chance = ProcChance.AddChance(procChances[procChance.buffID].chance, procChance.chance);
+        }
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
         public Vector2 v2;
@@ -70,11 +76,15 @@ namespace wdfeerMod.Projectiles
                 }
             }
 
-            if (modPl.hunterMuni && crit) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
-            if (modPl.internalBleed) procChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
-            procChances.AddRange(modPl.procChances);
-            foreach (var proc in procChances)
+            if (modPl.hunterMuni && crit) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
+            if (modPl.internalBleed) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
+            foreach (var item in modPl.procChances)
             {
+                AddProcChance(item.Value);
+            }
+            foreach (var procChance in procChances)
+            {
+                var proc = procChance.Value;
                 if (proc.Proc(target))
                 {
                     if (proc.buffID == mod.BuffType("SlashProc"))

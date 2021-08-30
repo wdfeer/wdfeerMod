@@ -91,7 +91,7 @@ namespace wdfeerMod.Items.Weapons
                 {
                     var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.07f, 60);
                     projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
-                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 4));
+                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 4));
                 }
             }
             else

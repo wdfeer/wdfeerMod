@@ -52,7 +52,7 @@ namespace wdfeerMod.Items.Weapons
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             gProj.SetFalloff(projectile.position, 500, 1000, 0.86f);
-            gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 28));
+            gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 28));
 
             return false;
         }

@@ -124,7 +124,7 @@ namespace wdfeerMod.Items.Weapons
             else
             {
                 gProj.critMult = 1.1f;
-                gProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 7));
+                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 7));
             }
             return false;
         }

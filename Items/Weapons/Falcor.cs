@@ -1,3 +1,4 @@
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +36,7 @@ namespace wdfeerMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
             recipe.AddIngredient(mod.ItemType("Fieldron"));
-            recipe.AddIngredient(ItemID.ChlorophyteBar,8);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
             // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
             recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
             recipe.SetResult(this); // Set the result to this item (ExampleSword)
@@ -47,15 +48,17 @@ namespace wdfeerMod.Items.Weapons
         {
             if (proj != null && proj.modProjectile != null && proj.active)
             {
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(BuffID.Electrified, 100));
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Find(x => x.buffID == mod.BuffType("SlashProc")).chance = 0;
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(320);
+                var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                gProj.AddProcChance(new ProcChance(BuffID.Electrified, 100));
+                if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
+                    gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
+                gProj.Explode(320);
                 proj.idStaticNPCHitCooldown = 4;
             }
             else
             {
-                proj = ShootWith(position,speedX,speedY,type,damage,knockBack);
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 36));
+                proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
+                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 36));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

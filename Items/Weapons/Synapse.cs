@@ -57,7 +57,7 @@ namespace wdfeerMod.Items.Weapons
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.timeLeft = 60;
             var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            globalProj.procChances.Add(new ProcChance(BuffID.Ichor, 13));
+            globalProj.AddProcChance(new ProcChance(BuffID.Ichor, 13));
 
             return false;
         }

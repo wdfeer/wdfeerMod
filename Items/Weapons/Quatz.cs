@@ -100,7 +100,7 @@ namespace wdfeerMod.Items.Weapons
                     projectile.damage = (int)(projectile.damage * 1.5f);
                     projectile.knockBack += 2f;
                 }                   
-                else globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 27));
+                else globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 27));
             }
 
             return false;

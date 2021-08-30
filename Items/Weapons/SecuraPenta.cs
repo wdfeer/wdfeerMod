@@ -75,7 +75,7 @@ namespace wdfeerMod.Items.Weapons
             projs[nextProjIndex] = proj;
             var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
             if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
-                gProj.procChances.Add(new ProcChance(BuffID.OnFire, 30));
+                gProj.AddProcChance(new ProcChance(BuffID.OnFire, 30));
 
             if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
                 sound = mod.GetSound("Sounds/PentaNapalmSound").CreateInstance();

@@ -57,7 +57,7 @@ namespace wdfeerMod.Items.Weapons
                 Main.player[proj.owner].AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
                 Main.player[proj.owner].GetModPlayer<wdfeerPlayer>().arcaSciscoStacks++;
             };
-            globalProj.procChances.Add(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
+            globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
 
             sound = mod.GetSound("Sounds/ArcaSciscoSound").CreateInstance();
             sound.Volume = 0.5f;

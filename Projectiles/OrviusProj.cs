@@ -70,8 +70,10 @@ namespace wdfeerMod.Projectiles
         {
             if (target == Main.LocalPlayer && damage == 0)
             {
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().procChances.Find(x => x.buffID == mod.BuffType("SlashProc")).chance = 0;
-                projectile.GetGlobalProjectile<wdfeerGlobalProj>().Explode(240);
+                var gProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+                if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
+                    gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
+                gProj.Explode(240);
                 projectile.idStaticNPCHitCooldown = 4;
             }
             else base.OnHitPvp(target, damage, crit);

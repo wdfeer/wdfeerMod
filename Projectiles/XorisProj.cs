@@ -72,7 +72,7 @@ namespace wdfeerMod.Projectiles
         {
             bigBoom = bigKaboom;
             var globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
-            globalProj.procChances.Add(new ProcChance(BuffID.Electrified, 18));
+            globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 18));
             globalProj.Explode(bigBoom ? 480 : 320);
             projectile.idStaticNPCHitCooldown = 4;
             if (bigBoom) projectile.damage = Convert.ToInt32(projectile.damage * 1.5f);
