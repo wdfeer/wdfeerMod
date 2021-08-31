@@ -70,7 +70,7 @@ namespace wdfeerMod
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 8)
+            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 4)
                 eximusType = Main.rand.Next(3);
             if (eximus)
             {
@@ -103,7 +103,7 @@ namespace wdfeerMod
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
             }
         }
-        public bool BossAlive()
+        public static bool BossAlive()
         {
             for (int i = 0; i < Main.maxNPCs; i++)
             {
