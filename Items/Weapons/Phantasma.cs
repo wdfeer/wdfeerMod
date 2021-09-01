@@ -10,11 +10,11 @@ namespace wdfeerMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots a chaining beam\nRight Click to cast a slow, exploding projectile\nHas a 37% chance to confuse enemies\n-25% Critical Damage");
+            Tooltip.SetDefault("Shoots a chaining beam\nRight Click to cast a slow explosive projectile that deals 6x the damage\nHas a 37% chance to confuse enemies\n-25% Critical Damage");
         }
         public override void SetDefaults()
         {
-            item.damage = 54;
+            item.damage = 44;
             item.crit = 0;
             item.magic = true;
             item.width = 40;
@@ -56,7 +56,7 @@ namespace wdfeerMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                damage *= 4;
+                damage *= 6;
                 speedX *= 0.9f;
                 speedY *= 0.9f;
                 type = mod.ProjectileType("PhantasmaProj2");
