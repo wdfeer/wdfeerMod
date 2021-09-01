@@ -47,10 +47,6 @@ namespace wdfeerMod.Projectiles
         {
             if (globalProj.exploding) return;
             globalProj.Explode(270);
-        }
-        public override void Kill(int timeLeft)
-        {
-            if (!globalProj.exploding) return;
 
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
             for (int i = 0; i < 50; i++)

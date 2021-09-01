@@ -46,7 +46,7 @@ namespace wdfeerMod.Items.Weapons
         Projectile proj;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (proj != null && proj.modProjectile != null && proj.active)
+            if (proj != null && proj.active && proj.modProjectile is Projectiles.FalcorProj)
             {
                 var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
                 gProj.AddProcChance(new ProcChance(BuffID.Electrified, 100));

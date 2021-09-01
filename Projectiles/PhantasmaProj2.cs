@@ -28,49 +28,43 @@ namespace wdfeerMod.Projectiles
         }
         public override void AI()
         {
-            if (!globalProj.exploding)
+            if (globalProj.exploding)
+                return;
+
+            projectile.velocity += new Vector2(0, 0.2f);
+            for (int num = 0; num < 5; num++)
             {
-                projectile.velocity += new Vector2(0, 0.2f);
-                for (int num = 0; num < 5; num++)
-                {
-                    int num353 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
-                    Dust dust = Main.dust[num353];
-                    dust.scale = (float)Main.rand.Next(80, 130) * 0.01f;
-                    dust.velocity *= 0.2f;
-                    dust.noGravity = true;
-                }
+                int num353 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+                Dust dust = Main.dust[num353];
+                dust.scale = (float)Main.rand.Next(80, 130) * 0.01f;
+                dust.velocity *= 0.2f;
+                dust.noGravity = true;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (!globalProj.exploding)
-            {
-                globalProj.Explode(280);
-                projectile.damage = projectile.damage * 3 / 4;
-            }
+            Explode();
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!globalProj.exploding)
-            {
-                globalProj.Explode(280);
-                projectile.damage = projectile.damage * 3 / 4;
-            }
+            Explode();
         }
-        public override void Kill(int timeLeft)
+        public void Explode()
         {
-            if (globalProj.exploding)
+            if (globalProj.exploding) return;
+
+            globalProj.Explode(280);
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
+
+            wdfeerMod.NewDustsCircle(90, projectile.Center, projectile.width / 3, 92,
+            (d) =>
             {
-                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
-                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
-                for (int i = 0; i < 200; i++)
-                {
-                    int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 100, default(Color), 1.7f);
-                    Main.dust[dustIndex].velocity *= 1.4f;
-                    Main.dust[dustIndex].noGravity = true;
-                }
-            }
+                d.scale = 1.5f;
+                d.noGravity = true;
+                d.velocity += Vector2.Normalize(d.position - projectile.Center) * 4f;
+            });
         }
     }
 }

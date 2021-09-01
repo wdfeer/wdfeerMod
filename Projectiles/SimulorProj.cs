@@ -47,49 +47,52 @@ namespace wdfeerMod.Projectiles
         {
             if (projectile.timeLeft <= 8) Explode();
             if (projectile.velocity.Length() > 0.1f) projectile.velocity -= Vector2.Normalize(projectile.velocity) * 0.2f;
-            if (!gProj.exploding)
-                for (int i = 0; i < Main.maxProjectiles; i++)
+            if (gProj.exploding)
+                return;
+            #region Interaction between projectiles
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (!proj.active || !(proj.modProjectile is SimulorProj) || proj.GetGlobalProjectile<wdfeerGlobalProj>().exploding) continue;
+                SimulorProj simulorProj = proj.modProjectile as SimulorProj;
+                if (simulorProj == this) continue;
+                float dist = (proj.position - projectile.position).Length();
+                if (dist > 480f) continue;
+                if (dist > projectile.width / 2)
                 {
-                    Projectile proj = Main.projectile[i];
-                    if (!proj.active || !(proj.modProjectile is SimulorProj) || proj.GetGlobalProjectile<wdfeerGlobalProj>().exploding) continue;
-                    SimulorProj simulorProj = proj.modProjectile as SimulorProj;
-                    if (simulorProj == this) continue;
-                    float dist = (proj.position - projectile.position).Length();
-                    if (dist > 480f) continue;
-                    if (dist > projectile.width / 2)
+                    projectile.velocity -= Vector2.Normalize(projectile.position - proj.position) * 100 / dist;
+                }
+                else
+                {
+                    if (proj.timeLeft > projectile.timeLeft)
                     {
-                        projectile.velocity -= Vector2.Normalize(projectile.position - proj.position) * 100 / dist;
+                        // Increases damage of the surviving projectile by 20% of the projectile with the highest damage
+                        if (!Explode(480, 100))
+                            continue;
+                        DamageMult *= 1.2f;
+                        simulorProj.DamageMult *= 1.2f;
+                        proj.timeLeft = baseTimeLeft;
+                        proj.velocity *= 0.1f;
                     }
                     else
                     {
-                        if (proj.timeLeft > projectile.timeLeft)
-                        {
-                            // Increases damage of the surviving projectile by 20% of the projectile with the highest damage
-                            if (!Explode(480, 100))
-                                continue;
-                            DamageMult *= 1.2f;
-                            simulorProj.DamageMult *= 1.2f;
-                            proj.timeLeft = baseTimeLeft;
-                            proj.velocity *= 0.1f;
-                        }
-                        else
-                        {
-                            // Increases damage of the surviving projectile by 20% of the projectile with the highest damage
-                            if (!simulorProj.Explode(480, 100))
-                                continue;
-                            DamageMult *= 1.2f;
-                            simulorProj.DamageMult *= 1.2f;
-                            projectile.timeLeft = baseTimeLeft;
-                            projectile.velocity *= 0.1f;
-                        }
+                        // Increases damage of the surviving projectile by 20% of the projectile with the highest damage
+                        if (!simulorProj.Explode(480, 100))
+                            continue;
+                        DamageMult *= 1.2f;
+                        simulorProj.DamageMult *= 1.2f;
+                        projectile.timeLeft = baseTimeLeft;
+                        projectile.velocity *= 0.1f;
                     }
                 }
-            for (int i = 0; i < 2; i++)
-            {
-                var dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(projectile.width / 2, projectile.height / 2), 206, Scale: 1.2f);
-                dust.velocity *= 0.5f;
-                dust.noGravity = true;
             }
+            #endregion
+            wdfeerMod.NewDustsCircleEdge(3, projectile.Center, projectile.width / 2, 206, (dust) =>
+            {
+                dust.velocity *= 0.5f;
+                dust.scale = 1.2f;
+                dust.noGravity = true;
+            });
         }
         /// <summary>
         /// Makes this projectile explode with the chosen radius (width and height) and chance to proc Electrified
@@ -113,12 +116,13 @@ namespace wdfeerMod.Projectiles
             }
 
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
-            for (int i = 0; i < radius / 5; i++)
-            {
-                var dust = Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / (implosion ? 2 : 3), 226, Scale: 1f);
-                dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * (radius / 40f);
-                if (implosion) dust.velocity *= -1.2f;
-            }
+            wdfeerMod.NewDustsCustom(radius / 6, () =>
+                Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / (implosion ? 2 : 3), 226),
+                (dust) =>
+                {
+                    dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * (radius / 40f);
+                    if (implosion) dust.velocity *= -1.2f;
+                });
             return true;
         }
         public override bool? CanHitNPC(NPC target)
