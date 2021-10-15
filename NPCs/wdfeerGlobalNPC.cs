@@ -224,49 +224,68 @@ namespace wdfeerMod
         {
             if (npc.SpawnedFromStatue) return;
 
-            if (npc.type == NPCID.DemonEye && Main.rand.NextFloat(100) < 0.75f)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
-            else if (npc.type == NPCID.BigMimicCorruption && Main.rand.Next(100) < 20)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
-            else if (npc.type == NPCID.BigMimicCrimson && Main.rand.Next(100) < 20)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
-            else if (npc.type == NPCID.FireImp && Main.rand.Next(100) < 5)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
-            else if (martianTypes.Contains<int>(npc.type) && Main.rand.Next(100) < 3)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
-            else if (goblins.Contains<int>(npc.type) && Main.rand.Next(100) < 4)
+            switch (npc.type)
             {
-                var rand = Main.rand.Next(3);
-                switch (rand)
-                {
-                    case 0:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
-                        break;
-                    case 1:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Penta>());
-                        break;
-                    default:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Tonkor>());
-                        break;
-                }
+                case NPCID.DemonEye when Main.rand.NextFloat(100) < 0.75f:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
+                    break;
+                case NPCID.BigMimicCorruption when Main.rand.Next(100) < 20:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    break;
+                case NPCID.BigMimicCrimson when Main.rand.Next(100) < 20:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    break;
+                case NPCID.FireImp when Main.rand.Next(100) < 5:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
+                    break;
+                case NPCID.BrainofCthulhu when Main.rand.Next(100) < 33:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
+                    break;
+                case NPCID.QueenBee when Main.rand.Next(100) < 33:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
+                    break;
+                case NPCID.SkeletronHead when Main.rand.Next(100) < 33:
+                    int rand = Main.rand.Next(5);
+                    switch (rand)
+                    {
+                        case 0:
+                            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
+                            break;
+                        case 1:
+                            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Cestra>());
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case NPCID.WallofFlesh when Main.rand.Next(100) < 15:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+                    break;
+                case NPCID.SkeletronPrime when Main.rand.Next(100) < 25:
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());
+                    break;
+                default:
+                    if (martianTypes.Contains(npc.type) && Main.rand.Next(100) < 3)
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
+                    else if (goblins.Contains(npc.type) && Main.rand.Next(100) < 4)
+                    {
+                        rand = Main.rand.Next(3);
+                        switch (rand)
+                        {
+                            case 0:
+                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
+                                break;
+                            case 1:
+                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Penta>());
+                                break;
+                            default:
+                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Tonkor>());
+                                break;
+                        }
 
+                    }
+                    break;
             }
-            else if (npc.type == NPCID.BrainofCthulhu && Main.rand.Next(100) < 33)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
-            else if (npc.type == NPCID.QueenBee && Main.rand.Next(100) < 33)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
-            else if (npc.type == NPCID.SkeletronHead && Main.rand.Next(100) < 33)
-            {
-                int rand = Main.rand.Next(100);
-                if (rand < 25)
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
-                else if (rand < 60)
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Cestra>());
-            }
-            else if (npc.type == NPCID.WallofFlesh && Main.rand.Next(100) < 15)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
-            else if (npc.type == NPCID.SkeletronPrime && Main.rand.Next(100) < 25)
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());
 
             if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 33)
             {
