@@ -6,7 +6,7 @@ using System;
 
 namespace wdfeerMod.Items.Weapons
 {
-    public class ArcaPlasmor : ModItem
+    public class ArcaPlasmor : wdfeerWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,13 +57,7 @@ namespace wdfeerMod.Items.Weapons
             sound.Pitch += Main.rand.NextFloat(0,0.15f);
             Main.PlaySoundInstance(sound);
 
-            Vector2 spawnOffset = new Vector2(speedX, speedY);
-            spawnOffset.Normalize();
-            spawnOffset *= item.width;
-            position += spawnOffset;
-
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var projectile = Main.projectile[proj];
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
             projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(31,28));
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
