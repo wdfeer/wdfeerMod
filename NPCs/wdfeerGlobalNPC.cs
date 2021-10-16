@@ -7,26 +7,6 @@ using System;
 
 namespace wdfeerMod
 {
-    public class StackableProc
-    {
-        public int type; //0 for Slash, 1 for Electro
-        public int timeLeft = 300;
-        public int dmg = 0;
-
-        public StackableProc(int Type, int damage, int duration = 300)
-        {
-            type = Type;
-            timeLeft = duration;
-            dmg = damage;
-        }
-
-        public void Update()
-        {
-            if (dmg == 0) return;
-            timeLeft -= 1;
-            if (timeLeft <= 0) dmg = 0;
-        }
-    }
     public class wdfeerGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
@@ -41,21 +21,10 @@ namespace wdfeerMod
             }
         }
         int ProcCounter = 0;
-        public void AddStackableProc(string name, int duration, ref int damage)
+        public void AddStackableProc(ProcType type, int duration, ref int damage)
         {
-            switch (name)
-            {
-                case "slash":
-                    procs[procCounter] = new StackableProc(0, damage, duration: duration);
-                    procCounter++;
-                    break;
-                case "electro":
-                    procs[procCounter] = new StackableProc(1, damage, duration: duration);
-                    procCounter++;
-                    break;
-                default:
-                    break;
-            }
+            procs[procCounter] = new StackableProc(type, damage, duration: duration);
+            procCounter++;
         }
         public bool eximus => eximusType != -1;
         public int eximusType = -1;
@@ -90,14 +59,14 @@ namespace wdfeerMod
             {
                 int totalDamage = 0;
                 for (int i = 0; i < procCounter; i++)
-                    totalDamage += procs[i].type == 1 ? procs[i].dmg : 0;
+                    totalDamage += procs[i].type == ProcType.Electricity ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
             }
             if (npc.HasBuff(mod.BuffType("SlashProc")))
             {
                 int totalDamage = 0;
                 for (int i = 0; i < procCounter; i++)
-                    totalDamage += procs[i].type == 0 ? procs[i].dmg : 0;
+                    totalDamage += procs[i].type == ProcType.Slash ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
                 if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
