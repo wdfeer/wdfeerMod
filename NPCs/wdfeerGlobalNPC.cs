@@ -4,27 +4,19 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace wdfeerMod
 {
     public class wdfeerGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
-        public StackableProc[] procs = new StackableProc[999];
-        public int procCounter
+        public List<StackableProc> procs = new List<StackableProc>();
+        public void AddStackableProc(ProcType type, int duration, int damage)
         {
-            get => ProcCounter;
-            set
-            {
-                if (value < 999) ProcCounter = value;
-                else ProcCounter = 0;
-            }
-        }
-        int ProcCounter = 0;
-        public void AddStackableProc(ProcType type, int duration, ref int damage)
-        {
-            procs[procCounter] = new StackableProc(type, damage, duration: duration);
-            procCounter++;
+            StackableProc proc = new StackableProc(type, damage, null, duration);
+            proc.OnEnd = () => procs.Remove(proc);
+            procs.Add(proc);
         }
         public bool eximus => eximusType != -1;
         public int eximusType = -1;
@@ -54,18 +46,18 @@ namespace wdfeerMod
         {
             if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
                 npc.lifeRegen = 0;
-            else procCounter = 0;
+            else procs = new List<StackableProc>();
             if (npc.HasBuff(BuffID.Electrified))
             {
                 int totalDamage = 0;
-                for (int i = 0; i < procCounter; i++)
+                for (int i = 0; i < procs.Count; i++)
                     totalDamage += procs[i].type == ProcType.Electricity ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
             }
             if (npc.HasBuff(mod.BuffType("SlashProc")))
             {
                 int totalDamage = 0;
-                for (int i = 0; i < procCounter; i++)
+                for (int i = 0; i < procs.Count; i++)
                     totalDamage += procs[i].type == ProcType.Slash ? procs[i].dmg : 0;
                 npc.lifeRegen -= totalDamage;
                 if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
@@ -177,7 +169,7 @@ namespace wdfeerMod
                 }
             }
             if (npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc")))
-                for (int i = 0; i < procCounter; i++)
+                for (int i = 0; i < procs.Count; i++)
                     procs[i].Update();
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

@@ -52,7 +52,7 @@ namespace wdfeerMod.Items.Weapons
         {
             target.AddBuff(mod.BuffType("SlashProc"), 300);
             var slashDamage = damage / 5;
-            target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, ref slashDamage);
+            target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
         }
     }
 }

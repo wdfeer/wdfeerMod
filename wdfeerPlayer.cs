@@ -208,13 +208,13 @@ namespace wdfeerMod
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
                         int slashDamage = damage / 5;
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, ref slashDamage);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * electroMult);
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, ref electroDamage);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
                     }
                 }
             }
@@ -225,13 +225,13 @@ namespace wdfeerMod
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
                         int slashDamage = damage / 5;
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, ref slashDamage);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * electroMult);
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, ref electroDamage);
+                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
                     }
                 }
             }
