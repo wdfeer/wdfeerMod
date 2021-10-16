@@ -39,12 +39,11 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
             recipe.AddIngredient(ItemID.InfluxWaver);
             recipe.AddIngredient(ItemID.ShroomiteBar, 16);
-            recipe.AddTile(TileID.MythrilAnvil); // Set the crafting tile to ExampleWorkbench
-            recipe.SetResult(this); // Set the result to this item (ExampleSword)
-            recipe.AddRecipe(); // When your done, add the recipe
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

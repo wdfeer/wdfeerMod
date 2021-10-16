@@ -39,13 +39,13 @@ namespace wdfeerMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            // ItemType<ExampleItem>() is how to get the ExampleItem item, 10 is the amount of that item you need to craft the recipe
+            
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
             recipe.AddIngredient(ItemID.Amethyst, 4);            
-            // You can use recipe.AddIngredient(ItemID.TheItemYouWantToUse, the amount of items needed); for a vanilla item.
-            recipe.AddTile(TileID.Hellforge); // Set the crafting tile to ExampleWorkbench
-            recipe.SetResult(this); // Set the result to this item (ExampleSword)
-            recipe.AddRecipe(); // When your done, add the recipe
+            
+            recipe.AddTile(TileID.Hellforge);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
