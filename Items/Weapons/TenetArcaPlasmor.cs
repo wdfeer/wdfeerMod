@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace wdfeerMod.Items.Weapons
+namespace wfMod.Items.Weapons
 {
     public class TenetArcaPlasmor : wdfeerWeapon
     {

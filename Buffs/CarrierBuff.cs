@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace wdfeerMod.Buffs
+namespace wfMod.Buffs
 {
     public class CarrierBuff : ModBuff
     {

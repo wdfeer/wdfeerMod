@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod
+namespace wfMod
 {
     public class ProcChance
     {

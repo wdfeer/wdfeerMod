@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 
-namespace wdfeerMod.Items.Weapons
+namespace wfMod.Items.Weapons
 {
     public class Galatine : ModItem
     {

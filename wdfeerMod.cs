@@ -2,9 +2,9 @@ using System;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
-namespace wdfeerMod
+namespace wfMod
 {
-    public class wdfeerMod : Mod
+    public class wfMod : Mod
     {
         public static void NewDustsCircleEdge(int count, Vector2 center, float radius, int type, Action<Dust> edit = null)
         {

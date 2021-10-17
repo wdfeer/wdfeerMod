@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Items
+namespace wfMod.Items
 {
     public class wdfeerGlobalItem : GlobalItem
     {

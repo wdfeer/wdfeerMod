@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Projectiles.Minions
+namespace wfMod.Projectiles.Minions
 {
     public class Carrier : ModProjectile
     {

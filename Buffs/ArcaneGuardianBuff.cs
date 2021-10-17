@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Buffs
+namespace wfMod.Buffs
 {
     public class ArcaneGuardianBuff : ModBuff
     {

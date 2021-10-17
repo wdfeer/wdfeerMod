@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Items.Accessories
+namespace wfMod.Items.Accessories
 {
     public abstract class ExclusiveAccessory : ModItem
     {

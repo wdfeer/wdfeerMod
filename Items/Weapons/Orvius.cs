@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Items.Weapons
+namespace wfMod.Items.Weapons
 {
     public class Orvius : wdfeerWeapon
     {

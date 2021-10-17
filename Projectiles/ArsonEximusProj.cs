@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class ArsonEximusProj : ModProjectile
     {

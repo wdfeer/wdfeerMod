@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using System.Linq;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Items.Weapons
+namespace wfMod.Items.Weapons
 {
     public class ArcaScisco : wdfeerWeapon
     {

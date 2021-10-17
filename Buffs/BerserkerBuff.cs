@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace wdfeerMod.Buffs
+namespace wfMod.Buffs
 {
     // Ethereal Flames is an example of a buff that causes constant loss of life.
     // See ExamplePlayer.UpdateBadLifeRegen and ExampleGlobalNPC.UpdateLifeRegen for more information.
@@ -16,9 +16,9 @@ namespace wdfeerMod.Buffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
 
-            textures[0] = ModContent.GetTexture("wdfeerMod/Buffs/BerserkerBuff");
-            textures[1] = ModContent.GetTexture("wdfeerMod/Buffs/BerserkerBuff1");
-            textures[2] = ModContent.GetTexture("wdfeerMod/Buffs/BerserkerBuff2");
+            textures[0] = ModContent.GetTexture("wfMod/Buffs/BerserkerBuff");
+            textures[1] = ModContent.GetTexture("wfMod/Buffs/BerserkerBuff1");
+            textures[2] = ModContent.GetTexture("wfMod/Buffs/BerserkerBuff2");
         }
 
         public override void Update(Player player, ref int buffIndex)

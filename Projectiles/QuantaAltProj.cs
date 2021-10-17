@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class QuantaAltProj : ModProjectile
     {

@@ -8,7 +8,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
-namespace wdfeerMod
+namespace wfMod
 {
     public class wdfeerPlayer : ModPlayer
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Items.Weapons
+namespace wfMod.Items.Weapons
 {
     public class Simulor : wdfeerWeapon
     {

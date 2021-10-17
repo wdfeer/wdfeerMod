@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class OrviusProj : ModProjectile
     {
@@ -32,7 +32,7 @@ namespace wdfeerMod.Projectiles
             // Play explosion sound
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), projectile.position);
 
-            wdfeerMod.NewDustsCircleFromCenter(69, projectile.Center, projectile.width / 2, 206, 2.5f);
+            wfMod.NewDustsCircleFromCenter(69, projectile.Center, projectile.width / 2, 206, 2.5f);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

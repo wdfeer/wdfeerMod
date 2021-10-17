@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Items
+namespace wfMod.Items
 {
     public class NapalmGrenades : ModItem
     {

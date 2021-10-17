@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class KarystProj : ModProjectile
     {

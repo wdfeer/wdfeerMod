@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-namespace wdfeerMod.Items.Weapons.Summon
+namespace wfMod.Items.Weapons.Summon
 {
     public class CarrierPrime : ModItem
     {

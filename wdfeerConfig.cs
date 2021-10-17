@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
-namespace wdfeerMod
+namespace wfMod
 {
     public class wdfeerConfig : ModConfig
     {

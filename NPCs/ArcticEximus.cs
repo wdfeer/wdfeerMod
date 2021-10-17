@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.NPCs
+namespace wfMod.NPCs
 {
     public class ArcticEximus : ModNPC
     {

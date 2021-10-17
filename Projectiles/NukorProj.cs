@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class NukorProj : ModProjectile
     {

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class XorisProj : ModProjectile
     {
@@ -42,7 +42,7 @@ namespace wdfeerMod.Projectiles
                 Main.dust[dustIndex].velocity *= 1.4f;
             }
             // Electricity Dust spawn
-            wdfeerMod.NewDustsCircleFromCenter(projectile.width / 6, projectile.Center, projectile.width / 2, 226, 2.5f);
+            wfMod.NewDustsCircleFromCenter(projectile.width / 6, projectile.Center, projectile.width / 2, 226, 2.5f);
             #endregion
         }
     }

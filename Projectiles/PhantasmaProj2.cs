@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class PhantasmaProj2 : ModProjectile
     {
@@ -58,7 +58,7 @@ namespace wdfeerMod.Projectiles
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithVolume(0.5f), projectile.Center);
 
-            wdfeerMod.NewDustsCircle(90, projectile.Center, projectile.width / 3, 92,
+            wfMod.NewDustsCircle(90, projectile.Center, projectile.width / 3, 92,
             (d) =>
             {
                 d.scale = 1.5f;

@@ -1,5 +1,5 @@
 using System;
-namespace wdfeerMod
+namespace wfMod
 {
     public enum ProcType
     {

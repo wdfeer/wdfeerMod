@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     public class wdfeerGlobalProj : GlobalProjectile
     {

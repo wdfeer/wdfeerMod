@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class FalcorProj : ModProjectile
     {
@@ -24,7 +24,7 @@ namespace wdfeerMod.Projectiles
                 // Play explosion sound
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), projectile.position);
                 // Electricity Dust spawn
-                wdfeerMod.NewDustsCircleFromCenter(projectile.width / 3, projectile.Center, projectile.width / 2, 226, 1f);
+                wfMod.NewDustsCircleFromCenter(projectile.width / 3, projectile.Center, projectile.width / 2, 226, 1f);
             }
         }
     }

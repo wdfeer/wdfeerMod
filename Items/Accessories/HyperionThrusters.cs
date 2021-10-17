@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace wdfeerMod.Items.Accessories
+namespace wfMod.Items.Accessories
 {
     // Here we add our accessories, note that they inherit from ExclusiveAccessory, and not ModItem
 

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class LenzProj2 : ModProjectile
     {

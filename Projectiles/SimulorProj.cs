@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace wdfeerMod.Projectiles
+namespace wfMod.Projectiles
 {
     internal class SimulorProj : ModProjectile
     {
@@ -87,7 +87,7 @@ namespace wdfeerMod.Projectiles
                 }
             }
             #endregion
-            wdfeerMod.NewDustsCircleEdge(3, projectile.Center, projectile.width / 2, 206, (dust) =>
+            wfMod.NewDustsCircleEdge(3, projectile.Center, projectile.width / 2, 206, (dust) =>
             {
                 dust.velocity *= 0.5f;
                 dust.scale = 1.2f;
@@ -116,7 +116,7 @@ namespace wdfeerMod.Projectiles
             }
 
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
-            wdfeerMod.NewDustsCustom(radius / 6, () =>
+            wfMod.NewDustsCustom(radius / 6, () =>
                 Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / (implosion ? 2 : 3), 226),
                 (dust) =>
                 {
