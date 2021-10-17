@@ -28,7 +28,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().arcaneStrike = true;
+            player.GetModPlayer<wfPlayer>().arcaneStrike = true;
         }
     }
 }

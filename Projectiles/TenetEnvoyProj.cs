@@ -8,10 +8,10 @@ namespace wfMod.Projectiles
 {
     internal class TenetEnvoyProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.height = 22;
             projectile.width = 22;

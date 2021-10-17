@@ -6,7 +6,7 @@ using System;
 
 namespace wfMod.Items.Weapons
 {
-    public class TenetEnvoy : wdfeerWeapon
+    public class TenetEnvoy : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace wfMod.Items.Weapons
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, mod.ProjectileType("TenetEnvoyProj"), damage, knockBack, offset: item.width);
-            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.AddProcChance(new ProcChance(BuffID.Slow, 20));
             gProj.critMult = 1.3f;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));

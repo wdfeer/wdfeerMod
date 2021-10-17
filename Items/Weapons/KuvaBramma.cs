@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    internal class KuvaBramma : wdfeerWeapon
+    internal class KuvaBramma : wfWeapon
     {
         public override void SetStaticDefaults()
         {

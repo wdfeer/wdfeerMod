@@ -35,7 +35,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().condOv = true;
+            player.GetModPlayer<wfPlayer>().condOv = true;
         }
     }
 }

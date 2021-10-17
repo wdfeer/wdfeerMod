@@ -25,7 +25,7 @@ namespace wfMod.Items.Accessories
         {
             player.magicDamageMult += 0.16f;
             player.rangedDamageMult += 0.16f;
-            player.GetModPlayer<wdfeerPlayer>().spreadMult += 0.12f;
+            player.GetModPlayer<wfPlayer>().spreadMult += 0.12f;
         }
     }
 }

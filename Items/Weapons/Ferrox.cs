@@ -55,7 +55,7 @@ namespace wfMod.Items.Weapons
 
             position += spawnOffset;
             var proj = Main.projectile[Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead)];
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.4f;
             proj.penetrate = 3;
             proj.usesLocalNPCImmunity = true;

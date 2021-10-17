@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
-    public class KuvaNukor : wdfeerWeapon
+    public class KuvaNukor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -52,7 +52,7 @@ namespace wfMod.Items.Weapons
             Projectiles.NukorProj modProj = proj.modProjectile as Projectiles.NukorProj;
             modProj.chain = true;
             modProj.confusedChance = 50;
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 2.5f;
             gProj.onHit = (NPC target) =>
             {
@@ -60,8 +60,8 @@ namespace wfMod.Items.Weapons
                 gProj.hits++;
             };
 
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             if (timeSinceLastShot > 12)
             {

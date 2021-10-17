@@ -9,10 +9,10 @@ namespace wfMod.Projectiles
 {
     internal class ScourgeProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.width = 16;
             projectile.height = 16;
             projectile.magic = true;

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Weapons
 {
-    public abstract class wdfeerWeapon : ModItem
+    public abstract class wfWeapon : ModItem
     {
         public static Vector2 findOffset(float speedX, float speedY, float offset)
         {
@@ -25,7 +25,7 @@ namespace wfMod.Items.Weapons
 
             if (bursts > 1 && burstInterval > 0)
             {
-                var modPlayer = Main.LocalPlayer.GetModPlayer<wdfeerPlayer>();
+                var modPlayer = Main.LocalPlayer.GetModPlayer<wfPlayer>();
                 if (modPlayer.burstInterval == -1)
                 {
                     modPlayer.offsetP = position - Main.LocalPlayer.position;

@@ -7,10 +7,10 @@ namespace wfMod.Projectiles
 {
     internal class PentaNapalmProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.hide = true;
             projectile.height = 140;

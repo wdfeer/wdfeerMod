@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class OpticorVandal : wdfeerWeapon
+    public class OpticorVandal : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace wfMod.Items.Weapons
             Vector2 velocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             proj.timeLeft = 170;
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.3f;
             globalProj.baseVelocity = velocity;
             globalProj.v2 = proj.position - Main.LocalPlayer.position;

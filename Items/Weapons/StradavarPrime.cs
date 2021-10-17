@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class StradavarPrime : wdfeerWeapon
+    public class StradavarPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -77,10 +77,10 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                if (player.GetModPlayer<wdfeerPlayer>().longTimer - 30 > lastModeChange)
+                if (player.GetModPlayer<wfPlayer>().longTimer - 30 > lastModeChange)
                 {
                     Mode++;
-                    lastModeChange = player.GetModPlayer<wdfeerPlayer>().longTimer;
+                    lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
                     Main.PlaySound(SoundID.Unlock);
                 }
                 return false;
@@ -97,7 +97,7 @@ namespace wfMod.Items.Weapons
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
             if (Mode == 1 && projectile.penetrate < 2 && projectile.penetrate != -1) projectile.penetrate = 2;
-            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = Mode == 0 ? 1.3f : 1.4f;
 
             return false;

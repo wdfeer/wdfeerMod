@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Redeemer : wdfeerWeapon
+    public class Redeemer : wfWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -55,7 +55,7 @@ namespace wfMod.Items.Weapons
                 var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f, item.width);
                 projectile.ranged = false;
                 projectile.melee = true;
-                var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.v2 = projectile.position;
                 gProj.falloffStartDist = 300;
                 gProj.falloffMaxDist = 600;

@@ -8,12 +8,12 @@ namespace wfMod.Projectiles
 {
     internal class PentaProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
-        bool napalm => Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().napalmGrenades;
+        wfGlobalProj globalProj;
+        bool napalm => Main.player[projectile.owner].GetModPlayer<wfPlayer>().napalmGrenades;
         Vector2 stickPos = new Vector2(0, 0);
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.height = 17;
             projectile.width = 17;
@@ -86,7 +86,7 @@ namespace wfMod.Projectiles
             if (napalm)
             {
                 var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("PentaNapalmProj"), projectile.damage / 6, 0, projectile.owner)];
-                proj.GetGlobalProjectile<wdfeerGlobalProj>().procChances = globalProj.procChances;
+                proj.GetGlobalProjectile<wfGlobalProj>().procChances = globalProj.procChances;
             }
 
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.7f), projectile.position);

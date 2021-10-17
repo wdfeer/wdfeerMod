@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class ArcaScisco : wdfeerWeapon
+    public class ArcaScisco : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -43,7 +43,7 @@ namespace wfMod.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
-            var stacks = player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks;
+            var stacks = player.GetModPlayer<wfPlayer>().arcaSciscoStacks;
             item.crit = 14 + 5 * stacks;
             return base.CanUseItem(player);
         }
@@ -51,13 +51,13 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.onHit = (NPC target) =>
             {
                 Main.player[proj.owner].AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
-                Main.player[proj.owner].GetModPlayer<wdfeerPlayer>().arcaSciscoStacks++;
+                Main.player[proj.owner].GetModPlayer<wfPlayer>().arcaSciscoStacks++;
             };
-            globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks + 13));
+            globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wfPlayer>().arcaSciscoStacks + 13));
 
             sound = mod.GetSound("Sounds/ArcaSciscoSound").CreateInstance();
             sound.Volume = 0.5f;

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Gorgon : wdfeerWeapon
+    public class Gorgon : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace wfMod.Items.Weapons
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             if (item.useTime > 6)
             {
                 item.useTime -= 2;
@@ -71,14 +71,14 @@ namespace wfMod.Items.Weapons
                     item.useAnimation = 22;
                 }
             }
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 40 ? 0.03f : 0.08f), 52);
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 0.75f;
             return false;
         }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace wfMod
 {
-    public class wdfeerGlobalNPC : GlobalNPC
+    public class wfGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
         public List<StackableProc> procs = new List<StackableProc>();
@@ -31,7 +31,7 @@ namespace wfMod
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            if (ModContent.GetInstance<wdfeerConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 4)
+            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 4)
                 eximusType = Main.rand.Next(3);
             if (eximus)
             {
@@ -175,7 +175,7 @@ namespace wfMod
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (arcticNPC != null && arcticNPC.active && arcticNPC.type == ModContent.NPCType<NPCs.ArcticEximus>()) damage /= 2;
-            if (Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().synthDeconstruct && projectile.minion)
+            if (Main.player[projectile.owner].GetModPlayer<wfPlayer>().synthDeconstruct && projectile.minion)
                 heartDropChance = 15;
         }
         public int[] martianTypes = { NPCID.MartianDrone, NPCID.MartianEngineer, NPCID.MartianSaucerCore, NPCID.MartianTurret, NPCID.MartianOfficer, NPCID.MartianWalker };

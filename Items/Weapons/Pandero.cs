@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Pandero : wdfeerWeapon
+    public class Pandero : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -85,7 +85,7 @@ namespace wfMod.Items.Weapons
                 proj.velocity *= 0.8f;
                 proj.extraUpdates += 1;
             }
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 1.4f;
             return false;
         }

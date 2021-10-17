@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
-    public class Boar : wdfeerWeapon
+    public class Boar : wfWeapon
     {
         public override void SetStaticDefaults()
         {

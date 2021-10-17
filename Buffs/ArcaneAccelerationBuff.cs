@@ -15,7 +15,7 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<wdfeerPlayer>().fireRateMult += 0.15f;
+            player.GetModPlayer<wfPlayer>().fireRateMult += 0.15f;
         }
     }
 }

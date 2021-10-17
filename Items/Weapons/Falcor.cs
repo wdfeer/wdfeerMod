@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Falcor : wdfeerWeapon
+    public class Falcor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -47,7 +47,7 @@ namespace wfMod.Items.Weapons
         {
             if (proj != null && proj.active && proj.modProjectile is Projectiles.FalcorProj)
             {
-                var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.AddProcChance(new ProcChance(BuffID.Electrified, 100));
                 if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
                     gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
@@ -57,7 +57,7 @@ namespace wfMod.Items.Weapons
             else
             {
                 proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 36));
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 36));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

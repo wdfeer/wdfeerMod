@@ -9,11 +9,11 @@ namespace wfMod.Projectiles
 {
     internal class QuantaProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         Vector2 lastPos;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.width = 8;
             projectile.height = 8;
             projectile.magic = true;
@@ -44,12 +44,12 @@ namespace wfMod.Projectiles
             for (int i1 = 0; i1 < Main.projectile.Length; i1++)
             {
                 Projectile p = Main.projectile[i1];
-                if (!p.active || p.type != mod.ProjectileType("QuantaAltProj") || p.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().exploding) continue;
+                if (!p.active || p.type != mod.ProjectileType("QuantaAltProj") || p.GetGlobalProjectile<Projectiles.wfGlobalProj>().exploding) continue;
 
                 if (lastPos == null) lastPos = projectile.position;
                 else if (Collision.CheckAABBvLineCollision(p.position, new Vector2(p.width, p.height), lastPos, projectile.position))
                 {
-                    p.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(300);
+                    p.GetGlobalProjectile<Projectiles.wfGlobalProj>().Explode(300);
                     p.damage = (int)(p.damage * 1.2f);
                 }
             }

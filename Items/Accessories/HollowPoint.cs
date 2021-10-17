@@ -25,7 +25,7 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().critDmgMult += Main.hardMode ? 0.25f : 0.15f;
+            player.GetModPlayer<wfPlayer>().critDmgMult += Main.hardMode ? 0.25f : 0.15f;
             player.allDamageMult -= 0.1f;
         }
     }

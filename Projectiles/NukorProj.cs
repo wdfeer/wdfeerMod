@@ -11,10 +11,10 @@ namespace wfMod.Projectiles
     {
         public bool chain = false;
         public int confusedChance = 28;
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.width = 8;
             projectile.height = 8;
             projectile.magic = true;

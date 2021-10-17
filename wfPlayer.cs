@@ -10,7 +10,7 @@ using Terraria.DataStructures;
 
 namespace wfMod
 {
-    public class wdfeerPlayer : ModPlayer
+    public class wfPlayer : ModPlayer
     {
         public bool condOv;
         public bool aviator;
@@ -208,13 +208,13 @@ namespace wfMod
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
                         int slashDamage = damage / 5;
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * electroMult);
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
                     }
                 }
             }
@@ -225,13 +225,13 @@ namespace wfMod
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
                         int slashDamage = damage / 5;
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * electroMult);
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
                     }
                 }
             }
@@ -240,7 +240,7 @@ namespace wfMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (proj.minion && ModContent.GetInstance<wdfeerConfig>().minionCrits)
+            if (proj.minion && ModContent.GetInstance<wfConfig>().minionCrits)
             {
                 int[] cc = { player.meleeCrit, player.magicCrit, player.rangedCrit };
                 if (Main.rand.Next(100) < cc.Min()) crit = true;
@@ -293,7 +293,7 @@ namespace wfMod
         public int burstCount = 1;
         int burstTimer = 0;
         public int longTimer = 0;
-        public Items.Weapons.wdfeerWeapon burstItem;
+        public Items.Weapons.wfWeapon burstItem;
         public override void PreUpdate()
         {
             if (player.dead) return;
@@ -340,7 +340,7 @@ namespace wfMod
 
                 if (new Rectangle((int)this.player.position.X - 2, (int)this.player.position.Y - 2, this.player.width + 2, this.player.height + 2).Intersects(new Rectangle((int)Main.item[j].position.X, (int)Main.item[j].position.Y, Main.item[j].width, Main.item[j].height)))
                 {
-                    if ((Main.item[j].type == 184 || Main.item[j].type == 1735 || Main.item[j].type == 1868) && !Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized && arcaneEnergize)
+                    if ((Main.item[j].type == 184 || Main.item[j].type == 1735 || Main.item[j].type == 1868) && !Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized && arcaneEnergize)
                     {
                         if (Main.rand.Next(100) < 60)
                         {
@@ -349,9 +349,9 @@ namespace wfMod
                             Main.PlaySound(SoundID.MenuTick);
                         }
 
-                        Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized = true;
+                        Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized = true;
                     }
-                    else if ((Main.item[j].type == 58 || Main.item[j].type == 1734 || Main.item[j].type == 1867) && arcanePulse && !Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
+                    else if ((Main.item[j].type == 58 || Main.item[j].type == 1734 || Main.item[j].type == 1867) && arcanePulse && !Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
                     {
                         if (Main.rand.Next(100) < 60)
                         {
@@ -361,7 +361,7 @@ namespace wfMod
                             Main.PlaySound(SoundID.MenuTick);
                         }
 
-                        Main.item[j].GetGlobalItem<Items.wdfeerGlobalItem>().energized = true;
+                        Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized = true;
                     }
                 }
             }

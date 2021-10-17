@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Ballistica : wdfeerWeapon
+    public class Ballistica : wfWeapon
     {
         public override void SetStaticDefaults()
         {

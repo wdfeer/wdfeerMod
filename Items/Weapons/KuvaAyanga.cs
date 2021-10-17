@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    internal class KuvaAyanga : wdfeerWeapon
+    internal class KuvaAyanga : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -43,7 +43,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("TonkorProj"), damage, knockBack, spreadMult: 0.03f, offset: item.width + 3);
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.ai = () =>
             {
                 if (proj.velocity.Y < 10)

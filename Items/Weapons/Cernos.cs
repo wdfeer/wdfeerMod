@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    internal class Cernos : wdfeerWeapon
+    internal class Cernos : wfWeapon
     {
         public override void SetStaticDefaults()
         {

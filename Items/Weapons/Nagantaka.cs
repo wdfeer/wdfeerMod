@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Nagantaka : wdfeerWeapon
+    public class Nagantaka : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -70,7 +70,7 @@ namespace wfMod.Items.Weapons
         {
             float spreadMult = player.altFunctionUse == 2 ? 0.005f : 0.015f;
             var projectile = ShootWith(position, speedX, speedY, type, player.altFunctionUse != 2 ? damage : (int)(damage * 0.8f), knockBack, spreadMult, 44, SoundID.Item98.WithVolume(0.8f), bursts: (player.altFunctionUse == 2 ? 5 : -1), burstInterval: (player.altFunctionUse == 2 ? item.useTime / 8 : -1));
-            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.15f;
             globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 32));
 

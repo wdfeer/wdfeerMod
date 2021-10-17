@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class KarystPrime : wdfeerWeapon
+    public class KarystPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -43,7 +43,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
-            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 20));
             gProj.critMult = 1.1f;
 

@@ -7,10 +7,10 @@ namespace wfMod.Projectiles
 {
     internal class KuvaBrammaProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             projectile.height = 32;
             projectile.width = 32;
@@ -44,7 +44,7 @@ namespace wfMod.Projectiles
                 proj.hide = true;
                 proj.magic = false;
                 proj.ranged = true;
-                proj.GetGlobalProjectile<wdfeerGlobalProj>().Explode(120);
+                proj.GetGlobalProjectile<wfGlobalProj>().Explode(120);
             }
         }
         public override void Kill(int timeLeft)

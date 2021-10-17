@@ -41,7 +41,7 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().hypeThrusters = true;
+            player.GetModPlayer<wfPlayer>().hypeThrusters = true;
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Cestra : wdfeerWeapon
+    public class Cestra : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace wfMod.Items.Weapons
             if (item.stack == 2) spooledUseTime = 5;
             else spooledUseTime = 8;
 
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             if (item.useTime > spooledUseTime)
             {
                 item.useTime -= Main.rand.Next(2, 3);
@@ -71,7 +71,7 @@ namespace wfMod.Items.Weapons
                     item.useAnimation = baseUseTime;
                 }
             }
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
@@ -85,7 +85,7 @@ namespace wfMod.Items.Weapons
 
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 50 ? 0 : (item.stack == 2 ? 0.1f : 0.044f)), 24);
             proj.extraUpdates = 1;
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 0.8f;
             return false;
         }

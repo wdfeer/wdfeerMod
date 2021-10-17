@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Quassus : wdfeerWeapon
+    public class Quassus : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace wfMod.Items.Weapons
             for (int i = 0; i < 6; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f);
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 100));
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 100));
             }
             Main.PlaySound(SoundID.Item1, position);
 

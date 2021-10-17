@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    internal class Tonkor : wdfeerWeapon
+    internal class Tonkor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -34,7 +34,7 @@ namespace wfMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("TonkorProj"), damage, knockBack, offset: item.width + 2);
             proj.damage = (int)(item.damage * player.rangedDamageMult);
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 1.25f;
             gProj.ai = () =>
             {

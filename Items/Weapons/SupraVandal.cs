@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class SupraVandal : wdfeerWeapon
+    public class SupraVandal : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +49,7 @@ namespace wfMod.Items.Weapons
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             if (item.useTime > 5)
             {
                 item.useTime -= 3;
@@ -70,7 +70,7 @@ namespace wfMod.Items.Weapons
                     item.useAnimation = 15;
                 }
             }
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
@@ -84,7 +84,7 @@ namespace wfMod.Items.Weapons
 
             var proj = ShootWith(position, speedX, speedY, ProjectileID.NanoBullet, damage, knockBack, (timeSinceLastShot > 20 ? 0 : 0.06f), 48);
             proj.extraUpdates = 3;
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.AddProcChance(new ProcChance(BuffID.Weak, 20, 200));
             return false;
         }

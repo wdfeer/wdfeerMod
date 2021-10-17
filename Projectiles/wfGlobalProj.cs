@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 namespace wfMod.Projectiles
 {
-    public class wdfeerGlobalProj : GlobalProjectile
+    public class wfGlobalProj : GlobalProjectile
     {
         public override bool InstancePerEntity => true;
         public Projectile proj;
@@ -54,7 +54,7 @@ namespace wfMod.Projectiles
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            wdfeerPlayer modPl = Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>();
+            wfPlayer modPl = Main.player[projectile.owner].GetModPlayer<wfPlayer>();
             if (projectile.penetrate >= 0 && !extraPenetrationApplied)
             {
                 projectile.penetrate += modPl.penetrate;
@@ -90,13 +90,13 @@ namespace wfMod.Projectiles
                     if (proc.buffID == mod.BuffType("SlashProc"))
                     {
                         int slashDamage = (crit ? 2 : 1) * damage / 5;
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
                     }
                     else if (proc.buffID == BuffID.Electrified)
                     {
                         int electroDamage = (crit ? 2 : 1) * damage / 5 - target.defense * (Main.expertMode ? 3 / 4 : 1 / 2);
                         electroDamage = (int)(electroDamage * modPl.electroMult);
-                        target.GetGlobalNPC<wdfeerGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
+                        target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Electricity, 300, electroDamage);
                     }
                 }
             }

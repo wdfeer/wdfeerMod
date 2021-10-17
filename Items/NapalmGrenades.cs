@@ -8,7 +8,7 @@ namespace wfMod.Items
 {
     public class NapalmGrenades : ModItem
     {
-        bool napalm => Main.player[item.owner].GetModPlayer<wdfeerPlayer>().napalmGrenades;
+        bool napalm => Main.player[item.owner].GetModPlayer<wfPlayer>().napalmGrenades;
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Use to make Penta's and Secura Penta's grenades explode on impact, leaving a damage-dealing AoE for 5 seconds that sets enemies on fire\nUse again to reverse the change");
@@ -37,7 +37,7 @@ namespace wfMod.Items
         }
         public override bool CanUseItem(Player player)
         {
-            player.GetModPlayer<wdfeerPlayer>().napalmGrenades = napalm ? false : true;
+            player.GetModPlayer<wfPlayer>().napalmGrenades = napalm ? false : true;
             if (napalm) Main.PlaySound(SoundID.Item20);
             else Main.PlaySound(SoundID.Item29);
             return base.CanUseItem(player);

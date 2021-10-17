@@ -34,7 +34,7 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (!FoundAccessoryWithId(ItemID.WormScarf)) player.GetModPlayer<wdfeerPlayer>().aviator = true;
+            if (!FoundAccessoryWithId(ItemID.WormScarf)) player.GetModPlayer<wfPlayer>().aviator = true;
         }
 
         public bool FoundAccessoryWithId(int id)

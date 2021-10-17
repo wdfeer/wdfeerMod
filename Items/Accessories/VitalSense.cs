@@ -39,7 +39,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().critDmgMult += 0.25f;
+            player.GetModPlayer<wfPlayer>().critDmgMult += 0.25f;
         }
     }
 }

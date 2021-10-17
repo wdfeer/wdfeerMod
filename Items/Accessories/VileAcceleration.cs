@@ -23,7 +23,7 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<wdfeerPlayer>().fireRateMult += 0.2f;
+            player.GetModPlayer<wfPlayer>().fireRateMult += 0.2f;
             player.allDamageMult -= 0.1f;
         }
     }

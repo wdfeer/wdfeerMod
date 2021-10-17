@@ -7,10 +7,10 @@ namespace wfMod.Projectiles
 {
     internal class TonkorProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.height = 20;
             projectile.width = 20;

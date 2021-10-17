@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Simulor : wdfeerWeapon
+    public class Simulor : wfWeapon
     {
         public override void SetStaticDefaults()
         {

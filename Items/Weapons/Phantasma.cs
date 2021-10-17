@@ -74,7 +74,7 @@ namespace wfMod.Items.Weapons
             position += spawnOffset;
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
-            var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = Main.projectile[proj].GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 0.75f;
             globalProj.AddProcChance(new ProcChance(BuffID.Confused, 37));
             return false;

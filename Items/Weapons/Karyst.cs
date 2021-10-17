@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Karyst : wdfeerWeapon
+    public class Karyst : wfWeapon
     {
         public override void SetStaticDefaults()
         {

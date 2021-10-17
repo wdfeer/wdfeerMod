@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
-    public class Nukor : wdfeerWeapon
+    public class Nukor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -58,8 +58,8 @@ namespace wfMod.Items.Weapons
         float dustSpawnDistance = 1f;
         public override bool CanUseItem(Player player)
         {
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
             return base.CanUseItem(player);
         }
         public override void UseStyle(Player player)
@@ -75,10 +75,10 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            spawnPosOffset = position + wdfeerWeapon.findOffset(speedX, speedY, item.width + 1) - player.position;
+            spawnPosOffset = position + wfWeapon.findOffset(speedX, speedY, item.width + 1) - player.position;
             spawnVelocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.kill = (Projectile projectile, int timeLeft) =>
             {
                 dustSpawnDistance = 1 - timeLeft / 44f;

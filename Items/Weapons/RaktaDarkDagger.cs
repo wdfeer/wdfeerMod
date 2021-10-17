@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class RaktaDarkDagger : wdfeerWeapon
+    public class RaktaDarkDagger : wfWeapon
     {
         public override void SetStaticDefaults()
         {

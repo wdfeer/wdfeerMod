@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Scourge : wdfeerWeapon
+    public class Scourge : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -64,7 +64,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 20);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.4f;
             proj.penetrate = 3;
             proj.extraUpdates = 0;

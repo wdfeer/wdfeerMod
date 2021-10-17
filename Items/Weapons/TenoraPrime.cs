@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class TenoraPrime : wdfeerWeapon
+    public class TenoraPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,7 +57,7 @@ namespace wfMod.Items.Weapons
             return true;
         }
         int lastShotTime = 0;
-        int timeSinceLastShot => Main.player[item.owner].GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
+        int timeSinceLastShot => Main.player[item.owner].GetModPlayer<wfPlayer>().longTimer - lastShotTime;
         int spooledShots = 1;
         float spreadMult => 1f / (spooledShots <= 16 ? (float)Math.Sqrt(spooledShots) : spooledShots / 4);
         public override bool CanUseItem(Player player)
@@ -96,7 +96,7 @@ namespace wfMod.Items.Weapons
                 if (timeSinceLastShot < spooledFireRate + 3)
                     spooledShots++;
                 else spooledShots = 1;
-                lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+                lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
             }
             else
             {
@@ -113,7 +113,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (player.altFunctionUse == 2 ? 0 : 0.09f * spreadMult), 57, sound: (player.altFunctionUse == 2 ? SoundID.Item40 : SoundID.Item11));
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             if (player.altFunctionUse == 2)
             {
                 if (proj.penetrate != -1) proj.penetrate += 1;

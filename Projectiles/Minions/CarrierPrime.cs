@@ -8,7 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class CarrierPrime : ModProjectile
     {
-        public int attackInterval => (int)(58f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
+        public int attackInterval => (int)(58f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {

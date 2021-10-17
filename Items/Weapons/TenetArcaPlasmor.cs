@@ -6,7 +6,7 @@ using System;
 
 namespace wfMod.Items.Weapons
 {
-    public class TenetArcaPlasmor : wdfeerWeapon
+    public class TenetArcaPlasmor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace wfMod.Items.Weapons
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(31, 34));
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31, 34));
             projectile.timeLeft = 44;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;

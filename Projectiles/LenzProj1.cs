@@ -7,10 +7,10 @@ namespace wfMod.Projectiles
 {
     internal class LenzProj1 : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             projectile.height = 30;
             projectile.width = 30;
@@ -50,7 +50,7 @@ namespace wfMod.Projectiles
                 {
                     Vector2 offset = projectile.Center - hitNpc.Center;
 
-                    proj.GetGlobalProjectile<wdfeerGlobalProj>().Impale(hitNpc, offset.X, offset.Y);
+                    proj.GetGlobalProjectile<wfGlobalProj>().Impale(hitNpc, offset.X, offset.Y);
                 }
                 for (int i = 0; i < 45; i++)
                 {

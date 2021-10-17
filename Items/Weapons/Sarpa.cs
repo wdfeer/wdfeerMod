@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Sarpa : wdfeerWeapon
+    public class Sarpa : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace wfMod.Items.Weapons
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
-            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.SetFalloff(projectile.position, 500, 1000, 0.86f);
             gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 28));
 

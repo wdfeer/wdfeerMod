@@ -5,7 +5,7 @@ using Terraria.ModLoader.Config;
 
 namespace wfMod
 {
-    public class wdfeerConfig : ModConfig
+    public class wfConfig : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ServerSide;
 

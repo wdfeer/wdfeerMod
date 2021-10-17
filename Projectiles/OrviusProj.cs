@@ -23,7 +23,7 @@ namespace wfMod.Projectiles
         }
         public void Explode()
         {
-            var gProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
                 gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
             gProj.Explode(240);
@@ -36,7 +36,7 @@ namespace wfMod.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.GetGlobalProjectile<wdfeerGlobalProj>().exploding) target.AddBuff(BuffID.Slow, 240);
+            if (projectile.GetGlobalProjectile<wfGlobalProj>().exploding) target.AddBuff(BuffID.Slow, 240);
         }
     }
 }

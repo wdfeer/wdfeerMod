@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Sybaris : wdfeerWeapon
+    public class Sybaris : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -45,7 +45,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 48, bursts: 2, burstInterval: 3, sound: SoundID.Item11,spreadMult: 0.008f);
-            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
 
             return false;
         }

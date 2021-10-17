@@ -9,10 +9,10 @@ namespace wfMod.Projectiles
 {
     internal class PhantasmaProj2 : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             globalProj.exploding = false;
             projectile.width = 32;
             projectile.height = 32;

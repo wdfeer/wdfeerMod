@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Fulmin : wdfeerWeapon
+    public class Fulmin : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -47,7 +47,7 @@ namespace wfMod.Items.Weapons
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack);
-            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.2f;
             globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 16));
 

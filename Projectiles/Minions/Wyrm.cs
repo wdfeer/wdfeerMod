@@ -8,9 +8,9 @@ namespace wfMod.Projectiles.Minions
 {
     public class Wyrm : ModProjectile
     {
-        public int attackInterval => (int)(36f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
+        public int attackInterval => (int)(36f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
-        public int blastInterval => (int)(480f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
+        public int blastInterval => (int)(480f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int blastTimer = 0;
         public override void SetStaticDefaults()
         {
@@ -176,7 +176,7 @@ namespace wfMod.Projectiles.Minions
                         proj.friendly = true;
                         proj.usesLocalNPCImmunity = true;
                         proj.localNPCHitCooldown = -1;
-                        proj.GetGlobalProjectile<wdfeerGlobalProj>().Explode(400);
+                        proj.GetGlobalProjectile<wfGlobalProj>().Explode(400);
                         for (int i = 0; i < 80; i++)
                         {
                             Dust.NewDust(proj.position, proj.width, proj.height, 31, Scale: 0.5f);

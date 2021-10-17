@@ -23,13 +23,13 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeSpeed += (0.07f * player.GetModPlayer<wdfeerPlayer>().BerserkerProcs);
-            Main.buffTexture[Type] = textures[player.GetModPlayer<wdfeerPlayer>().BerserkerProcs - 1];
+            player.meleeSpeed += (0.07f * player.GetModPlayer<wfPlayer>().BerserkerProcs);
+            Main.buffTexture[Type] = textures[player.GetModPlayer<wfPlayer>().BerserkerProcs - 1];
         }
 
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
-            tip = $"+{Main.LocalPlayer.GetModPlayer<wdfeerPlayer>().BerserkerProcs * 7}% Melee Speed";
+            tip = $"+{Main.LocalPlayer.GetModPlayer<wfPlayer>().BerserkerProcs * 7}% Melee Speed";
         }
     }
 }

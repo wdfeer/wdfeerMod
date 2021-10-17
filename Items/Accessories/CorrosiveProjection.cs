@@ -37,7 +37,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().corrProj = true;
+            player.GetModPlayer<wfPlayer>().corrProj = true;
         }
     }
 }

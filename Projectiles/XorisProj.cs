@@ -26,7 +26,7 @@ namespace wfMod.Projectiles
         public void Explode(bool bigKaboom)
         {
             bigBoom = bigKaboom;
-            var globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            var globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 18));
             globalProj.Explode(bigBoom ? 480 : 320);
             projectile.idStaticNPCHitCooldown = 4;

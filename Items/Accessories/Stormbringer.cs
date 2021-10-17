@@ -34,7 +34,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().electroMult += 0.2f;
+            player.GetModPlayer<wfPlayer>().electroMult += 0.2f;
         }
     }
 }

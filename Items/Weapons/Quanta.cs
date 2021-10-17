@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Quanta : wdfeerWeapon
+    public class Quanta : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -75,7 +75,7 @@ namespace wfMod.Items.Weapons
                     Vector2 pos = position + offset;
                     Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * item.shootSpeed;
                     var proj = ShootWith(pos, velocity.X, velocity.Y, mod.ProjectileType("QuantaProj"), damage, knockBack);
-                    var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                    var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                     globalProj.critMult = 1.1f;
                     globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 24));
 
@@ -84,7 +84,7 @@ namespace wfMod.Items.Weapons
             else
             {
                 var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("QuantaAltProj"), damage * 7, knockBack, offset: 52, sound: SoundID.Item92);
-                var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 globalProj.critMult = 1.1f;
                 globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 24));
             }

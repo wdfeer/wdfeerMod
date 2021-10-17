@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    internal class SecuraPenta : wdfeerWeapon
+    internal class SecuraPenta : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -44,7 +44,7 @@ namespace wfMod.Items.Weapons
                 for (int i = 0; i < projs.Length; i++)
                 {
                     if (!projs[i].active || projs[i].type != item.shoot) continue;
-                    projs[i].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(150);
+                    projs[i].GetGlobalProjectile<Projectiles.wfGlobalProj>().Explode(150);
                     projs[i].localNPCHitCooldown = -1;
                 }
                 projs = new Projectile[5] { new Projectile(), new Projectile(), new Projectile(), new Projectile(), new Projectile() };
@@ -73,11 +73,11 @@ namespace wfMod.Items.Weapons
         {
             var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("PentaProj"), damage, knockBack, offset: 16);
             projs[nextProjIndex] = proj;
-            var gProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
-            if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
+            var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
+            if (player.GetModPlayer<wfPlayer>().napalmGrenades)
                 gProj.AddProcChance(new ProcChance(BuffID.OnFire, 30));
 
-            if (player.GetModPlayer<wdfeerPlayer>().napalmGrenades)
+            if (player.GetModPlayer<wfPlayer>().napalmGrenades)
                 sound = mod.GetSound("Sounds/PentaNapalmSound").CreateInstance();
             else sound = mod.GetSound("Sounds/PentaSound").CreateInstance();
             sound.Volume = 0.5f;

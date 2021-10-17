@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class TiberonPrime : wdfeerWeapon
+    public class TiberonPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -82,10 +82,10 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                if (player.GetModPlayer<wdfeerPlayer>().longTimer - 30 > lastModeChange)
+                if (player.GetModPlayer<wfPlayer>().longTimer - 30 > lastModeChange)
                 {
                     Mode++;
-                    lastModeChange = player.GetModPlayer<wdfeerPlayer>().longTimer;
+                    lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
                     Main.PlaySound(SoundID.Unlock);
                 }
                 return false;
@@ -110,7 +110,7 @@ namespace wfMod.Items.Weapons
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, bursts: bursts, burstInterval: interval);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
-            var gProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             if (Mode == 0)
                 gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 9));
             gProj.critMult = Mode == 0 ? 1.4f : (Mode == 1 ? 1.5f : 1.7f);

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Amprex : wdfeerWeapon
+    public class Amprex : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -53,7 +53,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, offset: 64, sound: SoundID.Item91.WithVolume(0.3f));
-            var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.1f;
             globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 22));
 

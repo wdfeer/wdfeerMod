@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Quatz : wdfeerWeapon
+    public class Quatz : wfWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -93,7 +93,7 @@ namespace wfMod.Items.Weapons
             {
                 float spreadMult = player.altFunctionUse == 2 ? 0.012f : 0.024f;
                 var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult, item.width);
-                var globalProj = projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+                var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 if (player.altFunctionUse == 2)
                 {
                     globalProj.critMult = 1.25f;

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Furis : wdfeerWeapon
+    public class Furis : wfWeapon
     {
         public override void SetStaticDefaults()
         {

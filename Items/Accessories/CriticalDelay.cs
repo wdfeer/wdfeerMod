@@ -27,7 +27,7 @@ namespace wfMod.Items.Accessories
             player.magicCrit += critBoost;
             player.meleeCrit += critBoost;
             player.rangedCrit += critBoost;
-            player.GetModPlayer<wdfeerPlayer>().fireRateMult -= 0.1f;
+            player.GetModPlayer<wfPlayer>().fireRateMult -= 0.1f;
         }
     }
 }

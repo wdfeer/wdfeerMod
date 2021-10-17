@@ -15,7 +15,7 @@ namespace wfMod.Buffs
 
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
-            var stacks = Main.LocalPlayer.GetModPlayer<wdfeerPlayer>().arcaSciscoStacks;
+            var stacks = Main.LocalPlayer.GetModPlayer<wfPlayer>().arcaSciscoStacks;
             tip = $"+{5 * stacks}% Crit and Slash chance on the Arca Scisco";
         }
     }

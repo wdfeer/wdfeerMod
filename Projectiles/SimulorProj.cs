@@ -10,7 +10,7 @@ namespace wfMod.Projectiles
     internal class SimulorProj : ModProjectile
     {
         public const int baseTimeLeft = 660;
-        wdfeerGlobalProj gProj;
+        wfGlobalProj gProj;
         public bool implosion = false;
         private float damageMult = 1f;
         public float DamageMult
@@ -24,7 +24,7 @@ namespace wfMod.Projectiles
         }
         public override void SetDefaults()
         {
-            gProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.height = 20;
             projectile.width = 20;
@@ -53,7 +53,7 @@ namespace wfMod.Projectiles
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
-                if (!proj.active || !(proj.modProjectile is SimulorProj) || proj.GetGlobalProjectile<wdfeerGlobalProj>().exploding) continue;
+                if (!proj.active || !(proj.modProjectile is SimulorProj) || proj.GetGlobalProjectile<wfGlobalProj>().exploding) continue;
                 SimulorProj simulorProj = proj.modProjectile as SimulorProj;
                 if (simulorProj == this) continue;
                 float dist = (proj.position - projectile.position).Length();
@@ -102,7 +102,7 @@ namespace wfMod.Projectiles
         {
             if (gProj.exploding) return false;
             gProj.Explode(radius);
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(BuffID.Electrified, electricityChance));
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Electrified, electricityChance));
             if (electricityChance != 30)
             {
                 projectile.knockBack = 0f;

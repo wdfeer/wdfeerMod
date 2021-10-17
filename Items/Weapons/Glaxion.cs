@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
-    public class Glaxion : wdfeerWeapon
+    public class Glaxion : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -55,8 +55,8 @@ namespace wfMod.Items.Weapons
         int shots = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            timeSinceLastShot = player.GetModPlayer<wdfeerPlayer>().longTimer - lastShotTime;
-            lastShotTime = player.GetModPlayer<wdfeerPlayer>().longTimer;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
             if (timeSinceLastShot > 10) shots = 0;
             if (shots % 2 == 0)
             {
@@ -84,7 +84,7 @@ namespace wfMod.Items.Weapons
             shots++;
 
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.onHit = (NPC target) =>
             {
                 if (Main.rand.Next(0, 100) < 30)

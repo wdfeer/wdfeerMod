@@ -9,10 +9,10 @@ namespace wfMod.Projectiles
 {
     internal class QuantaAltProj : ModProjectile
     {
-        wdfeerGlobalProj gProj;
+        wfGlobalProj gProj;
         public override void SetDefaults()
         {
-            gProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.friendly = true;
             projectile.height = 20;
             projectile.width = 20;
@@ -31,7 +31,7 @@ namespace wfMod.Projectiles
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile p = Main.projectile[i];
-                    if (p.active && (p.type == mod.ProjectileType("QuantaProj") || (p.type == projectile.type && p != projectile && p.GetGlobalProjectile<wdfeerGlobalProj>().exploding)) && Rectangle.Intersect(projectile.getRect(), p.getRect()) != Rectangle.Empty)
+                    if (p.active && (p.type == mod.ProjectileType("QuantaProj") || (p.type == projectile.type && p != projectile && p.GetGlobalProjectile<wfGlobalProj>().exploding)) && Rectangle.Intersect(projectile.getRect(), p.getRect()) != Rectangle.Empty)
                     {
                         gProj.Explode(300);
                         projectile.damage = (int)(projectile.damage * 1.2f);

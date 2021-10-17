@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Stradavar : wdfeerWeapon
+    public class Stradavar : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -77,10 +77,10 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                if (player.GetModPlayer<wdfeerPlayer>().longTimer - 30 > lastModeChange)
+                if (player.GetModPlayer<wfPlayer>().longTimer - 30 > lastModeChange)
                 {
                     Mode++;
-                    lastModeChange = player.GetModPlayer<wdfeerPlayer>().longTimer;
+                    lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
                     Main.PlaySound(SoundID.Unlock);
                 }
                 return false;

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Orvius : wdfeerWeapon
+    public class Orvius : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,8 +57,8 @@ namespace wfMod.Items.Weapons
             else
             {
                 proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.1f;
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 20));
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.1f;
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 20));
                 Main.PlaySound(SoundID.Item1, position);
             }
 

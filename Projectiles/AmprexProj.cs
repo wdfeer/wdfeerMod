@@ -10,10 +10,10 @@ namespace wfMod.Projectiles
     internal class AmprexProj : ModProjectile
     {
         public int chainLeft = 3;
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             globalProj.exploding = false;
             projectile.width = 8;
             projectile.height = 8;

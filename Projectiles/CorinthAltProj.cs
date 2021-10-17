@@ -19,7 +19,7 @@ namespace wfMod.Projectiles
 
         public override void AI()
         {
-            if (projectile.timeLeft == 3) projectile.GetGlobalProjectile<wdfeerGlobalProj>().Explode(240);
+            if (projectile.timeLeft == 3) projectile.GetGlobalProjectile<wfGlobalProj>().Explode(240);
 
             for (int i = 0; i < 2; i++)
             {

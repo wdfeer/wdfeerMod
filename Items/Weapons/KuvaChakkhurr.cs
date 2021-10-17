@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class KuvaChakkhurr : wdfeerWeapon
+    public class KuvaChakkhurr : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -61,16 +61,16 @@ namespace wfMod.Items.Weapons
             sound.Play();
 
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width * item.scale + 2);
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onTileCollide = () =>
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().onTileCollide = () =>
             {
-                if (proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().exploding) return;
-                proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().Explode(180);
+                if (proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().exploding) return;
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().Explode(180);
                 proj.damage /= 3;
             };
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onHit = (NPC victim) => proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().onTileCollide();
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().kill = (Projectile p, int timeLeft) =>
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().onHit = (NPC victim) => proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().onTileCollide();
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().kill = (Projectile p, int timeLeft) =>
             {
-                if (p.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().exploding)
+                if (p.GetGlobalProjectile<Projectiles.wfGlobalProj>().exploding)
                 {
                     Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.4f), p.position);
                     // Smoke Dust spawn
@@ -81,7 +81,7 @@ namespace wfMod.Items.Weapons
                     }
                 }
             };
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.15f;
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.15f;
             proj.penetrate = -1;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

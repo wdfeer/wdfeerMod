@@ -8,7 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class Djinn : ModProjectile
     {
-        public int attackInterval => (int)(20f / Main.player[projectile.owner].GetModPlayer<wdfeerPlayer>().fireRateMult);
+        public int attackInterval => (int)(20f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()
         {
@@ -178,8 +178,8 @@ namespace wfMod.Projectiles.Minions
                     proj.ranged = false;
                     proj.minion = true;
                     proj.timeLeft = 120;
-                    proj.GetGlobalProjectile<wdfeerGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
-                    proj.GetGlobalProjectile<wdfeerGlobalProj>().AddProcChance(new ProcChance(BuffID.Venom, 44));
+                    proj.GetGlobalProjectile<wfGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
+                    proj.GetGlobalProjectile<wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Venom, 44));
 
                     attackTimer = attackInterval;
                 }

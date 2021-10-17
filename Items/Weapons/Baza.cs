@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Baza : wdfeerWeapon
+    public class Baza : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -61,7 +61,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.001f, item.width);
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.5f;
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.5f;
             return false;
         }
     }

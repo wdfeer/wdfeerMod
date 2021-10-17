@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class CorinthPrime : wdfeerWeapon
+    public class CorinthPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace wfMod.Items.Weapons
                 item.shootSpeed = 12f;
                 if (altFireProj == null || !altFireProj.active)
                 {
-                    if (player.GetModPlayer<wdfeerPlayer>().longTimer - lastAltShoot < 2 * item.useTime * item.GetGlobalItem<wdfeerGlobalItem>().UseTimeMultiplier(item, player))
+                    if (player.GetModPlayer<wfPlayer>().longTimer - lastAltShoot < 2 * item.useTime * item.GetGlobalItem<wfGlobalItem>().UseTimeMultiplier(item, player))
                         return false;
                 }
                 else item.noUseGraphic = true;
@@ -90,8 +90,8 @@ namespace wfMod.Items.Weapons
                 for (int i = 0; i < 5; i++)
                 {
                     var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.07f, 60);
-                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
-                    projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 4));
+                    projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.4f;
+                    projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 4));
                 }
             }
             else
@@ -99,11 +99,11 @@ namespace wfMod.Items.Weapons
                 if (altFireProj == null || altFireProj.modProjectile == null || !altFireProj.active)
                 {
                     Main.PlaySound(SoundID.Item61);
-                    lastAltShoot = player.GetModPlayer<wdfeerPlayer>().longTimer;
+                    lastAltShoot = player.GetModPlayer<wfPlayer>().longTimer;
                     int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 6, knockBack, Main.LocalPlayer.cHead);
                     altFireProj = Main.projectile[proj];
                     altFireProj.timeLeft = 80;
-                    altFireProj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
+                    altFireProj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;
                 }
                 else
                 {

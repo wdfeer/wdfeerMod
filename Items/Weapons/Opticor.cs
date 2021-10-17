@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Opticor : wdfeerWeapon
+    public class Opticor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,10 +57,10 @@ namespace wfMod.Items.Weapons
 
             Vector2 velocity = new Vector2(speedX, speedY);
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            wdfeerPlayer modPl = Main.player[item.owner].GetModPlayer<wdfeerPlayer>();
+            wfPlayer modPl = Main.player[item.owner].GetModPlayer<wfPlayer>();
             if (modPl.fireRateMult > 1)
                 proj.timeLeft = (int)(146 + 54 / modPl.fireRateMult);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>();
+            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.25f;
             globalProj.baseVelocity = velocity;
             globalProj.v2 = proj.position - Main.LocalPlayer.position;

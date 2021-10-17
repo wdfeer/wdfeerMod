@@ -6,7 +6,7 @@ using System;
 
 namespace wfMod.Items.Weapons
 {
-    public class ArcaPlasmor : wdfeerWeapon
+    public class ArcaPlasmor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -57,8 +57,8 @@ namespace wfMod.Items.Weapons
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
-            projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(31,28));
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31,28));
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Corinth : wdfeerWeapon
+    public class Corinth : wfWeapon
     {
         Random rand = new Random();
         public override void SetStaticDefaults()
@@ -86,14 +86,14 @@ namespace wfMod.Items.Weapons
                 for (int i = 0; i < 5; i++)
                 {
                     var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.08f, item.width);
-                    proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 1.4f;
+                    proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.4f;
                 }
             }
             else
             {
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 7 / 2, knockBack, Main.LocalPlayer.cHead);
                 var projectile = Main.projectile[proj];
-                projectile.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().critMult = 0.8f;
+                projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;
             }
             return false;
         }

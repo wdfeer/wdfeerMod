@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class VectisPrime : wdfeerWeapon
+    public class VectisPrime : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -74,7 +74,7 @@ namespace wfMod.Items.Weapons
             shots++;
 
             var proj = ShootWith(position, speedX, speedY, ProjectileID.SniperBullet, damage, knockBack, offset: item.width);
-            proj.GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 8));
+            proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 8));
             proj.ranged = true;
             proj.friendly = true;
             proj.hostile = false;

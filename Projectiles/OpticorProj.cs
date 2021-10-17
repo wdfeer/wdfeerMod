@@ -9,10 +9,10 @@ namespace wfMod.Projectiles
 {
     internal class OpticorProj : ModProjectile
     {
-        wdfeerGlobalProj globalProj;
+        wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wdfeerGlobalProj>();
+            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
             projectile.width = 32;
             projectile.height = 32;
             projectile.magic = true;

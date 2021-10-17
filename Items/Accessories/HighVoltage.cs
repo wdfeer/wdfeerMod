@@ -35,8 +35,8 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             // Here we add an additional effect
-            player.GetModPlayer<wdfeerPlayer>().electroMult += 0.12f;
-            player.GetModPlayer<wdfeerPlayer>().AddProcChance(new ProcChance(BuffID.Electrified, 12));
+            player.GetModPlayer<wfPlayer>().electroMult += 0.12f;
+            player.GetModPlayer<wfPlayer>().AddProcChance(new ProcChance(BuffID.Electrified, 12));
         }
     }
 }

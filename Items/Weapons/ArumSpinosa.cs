@@ -50,7 +50,7 @@ namespace wfMod.Items.Weapons
             for (int i = 0; i < 6; i++)
             {
                 proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(-0.15f, 0.15f), type, damage, knockBack, Main.LocalPlayer.cHead);
-                Main.projectile[proj].GetGlobalProjectile<Projectiles.wdfeerGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"),50));
+                Main.projectile[proj].GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"),50));
             }
             Main.PlaySound(SoundID.Item1, position);
 

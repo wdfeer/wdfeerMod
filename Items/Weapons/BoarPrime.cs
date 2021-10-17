@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
-    public class BoarPrime : wdfeerWeapon
+    public class BoarPrime : wfWeapon
     {
         Random rand = new Random();
         public override void SetDefaults()

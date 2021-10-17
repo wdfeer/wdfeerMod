@@ -19,7 +19,7 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<wdfeerPlayer>().slashProc = true;
+            player.GetModPlayer<wfPlayer>().slashProc = true;
         }
     }
 }
