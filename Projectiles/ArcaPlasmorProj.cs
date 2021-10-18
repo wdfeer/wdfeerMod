@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 
 namespace wfMod.Projectiles
 {
-
     internal class ArcaPlasmorProj : ModProjectile
     {
         bool tenet = false;

@@ -42,7 +42,6 @@ namespace wfMod.Items.Accessories
             int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
             for (int i = 3; i < 3 + maxAccessoryIndex; i++)
             {
-
                 Item otherAccessory = Main.LocalPlayer.armor[i];
                 // IsAir makes sure we don't check for "empty" slots
                 // IsTheSameAs() compares two items and returns true if their types match

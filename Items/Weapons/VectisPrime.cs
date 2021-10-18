@@ -45,7 +45,6 @@ namespace wfMod.Items.Weapons
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-
         }
         Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         int shots = 0;

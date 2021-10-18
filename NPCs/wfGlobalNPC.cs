@@ -243,7 +243,6 @@ namespace wfMod
                                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Tonkor>());
                                 break;
                         }
-
                     }
                     break;
             }

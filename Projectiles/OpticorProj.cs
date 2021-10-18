@@ -37,7 +37,6 @@ namespace wfMod.Projectiles
 
                 if (projectile.timeLeft == 146 && !playedSound)
                 {
-                    
                     playedSound = true;
                 }
                 if (Main.LocalPlayer.dead) projectile.Kill();

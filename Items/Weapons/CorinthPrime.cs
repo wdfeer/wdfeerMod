@@ -55,7 +55,6 @@ namespace wfMod.Items.Weapons
                         return false;
                 }
                 else item.noUseGraphic = true;
-
             }
             else
             {

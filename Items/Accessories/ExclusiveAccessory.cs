@@ -114,7 +114,6 @@ namespace wfMod.Items.Accessories
             return (-1, null);
         }
 
-
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             scale = worldScale;

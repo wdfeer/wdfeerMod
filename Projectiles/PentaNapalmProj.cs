@@ -29,7 +29,6 @@ namespace wfMod.Projectiles
                 var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Scale: Main.rand.NextFloat(1, 1.2f))];
                 dust.velocity *= 1.4f;
             }
-
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

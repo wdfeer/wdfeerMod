@@ -91,7 +91,6 @@ namespace wfMod.Items.Weapons
         {
             Main.PlaySound(SoundID.Item11, position);
 
-
             Vector2 spread = new Vector2(speedY, -speedX);
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, Mode == 0 ? 0.005f : 0.002f, item.width);
             projectile.usesLocalNPCImmunity = true;
