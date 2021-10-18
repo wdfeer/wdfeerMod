@@ -53,7 +53,7 @@ namespace wfMod.Projectiles.Minions
             {
                 player.ClearBuff(ModContent.BuffType<Buffs.TaxonBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.TaxonBuff>()))
+            else if (player.HasBuff(ModContent.BuffType<Buffs.TaxonBuff>()))
             {
                 projectile.timeLeft = 2;
             }
@@ -144,7 +144,6 @@ namespace wfMod.Projectiles.Minions
             #endregion
 
             #region Movement and Shooting
-
             // Default movement parameters (here for attacking)
             float speed = 9f;
             float inertia = 20f;
@@ -165,20 +164,7 @@ namespace wfMod.Projectiles.Minions
 
                 if (distanceFromTarget < 1000f && attackTimer <= 0 && Collision.CanHitLine(projectile.Center, 1, 1, targetCenter, 1, 1))
                 {
-                    Main.PlaySound(SoundID.Item12.WithVolume(0.33f), projectile.position);
-
-                    Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Center) * 16;
-                    Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                    var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, projVelocity + spread * Main.rand.NextFloat(-0.001f, 0.001f), ProjectileID.MagnetSphereBolt, projectile.damage, projectile.knockBack, projectile.owner)];
-                    proj.tileCollide = true;
-                    proj.hostile = false;
-                    proj.friendly = true;
-                    proj.magic = false;
-                    proj.minion = true;
-                    proj.timeLeft = 120;
-                    proj.penetrate = 1;
-                    proj.GetGlobalProjectile<wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Slow, 100, 4));
-
+                    Attack(targetCenter);
                     attackTimer = attackInterval;
                 }
             }
@@ -222,6 +208,22 @@ namespace wfMod.Projectiles.Minions
             // Some visuals here
             Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.78f);
             #endregion
+        }
+        void Attack(Vector2 targetCenter)
+        {
+            Main.PlaySound(SoundID.Item12.WithVolume(0.33f), projectile.position);
+
+            Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Center) * 16;
+            Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+            var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, projVelocity + spread * Main.rand.NextFloat(-0.001f, 0.001f), ProjectileID.MagnetSphereBolt, projectile.damage, projectile.knockBack, projectile.owner)];
+            proj.tileCollide = true;
+            proj.hostile = false;
+            proj.friendly = true;
+            proj.magic = false;
+            proj.minion = true;
+            proj.timeLeft = 120;
+            proj.penetrate = 1;
+            proj.GetGlobalProjectile<wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Slow, 100, 4));
         }
     }
 }

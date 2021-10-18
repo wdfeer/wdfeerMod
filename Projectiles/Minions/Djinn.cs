@@ -53,7 +53,7 @@ namespace wfMod.Projectiles.Minions
             {
                 player.ClearBuff(ModContent.BuffType<Buffs.DjinnBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.DjinnBuff>()))
+            else if (player.HasBuff(ModContent.BuffType<Buffs.DjinnBuff>()))
             {
                 projectile.timeLeft = 2;
             }
@@ -145,7 +145,6 @@ namespace wfMod.Projectiles.Minions
             #endregion
 
             #region Movement and Shooting
-
             // Default movement parameters (here for attacking)
             float speed = 9f;
             float inertia = 20f;
@@ -166,21 +165,7 @@ namespace wfMod.Projectiles.Minions
 
                 if (distanceFromTarget < 800f && attackTimer <= 0)
                 {
-                    Main.PlaySound(SoundID.Item17, projectile.position);
-
-                    Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Center) * 16;
-                    Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                    var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, projVelocity + spread * Main.rand.NextFloat(-0.09f, 0.09f), ProjectileID.PoisonDart, projectile.damage, projectile.knockBack, projectile.owner)];
-                    proj.tileCollide = false;
-                    proj.hostile = false;
-                    proj.friendly = true;
-                    proj.extraUpdates = 3;
-                    proj.ranged = false;
-                    proj.minion = true;
-                    proj.timeLeft = 120;
-                    proj.GetGlobalProjectile<wfGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
-                    proj.GetGlobalProjectile<wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Venom, 44));
-
+                    Attack(targetCenter);
                     attackTimer = attackInterval;
                 }
             }
@@ -224,6 +209,23 @@ namespace wfMod.Projectiles.Minions
             // Some visuals here
             Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.78f);
             #endregion
+        }
+        void Attack(Vector2 targetCenter)
+        {
+            Main.PlaySound(SoundID.Item17, projectile.position);
+
+            Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Center) * 16;
+            Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+            var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, projVelocity + spread * Main.rand.NextFloat(-0.09f, 0.09f), ProjectileID.PoisonDart, projectile.damage, projectile.knockBack, projectile.owner)];
+            proj.tileCollide = false;
+            proj.hostile = false;
+            proj.friendly = true;
+            proj.extraUpdates = 3;
+            proj.ranged = false;
+            proj.minion = true;
+            proj.timeLeft = 120;
+            proj.GetGlobalProjectile<wfGlobalProj>().ai = () => Dust.NewDust(proj.position, proj.width, proj.height, 256, Scale: 0.4f);
+            proj.GetGlobalProjectile<wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Venom, 44));
         }
     }
 }

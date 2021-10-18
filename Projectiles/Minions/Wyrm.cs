@@ -55,7 +55,7 @@ namespace wfMod.Projectiles.Minions
             {
                 player.ClearBuff(ModContent.BuffType<Buffs.WyrmBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.WyrmBuff>()))
+            else if (player.HasBuff(ModContent.BuffType<Buffs.WyrmBuff>()))
             {
                 projectile.timeLeft = 2;
             }
@@ -147,7 +147,6 @@ namespace wfMod.Projectiles.Minions
             #endregion
 
             #region Movement and Shooting
-
             // Default movement parameters (here for attacking)
             float speed = 9f;
             float inertia = 20f;
@@ -170,34 +169,14 @@ namespace wfMod.Projectiles.Minions
                 {
                     if (blastTimer <= 0 && distanceFromTarget < 200f && distanceToIdlePosition < 480f)
                     {
-                        Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.35f), projectile.position);
-
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
-                        proj.friendly = true;
-                        proj.usesLocalNPCImmunity = true;
-                        proj.localNPCHitCooldown = -1;
-                        proj.GetGlobalProjectile<wfGlobalProj>().Explode(400);
-                        for (int i = 0; i < 80; i++)
-                        {
-                            Dust.NewDust(proj.position, proj.width, proj.height, 31, Scale: 0.5f);
-                        }
-
+                        AltAttack();
                         blastTimer = blastInterval;
                     }
                 }
 
                 if (distanceFromTarget < 800f && attackTimer <= 0)
                 {
-                    Main.PlaySound(SoundID.Item12, projectile.position);
-
-                    Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
-                    Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                    var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
-                    proj.tileCollide = false;
-                    proj.timeLeft = 60;
-                    proj.ranged = false;
-                    proj.minion = true;
-
+                    Attack(targetCenter);
                     attackTimer = attackInterval;
                 }
             }
@@ -241,6 +220,32 @@ namespace wfMod.Projectiles.Minions
             // Some visuals here
             Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.78f);
             #endregion
+        }
+        void Attack(Vector2 targetCenter)
+        {
+            Main.PlaySound(SoundID.Item12, projectile.position);
+
+            Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
+            Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+            var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
+            proj.tileCollide = false;
+            proj.timeLeft = 60;
+            proj.ranged = false;
+            proj.minion = true;
+        }
+        void AltAttack()
+        {
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.35f), projectile.position);
+
+            var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
+            proj.friendly = true;
+            proj.usesLocalNPCImmunity = true;
+            proj.localNPCHitCooldown = -1;
+            proj.GetGlobalProjectile<wfGlobalProj>().Explode(400);
+            for (int i = 0; i < 80; i++)
+            {
+                Dust.NewDust(proj.position, proj.width, proj.height, 31, Scale: 0.5f);
+            }
         }
     }
 }

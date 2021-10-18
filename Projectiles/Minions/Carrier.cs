@@ -53,7 +53,7 @@ namespace wfMod.Projectiles.Minions
             {
                 player.ClearBuff(ModContent.BuffType<Buffs.CarrierBuff>());
             }
-            if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
+            else if (player.HasBuff(ModContent.BuffType<Buffs.CarrierBuff>()))
             {
                 projectile.timeLeft = 2;
                 player.AddBuff(BuffID.AmmoReservation, 30);
@@ -146,7 +146,6 @@ namespace wfMod.Projectiles.Minions
             #endregion
 
             #region Movement and Shooting
-
             // Default movement parameters (here for attacking)
             float speed = 8f;
             float inertia = 20f;
@@ -164,16 +163,7 @@ namespace wfMod.Projectiles.Minions
                 }
                 if (attackTimer <= 0 && distanceFromTarget < 400f)
                 {
-                    Main.PlaySound(SoundID.Item36.WithVolume(0.75f), projectile.position);
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
-                        Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-                        var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.18f, 0.18f), ProjectileID.Bullet, projectile.damage, projectile.knockBack, projectile.owner)];
-                        proj.ranged = false;
-                        proj.minion = true;
-                        proj.timeLeft = 80;
-                    }
+                    Attack(targetCenter);
                     attackTimer = attackInterval;
                 }
                 else attackTimer -= 1;
@@ -218,6 +208,19 @@ namespace wfMod.Projectiles.Minions
             // Some visuals here
             Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.78f);
             #endregion
+        }
+        void Attack(Vector2 targetCenter)
+        {
+            Main.PlaySound(SoundID.Item36.WithVolume(0.75f), projectile.position);
+            for (int i = 0; i < 4; i++)
+            {
+                Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
+                Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
+                var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.18f, 0.18f), ProjectileID.Bullet, projectile.damage, projectile.knockBack, projectile.owner)];
+                proj.ranged = false;
+                proj.minion = true;
+                proj.timeLeft = 80;
+            }
         }
     }
 }
