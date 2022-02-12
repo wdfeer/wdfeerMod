@@ -20,7 +20,9 @@ namespace wfMod.Items.Weapons
         {
             if (offset != 0)
             {
-                position += findOffset(speedX, speedY, offset);
+                Vector2 muzzleOffset = findOffset(speedX, speedY, offset);
+                if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+                    position += muzzleOffset;
             }
 
             if (bursts > 1 && burstInterval > 0)
