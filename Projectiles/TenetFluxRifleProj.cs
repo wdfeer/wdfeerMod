@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Projectiles
 {
-    internal class FluxRifleProj : ModProjectile
+    internal class TenetFluxRifleProj : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -15,7 +15,7 @@ namespace wfMod.Projectiles
             projectile.height = 10;
             projectile.width = 10;
             projectile.penetrate = 2;
-            projectile.extraUpdates = 100;
+            projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
@@ -24,7 +24,7 @@ namespace wfMod.Projectiles
             for (int i = 0; i < 2; i++)
             {
                 Vector2 position = projectile.position;
-                position -= projectile.velocity * Main.rand.NextFloat(-0.25f, 0.25f);
+                position -= projectile.velocity * Main.rand.NextFloat(-1f, 1f);
                 var dust = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, 91, Scale: 0.8f)];
                 dust.velocity *= 0;
                 dust.noGravity = true;
