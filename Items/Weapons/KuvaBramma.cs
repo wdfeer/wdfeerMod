@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 379;
+            item.damage = 419;
             item.crit = 31;
             item.knockBack = 3;
             item.ranged = true;
@@ -40,7 +40,7 @@ namespace wfMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Kuva"), 12);
             recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
-            recipe.AddIngredient(ItemID.Phantasm,1);
+            recipe.AddIngredient(ItemID.Phantasm, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
