@@ -18,30 +18,6 @@ namespace wfMod
             proc.OnEnd = () => procs.Remove(proc);
             procs.Add(proc);
         }
-        public bool eximus => eximusType != -1;
-        public int eximusType = -1;
-        const int arsonTimer = 900;
-        int arsonCooldown = arsonTimer / 2;
-        int ArsonProj = 0;
-        Projectile arsonProj => Main.projectile[ArsonProj];
-        const int arcticTimer = 180;
-        int arcticCooldown = arcticTimer / 2;
-        int ArcticNPC;
-        NPC arcticNPC => Main.npc[ArcticNPC];
-        public override void SetDefaults(NPC npc)
-        {
-            base.SetDefaults(npc);
-            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 4)
-                eximusType = Main.rand.Next(3);
-            if (eximus)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.75f);
-                npc.life = npc.lifeMax;
-                npc.defense = (int)(npc.defense * 1.2f);
-                npc.damage = (int)(npc.damage * 2f);
-                npc.value *= 3f;
-            }
-        }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
@@ -64,66 +40,8 @@ namespace wfMod
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
             }
         }
-        public static bool BossAlive()
-        {
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                if (Main.npc[i].boss && Main.npc[i].active) return true;
-            }
-            return false;
-        }
         public override void AI(NPC npc)
         {
-            if (eximus && !BossAlive())
-                switch (eximusType)
-                {
-                    case 0:
-                        if (!npc.HasPlayerTarget) break;
-                        Player player = Main.player[npc.FindClosestPlayer()];
-                        if (Vector2.Distance(player.position, npc.position) > 640) break;
-                        player.manaRegen = 0;
-                        if (player.statMana > 1)
-                        {
-                            player.statMana -= 1;
-                            Vector2 dist = npc.Center - player.Center;
-                            for (int i1 = 0; i1 < dist.Length() / 15; i1++)
-                            {
-                                var dust = Main.dust[Dust.NewDust(player.Center + dist * Main.rand.NextFloat(0, 1), 1, 1, 88)];
-                                dust.noGravity = true;
-                                dust.velocity *= 0;
-                            }
-                        }
-                        break;
-                    case 1:
-                        arsonCooldown--;
-                        if (!npc.HasPlayerTarget) break;
-                        if (arsonCooldown <= 0)
-                        {
-                            arsonCooldown = arsonTimer;
-                            ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 10 : 2, 10f, Owner: npc.whoAmI);
-                            Main.PlaySound(SoundID.Item20, npc.Center);
-                            npc.velocity *= 0.2f;
-                        }
-                        break;
-                    case 2:
-                        arcticCooldown--;
-                        if (!npc.HasPlayerTarget) break;
-                        if ((arcticNPC == null || !arcticNPC.active || arcticNPC.type != ModContent.NPCType<NPCs.ArcticEximus>()) && arcticCooldown <= 0)
-                        {
-                            arcticCooldown = arcticTimer;
-
-                            ArcticNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<NPCs.ArcticEximus>());
-                            arcticNPC.lifeMax = npc.lifeMax;
-                            arcticNPC.life = npc.lifeMax;
-                            arcticNPC.defense = (int)(npc.defense * 1.1f);
-                            var arcticModNPC = arcticNPC.modNPC as NPCs.ArcticEximus;
-                            arcticModNPC.parentNPC = npc;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
             if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
             {
                 npc.velocity *= 0f;
@@ -174,7 +92,6 @@ namespace wfMod
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (arcticNPC != null && arcticNPC.active && arcticNPC.type == ModContent.NPCType<NPCs.ArcticEximus>()) damage /= 2;
             if (Main.player[projectile.owner].GetModPlayer<wfPlayer>().synthDeconstruct && projectile.minion)
                 heartDropChance = 15;
         }

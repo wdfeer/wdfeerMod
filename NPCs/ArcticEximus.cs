@@ -25,20 +25,34 @@ namespace wfMod.NPCs
             npc.width = 240;
             npc.height = 240;
             npc.noGravity = true;
-			npc.noTileCollide = true;
+            npc.noTileCollide = true;
             npc.HitSound = SoundID.Item50;
             npc.value = 0;
-			npc.alpha = 100;
+            npc.alpha = 90;
+            for (int i = 0; i < npc.buffImmune.Length; i++)
+            {
+                npc.buffImmune[i] = true;
+            }
         }
         public override void AI()
         {
-			if (parentNPC != null && parentNPC.life <= 0) npc.life = 0;
-            npc.Center = parentNPC != null ? parentNPC.Center : Main.LocalPlayer.Center;
-			for (int i = 0; i < 2; i++)
-			{
-				var dust = Dust.NewDustPerfect(npc.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * npc.width / 2, 51, Scale: 0.75f);
-				dust.velocity *= 0.1f;
-			}
+            if (parentNPC is null || parentNPC.life <= 0)
+            {
+                npc.life = 0;
+                return;
+            }
+            npc.Center = parentNPC.Center;
+
+            for (int i = 0; i < 2; i++)
+            {
+                var dust = Dust.NewDustPerfect(npc.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * npc.width / 2, 51, Scale: 0.75f);
+                dust.velocity *= 0.1f;
+            }
+        }
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            if (damage < npc.life && projectile.penetrate != -1)
+                projectile.penetrate--;
         }
         public override bool CanHitPlayer(Player player, ref int cooldownSlot)
         {

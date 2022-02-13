@@ -10,7 +10,7 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots a high-velocity bullet that penetrates through an enemy\nHas to reload after every second shot");
+            Tooltip.SetDefault("Shoots a high-velocity bullet that penetrates through 2 enemies\nHas to reload after every second shot");
         }
         public override void SetDefaults()
         {
@@ -78,7 +78,7 @@ namespace wfMod.Items.Weapons
             proj.friendly = true;
             proj.hostile = false;
             proj.extraUpdates = 6;
-            proj.penetrate = 2;
+            proj.penetrate = 3;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;
             return false;
