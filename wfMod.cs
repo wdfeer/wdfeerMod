@@ -6,6 +6,10 @@ namespace wfMod
 {
     public class wfMod : Mod
     {
+        public static bool Roll(float chance)
+        {
+            return Main.rand.NextFloat(100) < chance;
+        }
         public static void NewDustsCircleEdge(int count, Vector2 center, float radius, int type, Action<Dust> edit = null)
         {
             NewDustsCustom(count,

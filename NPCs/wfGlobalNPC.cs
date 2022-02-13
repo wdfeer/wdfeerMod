@@ -104,16 +104,16 @@ namespace wfMod
 
             switch (npc.type)
             {
-                case NPCID.DemonEye when Main.rand.NextFloat(100) < 0.75f:
+                case NPCID.DemonEye when wfMod.Roll(0.75f):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
                     break;
-                case NPCID.BigMimicCorruption when Main.rand.Next(100) < 20:
+                case NPCID.BigMimicCorruption when wfMod.Roll(20):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
                     break;
-                case NPCID.BigMimicCrimson when Main.rand.Next(100) < 20:
+                case NPCID.BigMimicCrimson when wfMod.Roll(20):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
                     break;
-                case NPCID.FireImp when Main.rand.Next(100) < 5:
+                case NPCID.FireImp when Main.rand.Next(100) < 6:
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
                     break;
                 case NPCID.BrainofCthulhu when Main.rand.Next(100) < 33:
@@ -122,7 +122,7 @@ namespace wfMod
                 case NPCID.QueenBee when Main.rand.Next(100) < 33:
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
                     break;
-                case NPCID.SkeletronHead when Main.rand.Next(100) < 33:
+                case NPCID.SkeletronHead when Main.rand.Next(100) < 40:
                     int rand = Main.rand.Next(5);
                     switch (rand)
                     {
@@ -183,7 +183,7 @@ namespace wfMod
                         break;
                 }
             }
-            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 12)
+            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 15)
             {
                 var rand = Main.rand.Next(6);
                 switch (rand)

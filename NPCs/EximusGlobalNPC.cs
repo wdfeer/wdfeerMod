@@ -19,6 +19,7 @@ namespace wfMod.NPCs
             }
             return false;
         }
+        public int EximusChance => Main.bloodMoon ? 12 : 8;
         const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
@@ -31,7 +32,7 @@ namespace wfMod.NPCs
         {
             base.SetDefaults(npc);
 
-            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 8)
+            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < EximusChance)
                 type = (EximusType)Main.rand.Next(1, 4);
             if (eximus)
             {

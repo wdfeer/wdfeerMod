@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 15;
             item.crit = 32;
             item.knockBack = 5;
             item.ranged = true;
@@ -27,7 +27,7 @@ namespace wfMod.Items.Weapons
             item.rare = 2;
             item.value = 6000;
             item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 17f;
+            item.shootSpeed = 16f;
             item.useAmmo = ItemID.WoodenArrow;
         }
         public override Vector2? HoldoutOffset()
@@ -37,15 +37,15 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemonBow, 1);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
+            recipe.AddIngredient(ItemID.SilverBow, 1);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 11);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TendonBow, 1);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 9);
+            recipe.AddIngredient(ItemID.TungstenBow, 1);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 11);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
