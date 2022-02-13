@@ -54,7 +54,7 @@ namespace wfMod.Items.Weapons
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.3f;
             globalProj.baseVelocity = velocity;
-            globalProj.v2 = proj.position - Main.LocalPlayer.position;
+            globalProj.initialPosition = proj.position - Main.LocalPlayer.position;
 
             return false;
         }

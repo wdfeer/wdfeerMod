@@ -58,7 +58,7 @@ namespace wfMod.Items.Weapons
                 projectile.melee = true;
                 var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.critMult = 1.1f;
-                gProj.v2 = projectile.position;
+                gProj.initialPosition = projectile.position;
                 gProj.falloffStartDist = 300;
                 gProj.falloffMaxDist = 900;
                 gProj.falloffMax = 0.94f;

@@ -27,7 +27,7 @@ namespace wfMod.Items.Weapons
 
             if (bursts > 1 && burstInterval > 0)
             {
-                var modPlayer = Main.LocalPlayer.GetModPlayer<wfPlayer>();
+                var modPlayer = Main.player[item.owner].GetModPlayer<wfPlayer>();
                 if (modPlayer.burstInterval == -1)
                 {
                     modPlayer.offsetP = position - Main.LocalPlayer.position;

@@ -36,21 +36,17 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            
             recipe.AddIngredient(ItemID.MeteoriteBar, 12);
             recipe.AddIngredient(ItemID.Wire, 8);
             recipe.AddIngredient(ItemID.Musket, 1);
-            
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            
             recipe.AddIngredient(ItemID.MeteoriteBar, 12);
             recipe.AddIngredient(ItemID.Wire, 8);
             recipe.AddIngredient(ItemID.TheUndertaker, 1);
-            
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

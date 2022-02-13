@@ -25,13 +25,13 @@ namespace wfMod.Projectiles
             projectile.idStaticNPCHitCooldown = 6;
         }
         bool playedSound = false;
-        
+
         public override void AI()
         {
             if (projectile.timeLeft >= 95)
             {
                 if (projectile.velocity != Vector2.Zero) projectile.velocity = Vector2.Zero;
-                projectile.position = Main.LocalPlayer.position + globalProj.v2;
+                projectile.position = Main.LocalPlayer.position + globalProj.initialPosition;
                 var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, globalProj.baseVelocity.X + Main.LocalPlayer.velocity.X, globalProj.baseVelocity.Y + Main.LocalPlayer.velocity.Y)];
                 dust.noGravity = true;
 

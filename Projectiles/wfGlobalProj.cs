@@ -21,10 +21,10 @@ namespace wfMod.Projectiles
         }
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
-        public Vector2 v2;
+        public Vector2 initialPosition;
         public void SetFalloff(Vector2 startPos, int startDist, int endDist, float maxDmgDecrease)
         {
-            v2 = startPos;
+            initialPosition = startPos;
             falloffStartDist = startDist;
             falloffMaxDist = endDist;
             falloffMax = maxDmgDecrease;
@@ -68,7 +68,7 @@ namespace wfMod.Projectiles
             if (crit) damage = Convert.ToInt32(critMult * damage);
             if (falloffEnabled)
             {
-                distTraveled = (projectile.position - v2).Length();
+                distTraveled = (projectile.position - initialPosition).Length();
                 if (distTraveled > falloffStartDist)
                 {
                     float mult = 1f - falloffMax * (distTraveled < falloffMaxDist ? (distTraveled - falloffStartDist) / (falloffMaxDist - falloffStartDist) : 1.0f);
