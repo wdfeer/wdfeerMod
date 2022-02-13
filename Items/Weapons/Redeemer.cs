@@ -15,7 +15,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 11; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 10;
             item.melee = true; // sets the damage type to ranged
             item.noMelee = true; //so the item's animation doesn't do damage

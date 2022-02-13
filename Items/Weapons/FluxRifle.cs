@@ -10,11 +10,11 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Doesn't consume ammo\n50% Slash chance");
+            Tooltip.SetDefault("Doesn't consume ammo\n60% Slash chance\n10% Chance to inflict Weak");
         }
         public override void SetDefaults()
         {
-            item.damage = 8; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 6;
             item.ranged = true; // sets the damage type to ranged
             item.width = 45; // hitbox width of the item
@@ -47,7 +47,8 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var gProj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.0025f, item.width).GetGlobalProjectile<Projectiles.wfGlobalProj>();
-            gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 50));
+            gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 60));
+            gProj.AddProcChance(new ProcChance(BuffID.Weak, 10));
             return false;
         }
     }

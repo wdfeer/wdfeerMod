@@ -14,7 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 5;
+            item.damage = 6;
             item.crit = 13;
             item.ranged = true;
             item.width = 50;
@@ -41,7 +41,7 @@ namespace wfMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Minishark);
-            recipe.AddIngredient(ItemID.JungleSpores,9);
+            recipe.AddIngredient(ItemID.JungleSpores, 9);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

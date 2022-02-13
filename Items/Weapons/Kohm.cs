@@ -17,7 +17,7 @@ namespace wfMod.Items.Weapons
         const int maxMultishot = 5;
         public override void SetDefaults()
         {
-            item.damage = 7;
+            item.damage = 6;
             item.crit = 7;
             item.ranged = true;
             item.width = 50;
@@ -38,9 +38,10 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Minishark);
-            recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddIngredient(ItemID.TungstenBar, 17);
+            recipe.AddIngredient(ItemID.JungleSpores, 5);
+            recipe.AddIngredient(ItemID.IllegalGunParts);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
