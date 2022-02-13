@@ -44,8 +44,8 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 66;
-                item.useAnimation = 66;
+                item.useTime = 72;
+                item.useAnimation = 72;
             }
             else
             {
@@ -67,12 +67,22 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
+            {
+                sound = mod.GetSound("Sounds/PrismaAngstrumAltSound").CreateInstance();
+                sound.Pitch += Main.rand.NextFloat(-0.08f, 0.08f);
+                Main.PlaySoundInstance(sound);
+
                 for (int i = 0; i < 3; i++)
                 {
-                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.18f, item.width, SoundID.Item72.WithVolume(0.5f));
+                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.18f, item.width);
                 }
+            }
             else
             {
+                sound = mod.GetSound("Sounds/PrismaAngstrumSound").CreateInstance();
+                sound.Pitch += Main.rand.NextFloat(0, 0.1f);
+                Main.PlaySoundInstance(sound);
+
                 var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.005f, item.width, SoundID.Item72.WithVolume(0.6f));
             }
             return false;

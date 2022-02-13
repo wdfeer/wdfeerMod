@@ -46,7 +46,7 @@ namespace wfMod.Projectiles
         {
             globalProj.proj = projectile;
             if (globalProj.exploding) return;
-            globalProj.Explode(140);
+            globalProj.Explode(100);
         }
         public override void Kill(int timeLeft)
         {

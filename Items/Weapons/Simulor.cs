@@ -29,7 +29,6 @@ namespace wfMod.Items.Weapons
             item.value = Item.buyPrice(gold: 33);
             item.rare = 6;
             item.autoReuse = false;
-            item.UseSound = SoundID.Item117.WithVolume(0.75f);
             item.shoot = ModContent.ProjectileType<Projectiles.SimulorProj>();
             item.shootSpeed = 16f;
         }
@@ -67,8 +66,13 @@ namespace wfMod.Items.Weapons
             projs = new List<Projectiles.SimulorProj>();
             return false;
         }
+        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            sound = mod.GetSound("Sounds/SynoidSimulorSound").CreateInstance();
+            sound.Pitch += Main.rand.NextFloat(-0.08f, 0.08f);
+            Main.PlaySoundInstance(sound);
+
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
             projs.Add(proj.modProjectile as Projectiles.SimulorProj);
             return false;
