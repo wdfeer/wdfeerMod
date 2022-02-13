@@ -19,6 +19,7 @@ namespace wfMod.NPCs
             }
             return false;
         }
+        const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
         Projectile arsonProj => Main.projectile[ArsonProj];
@@ -30,7 +31,7 @@ namespace wfMod.NPCs
         {
             base.SetDefaults(npc);
 
-            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 7)
+            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !BossAlive() && npc.type != NPCID.TargetDummy && !(npc.modNPC is NPCs.ArcticEximus) && Main.rand.Next(100) < 8)
                 type = (EximusType)Main.rand.Next(1, 4);
             if (eximus)
             {
@@ -43,7 +44,7 @@ namespace wfMod.NPCs
         }
         public override void AI(NPC npc)
         {
-            if (eximus && !BossAlive())
+            if (eximus && !BossAlive() && npc.HasPlayerTarget)
             {
                 int DeltaAbilityTimer = npc.lifeMax / npc.life;
                 if (DeltaAbilityTimer > 4)
@@ -51,7 +52,12 @@ namespace wfMod.NPCs
                 switch (type)
                 {
                     case EximusType.EnergyLeech:
-                        if (!npc.HasPlayerTarget) break;
+                        abilityTimer++;
+                        if (abilityTimer > energyLeechTimer)
+                            abilityTimer = 0;
+
+                        if (abilityTimer < energyLeechTimer / 3)
+                            break;
                         Player player = Main.player[npc.FindClosestPlayer()];
                         if (Vector2.Distance(player.position, npc.position) > 640) break;
                         player.manaRegen = 0;
@@ -69,7 +75,6 @@ namespace wfMod.NPCs
                         break;
                     case EximusType.Arson:
                         abilityTimer += DeltaAbilityTimer;
-                        if (!npc.HasPlayerTarget) break;
                         if (abilityTimer >= arsonTimer)
                         {
                             abilityTimer = 0;
@@ -80,11 +85,9 @@ namespace wfMod.NPCs
                         break;
                     case EximusType.Arctic:
                         abilityTimer += DeltaAbilityTimer;
-                        if (!npc.HasPlayerTarget) break;
                         if ((arcticNPC == null || !arcticNPC.active || arcticNPC.type != ModContent.NPCType<NPCs.ArcticEximus>()) && abilityTimer > arcticTimer)
                         {
                             abilityTimer = 0;
-
                             ArcticNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<NPCs.ArcticEximus>());
                             arcticNPC.lifeMax = npc.lifeMax;
                             arcticNPC.life = npc.lifeMax;
@@ -97,6 +100,11 @@ namespace wfMod.NPCs
                         break;
                 }
             }
+        }
+        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        {
+            if (type == EximusType.EnergyLeech && damage > 0)
+                abilityTimer = 0;
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
