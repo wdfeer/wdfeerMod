@@ -15,7 +15,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 49; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 52; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 12;
             item.ranged = true; // sets the damage type to ranged
             item.width = 27; // hitbox width of the item
@@ -31,7 +31,6 @@ namespace wfMod.Items.Weapons
             item.autoReuse = false; // if you can hold click to automatically use it again
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 20f; // the speed of the projectile (measured in pixels per frame)
-            item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
         public override Vector2? HoldoutOffset()
         {
@@ -70,7 +69,7 @@ namespace wfMod.Items.Weapons
             if (player.altFunctionUse == 2)
                 for (int i = 0; i < 3; i++)
                 {
-                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.15f, item.width, SoundID.Item72.WithVolume(0.5f));
+                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.18f, item.width, SoundID.Item72.WithVolume(0.5f));
                 }
             else
             {

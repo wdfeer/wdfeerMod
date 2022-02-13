@@ -22,9 +22,10 @@ namespace wfMod.Projectiles
         }
         public override void AI()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 92)];
+                dust.scale = 0.75f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
