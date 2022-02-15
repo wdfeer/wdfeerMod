@@ -142,17 +142,21 @@ namespace wfMod
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (avenger && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
+            if (avenger && damage > 4 && Main.rand.Next(100) < 21)
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
             }
-            if (guardian && damage > 4 && !Main.npc[proj.owner].SpawnedFromStatue && Main.rand.Next(100) < 21)
+            if (guardian && damage > 4 && Main.rand.Next(100) < 21)
             {
                 player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }
 
-            var npc = Main.npc[proj.owner];
-            if (npc.HasBuff(BuffID.Weak)) damage = (int)(damage * (npc.boss ? 0.88f : 0.8f));
+            if (proj.owner <= Main.npc.Length && proj.owner >= 0)
+            {
+                var npc = Main.npc[proj.owner];
+                if (npc.HasBuff(BuffID.Weak)) damage = (int)(damage * (npc.boss ? 0.88f : 0.8f));
+            }
+
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {

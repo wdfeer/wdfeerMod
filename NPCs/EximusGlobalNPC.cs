@@ -25,8 +25,8 @@ namespace wfMod.NPCs
         int ArsonProj = 0;
         Projectile arsonProj => Main.projectile[ArsonProj];
         const int arcticTimer = 750;
-        Projectiles.ArcticEximus ArcticEximus => ArcticNPC.modProjectile as Projectiles.ArcticEximus;
-        Projectile ArcticNPC;
+        Projectiles.ArcticEximus ArcticEximus => ArcticProj.modProjectile as Projectiles.ArcticEximus;
+        Projectile ArcticProj;
         int abilityTimer = 0;
         public override void SetDefaults(NPC npc)
         {
@@ -79,17 +79,17 @@ namespace wfMod.NPCs
                     if (abilityTimer >= arsonTimer)
                     {
                         abilityTimer = 0;
-                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 10 : 2, 10f, Owner: npc.whoAmI);
+                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 10 : 2, 10f);
                         Main.PlaySound(SoundID.Item20, npc.Center);
                         npc.velocity *= 0.2f;
                     }
                     break;
                 case EximusType.Arctic:
                     abilityTimer += DeltaAbilityTimer;
-                    if ((ArcticNPC == null || !ArcticNPC.active || ArcticNPC.type != mod.ProjectileType("ArcticEximus")) && abilityTimer > arcticTimer)
+                    if ((ArcticProj == null || !ArcticProj.active || ArcticProj.type != mod.ProjectileType("ArcticEximus")) && abilityTimer > arcticTimer)
                     {
                         abilityTimer = 0;
-                        ArcticNPC = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 1000, 1, ai0: npc.whoAmI)];
+                        ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 1000, 1, ai0: npc.whoAmI)];
                         ArcticEximus.parentNPC = npc;
                     }
                     break;
@@ -104,7 +104,7 @@ namespace wfMod.NPCs
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (ArcticNPC != null && ArcticNPC.active && ArcticNPC.type == mod.ProjectileType("ArcticEximus")) damage /= 4;
+            if (ArcticProj != null && ArcticProj.active && ArcticProj.type == mod.ProjectileType("ArcticEximus")) damage /= 4;
         }
     }
 }
