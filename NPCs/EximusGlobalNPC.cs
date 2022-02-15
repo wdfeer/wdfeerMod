@@ -19,7 +19,7 @@ namespace wfMod.NPCs
             }
             return false;
         }
-        public int EximusChance => Main.bloodMoon ? 12 : 777;
+        public int EximusChance => Main.bloodMoon ? 12 : 8;
         const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
