@@ -5,16 +5,13 @@ using Terraria.ModLoader;
 
 namespace wfMod.Projectiles
 {
-    internal class ArsonEximusProj : ModProjectile
+    public class ArsonEximusProj : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Arson Eximus");
-        }
         List<Player> hitPlayers = new List<Player>();
         public override void SetDefaults()
         {
             projectile.Name = "Arson Eximus";
+            projectile.friendly = false;
             projectile.hostile = true;
             projectile.width = 32;
             projectile.height = 32;

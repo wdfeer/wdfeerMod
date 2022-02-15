@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,8 +9,8 @@ namespace wfMod.Projectiles
 {
     public class ArcticEximus : ModProjectile
     {
-        private int life = 100;
-        public int Life
+        private float life = 100;
+        public float Life
         {
             get => life; set
             {
@@ -18,9 +19,10 @@ namespace wfMod.Projectiles
                     projectile.timeLeft = 0;
             }
         }
-
+        public float damageTakenMult = 1;
         public override void SetDefaults()
         {
+            Life = Main.hardMode ? 1000 : 100;
             projectile.damage = 0;
             projectile.hostile = true;
             projectile.magic = true;
@@ -64,7 +66,7 @@ namespace wfMod.Projectiles
             if (p.damage < Life && p.penetrate != -1)
                 p.penetrate = 0;
             p.velocity *= 0.8f;
-            Life -= p.damage;
+            Life -= p.damage * damageTakenMult;
         }
         public override bool CanHitPlayer(Player target)
         {
