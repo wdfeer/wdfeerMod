@@ -14,7 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 720; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 840; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 16;
             item.magic = true; // sets the damage type to ranged
             item.mana = 77;
@@ -32,7 +32,6 @@ namespace wfMod.Items.Weapons
             item.shoot = mod.ProjectileType("OpticorProj");
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

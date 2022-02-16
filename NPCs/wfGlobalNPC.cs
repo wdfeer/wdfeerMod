@@ -116,6 +116,9 @@ namespace wfMod
                 case NPCID.FireImp when Main.rand.Next(100) < 6:
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
                     break;
+                case NPCID.DarkCaster when wfMod.Roll(8):
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Simulor>());
+                    break;
                 case NPCID.BrainofCthulhu when Main.rand.Next(100) < 33:
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
                     break;

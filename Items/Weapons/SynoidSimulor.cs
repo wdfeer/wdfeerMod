@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Simulor : wfWeapon
+    public class SynoidSimulor : wfWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -15,11 +15,11 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 42;
-            item.crit = 8;
+            item.damage = 71;
+            item.crit = 10;
             item.magic = true;
-            item.mana = 10;
-            item.width = 36;
+            item.mana = 15;
+            item.width = 31;
             item.height = 15;
             item.useTime = 24;
             item.useAnimation = 24;
@@ -35,6 +35,16 @@ namespace wfMod.Items.Weapons
         public override bool AltFunctionUse(Player player)
         {
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("Simulor"));
+            recipe.AddIngredient(ItemID.SoulofSight, 8);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
         List<Projectiles.SimulorProj> projs = new List<Projectiles.SimulorProj>();
         public override bool CanUseItem(Player player)
