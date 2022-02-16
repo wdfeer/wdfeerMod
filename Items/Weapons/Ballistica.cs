@@ -57,6 +57,8 @@ namespace wfMod.Items.Weapons
             for (int i = 0; i < 4; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.075f, item.width);
+                proj.localNPCHitCooldown = -1;
+                proj.usesLocalNPCImmunity = true;
                 var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.critMult = 0.75f;
             }

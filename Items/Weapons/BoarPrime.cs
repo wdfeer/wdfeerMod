@@ -9,7 +9,6 @@ namespace wfMod.Items.Weapons
 {
     public class BoarPrime : wfWeapon
     {
-        Random rand = new Random();
         public override void SetDefaults()
         {
             item.damage = 11; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
@@ -17,7 +16,7 @@ namespace wfMod.Items.Weapons
             item.ranged = true; // sets the damage type to ranged
             item.width = 40; // hitbox width of the item
             item.height = 17; // hitbox height of the item
-            item.scale=1.2f;
+            item.scale = 1.2f;
             item.useTime = 13; // The item's use time in ticks (60 ticks == 1 second.)
             item.useAnimation = 13; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
@@ -34,7 +33,7 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 8);
+            recipe.AddIngredient(ItemID.SoulofLight, 14);
             recipe.AddIngredient(mod.ItemType("Boar"), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
@@ -44,7 +43,7 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             sound = mod.GetSound("Sounds/BoarPrimeSound").CreateInstance();
-            sound.Pitch += Main.rand.NextFloat(-0.1f,0.1f);
+            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
             sound.Volume = 0.64f;
             sound.Play();
             for (int i = 0; i < 5; i++)
