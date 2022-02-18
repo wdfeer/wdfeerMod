@@ -10,7 +10,7 @@ namespace wfMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Taxon");
-            Tooltip.SetDefault("Summons a Taxon Sentinel to shoot chilling beams for you\nOnly one Taxon can be active at a time");
+            Tooltip.SetDefault("Summons a Taxon Sentinel to shoot your foes with a freezing ray\nOnly one Taxon can be active at a time");
             ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
             ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }

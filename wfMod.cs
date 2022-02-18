@@ -10,6 +10,14 @@ namespace wfMod
         {
             return Main.rand.NextFloat(100) < chance;
         }
+        public static bool BossAlive()
+        {
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].boss && Main.npc[i].active) return true;
+            }
+            return false;
+        }
         public static void NewDustsCircleEdge(int count, Vector2 center, float radius, int type, Action<Dust> edit = null)
         {
             NewDustsCustom(count,

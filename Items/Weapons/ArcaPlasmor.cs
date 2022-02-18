@@ -34,17 +34,17 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CobaltBar,22);
-            recipe.AddIngredient(ItemID.SoulofLight,12);
-            
+            recipe.AddIngredient(ItemID.CobaltBar, 22);
+            recipe.AddIngredient(ItemID.SoulofLight, 12);
+
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PalladiumBar,22);
-            recipe.AddIngredient(ItemID.SoulofLight,12);
-            
+            recipe.AddIngredient(ItemID.PalladiumBar, 22);
+            recipe.AddIngredient(ItemID.SoulofLight, 12);
+
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -53,12 +53,13 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             sound = mod.GetSound("Sounds/ArcaPlasmorSound").CreateInstance();
-            sound.Pitch += Main.rand.NextFloat(0,0.15f);
+            sound.Volume *= 1.3f;
+            sound.Pitch += Main.rand.NextFloat(0, 0.15f);
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;
-            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31,28));
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31, 28));
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

@@ -26,7 +26,7 @@ namespace wfMod.Items.Weapons
             item.useTime = 57;
             item.useAnimation = 57;
             item.rare = 2;
-            item.value = Item.buyPrice(gold: 2);
+            item.value = Item.sellPrice(silver: 90);
             item.shoot = mod.ProjectileType("PentaProj");
             item.shootSpeed = 16f;
             item.useAmmo = ItemID.Grenade;

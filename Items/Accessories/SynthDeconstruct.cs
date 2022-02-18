@@ -11,9 +11,10 @@ namespace wfMod.Items.Accessories
 
     public class SynthDeconstruct : ExclusiveAccessory
     {
+        public const int heartDropChance = 25;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Enemies damaged by minions have a 15% chance to drop a life heart on death");
+            Tooltip.SetDefault($"Enemies damaged by minions have a {heartDropChance}% chance to drop a life heart on death");
         }
 
         public override void SetDefaults()
@@ -29,7 +30,7 @@ namespace wfMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeCrystal);
-            recipe.AddIngredient(ItemID.GoldBar,8);
+            recipe.AddIngredient(ItemID.GoldBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

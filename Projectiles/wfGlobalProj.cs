@@ -78,9 +78,9 @@ namespace wfMod.Projectiles
 
             if (modPl.hunterMuni && crit) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
             if (modPl.internalBleed) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
-            foreach (var item in modPl.procChances)
+            foreach (var keyValue in modPl.procChances)
             {
-                AddProcChance(item.Value);
+                AddProcChance(keyValue.Value);
             }
             foreach (var procChance in procChances)
             {
