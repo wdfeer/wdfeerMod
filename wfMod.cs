@@ -6,6 +6,10 @@ namespace wfMod
 {
     public class wfMod : Mod
     {
+        public override void PreUpdateEntities()
+        {
+            wfPlayer.thermiteRounds = false;
+        }
         public static bool Roll(float chance)
         {
             return Main.rand.NextFloat(100) < chance;

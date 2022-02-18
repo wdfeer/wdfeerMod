@@ -13,11 +13,16 @@ namespace wfMod
     {
         public override bool InstancePerEntity => true;
         public List<StackableProc> procs = new List<StackableProc>();
+        public static bool thermiteRounds;
         public void AddStackableProc(ProcType type, int duration, int damage)
         {
             StackableProc proc = new StackableProc(type, damage, null, duration);
             proc.OnEnd = () => procs.Remove(proc);
             procs.Add(proc);
+        }
+        public override void ResetEffects(NPC npc)
+        {
+            thermiteRounds = false;
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
@@ -39,6 +44,10 @@ namespace wfMod
                 npc.lifeRegen -= totalDamage;
                 if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
+            }
+            if (npc.HasBuff(BuffID.OnFire) && wfPlayer.thermiteRounds)
+            {
+                npc.lifeRegen -= 12;
             }
         }
         public override void AI(NPC npc)
@@ -136,6 +145,9 @@ namespace wfMod
                     break;
                 case NPCID.FireImp when wfMod.Roll(6):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
+                    break;
+                case NPCID.Lavabat when wfMod.Roll(5):
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ThermiteRounds>());
                     break;
                 case NPCID.DarkCaster when wfMod.Roll(6):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Simulor>());
