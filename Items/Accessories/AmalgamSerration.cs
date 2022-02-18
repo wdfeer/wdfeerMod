@@ -11,7 +11,7 @@ namespace wfMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+10% Ranged and Magic damage\nThe player can run quite fast (75% of the Hermes Boots effect)");
+            Tooltip.SetDefault("+10% Ranged and Magic damage\nThe player can run quite fast (Hermes Boots effect)");
         }
 
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace wfMod.Items.Accessories
         {
             player.magicDamageMult += 0.1f;
             player.rangedDamageMult += 0.1f;
-            player.moveSpeed += 0.75f;
+            player.moveSpeed += 1f;
         }
     }
 }

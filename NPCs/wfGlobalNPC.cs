@@ -172,8 +172,11 @@ namespace wfMod
                             break;
                     }
                     break;
-                case NPCID.WallofFlesh when wfMod.Roll(15):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+                case NPCID.WallofFlesh when wfMod.Roll(33):
+                    if (wfMod.Roll(50))
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
+                    else
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.EnergyConversion>());
                     break;
                 case NPCID.SkeletronPrime when wfMod.Roll(25):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());

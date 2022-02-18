@@ -37,9 +37,9 @@ namespace wfMod.Projectiles
         bool hitATile = false;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.timeLeft > 8)
+            if (projectile.timeLeft > 16)
             {
-                projectile.timeLeft = 8;
+                projectile.timeLeft = 16;
                 projectile.velocity *= 0.4f;
             }
             if (!hitATile)

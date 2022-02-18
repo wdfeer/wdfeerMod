@@ -27,6 +27,7 @@ namespace wfMod
         public bool internalBleed;
         public bool argonScope;
         public bool napalmGrenades = false;
+        public bool energyConversion;
         public bool arcaneStrike;
         public bool arcaneEnergize;
         public bool arcanePulse;
@@ -59,7 +60,6 @@ namespace wfMod
         public float critDmgMult = 1;
         public override void ResetEffects()
         {
-            //thermiteRounds = false;
             condOv = false;
             aviator = false;
             corrProj = false;
@@ -72,6 +72,7 @@ namespace wfMod
             quickThink = false;
             synthDeconstruct = false;
             internalBleed = false;
+            energyConversion = false;
             argonScope = false;
             arcaneStrike = false;
             arcaneEnergize = false;
@@ -332,31 +333,39 @@ namespace wfMod
                 }
             }
             #endregion   
-            if (arcaneEnergize || arcanePulse) GrabItems();
+            GrabItems();
         }
-        private void GrabItems() // Needed for the Arcane Energize and Pulse
+        void GrabItems() // Needed for the Arcane Energize and Pulse, Energy Conversion
         {
-            for (int j = 0; j < 400; j++)
+            if (!arcaneEnergize && !arcanePulse && !energyConversion) return;
+            for (int i = 0; i < 400; i++)
             {
-                if (!Main.item[j].active || Main.item[j].noGrabDelay != 0 || Main.item[j].owner != this.player.whoAmI || !ItemLoader.CanPickup(Main.item[j], this.player))
+                if (!Main.item[i].active || Main.item[i].noGrabDelay != 0 || Main.item[i].owner != this.player.whoAmI || !ItemLoader.CanPickup(Main.item[i], this.player))
                 {
                     continue;
                 }
 
-                if (new Rectangle((int)this.player.position.X - 2, (int)this.player.position.Y - 2, this.player.width + 2, this.player.height + 2).Intersects(new Rectangle((int)Main.item[j].position.X, (int)Main.item[j].position.Y, Main.item[j].width, Main.item[j].height)))
+                if (new Rectangle((int)this.player.position.X - 2, (int)this.player.position.Y - 2, this.player.width + 2, this.player.height + 2).Intersects(new Rectangle((int)Main.item[i].position.X, (int)Main.item[i].position.Y, Main.item[i].width, Main.item[i].height)))
                 {
-                    if ((Main.item[j].type == 184 || Main.item[j].type == 1735 || Main.item[j].type == 1868) && !Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized && arcaneEnergize)
+                    if ((Main.item[i].type == 184 || Main.item[i].type == 1735 || Main.item[i].type == 1868))
                     {
-                        if (Main.rand.Next(100) < 60)
+                        if (energyConversion && !player.HasBuff(mod.BuffType("EnergyConversionBuff")))
                         {
-                            this.player.statMana += 100;
-                            this.player.ManaEffect(100);
-                            Main.PlaySound(SoundID.MenuTick);
+                            player.AddBuff(mod.BuffType("EnergyConversionBuff"), 3600);
                         }
+                        if (!Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized && arcaneEnergize)
+                        {
+                            if (wfMod.Roll(60))
+                            {
+                                this.player.statMana += 100;
+                                this.player.ManaEffect(100);
+                                Main.PlaySound(SoundID.MenuTick);
+                            }
 
-                        Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized = true;
+                            Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized = true;
+                        }
                     }
-                    else if ((Main.item[j].type == 58 || Main.item[j].type == 1734 || Main.item[j].type == 1867) && arcanePulse && !Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
+                    else if ((Main.item[i].type == 58 || Main.item[i].type == 1734 || Main.item[i].type == 1867) && arcanePulse && !Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
                     {
                         if (Main.rand.Next(100) < 60)
                         {
@@ -366,7 +375,7 @@ namespace wfMod
                             Main.PlaySound(SoundID.MenuTick);
                         }
 
-                        Main.item[j].GetGlobalItem<Items.wfGlobalItem>().energized = true;
+                        Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized = true;
                     }
                 }
             }
