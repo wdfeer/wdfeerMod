@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using wfMod.Items.Accessories;
 
 namespace wfMod
 {
@@ -42,30 +43,6 @@ namespace wfMod
         }
         public override void AI(NPC npc)
         {
-            if (npc.HasBuff(BuffID.Frozen) && !npc.boss)
-            {
-                npc.velocity *= 0f;
-
-                for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
-                {
-                    int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 67, default(Color), 1f);
-                    var dust = Main.dust[dustIndex];
-                    dust.noGravity = true;
-                }
-            }
-            else if (npc.HasBuff(BuffID.Slow) && !npc.boss)
-            {
-                npc.velocity *= 0.9f;
-
-                for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
-                {
-                    int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 68, 0f, 0f, 67, default(Color), 0.6f);
-                    var dust = Main.dust[dustIndex];
-                    dust.velocity *= 0.2f;
-                    dust.noGravity = true;
-                }
-            }
-
             if (npc.HasBuff(BuffID.Electrified))
             {
                 for (int i = 0; i < (npc.width < 32 ? 1 : npc.width / 32); i++)
@@ -89,10 +66,54 @@ namespace wfMod
             if (npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc")))
                 for (int i = 0; i < procs.Count; i++)
                     procs[i].Update();
+
+            bool bossAlive = wfMod.BossAlive();
+            if (!bossAlive)
+            {
+                if (npc.HasBuff(BuffID.Frozen))
+                {
+                    npc.velocity *= 0f;
+
+                    for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
+                    {
+                        int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 67, default(Color), 1f);
+                        var dust = Main.dust[dustIndex];
+                        dust.noGravity = true;
+                    }
+                }
+                else if (npc.HasBuff(BuffID.Slow))
+                {
+                    npc.velocity *= 0.9f;
+
+                    for (int i = 0; i < (npc.width < 48 ? 1 : npc.width / 48); i++)
+                    {
+                        int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 68, 0f, 0f, 67, default(Color), 0.6f);
+                        var dust = Main.dust[dustIndex];
+                        dust.velocity *= 0.2f;
+                        dust.noGravity = true;
+                    }
+                }
+            }
+        }
+        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (npc.HasBuff(BuffID.OnFire))
+            {
+                float defenseDmgReduction = (Main.expertMode ? 0.75f : 0.5f) * npc.defense;
+                float compensation = defenseDmgReduction * 0.1f;
+                damage += (int)compensation;
+            }
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Main.player[projectile.owner].GetModPlayer<wfPlayer>().synthDeconstruct && projectile.minion)
+            if (npc.HasBuff(BuffID.OnFire))
+            {
+                float defenseDmgReduction = (Main.expertMode ? 0.75f : 0.5f) * npc.defense;
+                float compensation = defenseDmgReduction * 0.1f;
+                damage += (int)compensation;
+            }
+
+            if (Main.player[projectile.owner].GetModPlayer<wfPlayer>().synthDeconstruct && projectile.minion && heartDropChance < 15)
                 heartDropChance = 15;
         }
         public int[] martianTypes = { NPCID.MartianDrone, NPCID.MartianEngineer, NPCID.MartianSaucerCore, NPCID.MartianTurret, NPCID.MartianOfficer, NPCID.MartianWalker };
@@ -113,20 +134,20 @@ namespace wfMod
                 case NPCID.BigMimicCrimson when wfMod.Roll(20):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
                     break;
-                case NPCID.FireImp when Main.rand.Next(100) < 6:
+                case NPCID.FireImp when wfMod.Roll(6):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
                     break;
-                case NPCID.DarkCaster when wfMod.Roll(8):
+                case NPCID.DarkCaster when wfMod.Roll(6):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Simulor>());
                     break;
-                case NPCID.BrainofCthulhu when Main.rand.Next(100) < 33:
+                case NPCID.BrainofCthulhu when wfMod.Roll(33):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
                     break;
-                case NPCID.QueenBee when Main.rand.Next(100) < 33:
+                case NPCID.QueenBee when wfMod.Roll(25):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
                     break;
-                case NPCID.SkeletronHead when Main.rand.Next(100) < 40:
-                    int rand = Main.rand.Next(5);
+                case NPCID.SkeletronHead when wfMod.Roll(40):
+                    int rand = Main.rand.Next(2);
                     switch (rand)
                     {
                         case 0:
@@ -139,16 +160,16 @@ namespace wfMod
                             break;
                     }
                     break;
-                case NPCID.WallofFlesh when Main.rand.Next(100) < 15:
+                case NPCID.WallofFlesh when wfMod.Roll(15):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
                     break;
-                case NPCID.SkeletronPrime when Main.rand.Next(100) < 25:
+                case NPCID.SkeletronPrime when wfMod.Roll(25):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());
                     break;
                 default:
-                    if (martianTypes.Contains(npc.type) && Main.rand.Next(100) < 3)
+                    if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
-                    else if (goblins.Contains(npc.type) && Main.rand.Next(100) < 4)
+                    else if (goblins.Contains(npc.type) && wfMod.Roll(3))
                     {
                         rand = Main.rand.Next(3);
                         switch (rand)
@@ -167,7 +188,7 @@ namespace wfMod
                     break;
             }
 
-            if (npc.rarity > 0 && !npc.friendly && Main.rand.Next(100) < 33)
+            if (npc.rarity > 0 && !npc.friendly && wfMod.Roll(25))
             {
                 var rand = Main.rand.Next(4);
                 switch (rand)
@@ -186,7 +207,7 @@ namespace wfMod
                         break;
                 }
             }
-            if (npc.boss && Main.expertMode && Main.rand.Next(100) < 15)
+            if (npc.boss && Main.expertMode && wfMod.Roll(15))
             {
                 var rand = Main.rand.Next(6);
                 switch (rand)
@@ -212,7 +233,7 @@ namespace wfMod
                 }
             }
 
-            if (Main.rand.Next(100) < heartDropChance)
+            if (wfMod.Roll(heartDropChance))
                 Item.NewItem(npc.getRect(), ItemID.Heart);
         }
     }
