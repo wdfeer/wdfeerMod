@@ -146,7 +146,7 @@ namespace wfMod
                 case NPCID.FireImp when wfMod.Roll(6):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
                     break;
-                case NPCID.Lavabat when wfMod.Roll(5):
+                case NPCID.Hellbat when wfMod.Roll(5):
                     Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ThermiteRounds>());
                     break;
                 case NPCID.DarkCaster when wfMod.Roll(6):
