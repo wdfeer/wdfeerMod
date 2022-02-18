@@ -13,11 +13,16 @@ namespace wfMod
     {
         public override bool InstancePerEntity => true;
         public List<StackableProc> procs = new List<StackableProc>();
+        public static bool thermiteRounds;
         public void AddStackableProc(ProcType type, int duration, int damage)
         {
             StackableProc proc = new StackableProc(type, damage, null, duration);
             proc.OnEnd = () => procs.Remove(proc);
             procs.Add(proc);
+        }
+        public override void ResetEffects(NPC npc)
+        {
+            thermiteRounds = false;
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
@@ -39,6 +44,10 @@ namespace wfMod
                 npc.lifeRegen -= totalDamage;
                 if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
                     npc.lifeRegenExpectedLossPerSecond = totalDamage;
+            }
+            if (npc.HasBuff(BuffID.OnFire) && wfPlayer.thermiteRounds)
+            {
+                npc.lifeRegen -= 12;
             }
         }
         public override void AI(NPC npc)

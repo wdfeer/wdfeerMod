@@ -12,6 +12,7 @@ namespace wfMod
 {
     public class wfPlayer : ModPlayer
     {
+        public static bool thermiteRounds;
         public bool condOv;
         public bool aviator;
         public bool corrProj;
@@ -58,6 +59,7 @@ namespace wfMod
         public float critDmgMult = 1;
         public override void ResetEffects()
         {
+            //thermiteRounds = false;
             condOv = false;
             aviator = false;
             corrProj = false;
