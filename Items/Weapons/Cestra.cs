@@ -12,11 +12,12 @@ namespace wfMod.Items.Weapons
         {
             Tooltip.SetDefault("Quickly shoots high-velocity bullets after a short spool-up\nDouble stack to increase fire rate at the cost of accuraccy\n-20% Critical Damage\n40% Chance not to consume ammo");
         }
+        bool dualWield => item.stack == 2;
         int baseUseTime = 15;
-        int spooledUseTime = 8;
+        int spooledUseTime => dualWield ? 5 : 8;
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 10;
             item.crit = 2;
             item.ranged = true;
             item.width = 30;
@@ -47,9 +48,6 @@ namespace wfMod.Items.Weapons
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
-            if (item.stack == 2) spooledUseTime = 5;
-            else spooledUseTime = 8;
-
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             if (item.useTime > spooledUseTime)
             {
@@ -79,11 +77,11 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             sound = mod.GetSound("Sounds/SupraVandalSound").CreateInstance();
-            sound.Volume = 0.4f;
+            sound.Volume = 0.44f;
             sound.Pitch += Main.rand.NextFloat(0.1f, 0.3f);
             sound.Play();
 
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 50 ? 0 : (item.stack == 2 ? 0.1f : 0.044f)), 24);
+            var proj = ShootWith(position, speedX, speedY, type, damage - (dualWield ? 1 : 0), knockBack, (timeSinceLastShot > 50 ? 0 : (dualWield ? 0.14f : 0.044f)), 24);
             proj.extraUpdates = 1;
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 0.8f;

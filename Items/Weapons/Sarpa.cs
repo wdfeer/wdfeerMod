@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 17;
+            item.damage = 21;
             item.crit = 10;
             item.melee = true;
             item.noMelee = true;
@@ -45,7 +45,7 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 48, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult: 0.02f, offset: item.width, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
             projectile.ranged = false;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;

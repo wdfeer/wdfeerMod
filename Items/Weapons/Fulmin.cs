@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 22; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 27; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 26;
             item.ranged = true; // sets the damage type to ranged
             item.width = 48; // hitbox width of the item
@@ -46,7 +46,7 @@ namespace wfMod.Items.Weapons
             sound.Pitch += Main.rand.NextFloat(0,0.15f);
             Main.PlaySoundInstance(sound);
 
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 2);
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.2f;
             globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 16));
