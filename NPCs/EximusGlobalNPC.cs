@@ -12,7 +12,7 @@ namespace wfMod.NPCs
         public EximusType type = EximusType.None;
         public override bool InstancePerEntity => true;
 
-        public int EximusChance => Main.bloodMoon ? 12 : 8;
+        public int EximusChance => Main.bloodMoon ? 12 : 888;
         const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
@@ -25,7 +25,7 @@ namespace wfMod.NPCs
         {
             base.SetDefaults(npc);
             if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !wfMod.BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < EximusChance)
-                type = (EximusType)Main.rand.Next(1, 4);
+                type = EximusType.Arctic;//(EximusType)Main.rand.Next(1, 4);
             if (eximus)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.75f);
@@ -84,6 +84,8 @@ namespace wfMod.NPCs
                         abilityTimer = 0;
                         ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 1000, 1, ai0: npc.whoAmI)];
                         ArcticEximus.parentNPC = npc;
+                        if (npc.life > 50)
+                            ArcticEximus.Life = npc.life;
                     }
                     break;
                 default:
@@ -97,7 +99,7 @@ namespace wfMod.NPCs
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (ArcticProj != null && ArcticProj.active && ArcticProj.type == mod.ProjectileType("ArcticEximus")) damage /= 4;
+            if (ArcticProj != null && ArcticProj.active && ArcticProj.type == mod.ProjectileType("ArcticEximus")) damage /= 2;
         }
     }
 }
