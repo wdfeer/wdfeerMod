@@ -8,7 +8,7 @@ namespace wfMod.Projectiles
 {
     internal class ArcaPlasmorProj : ModProjectile
     {
-        bool tenet = false;
+        public bool tenet = false;
         public override void SetDefaults()
         {
             projectile.width = 80;
@@ -19,13 +19,12 @@ namespace wfMod.Projectiles
             projectile.penetrate = -1;
             projectile.timeLeft = 32;
             projectile.light = 0.5f;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
-            if (projectile.timeLeft >= 40) tenet = true;
             for (int i = 0; i < (tenet ? 2 : 1); i++)
             {
                 var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
@@ -33,8 +32,24 @@ namespace wfMod.Projectiles
                 projectile.alpha = 256 - projectile.timeLeft * (tenet ? 3 : 4);
                 projectile.light = projectile.timeLeft * 0.01f;
             }
+            if (!projectile.tileCollide && TileColliding())
+            {
+                projectile.tileCollide = true;
+                for (int i = 0; i < 16; i++)
+                {
+                    Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 180, 0f, 0f, 75, default(Color), 0.6f);
+                }
+            }
         }
-        bool hitATile = false;
+        public bool TileColliding()
+        {
+            float tileCollisionHitboxSizeMult = 0.1f;
+            Vector2 pos = new Vector2(projectile.Center.X - projectile.width * tileCollisionHitboxSizeMult, projectile.Center.Y - projectile.height * tileCollisionHitboxSizeMult);
+            int width = (int)(projectile.width * tileCollisionHitboxSizeMult);
+            int height = (int)(projectile.height * tileCollisionHitboxSizeMult);
+            bool colliding = Collision.SolidCollision(pos, width, height);
+            return colliding;
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.timeLeft > 16)
@@ -42,12 +57,6 @@ namespace wfMod.Projectiles
                 projectile.timeLeft = 16;
                 projectile.velocity *= 0.4f;
             }
-            if (!hitATile)
-                for (int i = 0; i < 16; i++)
-                {
-                    Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 180, 0f, 0f, 75, default(Color), 0.6f);
-                }
-            hitATile = true;
             return false;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

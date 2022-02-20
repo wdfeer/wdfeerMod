@@ -34,11 +34,11 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            
+
             recipe.AddIngredient(mod.ItemType("ArcaPlasmor"), 1);
             recipe.AddIngredient(mod.ItemType("Fieldron"));
             recipe.AddIngredient(ItemID.FragmentNebula, 8);
-            
+
             recipe.AddTile(412);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -47,12 +47,14 @@ namespace wfMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             sound = mod.GetSound("Sounds/ArcaPlasmorSound").CreateInstance();
-            sound.Pitch += Main.rand.NextFloat(0,0.1f);
+            sound.Pitch += Main.rand.NextFloat(0, 0.1f);
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31, 34));
             projectile.timeLeft = 44;
+            var modProj = projectile.modProjectile as Projectiles.ArcaPlasmorProj;
+            modProj.tenet = true;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 
