@@ -12,7 +12,7 @@ namespace wfMod.NPCs
         public EximusType type = EximusType.None;
         public override bool InstancePerEntity => true;
 
-        public int EximusChance => Main.bloodMoon ? 12 : 888;
+        public int EximusChance => Main.bloodMoon ? 12 : 8;
         const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
@@ -25,14 +25,14 @@ namespace wfMod.NPCs
         {
             base.SetDefaults(npc);
             if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !wfMod.BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < EximusChance)
-                type = EximusType.Arctic;//(EximusType)Main.rand.Next(1, 4);
+                type = (EximusType)Main.rand.Next(1, 4);
             if (eximus)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.75f);
                 npc.life = npc.lifeMax;
                 npc.defense = (int)(npc.defense * 1.2f);
                 npc.damage = (int)(npc.damage * 2f);
-                npc.value *= 4f;
+                npc.value = npc.value * 3f + Item.buyPrice(silver: 20);
             }
         }
         public override void AI(NPC npc)
