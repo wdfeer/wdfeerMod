@@ -17,7 +17,7 @@ namespace wfMod.Items.Weapons
         const int maxMultishot = 5;
         public override void SetDefaults()
         {
-            item.damage = 6;
+            item.damage = 5;
             item.crit = 7;
             item.ranged = true;
             item.width = 50;
@@ -29,7 +29,7 @@ namespace wfMod.Items.Weapons
             item.knockBack = 1;
             item.value = Item.buyPrice(gold: 6);
             item.rare = 3;
-            item.UseSound = SoundID.Item11.WithVolume(0.75f);
+            item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 14f;

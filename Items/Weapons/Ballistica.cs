@@ -10,7 +10,7 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots 4 arrows at once with greatly decreased velocity\n-25% Critical Damage");
+            Tooltip.SetDefault("Shoots 4 arrows at once with greatly decreased velocity\nNot shooting charges the next shot, increasing damage, accuraccy and velocity\n-25% Critical Damage");
         }
         public override void SetDefaults()
         {
@@ -49,14 +49,23 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
+        float lastShotTime = 0;
+        float timeSinceLastShot = 60;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            speedX *= 0.5f;
-            speedY *= 0.5f;
+            timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
+            lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
+            float chargeMult = (timeSinceLastShot / item.useTime) * 0.6f;
+            if (chargeMult < 1)
+                chargeMult = 1;
+            else if (chargeMult > 2)
+                chargeMult = 2;
+
+            speedX *= 0.5f * chargeMult;
+            speedY *= 0.5f * chargeMult;
             for (int i = 0; i < 4; i++)
             {
-                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.09f, item.width);
+                var proj = ShootWith(position, speedX, speedY, type, (int)(damage * chargeMult), knockBack, 0.09f / chargeMult, item.width);
                 proj.localNPCHitCooldown = -1;
                 proj.usesLocalNPCImmunity = true;
                 var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();

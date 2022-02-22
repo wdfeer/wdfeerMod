@@ -135,121 +135,69 @@ namespace wfMod
             switch (npc.type)
             {
                 case NPCID.DemonEye when wfMod.Roll(0.75f):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.PiercingHit>());
+                    DropItem(npc, ModContent.ItemType<Items.Accessories.PiercingHit>());
                     break;
                 case NPCID.BigMimicCorruption when wfMod.Roll(20):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    DropItem(npc, ModContent.ItemType<Items.Accessories.ArgonScope>());
                     break;
                 case NPCID.BigMimicCrimson when wfMod.Roll(20):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    DropItem(npc, ModContent.ItemType<Items.Accessories.ArgonScope>());
                     break;
                 case NPCID.FireImp when wfMod.Roll(6):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Blaze>());
+                    DropItem(npc, ModContent.ItemType<Items.Accessories.Blaze>());
                     break;
                 case NPCID.Hellbat when wfMod.Roll(5):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ThermiteRounds>());
+                    DropItem(npc, ModContent.ItemType<Items.Accessories.ThermiteRounds>());
                     break;
                 case NPCID.DarkCaster when wfMod.Roll(6):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Simulor>());
+                    DropItem(npc, ModContent.ItemType<Items.Weapons.Simulor>());
                     break;
                 case NPCID.BrainofCthulhu when wfMod.Roll(33):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.GorgonWraith>());
+                    DropItem(npc, ModContent.ItemType<Items.Weapons.GorgonWraith>());
                     break;
-                case NPCID.QueenBee when wfMod.Roll(25):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.Shred>());
+                case NPCID.QueenBee when wfMod.Roll(40):
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.Shred>(), ModContent.ItemType<Items.Weapons.Sobek>() });
                     break;
                 case NPCID.SkeletronHead when wfMod.Roll(40):
-                    int rand = Main.rand.Next(2);
-                    switch (rand)
-                    {
-                        case 0:
-                            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.InternalBleeding>());
-                            break;
-                        case 1:
-                            Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Cestra>());
-                            break;
-                        default:
-                            break;
-                    }
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.InternalBleeding>(), ModContent.ItemType<Items.Weapons.Cestra>() });
                     break;
                 case NPCID.WallofFlesh when wfMod.Roll(33):
-                    if (wfMod.Roll(50))
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.QuickThinking>());
-                    else
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.EnergyConversion>());
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.QuickThinking>(), ModContent.ItemType<Items.Accessories.EnergyConversion>() });
                     break;
                 case NPCID.SkeletronPrime when wfMod.Roll(25):
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.SecuraPenta>());
+                    DropItem(npc, ModContent.ItemType<Items.Weapons.SecuraPenta>());
                     break;
                 default:
                     if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Fieldron>());
+                        DropItem(npc, ModContent.ItemType<Items.Fieldron>());
                     else if (goblins.Contains(npc.type) && wfMod.Roll(3))
                     {
-                        rand = Main.rand.Next(3);
-                        switch (rand)
-                        {
-                            case 0:
-                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HunterMunitions>());
-                                break;
-                            case 1:
-                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Penta>());
-                                break;
-                            default:
-                                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Weapons.Tonkor>());
-                                break;
-                        }
+                        Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.HunterMunitions>(), ModContent.ItemType<Items.Weapons.Penta>(), ModContent.ItemType<Items.Weapons.Tonkor>() });
                     }
                     break;
             }
-
             if (npc.rarity > 0 && !npc.friendly && wfMod.Roll(25))
             {
-                var rand = Main.rand.Next(4);
-                switch (rand)
-                {
-                    case 0:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.VileAcceleration>());
-                        break;
-                    case 1:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.CriticalDelay>());
-                        break;
-                    case 2:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HollowPoint>());
-                        break;
-                    case 3:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.HeavyCaliber>());
-                        break;
-                }
+                int[] options = { ModContent.ItemType<Items.Accessories.VileAcceleration>(), ModContent.ItemType<Items.Accessories.CriticalDelay>(), ModContent.ItemType<Items.Accessories.HollowPoint>(), ModContent.ItemType<Items.Accessories.HeavyCaliber>() };
+                Drop1ItemAtRandom(npc, options);
             }
             if (npc.boss && Main.expertMode && wfMod.Roll(15))
             {
-                var rand = Main.rand.Next(6);
-                switch (rand)
-                {
-                    case 0:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneAvenger>());
-                        break;
-                    case 1:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneGuardian>());
-                        break;
-                    case 2:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneAcceleration>());
-                        break;
-                    case 3:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneStrike>());
-                        break;
-                    case 4:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcaneEnergize>());
-                        break;
-                    case 5:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Accessories.ArcanePulse>());
-                        break;
-                }
+                int[] options = { ModContent.ItemType<Items.Accessories.ArcaneAvenger>(), ModContent.ItemType<Items.Accessories.ArcaneGuardian>(), ModContent.ItemType<Items.Accessories.ArcaneAcceleration>(), ModContent.ItemType<Items.Accessories.ArcaneStrike>(), ModContent.ItemType<Items.Accessories.ArcaneEnergize>(), ModContent.ItemType<Items.Accessories.ArcanePulse>() };
+                Drop1ItemAtRandom(npc, options);
             }
 
             if (wfMod.Roll(heartDropChance))
-                Item.NewItem(npc.getRect(), ItemID.Heart);
+                DropItem(npc, ItemID.Heart);
+        }
+        private void DropItem(NPC npc, int itemType)
+        {
+            Item.NewItem(npc.getRect(), itemType);
+        }
+        private void Drop1ItemAtRandom(NPC npc, IList<int> types)
+        {
+            int rand = Main.rand.Next(types.Count());
+            DropItem(npc, types[rand]);
         }
     }
 }
