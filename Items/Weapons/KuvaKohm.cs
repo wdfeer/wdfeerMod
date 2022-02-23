@@ -6,19 +6,19 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class Kohm : wfWeapon
+    public class KuvaKohm : wfWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Takes a while to spool up while increasing Multishot\nDamage Falloff starts at 15 tiles, stops after 25, reducing damage by 73%\n30% Slash chance\n+15% Critical Damage");
+            Tooltip.SetDefault($"Takes a while to spool up while increasing Multishot up to {maxMultishot} pellets\nDamage Falloff starts at 15 tiles, stops after 40, reducing damage by 94%\n35% Slash chance\n+15% Critical Damage");
         }
-        const int maxUseTime = 82;
-        const int minUseTime = 17;
-        const int maxMultishot = 5;
+        const int maxUseTime = 72;
+        const int minUseTime = 14;
+        const int maxMultishot = 7;
         public override void SetDefaults()
         {
-            item.damage = 5;
-            item.crit = 7;
+            item.damage = 21;
+            item.crit = 15;
             item.ranged = true;
             item.width = 47;
             item.height = 16;
@@ -38,10 +38,9 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TungstenBar, 17);
-            recipe.AddIngredient(ItemID.JungleSpores, 5);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.FragmentVortex, 9);
+            recipe.AddIngredient(ModContent.ItemType<Kuva>(), 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -85,14 +84,14 @@ namespace wfMod.Items.Weapons
         {
             for (int i = 0; i < multishot; i++)
             {
-                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 46 ? 0.015f : 0.08f), 52);
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 46 ? 0.015f : 0.1f), 52);
                 var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.initialPosition = position;
                 gProj.falloffStartDist = 300;
-                gProj.falloffMaxDist = 500;
-                gProj.falloffMax = 0.73f;
+                gProj.falloffMaxDist = 800;
+                gProj.falloffMax = 0.94f;
                 gProj.critMult = 1.15f;
-                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 30));
+                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 35));
             }
             return false;
         }

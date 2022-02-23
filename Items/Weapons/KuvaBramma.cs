@@ -41,7 +41,7 @@ namespace wfMod.Items.Weapons
             recipe.AddIngredient(mod.ItemType("Kuva"), 12);
             recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
             recipe.AddIngredient(ItemID.Phantasm, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

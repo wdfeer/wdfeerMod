@@ -38,7 +38,7 @@ namespace wfMod.Items.Weapons
             recipe.AddIngredient(mod.ItemType("Opticor"), 1);
             recipe.AddIngredient(mod.ItemType("Fieldron"));
             recipe.AddIngredient(ItemID.FragmentNebula, 12);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
