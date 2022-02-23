@@ -12,7 +12,7 @@ namespace wfMod.NPCs
         public EximusType type = EximusType.None;
         public override bool InstancePerEntity => true;
 
-        public int EximusChance => Main.bloodMoon ? 12 : 8;
+        public int EximusChance => 6 + (Main.hardMode ? 3 : 0) + (Main.bloodMoon ? 6 : 0);
         const int energyLeechTimer = 360;
         const int arsonTimer = 1000;
         int ArsonProj = 0;
@@ -31,7 +31,7 @@ namespace wfMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.75f);
                 npc.life = npc.lifeMax;
                 npc.defense = (int)(npc.defense * 1.2f);
-                npc.damage = (int)(npc.damage * 2f);
+                npc.damage = (int)(npc.damage * 1.75f);
                 npc.value = npc.value * 3f + Item.buyPrice(silver: 20);
             }
         }
@@ -72,7 +72,7 @@ namespace wfMod.NPCs
                     if (abilityTimer >= arsonTimer)
                     {
                         abilityTimer = 0;
-                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 10 : 2, 10f);
+                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 18 : 3, 10f);
                         Main.PlaySound(SoundID.Item20, npc.Center);
                         npc.velocity *= 0.2f;
                     }
@@ -82,10 +82,10 @@ namespace wfMod.NPCs
                     if ((ArcticProj == null || !ArcticProj.active || ArcticProj.type != mod.ProjectileType("ArcticEximus")) && abilityTimer > arcticTimer)
                     {
                         abilityTimer = 0;
-                        ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 1000, 1, ai0: npc.whoAmI)];
+                        ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 0, 0, ai0: npc.whoAmI)];
                         ArcticEximus.parentNPC = npc;
-                        if (npc.life > 50)
-                            ArcticEximus.Life = npc.life;
+                        ArcticEximus.Life = npc.life;
+                        ArcticEximus.SetDefaultLife();
                     }
                     break;
                 default:

@@ -19,13 +19,17 @@ namespace wfMod.Projectiles
                     projectile.timeLeft = 0;
             }
         }
-        public float damageTakenMult = 1;
+        public void SetDefaultLife()
+        {
+            float minLife = Main.hardMode ? 500 : 50;
+            if (Life < minLife) Life = minLife;
+        }
         public override void SetDefaults()
         {
-            Life = Main.hardMode ? 1000 : 100;
+            
+
             projectile.damage = 0;
             projectile.hostile = true;
-            projectile.magic = true;
             projectile.penetrate = -1;
             projectile.width = 240;
             projectile.height = 240;
@@ -34,8 +38,6 @@ namespace wfMod.Projectiles
             projectile.alpha = 90;
         }
         public NPC parentNPC;
-        int immunityFrames = 6;
-        int iFrameTimer = 0;
         public override void AI()
         {
             if (parentNPC is null || !parentNPC.active)
@@ -44,27 +46,16 @@ namespace wfMod.Projectiles
                 return;
             }
             projectile.Center = parentNPC.Center;
-
-            iFrameTimer++;
-            if (iFrameTimer > immunityFrames)
-            {
-                for (int i = 0; i < Main.projectile.Length; i++)
-                {
-                    var proj = Main.projectile[i];
-                    if (!proj.active || !proj.friendly || proj.damage <= 0) continue;
-                    if (proj.penetrate == -1) iFrameTimer = 0;
-                    if (CollidingWith(proj))
-                    {
-                        HitByProjectile(proj);
-                        break;
-                    }
-                }
-            }
-
             wfMod.NewDustsCircle(2, projectile.Center, projectile.width / 2, 51, (d) => { d.velocity *= 0; });
+
+            iFramesTimer++;
         }
+        public readonly int immunityFrames = 2;
+        public int iFramesTimer = 0;
         public bool CollidingWith(Projectile p)
         {
+            if (iFramesTimer < immunityFrames) return false;
+
             float distance = (p.Center - projectile.Center).Length();
             var rect = p.getRect();
             if (distance > rect.Width / 2 + projectile.width / 2) return false;
@@ -75,17 +66,18 @@ namespace wfMod.Projectiles
             }
             return false;
         }
-        public void HitByProjectile(Projectile p)
+        public void HitByProjectile(Projectile thatProj)
         {
-            Main.PlaySound(SoundID.Item50, p.Center);
-            float oldLife = Life;
-            Life -= p.damage * damageTakenMult;
-            if (p.damage < oldLife)
+            Main.PlaySound(SoundID.Item50, thatProj.Center);
+            if (thatProj.damage < Life)
             {
-                p.velocity *= 0.8f;
-                if (projectile.penetrate != -1)
-                    projectile.penetrate--;
+                thatProj.velocity *= 0.8f;
+                if (thatProj.penetrate != -1)
+                    thatProj.penetrate = 0;
+                else thatProj.timeLeft = 0;
             }
+            Life -= thatProj.damage;
+            iFramesTimer = 0;
         }
         public override bool CanHitPlayer(Player target)
         {

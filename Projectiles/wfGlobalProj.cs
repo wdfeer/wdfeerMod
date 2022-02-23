@@ -125,7 +125,7 @@ namespace wfMod.Projectiles
             proj.penetrate = -1;
             proj.Center = proj.position;
 
-            if (action != null) action();
+            action?.Invoke();
         }
         public Action<Projectile, int> kill = (Projectile proj, int timeLeft) => { };
         public override void Kill(Projectile projectile, int timeLeft)
@@ -137,6 +137,22 @@ namespace wfMod.Projectiles
         {
             ai();
             if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2) + impaleOffset;
+
+            VsArcticEximusLogic(projectile);
+        }
+        void VsArcticEximusLogic(Projectile thisProj)
+        {
+            if (!thisProj.active || !thisProj.friendly || thisProj.damage <= 0) return;
+            Projectile[] arcticEximuses = Main.projectile.Where(x => x.modProjectile is ArcticEximus).ToArray();
+            foreach (var p in arcticEximuses)
+            {
+                ArcticEximus arctic = p.modProjectile as ArcticEximus;
+                if (arctic.CollidingWith(thisProj))
+                {
+                    arctic.HitByProjectile(thisProj);
+                    return;
+                }
+            }
         }
         Vector2 impaleOffset = Vector2.Zero;
         public void Impale(NPC target, float xOffset = 0, float yOffset = 0)
