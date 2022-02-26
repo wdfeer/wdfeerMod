@@ -43,6 +43,21 @@ namespace wfMod.Projectiles
         public override void SetDefaults(Projectile projectile)
         {
             proj = projectile;
+            if (projectile.friendly)
+            {
+                int extraUpdates;
+                if (Main.player.Length > 1)
+                {
+                    IEnumerable<int> allExtraUpdates = Main.player.Select(x => x.GetModPlayer<wfPlayer>().projExtraUpdates);
+                    extraUpdates = allExtraUpdates.Max();
+                }
+                else
+                {
+                    extraUpdates = Main.LocalPlayer.GetModPlayer<wfPlayer>().projExtraUpdates;
+                }
+                
+                projectile.extraUpdates += extraUpdates;
+            }
         }
         public Action onTileCollide = () => { };
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)

@@ -56,6 +56,7 @@ namespace wfMod
         int ArcaSciscoStacks = 0;
         public float spreadMult;
         public int penetrate = 0; //Extra projectile penetration
+        public int projExtraUpdates = 0;
         public float fireRateMult = 1;
         public float critDmgMult = 1;
         public override void ResetEffects()
@@ -81,6 +82,7 @@ namespace wfMod
             electroMult = 1;
             spreadMult = 0;
             penetrate = 0;
+            projExtraUpdates = 0;
             fireRateMult = 1;
             critDmgMult = 1;
             procChances = new Dictionary<int, ProcChance>();
