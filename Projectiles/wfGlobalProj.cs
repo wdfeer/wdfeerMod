@@ -39,7 +39,7 @@ namespace wfMod.Projectiles
         public bool exploding = false;
         bool impaled => impaledNPC != null && impaledNPC.active;
         NPC impaledNPC;
-        public bool extraPenetrationApplied = false;
+        public bool PlayersExtraPenetrationApplied = false;
         public override void SetDefaults(Projectile projectile)
         {
             proj = projectile;
@@ -55,14 +55,14 @@ namespace wfMod.Projectiles
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             wfPlayer modPl = Main.player[projectile.owner].GetModPlayer<wfPlayer>();
-            if (projectile.penetrate >= 0 && !extraPenetrationApplied)
+            if (projectile.penetrate >= 0 && !PlayersExtraPenetrationApplied)
             {
                 projectile.penetrate += modPl.penetrate;
-                extraPenetrationApplied = true;
+                PlayersExtraPenetrationApplied = true;
                 if (!projectile.usesLocalNPCImmunity && !projectile.usesIDStaticNPCImmunity)
                 {
                     projectile.usesLocalNPCImmunity = true;
-                    projectile.localNPCHitCooldown = projectile.velocity.Length() * (projectile.extraUpdates + 1) > 16f ? 3 : 6;
+                    projectile.localNPCHitCooldown = (projectile.velocity.Length() * (projectile.extraUpdates + 1)) > 20f ? 4 : 6;
                 }
             }
             if (crit) damage = Convert.ToInt32(critMult * damage);

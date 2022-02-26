@@ -37,7 +37,7 @@ namespace wfMod.NPCs
         }
         public override void AI(NPC npc)
         {
-            if (!eximus || wfMod.BossAlive() || !npc.HasPlayerTarget || npc.life <= 0)
+            if (!eximus || !npc.active || !npc.HasPlayerTarget || wfMod.BossAlive() || npc.life <= 0)
                 return;
 
             int DeltaAbilityTimer = npc.lifeMax / npc.life;
