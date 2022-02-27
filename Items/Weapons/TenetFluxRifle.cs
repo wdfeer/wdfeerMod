@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
@@ -11,9 +12,11 @@ namespace wfMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Doesn't consume ammo\n75% Slash chance\n-10% Critical Damage");
+
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/TenetFluxRifleSound";
             item.damage = 29; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 16;
             item.ranged = true; // sets the damage type to ranged
@@ -26,7 +29,6 @@ namespace wfMod.Items.Weapons
             item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = Item.sellPrice(gold: 11); // how much the item sells for (measured in copper)
             item.rare = 8; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item11.WithVolume(0.32f).WithPitchVariance(0.6f); // The sound that this item plays when used.
             item.autoReuse = true; // if you can hold click to automatically use it again
             item.shoot = ModContent.ProjectileType<Projectiles.TenetFluxRifleProj>(); ; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
@@ -46,6 +48,8 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            PlaySound(Main.rand.NextFloat(-0.1f, 0.1f));
+
             var gProj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width).GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 75));
             gProj.critMult = 0.9f;

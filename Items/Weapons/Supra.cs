@@ -14,6 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/SupraVandalSound";
             item.damage = 47;
             item.crit = 8;
             item.ranged = true;
@@ -74,13 +75,11 @@ namespace wfMod.Items.Weapons
 
             return base.CanUseItem(player);
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            sound = mod.GetSound("Sounds/SupraVandalSound").CreateInstance();
-            sound.Volume = 0.5f;
-            sound.Pitch += Main.rand.NextFloat(0f, 0.2f);
-            sound.Play();
+            var volume = 0.7f;
+            var pitch = Main.rand.NextFloat(-0.05f, 0.1f);
+            PlaySound(pitch, volume);
 
             var proj = ShootWith(position, speedX, speedY, ProjectileID.NanoBullet, damage, knockBack, (timeSinceLastShot > 30 ? 0 : 0.065f), 50);
             proj.extraUpdates = 2;

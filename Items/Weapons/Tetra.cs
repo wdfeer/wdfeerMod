@@ -14,6 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/TenetTetraPrimarySound";
             item.damage = 22;
             item.crit = 0;
             item.mana = 6;
@@ -27,7 +28,6 @@ namespace wfMod.Items.Weapons
             item.knockBack = 3;
             item.value = Item.sellPrice(gold: 1);
             item.rare = 3;
-            item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 16f;
@@ -38,8 +38,11 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            float pitch = Main.rand.NextFloat(-0.1f, 0.1f);
+            PlaySound(pitch);
+
             var proj = ShootWith(position, speedX * 2.5f, speedY * 2.5f, ProjectileID.LaserMachinegunLaser, damage, knockBack, 0.03f, item.width);
-            
+
             return false;
         }
     }

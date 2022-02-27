@@ -14,6 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/TenetArcaPlasmorSound";
             item.damage = 222; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 18;
             item.magic = true; // sets the damage type to ranged
@@ -49,12 +50,10 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            sound = mod.GetSound("Sounds/ArcaPlasmorSound").CreateInstance();
-            sound.Pitch += Main.rand.NextFloat(0, 0.15f);
-            Main.PlaySoundInstance(sound);
+            float pitch = Main.rand.NextFloat(-0.05f, 0.15f);
+            PlaySound(pitch);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;

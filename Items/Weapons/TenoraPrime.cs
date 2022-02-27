@@ -113,9 +113,14 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (player.altFunctionUse == 2 ? 0 : 0.09f * spreadMult), 57, sound: (player.altFunctionUse == 2 ? SoundID.Item40 : SoundID.Item11));
+            bool secondary = player.altFunctionUse == 2;
+
+            pathToSound = secondary ? "Sounds/TenoraPrimeSecondarySound" : "Sounds/TenoraPrimePrimarySound";
+            PlaySound(Main.rand.NextFloat(0, 0.1f), 0.8f);
+
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (secondary ? 0 : 0.09f * spreadMult), 57);
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
-            if (player.altFunctionUse == 2)
+            if (secondary)
             {
                 if (proj.penetrate != -1) proj.penetrate += 1;
                 proj.damage += (int)((secondaryDamage - primaryDamage) * player.rangedDamageMult * player.allDamageMult);

@@ -1,11 +1,26 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
+using Microsoft.Xna.Framework.Audio;
 namespace wfMod.Items.Weapons
 {
     public abstract class wfWeapon : ModItem
     {
+        protected string pathToSound = null;
+        protected SoundEffectInstance sound = null;
+        public void PlaySound(float pitchMod = 0f, float volume = 1f)
+        {
+            if (sound != null)
+            {
+                if (sound.State == SoundState.Playing)
+                    volume /= 2;
+                sound.Dispose();
+            }
+            sound = mod.GetSound(pathToSound).CreateInstance();
+            sound.Pitch += pitchMod;
+            sound.Volume = volume;
+            Main.PlaySoundInstance(sound);
+        }
         public static Vector2 findOffset(float speedX, float speedY, float offset)
         {
             Vector2 spawnOffset = new Vector2(speedX, speedY);

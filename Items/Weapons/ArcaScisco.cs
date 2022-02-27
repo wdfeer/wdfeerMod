@@ -14,6 +14,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/ArcaSciscoSound";
             item.damage = 29; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 14;
             item.magic = true;
@@ -47,9 +48,10 @@ namespace wfMod.Items.Weapons
             item.crit = 14 + 5 * stacks;
             return base.CanUseItem(player);
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            PlaySound(Main.rand.NextFloat(-0.05f, 0.1f), 0.5f);
+
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.onHit = (NPC target) =>
@@ -58,11 +60,6 @@ namespace wfMod.Items.Weapons
                 Main.player[proj.owner].GetModPlayer<wfPlayer>().arcaSciscoStacks++;
             };
             globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 5 * player.GetModPlayer<wfPlayer>().arcaSciscoStacks + 13));
-
-            sound = mod.GetSound("Sounds/ArcaSciscoSound").CreateInstance();
-            sound.Volume = 0.5f;
-            sound.Pitch += Main.rand.NextFloat(-0.05f, 0.1f);
-            sound.Play();
 
             return false;
         }

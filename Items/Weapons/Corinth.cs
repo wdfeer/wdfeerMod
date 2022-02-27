@@ -25,7 +25,7 @@ namespace wfMod.Items.Weapons
             item.useAnimation = 51; // The length of the item's use animation in ticks (60 ticks == 1 second.)
             item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
             item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 1; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
+            item.knockBack = 2; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
             item.value = 15000; // how much the item sells for (measured in copper)
             item.rare = 3; // the color that the item's name will be in-game
             item.autoReuse = false; // if you can hold click to automatically use it again
@@ -48,13 +48,11 @@ namespace wfMod.Items.Weapons
             {
                 item.crit = 0;
                 item.shootSpeed = 16f;
-                item.UseSound = SoundID.Item61;
             }
             else
             {
                 item.crit = 26;
                 item.shootSpeed = 20f;
-                item.UseSound = SoundID.Item36;
             }
             return base.CanUseItem(player);
         }
@@ -74,15 +72,12 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
             {
-                sound = mod.GetSound("Sounds/CorinthSound").CreateInstance();
-                sound.Volume = 0.5f;
-                sound.Pitch += Main.rand.NextFloat(0f, 0.1f);
-                sound.Play();
+                pathToSound = "Sounds/CorinthSound";
+                PlaySound(Main.rand.NextFloat(0f, 0.1f), 0.65f);
                 for (int i = 0; i < 5; i++)
                 {
                     var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.08f, item.width);
@@ -91,8 +86,7 @@ namespace wfMod.Items.Weapons
             }
             else
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 7 / 2, knockBack, Main.LocalPlayer.cHead);
-                var projectile = Main.projectile[proj];
+                var projectile = ShootWith(position, speedX, speedY, mod.ProjectileType("CorinthAltProj"), damage * 7 / 2, knockBack * 2, sound: SoundID.Item61);
                 projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;
             }
             return false;

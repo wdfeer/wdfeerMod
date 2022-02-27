@@ -17,6 +17,7 @@ namespace wfMod.Items.Weapons
         const int maxMultishot = 5;
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/KuvaKohmSound";
             item.damage = 5;
             item.crit = 7;
             item.ranged = true;
@@ -29,7 +30,6 @@ namespace wfMod.Items.Weapons
             item.knockBack = 1;
             item.value = Item.buyPrice(gold: 6);
             item.rare = 3;
-            item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 14f;
@@ -83,6 +83,8 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            PlaySound(Main.rand.NextFloat(-0.1f, 0.1f));
+
             for (int i = 0; i < multishot; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 46 ? 0.015f : 0.08f), 52);

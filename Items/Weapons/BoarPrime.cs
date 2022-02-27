@@ -11,6 +11,7 @@ namespace wfMod.Items.Weapons
     {
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/BoarPrimeSound";
             item.damage = 11; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
             item.crit = 11;
             item.ranged = true; // sets the damage type to ranged
@@ -39,13 +40,9 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            sound = mod.GetSound("Sounds/BoarPrimeSound").CreateInstance();
-            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
-            sound.Volume = 0.64f;
-            sound.Play();
+            PlaySound(Main.rand.NextFloat(-0.1f, 0.1f), 0.64f);
             for (int i = 0; i < 5; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.11f, item.width);
