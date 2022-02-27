@@ -152,21 +152,6 @@ namespace wfMod
                 case NPCID.DarkCaster when wfMod.Roll(6):
                     DropItem(npc, ModContent.ItemType<Items.Weapons.Simulor>());
                     break;
-                case NPCID.BrainofCthulhu when wfMod.Roll(33):
-                    DropItem(npc, ModContent.ItemType<Items.Weapons.GorgonWraith>());
-                    break;
-                case NPCID.QueenBee when wfMod.Roll(40):
-                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.Shred>(), ModContent.ItemType<Items.Weapons.Sobek>() });
-                    break;
-                case NPCID.SkeletronHead when wfMod.Roll(40):
-                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.InternalBleeding>(), ModContent.ItemType<Items.Weapons.Cestra>() });
-                    break;
-                case NPCID.WallofFlesh when wfMod.Roll(33):
-                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.QuickThinking>(), ModContent.ItemType<Items.Accessories.EnergyConversion>() });
-                    break;
-                case NPCID.SkeletronPrime when wfMod.Roll(25):
-                    DropItem(npc, ModContent.ItemType<Items.Weapons.SecuraPenta>());
-                    break;
                 default:
                     if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
                         DropItem(npc, ModContent.ItemType<Items.Fieldron>());

@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace wfMod.Items
 {
@@ -36,6 +37,41 @@ namespace wfMod.Items
                 maxAscentMultiplier *= 1.25f;
                 constantAscend *= 1.25f;
             }
+        }
+        public override void OpenVanillaBag(string context, Player player, int arg)
+        {
+            switch (arg)
+            {
+                case ItemID.EaterOfWorldsBossBag when wfMod.Roll(33):
+                    DropItem(player, ModContent.ItemType<Weapons.Tetra>());
+                    break;
+                case ItemID.QueenBeeBossBag when wfMod.Roll(40):
+                    DropItem(player, new int[] { ModContent.ItemType<Accessories.Shred>(), ModContent.ItemType<Weapons.Sobek>() });
+                    break;
+                case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(33):
+                    DropItem(player, ModContent.ItemType<Items.Weapons.GorgonWraith>());
+                    break;
+                case ItemID.SkeletronBossBag when wfMod.Roll(50):
+                    DropItem(player, new int[] { ModContent.ItemType<Items.Accessories.InternalBleeding>(), ModContent.ItemType<Items.Weapons.Cestra>() });
+                    break;
+                case ItemID.WallOfFleshBossBag when wfMod.Roll(33):
+                    DropItem(player, new int[] { ModContent.ItemType<Items.Accessories.QuickThinking>(), ModContent.ItemType<Items.Accessories.EnergyConversion>() });
+                    break;
+                case ItemID.SkeletronPrimeBossBag when wfMod.Roll(25):
+                    DropItem(player, ModContent.ItemType<Items.Weapons.SecuraPenta>());
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void DropItem(Player player, int type)
+        {
+            Item.NewItem(player.getRect(), type);
+        }
+        private void DropItem(Player player, int[] options)
+        {
+            int rand = Main.rand.Next(options.Length);
+            Item.NewItem(player.getRect(), options[rand]);
         }
     }
 }

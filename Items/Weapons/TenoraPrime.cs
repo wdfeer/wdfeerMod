@@ -10,13 +10,15 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots rapidly with +10% critical damage and near-perfect accuraccy after spooling up\nRight Click to shoot a single shot with 7x damage and +50% critical damage\n70% Chance not to consume ammo");
+            Tooltip.SetDefault("Shoots rapidly with +10% critical damage and near-perfect accuraccy after spooling up\nRight Click to shoot a single shot with greatly increased damage and +50% critical damage\n70% Chance not to consume ammo");
         }
-        int baseFireRate = 18;
-        int spooledFireRate = 5;
+        const int primaryDamage = 45;
+        const int secondaryDamage = 310;
+        const int baseFireRate = 18;
+        const int spooledFireRate = 5;
         public override void SetDefaults()
         {
-            item.damage = 43;
+            item.damage = primaryDamage;
             item.crit = 26;
             item.ranged = true;
             item.width = 60;
@@ -27,7 +29,7 @@ namespace wfMod.Items.Weapons
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(gold: 5);
-            item.rare = 5;
+            item.rare = 9;
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 16f;
@@ -45,7 +47,6 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Tenora"));
             recipe.AddIngredient(ItemID.FragmentVortex, 8);
             recipe.AddIngredient(ItemID.HallowedBar, 15);
             recipe.AddTile(412);
@@ -117,7 +118,7 @@ namespace wfMod.Items.Weapons
             if (player.altFunctionUse == 2)
             {
                 if (proj.penetrate != -1) proj.penetrate += 1;
-                proj.damage *= 7;
+                proj.damage += (int)((secondaryDamage - primaryDamage) * player.rangedDamageMult * player.allDamageMult);
                 proj.knockBack *= 4;
                 gProj.critMult = 1.5f;
             }
