@@ -14,22 +14,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 10; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 10;
             item.crit = 6;
-            item.ranged = true; // sets the damage type to ranged
-            item.width = 45; // hitbox width of the item
-            item.height = 16; // hitbox height of the item
-            item.useTime = 5; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 5; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = Item.sellPrice(gold: 2); // how much the item sells for (measured in copper)
-            item.rare = 3; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item11.WithVolume(0.32f).WithPitchVariance(0.75f); // The sound that this item plays when used.
-            item.autoReuse = true; // if you can hold click to automatically use it again
-            item.shoot = ModContent.ProjectileType<Projectiles.FluxRifleProj>(); ; //idk why but all the guns in the vanilla source have this
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
+            item.ranged = true;
+            item.width = 45;
+            item.height = 16;
+            item.useTime = 5;
+            item.useAnimation = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.noMelee = true;
+            item.knockBack = 0;
+            item.value = Item.sellPrice(gold: 2);
+            item.rare = 3;
+            item.UseSound = SoundID.Item11.WithVolume(0.32f).WithPitchVariance(0.75f);
+            item.autoReuse = true;
+            item.shoot = ModContent.ProjectileType<Projectiles.FluxRifleProj>();
+            item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {

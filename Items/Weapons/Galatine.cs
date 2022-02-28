@@ -14,18 +14,18 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 40; // The damage your item deals
-            item.melee = true; // Whether your item is part of the melee class
-            item.width = 58; // The item texture's width
-            item.height = 58; // The item texture's height
-            item.useTime = 48; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
-            item.useAnimation = 48; // The time span of the using animation of the weapon, suggest setting it the same as useTime.
-            item.knockBack = 9; // The force of knockback of the weapon. Maximum is 20
-            item.value = Item.buyPrice(silver: 180); // The value of the weapon in copper coins
-            item.rare = ItemRarityID.Orange; // The rarity of the weapon, from -1 to 13. You can also use ItemRarityID.TheColorRarity
-            item.UseSound = SoundID.Item1; // The sound when the weapon is being used
-            item.autoReuse = true; // Whether the weapon can be used more than once automatically by holding the use button
-            item.crit = 10; // The critical strike chance the weapon has. The player, by default, has 4 critical strike chance
+            item.damage = 40;
+            item.melee = true;
+            item.width = 58;
+            item.height = 58;
+            item.useTime = 48;
+            item.useAnimation = 48;
+            item.knockBack = 9;
+            item.value = Item.buyPrice(silver: 180);
+            item.rare = ItemRarityID.Orange;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.crit = 10;
             item.scale = 1.1f;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }

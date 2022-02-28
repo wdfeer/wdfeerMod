@@ -14,21 +14,21 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 88; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 88;
             item.crit = 21;
-            item.ranged = true; // sets the damage type to ranged
-            item.width = 63; // hitbox width of the item
-            item.height = 17; // hitbox height of the item
-            item.useTime = 60; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 60; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 6; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = 15000; // how much the item sells for (measured in copper)
-            item.rare = 4; // the color that the item's name will be in-game
-            item.UseSound = SoundID.Item40; // The sound that this item plays when used.
-            item.autoReuse = false; // if you can hold click to automatically use it again
-            item.shootSpeed = 48f; // the speed of the projectile (measured in pixels per frame)
+            item.ranged = true;
+            item.width = 63;
+            item.height = 17;
+            item.useTime = 60;
+            item.useAnimation = 60;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.noMelee = true;
+            item.knockBack = 6;
+            item.value = 15000;
+            item.rare = 4;
+            item.UseSound = SoundID.Item40;
+            item.autoReuse = false;
+            item.shootSpeed = 48f;
             item.shoot = 10;
             item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }

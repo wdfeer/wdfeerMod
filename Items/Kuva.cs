@@ -15,7 +15,7 @@ namespace wfMod.Items
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 5; // the color that the item's name will be in-game
+            item.rare = 5;
             item.value = Item.buyPrice(silver: 10);
             item.maxStack = 99;
             item.width = 32;

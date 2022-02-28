@@ -13,23 +13,23 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 28; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 28;
             item.crit = 5;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.width = 48; // hitbox width of the item
-            item.height = 43; // hitbox height of the item
-            item.useTime = 48; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 48; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.SwingThrow; // how you use the item (swinging, holding out, etc)
-            item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = Item.buyPrice(gold: 10); // how much the item sells for (measured in copper)
-            item.rare = 5; // the color that the item's name will be in-game
+            item.width = 48;
+            item.height = 43;
+            item.useTime = 48;
+            item.useAnimation = 48;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.knockBack = 4;
+            item.value = Item.buyPrice(gold: 10);
+            item.rare = 5;
             item.shoot = ModContent.ProjectileType<Projectiles.ArumSpinosaProj>();
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
+            item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()

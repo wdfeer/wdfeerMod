@@ -42,11 +42,14 @@ namespace wfMod.Items
         {
             switch (arg)
             {
+                case ItemID.EyeOfCthulhuBossBag when wfMod.Roll(33):
+                    DropItem(player, ModContent.ItemType<Weapons.Sobek>());
+                    break;
                 case ItemID.EaterOfWorldsBossBag when wfMod.Roll(33):
                     DropItem(player, ModContent.ItemType<Weapons.Tetra>());
                     break;
-                case ItemID.QueenBeeBossBag when wfMod.Roll(40):
-                    DropItem(player, new int[] { ModContent.ItemType<Accessories.Shred>(), ModContent.ItemType<Weapons.Sobek>() });
+                case ItemID.QueenBeeBossBag when wfMod.Roll(33):
+                    DropItem(player, new int[] { ModContent.ItemType<Accessories.Shred>(), ModContent.ItemType<Weapons.Kohm>() });
                     break;
                 case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(33):
                     DropItem(player, ModContent.ItemType<Items.Weapons.GorgonWraith>());
