@@ -15,6 +15,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/RedeemerPrimeSound";
             item.damage = 44;
             item.crit = 20;
             item.melee = true;
@@ -43,13 +44,9 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            sound = mod.GetSound("Sounds/RedeemerPrimeSound").CreateInstance();
-            sound.Volume = 0.45f;
-            sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
-            sound.Play();
+            PlaySound(Main.rand.NextFloat(-0.1f, 0.1f), 0.45f);
 
             for (int i = 0; i < 6; i++)
             {

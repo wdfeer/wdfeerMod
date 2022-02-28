@@ -13,6 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
+            pathToSound = "Sounds/FulminSound";
             item.damage = 27;
             item.crit = 26;
             item.ranged = true;
@@ -38,13 +39,9 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            sound = mod.GetSound("Sounds/FulminSound").CreateInstance();
-            sound.Volume = 0.5f;
-            sound.Pitch += Main.rand.NextFloat(0,0.15f);
-            Main.PlaySoundInstance(sound);
+            PlaySound(Main.rand.NextFloat(0, 0.15f), 0.6f);
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 2);
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();

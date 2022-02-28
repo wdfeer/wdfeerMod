@@ -15,7 +15,7 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/BoarPrimeSound";
-            item.damage = 7;
+            item.damage = 5;
             item.crit = 7;
             item.ranged = true;
             item.width = 42;

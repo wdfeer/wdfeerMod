@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using wfMod.Items.Weapons;
 using wfMod.Items.Accessories;
 
 namespace wfMod
@@ -135,40 +136,58 @@ namespace wfMod
             switch (npc.type)
             {
                 case NPCID.DemonEye when wfMod.Roll(0.75f):
-                    DropItem(npc, ModContent.ItemType<Items.Accessories.PiercingHit>());
+                    DropItem(npc, ModContent.ItemType<PiercingHit>());
                     break;
                 case NPCID.BigMimicCorruption when wfMod.Roll(20):
-                    DropItem(npc, ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    DropItem(npc, ModContent.ItemType<ArgonScope>());
                     break;
                 case NPCID.BigMimicCrimson when wfMod.Roll(20):
-                    DropItem(npc, ModContent.ItemType<Items.Accessories.ArgonScope>());
+                    DropItem(npc, ModContent.ItemType<ArgonScope>());
                     break;
                 case NPCID.FireImp when wfMod.Roll(6):
-                    DropItem(npc, ModContent.ItemType<Items.Accessories.Blaze>());
+                    DropItem(npc, ModContent.ItemType<Blaze>());
                     break;
                 case NPCID.Hellbat when wfMod.Roll(5):
-                    DropItem(npc, ModContent.ItemType<Items.Accessories.ThermiteRounds>());
+                    DropItem(npc, ModContent.ItemType<ThermiteRounds>());
                     break;
                 case NPCID.DarkCaster when wfMod.Roll(6):
-                    DropItem(npc, ModContent.ItemType<Items.Weapons.Simulor>());
+                    DropItem(npc, ModContent.ItemType<Simulor>());
+                    break;
+                case NPCID.EyeofCthulhu when !Main.expertMode && wfMod.Roll(33):
+                    DropItem(npc, ModContent.ItemType<Sobek>());
+                    break;
+                case NPCID.BrainofCthulhu when !Main.expertMode && wfMod.Roll(33):
+                    DropItem(npc, ModContent.ItemType<GorgonWraith>());
+                    break;
+                case NPCID.QueenBee when !Main.expertMode && wfMod.Roll(40):
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>() });
+                    break;
+                case NPCID.SkeletronHead when !Main.expertMode && wfMod.Roll(40):
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>() });
+                    break;
+                case NPCID.WallofFlesh when !Main.expertMode && wfMod.Roll(33):
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<QuickThinking>(), ModContent.ItemType<EnergyConversion>() });
+                    break;
+                case NPCID.SkeletronPrime when !Main.expertMode && wfMod.Roll(25):
+                    DropItem(npc, ModContent.ItemType<SecuraPenta>());
                     break;
                 default:
                     if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
                         DropItem(npc, ModContent.ItemType<Items.Fieldron>());
                     else if (goblins.Contains(npc.type) && wfMod.Roll(3))
                     {
-                        Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Items.Accessories.HunterMunitions>(), ModContent.ItemType<Items.Weapons.Penta>(), ModContent.ItemType<Items.Weapons.Tonkor>() });
+                        Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<HunterMunitions>(), ModContent.ItemType<Penta>(), ModContent.ItemType<Tonkor>() });
                     }
                     break;
             }
             if (npc.rarity > 0 && !npc.friendly && wfMod.Roll(25))
             {
-                int[] options = { ModContent.ItemType<Items.Accessories.VileAcceleration>(), ModContent.ItemType<Items.Accessories.CriticalDelay>(), ModContent.ItemType<Items.Accessories.HollowPoint>(), ModContent.ItemType<Items.Accessories.HeavyCaliber>() };
+                int[] options = { ModContent.ItemType<VileAcceleration>(), ModContent.ItemType<CriticalDelay>(), ModContent.ItemType<HollowPoint>(), ModContent.ItemType<HeavyCaliber>() };
                 Drop1ItemAtRandom(npc, options);
             }
             if (npc.boss && Main.expertMode && wfMod.Roll(15))
             {
-                int[] options = { ModContent.ItemType<Items.Accessories.ArcaneAvenger>(), ModContent.ItemType<Items.Accessories.ArcaneGuardian>(), ModContent.ItemType<Items.Accessories.ArcaneAcceleration>(), ModContent.ItemType<Items.Accessories.ArcaneStrike>(), ModContent.ItemType<Items.Accessories.ArcaneEnergize>(), ModContent.ItemType<Items.Accessories.ArcanePulse>() };
+                int[] options = { ModContent.ItemType<ArcaneAvenger>(), ModContent.ItemType<ArcaneGuardian>(), ModContent.ItemType<ArcaneAcceleration>(), ModContent.ItemType<ArcaneStrike>(), ModContent.ItemType<ArcaneEnergize>(), ModContent.ItemType<ArcanePulse>() };
                 Drop1ItemAtRandom(npc, options);
             }
 
