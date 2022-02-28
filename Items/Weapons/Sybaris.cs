@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 21;
+            item.damage = 25;
             item.crit = 21;
             item.ranged = true;
             item.noMelee = true;
