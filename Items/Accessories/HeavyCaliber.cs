@@ -23,8 +23,8 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamageMult += 0.16f;
-            player.rangedDamageMult += 0.16f;
+            player.magicDamage += 0.16f;
+            player.rangedDamage += 0.16f;
             player.GetModPlayer<wfPlayer>().spreadMult += 0.12f;
         }
     }

@@ -14,8 +14,8 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 14; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
-            item.crit = 35;
+            item.damage = 18; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.crit = 31;
             item.magic = true;
             item.mana = 3;
             item.width = 48; // hitbox width of the item
