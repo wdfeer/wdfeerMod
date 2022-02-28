@@ -10,7 +10,7 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Takes a while to spool up while increasing Multishot\nDamage Falloff starts at 15 tiles, stops after 25, reducing damage by 73%\n30% Slash chance\n+15% Critical Damage");
+            Tooltip.SetDefault("Takes a while to spool up while increasing Multishot up to 5 pellets\n-50% Ammunition damage\nDamage Falloff starts at 15 tiles, stops after 25, reducing damage by 73%\n30% Slash chance\n+15% Critical Damage");
         }
         const int maxUseTime = 82;
         const int minUseTime = 17;
@@ -34,16 +34,6 @@ namespace wfMod.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Bullet;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TungstenBar, 17);
-            recipe.AddIngredient(ItemID.JungleSpores, 5);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
@@ -85,6 +75,8 @@ namespace wfMod.Items.Weapons
         {
             PlaySound(Main.rand.NextFloat(-0.1f, 0.1f));
 
+            float ammoDamage = (damage / player.rangedDamageMult) / player.rangedDamage - item.damage;
+            damage = (int)((item.damage + ammoDamage / 2) * player.rangedDamageMult * player.rangedDamage);
             for (int i = 0; i < multishot; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 46 ? 0.015f : 0.08f), 52);

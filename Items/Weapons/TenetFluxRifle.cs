@@ -17,21 +17,21 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/TenetFluxRifleSound";
-            item.damage = 29; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 29;
             item.crit = 16;
-            item.ranged = true; // sets the damage type to ranged
-            item.width = 45; // hitbox width of the item
-            item.height = 16; // hitbox height of the item
-            item.useTime = 4; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 4; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 0; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = Item.sellPrice(gold: 11); // how much the item sells for (measured in copper)
-            item.rare = 8; // the color that the item's name will be in-game
-            item.autoReuse = true; // if you can hold click to automatically use it again
-            item.shoot = ModContent.ProjectileType<Projectiles.TenetFluxRifleProj>(); ; //idk why but all the guns in the vanilla source have this
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
+            item.ranged = true;
+            item.width = 45;
+            item.height = 16;
+            item.useTime = 4;
+            item.useAnimation = 4;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.noMelee = true;
+            item.knockBack = 0;
+            item.value = Item.sellPrice(gold: 11);
+            item.rare = 8;
+            item.autoReuse = true;
+            item.shoot = ModContent.ProjectileType<Projectiles.TenetFluxRifleProj>(); ;
+            item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {

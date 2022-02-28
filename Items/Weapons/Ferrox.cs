@@ -15,23 +15,23 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/FerroxSound";
-            item.damage = 177; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 177;
             item.crit = 28;
-            item.magic = true; // sets the damage type to ranged
+            item.magic = true;
             item.mana = 13;
-            item.width = 95; // hitbox width of the item
-            item.height = 6; // hitbox height of the item
+            item.width = 95;
+            item.height = 6;
             item.scale = 1f;
-            item.useTime = 40; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 40; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = 50000; // how much the item sells for (measured in copper)
-            item.rare = 7; // the color that the item's name will be in-game
-            item.autoReuse = true; // if you can hold click to automatically use it again
+            item.useTime = 40;
+            item.useAnimation = 40;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.noMelee = true;
+            item.knockBack = 4;
+            item.value = 50000;
+            item.rare = 7;
+            item.autoReuse = true;
             item.shoot = ProjectileID.MagnetSphereBolt;
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
+            item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {

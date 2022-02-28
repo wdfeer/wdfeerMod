@@ -7,8 +7,7 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    // Here we add our accessories, note that they inherit from ExclusiveAccessory, and not ModItem
-
+    
     public class ArcaneAvenger : ExclusiveAccessory
     {
         public override void SetStaticDefaults()

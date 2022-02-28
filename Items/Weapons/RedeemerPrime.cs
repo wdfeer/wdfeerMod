@@ -15,22 +15,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 44; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 44;
             item.crit = 20;
-            item.melee = true; // sets the damage type to ranged
-            item.noMelee = true; //so the item's animation doesn't do damage
-            item.width = 48; // hitbox width of the item
-            item.height = 24; // hitbox height of the item
+            item.melee = true;
+            item.noMelee = true;
+            item.width = 48;
+            item.height = 24;
             item.scale = 1f;
-            item.useTime = 60; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 60; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.HoldingOut; // how you use the item (swinging, holding out, etc)
-            item.knockBack = 7; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = 15000; // how much the item sells for (measured in copper)
-            item.rare = 5; // the color that the item's name will be in-game
-            item.autoReuse = true; // if you can hold click to automatically use it again
-            item.shoot = ProjectileID.GoldenBullet; //idk why but all the guns in the vanilla source have this
-            item.shootSpeed = 16f; // the speed of the projectile (measured in pixels per frame)
+            item.useTime = 60;
+            item.useAnimation = 60;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.knockBack = 7;
+            item.value = 15000;
+            item.rare = 5;
+            item.autoReuse = true;
+            item.shoot = ProjectileID.GoldenBullet;
+            item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()

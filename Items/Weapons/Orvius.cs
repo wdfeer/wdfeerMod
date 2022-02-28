@@ -13,21 +13,21 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 69; // Sets the item's damage. Note that projectiles shot by this weapon will use its and the used ammunition's damage added together.
+            item.damage = 69;
             item.crit = 16;
-            item.melee = true; // sets the damage type to ranged
+            item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.width = 32; // hitbox width of the item
-            item.height = 32; // hitbox height of the item
-            item.useTime = 14; // The item's use time in ticks (60 ticks == 1 second.)
-            item.useAnimation = 14; // The length of the item's use animation in ticks (60 ticks == 1 second.)
-            item.useStyle = ItemUseStyleID.SwingThrow; // how you use the item (swinging, holding out, etc)
-            item.knockBack = 4; // Sets the item's knockback. Note that projectiles shot by this weapon will use its and the used ammunition's knockback added together.
-            item.value = 750000; // how much the item sells for (measured in copper)
-            item.rare = 4; // the color that the item's name will be in-game
-            item.shoot = ModContent.ProjectileType<Projectiles.OrviusProj>(); //idk why but all the guns in the vanilla source have this
-            item.shootSpeed = 19f; // the speed of the projectile (measured in pixels per frame)
+            item.width = 32;
+            item.height = 32;
+            item.useTime = 14;
+            item.useAnimation = 14;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.knockBack = 4;
+            item.value = 750000;
+            item.rare = 4;
+            item.shoot = ModContent.ProjectileType<Projectiles.OrviusProj>();
+            item.shootSpeed = 19f;
         }
 
         public override void AddRecipes()
