@@ -3,30 +3,32 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using wfMod.Projectiles;
+using Terraria.ModLoader.IO;
 
 namespace wfMod.Items.Weapons
 {
-    public class Tetra : wfWeapon
+    public class PrismaTetra : wfWeapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("-25% Critical Damage");
+            Tooltip.SetDefault("20% to inflict Weak");
         }
         public override void SetDefaults()
         {
             pathToSound = "Sounds/TenetTetraPrimarySound";
-            item.damage = 21;
-            item.crit = 0;
-            item.mana = 6;
+            item.damage = 25;
+            item.crit = 6;
+            item.mana = 5;
             item.magic = true;
-            item.width = 40;
+            item.width = 41;
             item.height = 14;
-            item.useTime = 10;
-            item.useAnimation = 10;
+            item.useTime = 9;
+            item.useAnimation = 9;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3;
-            item.value = Item.sellPrice(gold: 1);
+            item.value = Item.buyPrice(gold: 40);
             item.rare = 3;
             item.autoReuse = true;
             item.shoot = 10;
@@ -41,8 +43,9 @@ namespace wfMod.Items.Weapons
             float pitch = Main.rand.NextFloat(-0.1f, 0.1f);
             PlaySound(pitch);
 
-            var proj = ShootWith(position, speedX * 2.5f, speedY * 2.5f, ProjectileID.LaserMachinegunLaser, damage, knockBack, 0.04f, item.width);
-
+            var proj = ShootWith(position, speedX * 3f, speedY * 3f, ProjectileID.LaserMachinegunLaser, damage, knockBack, 0.025f, item.width);
+            var gProj = proj.GetGlobalProjectile<wfGlobalProj>();
+            gProj.AddProcChance(new ProcChance(BuffID.Weak, 20));
             return false;
         }
     }

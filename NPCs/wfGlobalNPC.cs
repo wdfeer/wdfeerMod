@@ -203,5 +203,21 @@ namespace wfMod
             int rand = Main.rand.Next(types.Count());
             DropItem(npc, types[rand]);
         }
+        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        {
+            if (type == NPCID.TravellingMerchant)
+            {
+                if (NPC.downedQueenBee)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<PrismaTetra>());
+                    nextSlot++;
+                }
+                if (NPC.downedMechBossAny)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<PrismaGorgon>());
+                    nextSlot++;
+                }
+            } 
+        }
     }
 }
