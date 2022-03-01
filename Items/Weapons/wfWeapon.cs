@@ -6,7 +6,7 @@ namespace wfMod.Items.Weapons
 {
     public abstract class wfWeapon : ModItem
     {
-        protected string pathToSound = null;
+        protected static string pathToSound = null;
         protected SoundEffectInstance sound = null;
         public void PlaySound(float pitchMod = 0f, float volume = 1f)
         {

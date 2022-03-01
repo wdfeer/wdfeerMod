@@ -10,11 +10,11 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots rapidly but inaccurately, converts ammo into luminite bullets\n+15% Critical Damage\n66% Chance not to consume ammo");
+            Tooltip.SetDefault("Shoots rapidly but inaccurately\n+15% Critical Damage\n66% Chance not to consume ammo");
         }
         public override void SetDefaults()
         {
-            item.damage = 77;
+            item.damage = 15;
             item.crit = 26;
             item.ranged = true;
             item.width = 17;
@@ -24,8 +24,8 @@ namespace wfMod.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.2f;
-            item.value = Item.buyPrice(gold: 17);
-            item.rare = 10;
+            item.value = Item.buyPrice(gold: 60);
+            item.rare = 5;
             item.UseSound = SoundID.Item11.WithVolume(0.7f);
             item.autoReuse = true;
             item.shoot = 10;
@@ -77,7 +77,7 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            var proj = ShootWith(position, speedX, speedY, ProjectileID.MoonlordBullet, damage, knockBack, (timeSinceLastShot > 21 ? 0 : 0.055f), 53);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 21 ? 0 : 0.06f), 53);
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 1.15f;
             return false;

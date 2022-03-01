@@ -105,6 +105,16 @@ namespace wfMod
                 }
             }
         }
+        public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
+        {
+            if (npc.HasBuff(BuffID.Weak))
+            {
+                if (npc.boss)
+                    damage = (int)(damage * 0.9f);
+                else
+                    damage = (int)(damage * 0.75f);
+            }
+        }
         public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
             if (npc.HasBuff(BuffID.OnFire))
