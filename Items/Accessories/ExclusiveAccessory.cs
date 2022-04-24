@@ -9,7 +9,7 @@ namespace wfMod.Items.Accessories
 {
     public abstract class ExclusiveAccessory : ModItem
     {
-        public float worldScale = 0.5f;
+        public const float worldScale = 0.5f;
         public override void SetDefaults()
         {
             item.width = 64;
