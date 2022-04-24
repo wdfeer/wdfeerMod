@@ -10,7 +10,7 @@ namespace wfMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+16% Ranged and Magic damage, but -12% Accuracy");
+            Tooltip.SetDefault("+12% (+16% in Hardmode) Ranged, Magic and Throwing damage, but -24% Accuracy");
         }
 
         public override void SetDefaults()
@@ -22,9 +22,11 @@ namespace wfMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamage += 0.16f;
-            player.rangedDamage += 0.16f;
-            player.GetModPlayer<wfPlayer>().spreadMult += 0.12f;
+            var damageMod = Main.hardMode ? 0.16f : 0.12f;
+            player.magicDamage += damageMod;
+            player.rangedDamage += damageMod;
+            player.thrownDamage += damageMod;
+            player.GetModPlayer<wfPlayer>().spreadMult += 0.24f;
         }
     }
 }
