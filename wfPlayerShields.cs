@@ -7,16 +7,26 @@ namespace wfMod
 {
     public class wfPlayerShields : ModPlayer
     {
-        public int shield = 0;
+        public float consumedManaToShieldConversion = 0f;
+
+        public float shield = 0;
+        public float Shield => shield - Overshield;
+        public float Overshield => shield > maxShield ? shield - maxShield : 0;
+        public int maxOvershield = 100;
         public int maxShield = 0;
+        public int Maxshield => maxShield + maxOvershield;
         public int shieldRegenInterval => maxShield == 0 ? 0 : 1800 / maxShield;
         public override void ResetEffects()
         {
             maxShield = 0;
+            consumedManaToShieldConversion = 0;
         }
         private int shieldRegenTimer = 0;
         public override void PreUpdate()
         {
+            if (shield > Maxshield)
+                shield = Maxshield;
+
             shieldRegenTimer++;
             if (shieldRegenTimer >= shieldRegenInterval && shield < maxShield)
             {
@@ -24,25 +34,43 @@ namespace wfMod
                 shieldRegenTimer = 0;
             }
 
-            if (shield > 0 && maxShield > 0)
-                UpdateShieldVisualEffect();
+            UpdateShieldVisualEffect();
         }
-        float dustDistance = 100;
+        const float shieldDustDistance = 75;
+        const float overshieldDustDistance = 100;
         private void UpdateShieldVisualEffect()
         {
             float intensity = ModContent.GetInstance<wfServerConfig>().shieldEffectsIntensity;
-            float circlePortion = (float)shield / (float)maxShield;
-            double radians = circlePortion * 2 * Math.PI - Math.PI / 2;
-            int particles = intensity == 1 ? shield * 2 : shield;
-            wfMod.NewDustsCustom(particles, () =>
+            int maxParticles = (int)(24 * intensity);
+            void NewDustInAPortionOfACircleEvenly(int count, float circlePortion, double phase, int type, float distance, float scale)
             {
-                Vector2 pos = new Vector2((float)(dustDistance*Math.Cos(radians)), (float)(dustDistance*Math.Sin(radians)));
-                radians -= 2 * Math.PI / particles * circlePortion;
-                pos += player.Center;
-                var dust = Dust.NewDustPerfect(pos, DustID.SapphireBolt);
-                dust.scale = (shield == maxShield ? 0.5f : 0.3f) * intensity;
-                return dust;
-            });
+                double radians = circlePortion * 2 * Math.PI + phase;
+                wfMod.NewDustsCustom(count, () =>
+                {
+                    Vector2 pos = new Vector2((float)(distance * Math.Cos(radians)), (float)(distance * Math.Sin(radians)));
+                    radians -= 2 * Math.PI / count * circlePortion;
+                    pos += player.Center;
+                    var dust = Dust.NewDustPerfect(pos, type);
+                    dust.scale = scale * intensity;
+                    return dust;
+                });
+            }
+            if (Shield > 0)
+            {
+                float circlePortion = shield / maxShield;
+                int particles = intensity == 1 ? (int)shield * 2 : (int)shield;
+                if (particles > maxParticles)
+                    particles = maxParticles;
+                NewDustInAPortionOfACircleEvenly(particles, circlePortion, -Math.PI / 2, DustID.SapphireBolt, shieldDustDistance, shield >= maxShield ? 0.4f : 0.6f);
+            }
+            if (Overshield > 0)
+            {
+                float circlePortion = Overshield / maxOvershield;
+                int particles = intensity == 1 ? (int)Overshield : (int)Overshield / 2;
+                if (particles > maxParticles + maxParticles / 4)
+                    particles = maxParticles + maxParticles / 4;
+                NewDustInAPortionOfACircleEvenly(particles, circlePortion, -Math.PI / 2, DustID.AmethystBolt, overshieldDustDistance, 0.7f);
+            }
         }
         public int ModifyIncomingDamage(int damage)
         {
@@ -50,7 +78,7 @@ namespace wfMod
             
             if (shield < damage)
             {
-                damage -= shield;
+                damage -= (int)shield;
                 if (shield == maxShield)
                 {
                     shield = 0;
@@ -72,6 +100,10 @@ namespace wfMod
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
             damage = ModifyIncomingDamage(damage);
+        }
+        public override void OnConsumeMana(Item item, int manaConsumed)
+        {
+            shield += manaConsumed * consumedManaToShieldConversion;
         }
     }
 }

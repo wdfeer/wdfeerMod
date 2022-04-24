@@ -36,7 +36,7 @@ namespace wfMod.Projectiles
             {
                 int num353 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
                 Dust dust = Main.dust[num353];
-                dust.scale = (float)Main.rand.Next(80, 130) * 0.01f;
+                dust.scale = Main.rand.Next(80, 130) * 0.01f;
                 dust.velocity *= 0.2f;
                 dust.noGravity = true;
             }

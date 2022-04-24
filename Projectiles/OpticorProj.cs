@@ -48,13 +48,13 @@ namespace wfMod.Projectiles
                 for (int num = 0; num < 8; num++)
                 {
                     Vector2 position2 = projectile.position;
-                    position2 -= projectile.velocity * ((float)num * 0.25f);
+                    position2 -= projectile.velocity * (num * 0.25f);
                     int num353 = Dust.NewDust(position2, 1, 1, 180);
                     Dust dust = Main.dust[num353];
                     dust.position = position2;
                     dust.position.X += projectile.width / 2;
                     dust.position.Y += projectile.height / 2;
-                    dust.scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                    dust.scale = Main.rand.Next(70, 110) * 0.013f;
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                 }
