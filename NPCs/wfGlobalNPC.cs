@@ -145,6 +145,12 @@ namespace wfMod
 
             switch (npc.type)
             {
+                case NPCID.GoblinSorcerer when wfMod.Roll(3):
+                    augurSecrets:
+                    DropItem(npc, ModContent.ItemType<AugurSecrets>());
+                    break;
+                case NPCID.DD2DarkMageT1 when wfMod.Roll(20):
+                    goto augurSecrets;
                 case NPCID.DemonEye when wfMod.Roll(0.75f):
                     DropItem(npc, ModContent.ItemType<PiercingHit>());
                     break;
@@ -163,8 +169,8 @@ namespace wfMod
                 case NPCID.DarkCaster when wfMod.Roll(6):
                     DropItem(npc, ModContent.ItemType<Simulor>());
                     break;
-                case NPCID.EyeofCthulhu when !Main.expertMode && wfMod.Roll(33):
-                    DropItem(npc, ModContent.ItemType<Sobek>());
+                case NPCID.EyeofCthulhu when !Main.expertMode && wfMod.Roll(50):
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Sobek>(), ModContent.ItemType<Redirection>() });
                     break;
                 case NPCID.BrainofCthulhu when !Main.expertMode && wfMod.Roll(33):
                     DropItem(npc, ModContent.ItemType<GorgonWraith>());

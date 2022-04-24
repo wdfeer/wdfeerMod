@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using wfMod.Items.Accessories;
+using wfMod.Items.Weapons;
 
 namespace wfMod.Items
 {
@@ -42,29 +44,29 @@ namespace wfMod.Items
         {
             switch (arg)
             {
-                case ItemID.EyeOfCthulhuBossBag when wfMod.Roll(33):
-                    DropItem(player, ModContent.ItemType<Weapons.Sobek>());
+                case ItemID.EyeOfCthulhuBossBag when wfMod.Roll(50):
+                    DropItem(player, new int[] { ModContent.ItemType<Sobek>(), ModContent.ItemType<Redirection>() });
                     break;
                 case ItemID.EaterOfWorldsBossBag when wfMod.Roll(40):
-                    DropItem(player, new int[] {ModContent.ItemType<Weapons.Tetra>(), mod.ItemType("Vigor")});
+                    DropItem(player, new int[] {ModContent.ItemType<Tetra>(), mod.ItemType("Vigor")});
                     break;
                 case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(40):
-                    DropItem(player, new int[] { ModContent.ItemType<Weapons.GorgonWraith>(), mod.ItemType("Vigor")});
+                    DropItem(player, new int[] { ModContent.ItemType<GorgonWraith>(), mod.ItemType("Vigor")});
                     break;
                 case ItemID.QueenBeeBossBag when wfMod.Roll(33):
-                    DropItem(player, new int[] { ModContent.ItemType<Accessories.Shred>(), ModContent.ItemType<Weapons.Kohm>() });
+                    DropItem(player, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>() });
                     break;
                 case ItemID.SkeletronBossBag:
-                    DropItem(player, new int[] { ModContent.ItemType<Accessories.InternalBleeding>(), ModContent.ItemType<Weapons.Cestra>(), mod.ItemType("Desecrate") });
+                    DropItem(player, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>(), mod.ItemType("Desecrate") });
                     break;
                 case ItemID.WallOfFleshBossBag when wfMod.Roll(33):
-                    DropItem(player, new int[] { ModContent.ItemType<Accessories.QuickThinking>(), ModContent.ItemType<Accessories.EnergyConversion>() });
+                    DropItem(player, new int[] { ModContent.ItemType<QuickThinking>(), ModContent.ItemType<EnergyConversion>() });
                     break;
                 case ItemID.SkeletronPrimeBossBag when wfMod.Roll(25):
-                    DropItem(player, ModContent.ItemType<Weapons.SecuraPenta>());
+                    DropItem(player, ModContent.ItemType<SecuraPenta>());
                     break;
                 case ItemID.TwinsBossBag when wfMod.Roll(15):
-                    DropItem(player, ModContent.ItemType<Weapons.Acceltra>());
+                    DropItem(player, ModContent.ItemType<Acceltra>());
                     break;
                 default:
                     break;

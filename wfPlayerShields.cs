@@ -79,7 +79,7 @@ namespace wfMod
             if (shield < damage)
             {
                 damage -= (int)shield;
-                if (shield == maxShield)
+                if (shield == maxShield || (shield > maxShield && maxShield != 0))
                 {
                     shield = 0;
                     return 0;
