@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace wfMod
 {
@@ -7,7 +9,7 @@ namespace wfMod
     {
         public int shield = 0;
         public int maxShield = 0;
-        public int shieldRegenInterval => maxShield == 0 ? 0 : 300 / maxShield;
+        public int shieldRegenInterval => maxShield == 0 ? 0 : 1200 / maxShield;
         public override void ResetEffects()
         {
             maxShield = 0;
@@ -16,11 +18,30 @@ namespace wfMod
         public override void PreUpdate()
         {
             shieldRegenTimer++;
-            if (shieldRegenTimer >= shieldRegenInterval)
+            if (shieldRegenTimer >= shieldRegenInterval && shield < maxShield)
             {
                 shield++;
                 shieldRegenTimer = 0;
             }
+
+            if (shield > 0 && maxShield > 0)
+                UpdateShieldVisualEffect();
+        }
+        float dustDistance = 100;
+        private void UpdateShieldVisualEffect()
+        {
+            float circlePortion = (float)shield / (float)maxShield;
+            double radians = circlePortion * 2 * Math.PI - Math.PI / 2;
+            int particles = shield * 2;
+            wfMod.NewDustsCustom(particles, () =>
+            {
+                Vector2 pos = new Vector2((float)(dustDistance*Math.Cos(radians)), (float)(dustDistance*Math.Sin(radians)));
+                radians -= 2 * Math.PI / particles * circlePortion;
+                pos += player.Center;
+                var dust = Dust.NewDustPerfect(pos, DustID.SapphireBolt);
+                dust.scale = shield == maxShield ? 0.5f : 0.3f;
+                return dust;
+            });
         }
         public int ModifyIncomingDamage(int damage)
         {
