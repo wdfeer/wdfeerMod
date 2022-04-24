@@ -6,23 +6,25 @@ using Terraria.ModLoader;
 namespace wfMod.Items.Accessories
 {
     
-    public class Vigor : ExclusiveAccessory
+    public class PrimedVigor : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+15 Max Life, +15 Max Shields");
+            Tooltip.SetDefault("+35 Max Life, +35 Max Shields");
         }
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 3;
-            item.value = Item.buyPrice(gold: 3);
+            item.rare = 5;
+            item.value = Item.buyPrice(gold: 15);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 15;
+            if (PlayerHasAccessory(player, mod.ItemType("Vigor")))
+                return;
+            player.statLifeMax2 += 35;
             var shieldPlayer = player.GetModPlayer<wfPlayerShields>();
-            shieldPlayer.maxShield += 15;
+            shieldPlayer.maxShield += 35;
         }
     }
 }

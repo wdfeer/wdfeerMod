@@ -45,14 +45,14 @@ namespace wfMod.Items
                 case ItemID.EyeOfCthulhuBossBag when wfMod.Roll(33):
                     DropItem(player, ModContent.ItemType<Weapons.Sobek>());
                     break;
-                case ItemID.EaterOfWorldsBossBag when wfMod.Roll(33):
-                    DropItem(player, ModContent.ItemType<Weapons.Tetra>());
+                case ItemID.EaterOfWorldsBossBag when wfMod.Roll(40):
+                    DropItem(player, new int[] {ModContent.ItemType<Weapons.Tetra>(), mod.ItemType("Vigor")});
+                    break;
+                case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(40):
+                    DropItem(player, new int[] { ModContent.ItemType<Weapons.GorgonWraith>(), mod.ItemType("Vigor")});
                     break;
                 case ItemID.QueenBeeBossBag when wfMod.Roll(33):
                     DropItem(player, new int[] { ModContent.ItemType<Accessories.Shred>(), ModContent.ItemType<Weapons.Kohm>() });
-                    break;
-                case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(33):
-                    DropItem(player, ModContent.ItemType<Weapons.GorgonWraith>());
                     break;
                 case ItemID.SkeletronBossBag:
                     DropItem(player, new int[] { ModContent.ItemType<Accessories.InternalBleeding>(), ModContent.ItemType<Weapons.Cestra>(), mod.ItemType("Desecrate") });

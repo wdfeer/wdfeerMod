@@ -9,7 +9,7 @@ namespace wfMod
     {
         public int shield = 0;
         public int maxShield = 0;
-        public int shieldRegenInterval => maxShield == 0 ? 0 : 1200 / maxShield;
+        public int shieldRegenInterval => maxShield == 0 ? 0 : 1800 / maxShield;
         public override void ResetEffects()
         {
             maxShield = 0;
@@ -32,7 +32,7 @@ namespace wfMod
         {
             float circlePortion = (float)shield / (float)maxShield;
             double radians = circlePortion * 2 * Math.PI - Math.PI / 2;
-            int particles = shield * 2;
+            int particles = shield;
             wfMod.NewDustsCustom(particles, () =>
             {
                 Vector2 pos = new Vector2((float)(dustDistance*Math.Cos(radians)), (float)(dustDistance*Math.Sin(radians)));

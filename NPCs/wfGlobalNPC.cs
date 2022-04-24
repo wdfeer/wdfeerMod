@@ -169,8 +169,8 @@ namespace wfMod
                 case NPCID.BrainofCthulhu when !Main.expertMode && wfMod.Roll(33):
                     DropItem(npc, ModContent.ItemType<GorgonWraith>());
                     break;
-                case NPCID.QueenBee when !Main.expertMode && wfMod.Roll(40):
-                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>() });
+                case NPCID.QueenBee when !Main.expertMode:
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>(), mod.ItemType("Vigor") });
                     break;
                 case NPCID.SkeletronHead when !Main.expertMode && wfMod.Roll(40):
                     Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>() });

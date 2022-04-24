@@ -9,6 +9,20 @@ namespace wfMod.Items.Accessories
 {
     public abstract class ExclusiveAccessory : ModItem
     {
+        public static bool PlayerHasAccessory(Player player, int id)
+        {
+            int maxAccessoryIndex = 5 + player.extraAccessorySlots;
+            for (int i = 3; i < 3 + maxAccessoryIndex; i++)
+            {
+                Item otherAccessory = Main.LocalPlayer.armor[i];
+                if (!otherAccessory.IsAir &&
+                    otherAccessory.netID == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public const float worldScale = 0.5f;
         public override void SetDefaults()
         {
