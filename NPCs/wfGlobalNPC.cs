@@ -203,7 +203,25 @@ namespace wfMod
 
             if (wfMod.Roll(heartDropChance))
                 DropItem(npc, ItemID.Heart);
+
+            if (!npc.boss && !desecrated && !npc.friendly) {
+                Player[] players = Main.player;
+                for (int i = 0; i < players.Length; i++)
+                {
+                    var player = players[i];
+                    if (!player.active || !player.GetModPlayer<wfPlayer>().desecrate || player.statLife <= Desecrate.lifeConsumption)
+                        continue;
+                    float distance = (player.position - npc.position).Length();
+                    if (distance > Desecrate.maxDistance)
+                        continue;
+
+                    player.statLife -= Desecrate.lifeConsumption;
+                    desecrated = true;
+                    npc.NPCLoot();
+                }
+            }
         }
+        private bool desecrated = false;
         private void DropItem(NPC npc, int itemType)
         {
             Item.NewItem(npc.getRect(), itemType);
