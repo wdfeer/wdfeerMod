@@ -5,7 +5,7 @@ using Terraria.ModLoader.Config;
 
 namespace wfMod
 {
-    public class wfConfig : ModConfig
+    public class wfServerConfig : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ServerSide;
 
@@ -18,5 +18,9 @@ namespace wfMod
         [Tooltip("Allow enemies with increased stats and special abilities to randomly spawn\nTheir abilities are disabled while a boss is alive")]
         [DefaultValue(true)]
         public bool eximusSpawn;
+
+        [Label("Intensity of shield visual effects")]
+        [DefaultValue(1)]
+        public float shieldEffectsIntensity;
     }
 }

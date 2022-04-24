@@ -249,7 +249,7 @@ namespace wfMod
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (proj.minion && ModContent.GetInstance<wfConfig>().minionCrits)
+            if (proj.minion && ModContent.GetInstance<wfServerConfig>().minionCrits)
             {
                 int[] cc = { player.meleeCrit, player.magicCrit, player.rangedCrit };
                 if (Main.rand.Next(100) < cc.Min()) crit = true;

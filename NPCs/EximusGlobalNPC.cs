@@ -24,7 +24,7 @@ namespace wfMod.NPCs
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            if (ModContent.GetInstance<wfConfig>().eximusSpawn && !npc.friendly && !wfMod.BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < EximusChance)
+            if (ModContent.GetInstance<wfServerConfig>().eximusSpawn && !npc.friendly && !wfMod.BossAlive() && npc.type != NPCID.TargetDummy && Main.rand.Next(100) < EximusChance)
                 type = (EximusType)Main.rand.Next(1, 4);
             if (eximus)
             {

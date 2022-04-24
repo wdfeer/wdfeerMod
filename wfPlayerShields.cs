@@ -30,16 +30,17 @@ namespace wfMod
         float dustDistance = 100;
         private void UpdateShieldVisualEffect()
         {
+            float intensity = ModContent.GetInstance<wfServerConfig>().shieldEffectsIntensity;
             float circlePortion = (float)shield / (float)maxShield;
             double radians = circlePortion * 2 * Math.PI - Math.PI / 2;
-            int particles = shield;
+            int particles = intensity == 1 ? shield * 2 : shield;
             wfMod.NewDustsCustom(particles, () =>
             {
                 Vector2 pos = new Vector2((float)(dustDistance*Math.Cos(radians)), (float)(dustDistance*Math.Sin(radians)));
                 radians -= 2 * Math.PI / particles * circlePortion;
                 pos += player.Center;
                 var dust = Dust.NewDustPerfect(pos, DustID.SapphireBolt);
-                dust.scale = shield == maxShield ? 0.5f : 0.3f;
+                dust.scale = (shield == maxShield ? 0.5f : 0.3f) * intensity;
                 return dust;
             });
         }
