@@ -233,19 +233,22 @@ namespace wfMod
         }
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
+            int next = nextSlot;
+            void SetShopItem(int itemType)
+            {
+                shop.item[next].SetDefaults(itemType);
+                next++;
+            }
             if (type == NPCID.TravellingMerchant)
             {
                 if (NPC.downedQueenBee)
-                {
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<PrismaTetra>());
-                    nextSlot++;
-                }
+                    SetShopItem(ModContent.ItemType<PrismaTetra>());
                 if (NPC.downedMechBossAny)
-                {
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<PrismaGorgon>());
-                    nextSlot++;
-                }
-            } 
+                    SetShopItem(ModContent.ItemType<PrismaGorgon>());
+                if (NPC.downedPlantBoss)
+                    SetShopItem(ModContent.ItemType<PrimedVigor>());
+            }
+            nextSlot = next;
         }
     }
 }
