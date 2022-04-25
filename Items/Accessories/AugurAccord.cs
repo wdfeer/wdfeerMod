@@ -6,24 +6,24 @@ using Terraria.ModLoader;
 namespace wfMod.Items.Accessories
 {
     
-    public class AugurSecrets : ExclusiveAccessory
+    public class AugurAccord : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+7% magic damage, +5% of mana consumed is converted to shields");
+            Tooltip.SetDefault("+15 Shield, +5% of mana consumed is converted to shields");
         }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             item.rare = 2;
-            item.value = Item.buyPrice(gold: 4);
+            item.value = Item.buyPrice(gold: 2, silver: 20);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamage += 0.07f;
             var shieldPl = player.GetModPlayer<wfPlayerShields>();
+            shieldPl.maxUnderShield += 15;
             shieldPl.consumedManaToShieldConversion += 0.05f;
         }
     }

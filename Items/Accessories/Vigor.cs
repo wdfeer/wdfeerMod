@@ -10,7 +10,7 @@ namespace wfMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+15 Max Life, +15 Max Shields");
+            Tooltip.SetDefault("+15 Life, +15 Shield");
         }
         public override void SetDefaults()
         {
@@ -22,7 +22,7 @@ namespace wfMod.Items.Accessories
         {
             player.statLifeMax2 += 15;
             var shieldPlayer = player.GetModPlayer<wfPlayerShields>();
-            shieldPlayer.maxShield += 15;
+            shieldPlayer.maxUnderShield += 15;
         }
     }
 }

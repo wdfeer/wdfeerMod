@@ -21,7 +21,7 @@ namespace wfMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             var shieldPlayer = player.GetModPlayer<wfPlayerShields>();
-            shieldPlayer.maxShield += 4 * player.numMinions;
+            shieldPlayer.maxUnderShield += 4 * player.numMinions;
             shieldPlayer.shieldRegen += 0.04f * player.numMinions;
         }
     }

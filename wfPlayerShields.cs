@@ -10,24 +10,24 @@ namespace wfMod
         public float consumedManaToShieldConversion = 0f;
 
         public float shield = 0;
-        public float Shield => shield - Overshield;
-        public float Overshield => shield > maxShield ? shield - maxShield : 0;
+        public int MaxShield => maxUnderShield + maxOvershield;
+        public float UnderShield => shield - Overshield;
+        public float Overshield => shield > maxUnderShield ? shield - maxUnderShield : 0;
         public int maxOvershield = 100;
-        public int maxShield = 0;
-        public int Maxshield => maxShield + maxOvershield;
-        public int shieldRegenInterval => maxShield == 0 ? 0 : (int)(1800 / maxShield / shieldRegen);
+        public int maxUnderShield = 0;
+        public int shieldRegenInterval => maxUnderShield == 0 ? 0 : (int)(1800 / maxUnderShield / shieldRegen);
         public float shieldRegen = 1;
         public override void ResetEffects()
         {
-            maxShield = 0;
+            maxUnderShield = 0;
             consumedManaToShieldConversion = 0;
             shieldRegen = 1;
         }
         private int shieldRegenTimer = 0;
         public override void PreUpdate()
         {
-            if (shield > Maxshield)
-                shield = Maxshield;
+            if (shield > MaxShield)
+                shield = MaxShield;
 
             if (immuneTimeNeedsToBeModified && player.immuneTime > 0)
             {
@@ -36,7 +36,7 @@ namespace wfMod
             }
 
             shieldRegenTimer++;
-            if (shieldRegenTimer >= shieldRegenInterval && shield < maxShield)
+            if (shieldRegenTimer >= shieldRegenInterval && shield < maxUnderShield)
             {
                 shield++;
                 shieldRegenTimer = 0;
@@ -63,13 +63,13 @@ namespace wfMod
                     return dust;
                 });
             }
-            if (Shield > 0)
+            if (UnderShield > 0)
             {
-                float circlePortion = shield / maxShield;
+                float circlePortion = shield / maxUnderShield;
                 int particles = intensity == 1 ? (int)shield * 2 : (int)shield;
                 if (particles > maxParticles)
                     particles = maxParticles;
-                NewDustInAPortionOfACircleEvenly(particles, circlePortion, -Math.PI / 2, DustID.SapphireBolt, shieldDustDistance, shield >= maxShield ? 0.4f : 0.6f);
+                NewDustInAPortionOfACircleEvenly(particles, circlePortion, -Math.PI / 2, DustID.SapphireBolt, shieldDustDistance, shield >= maxUnderShield ? 0.4f : 0.6f);
             }
             if (Overshield > 0)
             {
@@ -88,7 +88,7 @@ namespace wfMod
             if (shield < damage)
             {
                 // Shield Gating
-                if (shield == maxShield || (shield > maxShield && maxShield != 0))
+                if (shield == maxUnderShield || (shield > maxUnderShield && maxUnderShield != 0))
                 {
                     shield = 0;
                     immuneTimeNeedsToBeModified = true;

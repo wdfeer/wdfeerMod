@@ -145,12 +145,18 @@ namespace wfMod
 
             switch (npc.type)
             {
-                case NPCID.GoblinSorcerer when wfMod.Roll(1.5f):
+                case NPCID.GoblinSorcerer when wfMod.Roll(2f):
                     augurSecrets:
                     DropItem(npc, ModContent.ItemType<AugurSecrets>());
                     break;
                 case NPCID.DD2DarkMageT1 when wfMod.Roll(20):
                     goto augurSecrets;
+                case NPCID.GoblinArcher when wfMod.Roll(3f):
+                    DropItem(npc, ModContent.ItemType<AugurMessage>());
+                    break;
+                case NPCID.GoblinWarrior when wfMod.Roll(3f):
+                    DropItem(npc, ModContent.ItemType<AugurAccord>());
+                    break;
                 case 481 when wfMod.Roll(6): //Hoplite
                     DropItem(npc, ModContent.ItemType<ShieldCharger>());
                     break;
