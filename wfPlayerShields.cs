@@ -29,6 +29,12 @@ namespace wfMod
             if (shield > Maxshield)
                 shield = Maxshield;
 
+            if (immuneTimeNeedsToBeModified && player.immuneTime > 0)
+            {
+                player.immuneTime /= 2;
+                immuneTimeNeedsToBeModified = false;
+            }
+
             shieldRegenTimer++;
             if (shieldRegenTimer >= shieldRegenInterval && shield < maxShield)
             {
@@ -74,16 +80,18 @@ namespace wfMod
                 NewDustInAPortionOfACircleEvenly(particles, circlePortion, -Math.PI / 2, DustID.AmethystBolt, overshieldDustDistance, 0.7f);
             }
         }
+        private bool immuneTimeNeedsToBeModified = false;
         public int ModifyIncomingDamage(int damage)
         {
             if (shield <= 0) return damage;
-            
+
             if (shield < damage)
             {
                 damage -= (int)shield;
                 if (shield == maxShield || (shield > maxShield && maxShield != 0))
                 {
                     shield = 0;
+                    immuneTimeNeedsToBeModified = true;
                     return 0;
                 }
                 shield = 0;
