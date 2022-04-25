@@ -32,6 +32,7 @@ namespace wfMod
         public bool arcaneEnergize;
         public bool arcanePulse;
         public bool desecrate;
+        public float projLifetime = 1;
         public int BerserkerProcs { get => berserkerProcs; set => berserkerProcs = value > 3 ? 3 : value; }
         private int berserkerProcs;
         public float electroMult = 1;
@@ -79,6 +80,7 @@ namespace wfMod
             arcaneEnergize = false;
             arcanePulse = false;
             desecrate = false;
+            projLifetime = 1;
 
             electroMult = 1;
             spreadMult = 0;

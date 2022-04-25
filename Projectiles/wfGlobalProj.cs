@@ -132,11 +132,21 @@ namespace wfMod.Projectiles
         {
             kill(projectile, timeLeft);
         }
+        private bool extraTimeLeftApplied = false;
         public Action ai = () => { };
         public override void AI(Projectile projectile)
         {
             ai();
-            if (impaled) projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2) + impaleOffset;
+
+            if (!extraTimeLeftApplied)
+            {
+                var timeLeftMod = Main.player[projectile.owner].GetModPlayer<wfPlayer>().projLifetime;
+                projectile.timeLeft = (int)(projectile.timeLeft * timeLeftMod);
+                extraTimeLeftApplied = true;
+            }
+
+            if (impaled)
+                projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2) + impaleOffset;
 
             VsArcticEximusLogic(projectile);
         }

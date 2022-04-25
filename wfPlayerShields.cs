@@ -87,13 +87,14 @@ namespace wfMod
 
             if (shield < damage)
             {
-                damage -= (int)shield;
+                // Shield Gating
                 if (shield == maxShield || (shield > maxShield && maxShield != 0))
                 {
                     shield = 0;
                     immuneTimeNeedsToBeModified = true;
-                    return 0;
+                    return 0; 
                 }
+                damage -= (int)shield;
                 shield = 0;
                 return damage;
             }
