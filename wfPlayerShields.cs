@@ -15,11 +15,13 @@ namespace wfMod
         public int maxOvershield = 100;
         public int maxShield = 0;
         public int Maxshield => maxShield + maxOvershield;
-        public int shieldRegenInterval => maxShield == 0 ? 0 : 1800 / maxShield;
+        public int shieldRegenInterval => maxShield == 0 ? 0 : (int)(1800 / maxShield / shieldRegen);
+        public float shieldRegen = 1;
         public override void ResetEffects()
         {
             maxShield = 0;
             consumedManaToShieldConversion = 0;
+            shieldRegen = 1;
         }
         private int shieldRegenTimer = 0;
         public override void PreUpdate()
