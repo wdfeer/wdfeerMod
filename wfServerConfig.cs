@@ -16,7 +16,7 @@ namespace wfMod
 
         [Label("Spawn eximus enemies")]
         [Tooltip("Allow enemies with increased stats and special abilities to randomly spawn\nTheir abilities are disabled while a boss is alive")]
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool eximusSpawn;
 
         [Label("Intensity of shield visual effects")]

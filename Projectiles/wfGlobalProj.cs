@@ -147,8 +147,8 @@ namespace wfMod.Projectiles
 
             if (impaled)
                 projectile.position = impaledNPC.Center - new Vector2(projectile.width / 2, projectile.height / 2) + impaleOffset;
-
-            VsArcticEximusLogic(projectile);
+            if (wfMod.EximusesEnabled)
+                VsArcticEximusLogic(projectile);
         }
         void VsArcticEximusLogic(Projectile thisProj)
         {
