@@ -2,13 +2,45 @@ using System;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using System.IO;
+using Terraria.ID;
+using IL.Terraria.DataStructures;
+using wfMod.Items.Accessories;
+
 namespace wfMod
 {
     public class wfMod : Mod
     {
+        public static wfMod mod;
         public override void PreUpdateEntities()
         {
             wfPlayer.thermiteRounds = false;
+        }
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            wfMessageType messageType = (wfMessageType)reader.ReadByte();
+            switch (messageType)
+            {
+                case wfMessageType.DesecrateDamage:
+                    whoAmI = reader.ReadByte();
+                    var player = Main.player[whoAmI];
+                    Desecrate.HurtByDesecration(player);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public enum wfMessageType
+        {
+            DesecrateDamage
+        }
+        public override void Load()
+        {
+            mod = this;
+        }
+        public override void Unload()
+        {
+            mod = null;
         }
         public static bool Roll(float chance)
         {
