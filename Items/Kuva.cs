@@ -26,7 +26,7 @@ namespace wfMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 1);
-            recipe.AddIngredient(ItemID.CursedFlames, 2);
+            recipe.AddIngredient(ItemID.CursedFlame, 2);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
