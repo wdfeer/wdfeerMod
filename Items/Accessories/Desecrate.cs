@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,8 +30,8 @@ namespace wfMod.Items.Accessories
         }
         public static void HurtByDesecration(Player player)
         {
-            Terraria.DataStructures.PlayerDeathReason reason = new Terraria.DataStructures.PlayerDeathReason() { SourceCustomReason = player.name + " was desecrated" };
-            player.Hurt(reason, lifeConsumption, 0, cooldownCounter: -2);
+            player.statLife -= lifeConsumption;
+            CombatText text = Main.combatText[CombatText.NewText(player.getRect(), Color.DarkRed, 7)];
         }
         public static bool CanExtraLoot(Player player, NPC npc)
         {

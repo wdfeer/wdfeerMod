@@ -43,6 +43,9 @@ namespace wfMod
         {
             mod = null;
         }
+        public static int DefDamageReduction(int defense){
+            return (int)(defense * (Main.expertMode ? 0.75f : 0.5f));
+        }
         public static bool Roll(float chance)
         {
             return Main.rand.NextFloat(100) < chance;
