@@ -31,7 +31,7 @@ namespace wfMod.Items.Accessories
         public static void HurtByDesecration(Player player)
         {
             player.statLife -= lifeConsumption;
-            CombatText text = Main.combatText[CombatText.NewText(player.getRect(), Color.DarkRed, 7)];
+            CombatText text = Main.combatText[CombatText.NewText(player.getRect(), Color.Crimson, 7)];
         }
         public static bool CanExtraLoot(Player player, NPC npc)
         {

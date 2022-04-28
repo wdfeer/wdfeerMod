@@ -25,26 +25,49 @@ namespace wfMod
         {
             thermiteRounds = false;
         }
-        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        const int stackableProcTickInterval = 30;
+        int stackableProcTickTimer = 0;
+        private int GetTickDamageOfStackableProcs(NPC npc)
         {
-            if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
-                npc.lifeRegen = 0;
-            else procs = new List<StackableProc>();
+            int damage = 0;
             if (npc.HasBuff(BuffID.Electrified))
             {
                 int totalDamage = 0;
                 for (int i = 0; i < procs.Count; i++)
                     totalDamage += procs[i].type == ProcType.Electricity ? procs[i].dmg : 0;
-                npc.lifeRegen -= totalDamage;
+                damage += totalDamage;
             }
             if (npc.HasBuff(mod.BuffType("SlashProc")))
             {
                 int totalDamage = 0;
                 for (int i = 0; i < procs.Count; i++)
                     totalDamage += procs[i].type == ProcType.Slash ? procs[i].dmg : 0;
-                npc.lifeRegen -= totalDamage;
-                if (npc.lifeRegenExpectedLossPerSecond < totalDamage)
-                    npc.lifeRegenExpectedLossPerSecond = totalDamage;
+                damage += totalDamage;
+            }
+            return damage * stackableProcTickInterval / 60;
+        }
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
+            {
+                npc.lifeRegen = 0;
+                stackableProcTickTimer++;
+                if (stackableProcTickTimer >= stackableProcTickInterval)
+                {
+                    int tickDmg = GetTickDamageOfStackableProcs(npc);
+                    {
+                        int initialDef = npc.defense;
+                        npc.defense = 0;
+                        npc.StrikeNPC(tickDmg, 0, 0);
+                        npc.defense = initialDef;
+                    }
+                    stackableProcTickTimer = 0;
+                }
+            }
+            else
+            {
+                procs = new List<StackableProc>();
+                stackableProcTickTimer = 0;
             }
             if (npc.HasBuff(BuffID.OnFire) && wfPlayer.thermiteRounds)
             {
@@ -146,7 +169,7 @@ namespace wfMod
             switch (npc.type)
             {
                 case NPCID.GoblinSorcerer when wfMod.Roll(2f):
-                    augurSecrets:
+                augurSecrets:
                     DropItem(npc, ModContent.ItemType<AugurSecrets>());
                     break;
                 case NPCID.DD2DarkMageT1 when wfMod.Roll(20):
@@ -219,7 +242,8 @@ namespace wfMod
             if (wfMod.Roll(heartDropChance))
                 DropItem(npc, ItemID.Heart);
 
-            if (!npc.boss && !desecrated && !npc.friendly) {
+            if (!npc.boss && !desecrated && !npc.friendly)
+            {
                 Player[] players = Main.player;
                 for (int i = 0; i < players.Length && !desecrated; i++)
                 {

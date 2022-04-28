@@ -8,9 +8,10 @@ namespace wfMod.Items.Accessories
     
     public class ConditionOverload : ExclusiveAccessory
     {
+        public const float damagePerStatus = 0.12f;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+10% Damage for each Unique Status Effect on the Target");
+            Tooltip.SetDefault($"+{(int)(damagePerStatus*100)}% Damage for each Unique Status Effect on the Target");
         }
 
         public override void SetDefaults()

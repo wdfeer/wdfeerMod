@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using wfMod.Items.Accessories;
 
 namespace wfMod
 {
@@ -267,7 +268,7 @@ namespace wfMod
                     buffs = target.HasBuff(i) ? buffs + 1 : buffs;
                 }
                 float dmg = damage;
-                dmg = dmg * (1 + buffs / 10);
+                dmg += dmg * buffs * ConditionOverload.damagePerStatus;
                 damage = (int)(dmg);
             }
             if (corrProj)
