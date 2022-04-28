@@ -1,3 +1,4 @@
 displayName = wfMod
 author = wdfeer
 version = 0.5.3.2
+includePDB = false
