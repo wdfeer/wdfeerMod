@@ -190,8 +190,11 @@ namespace wfMod
                 case NPCID.GoblinWarrior when wfMod.Roll(3f):
                     DropItem(npc, ModContent.ItemType<AugurAccord>());
                     break;
-                case 481 when wfMod.Roll(6): //Hoplite
+                case 481 when wfMod.Roll(8): //Hoplite
                     DropItem(npc, ModContent.ItemType<ShieldCharger>());
+                    break;
+                case NPCID.GraniteFlyer when wfMod.Roll(8):
+                    DropItem(npc, ModContent.ItemType<Guardian>());
                     break;
                 case NPCID.DemonEye when wfMod.Roll(0.75f):
                     DropItem(npc, ModContent.ItemType<PiercingHit>());

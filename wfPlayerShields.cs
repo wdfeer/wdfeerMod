@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,11 +18,13 @@ namespace wfMod
         public int maxUnderShield = 0;
         public int shieldRegenInterval => maxUnderShield == 0 ? 0 : (int)(1800 / maxUnderShield / shieldRegen);
         public float shieldRegen = 1;
+        public List<Action<float, int>> onShieldsDamaged;
         public override void ResetEffects()
         {
             maxUnderShield = 0;
             consumedManaToShieldConversion = 0;
             shieldRegen = 1;
+            onShieldsDamaged = new List<Action<float, int>>();
         }
         private int shieldRegenTimer = 0;
         public override void PreUpdate()
@@ -81,36 +84,45 @@ namespace wfMod
             }
         }
         private bool immuneTimeNeedsToBeModified = false;
-        public int ModifyIncomingDamage(int damage)
+        public (float, int) ModifyIncomingDamage(int damage)
         {
-            if (shield <= 0) return damage;
+            if (shield <= 0) return (0, damage);
 
             if (shield < damage)
             {
                 // Shield Gating
                 if (shield == maxUnderShield || (shield > maxUnderShield && maxUnderShield != 0))
                 {
-                    shield = 0;
                     immuneTimeNeedsToBeModified = true;
-                    return 0; 
+                    return (shield, 0);
                 }
-                damage -= (int)shield;
-                shield = 0;
-                return damage;
+                return (shield, damage - (int)shield);
             }
             else
             {
-                shield -= damage;
-                return 0;
+                return (damage, 0);
             }
+        }
+        int ModifyHurt(int damage)
+        {
+            (float damageToShield, int damageToHealth) = ModifyIncomingDamage(damage);
+            shield -= damageToShield;
+            if (damageToShield > 0)
+                CombatText.NewText(player.getRect(), Color.Cyan, (int)damageToShield);
+            damage = damageToHealth;
+
+            onShieldsDamaged.ForEach(act => act(damageToShield, damageToHealth));
+            return damage;
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            damage = ModifyIncomingDamage(damage);
+            if (shield > 0)
+                damage = ModifyHurt(damage);
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            damage = ModifyIncomingDamage(damage);
+            if (shield > 0)
+                damage = ModifyHurt(damage);
         }
         public override void OnConsumeMana(Item item, int manaConsumed)
         {
