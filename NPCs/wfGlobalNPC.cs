@@ -133,9 +133,9 @@ namespace wfMod
             if (npc.HasBuff(BuffID.Weak))
             {
                 if (npc.boss)
-                    damage = (int)(damage * 0.9f);
+                    damage = (int)(damage * 0.8f);
                 else
-                    damage = (int)(damage * 0.75f);
+                    damage /= 2;
             }
         }
         public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)

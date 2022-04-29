@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class PiercingCaliber : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
@@ -23,7 +23,7 @@ namespace wfMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("PiercingHit"));
-            recipe.AddIngredient(ItemID.HallowedBar,4);
+            recipe.AddIngredient(ItemID.HallowedBar, 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
