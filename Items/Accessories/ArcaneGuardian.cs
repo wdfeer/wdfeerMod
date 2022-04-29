@@ -7,12 +7,12 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class ArcaneGuardian : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("15% Chance to get +9 Defense for 20s after getting hit for more than 4 damage\nMay drop from any boss in Expert Mode");
+            Tooltip.SetDefault("35% Chance to get +11 Defense for 20s after getting hit for more than 4 damage\nMay drop from any boss in Expert Mode");
         }
 
         public override void SetDefaults()

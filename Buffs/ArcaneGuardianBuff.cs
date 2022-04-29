@@ -8,14 +8,14 @@ namespace wfMod.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Arcane Guardian");
-            Description.SetDefault("+9 Defense");
+            Description.SetDefault("+11 Defense");
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 9;
+            player.statDefense += 11;
         }
     }
 }

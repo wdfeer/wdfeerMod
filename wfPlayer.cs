@@ -137,11 +137,11 @@ namespace wfMod
         }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
+            if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 35)
             {
                 player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
             }
-            if (guardian && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 21)
+            if (guardian && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 35)
             {
                 player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
             }

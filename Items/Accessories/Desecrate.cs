@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class Desecrate : ExclusiveAccessory
     {
         public const int lifeConsumption = 7;
@@ -20,7 +20,7 @@ namespace wfMod.Items.Accessories
         {
             base.SetDefaults();
             item.rare = ItemRarityID.Expert;
-            item.value = Item.sellPrice(gold: lifeConsumption);
+            item.value = Item.sellPrice(gold: 9);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,8 +30,11 @@ namespace wfMod.Items.Accessories
         }
         public static void HurtByDesecration(Player player)
         {
-            player.statLife -= lifeConsumption;
-            CombatText text = Main.combatText[CombatText.NewText(player.getRect(), Color.Crimson, 7)];
+            Terraria.DataStructures.PlayerDeathReason reason = new Terraria.DataStructures.PlayerDeathReason() { SourceCustomReason = player.name + " was desecrated" };
+            int oldDef = player.statDefense;
+            player.statDefense = 0;
+            player.Hurt(reason, lifeConsumption, 0, cooldownCounter: -2);
+            player.statDefense = oldDef;
         }
         public static bool CanExtraLoot(Player player, NPC npc)
         {

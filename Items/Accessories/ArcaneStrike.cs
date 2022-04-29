@@ -7,12 +7,12 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class ArcaneStrike : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("15% On hit for +18% Melee Speed for 18s\nMay drop from any boss in Expert Mode");
+            Tooltip.SetDefault("15% On any hit for +18% Melee Speed for 18s\nMay drop from any boss in Expert Mode");
         }
 
         public override void SetDefaults()

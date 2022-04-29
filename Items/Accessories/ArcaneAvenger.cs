@@ -7,12 +7,12 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class ArcaneAvenger : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("21% Chance to get +45% Critical Chance for 12s after getting hit for more than 4 damage\nMay drop from any boss in Expert Mode");
+            Tooltip.SetDefault("35% Chance to get +45% Critical Chance for 12s after getting hit for more than 4 damage\nMay drop from any boss in Expert Mode");
         }
 
         public override void SetDefaults()
