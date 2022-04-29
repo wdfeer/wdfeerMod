@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace wfMod.Items.Accessories
 {
-    
+
     public class HighVoltage : ExclusiveAccessory
     {
         public override void SetStaticDefaults()
@@ -24,9 +24,9 @@ namespace wfMod.Items.Accessories
         {
             // because we don't call base.AddRecipes(), we erase the previously defined recipe and can now make a different one
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Stormbringer"), 1);
-            recipe.AddIngredient(ItemID.AvengerEmblem, 1);
-            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddIngredient(ItemID.SoulofMight, 4);
+            recipe.AddIngredient(ItemID.SoulofLight, 12);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

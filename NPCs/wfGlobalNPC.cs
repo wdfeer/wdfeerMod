@@ -46,8 +46,10 @@ namespace wfMod
             }
             return damage * stackableProcTickInterval / 60;
         }
+        public bool corrosion = false;
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
+            corrosion = (npc.HasBuff(BuffID.Electrified) && npc.HasBuff(BuffID.Poisoned)) || (npc.HasBuff(BuffID.Electrified) && npc.HasBuff(BuffID.Venom));
             if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
             {
                 npc.lifeRegen = 0;
@@ -142,18 +144,26 @@ namespace wfMod
         {
             if (npc.HasBuff(BuffID.OnFire))
             {
-                float defenseDmgReduction = (Main.expertMode ? 0.75f : 0.5f) * npc.defense;
+                float defenseDmgReduction = wfMod.DefDamageReduction(npc.defense);
                 float compensation = defenseDmgReduction * 0.1f;
                 damage += (int)compensation;
+            }
+            if (corrosion)
+            {
+                damage += wfMod.DefDamageReduction(npc.defense) / 2;
             }
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (npc.HasBuff(BuffID.OnFire))
             {
-                float defenseDmgReduction = (Main.expertMode ? 0.75f : 0.5f) * npc.defense;
+                float defenseDmgReduction = wfMod.DefDamageReduction(npc.defense);
                 float compensation = defenseDmgReduction * 0.1f;
                 damage += (int)compensation;
+            }
+            if (corrosion)
+            {
+                damage += wfMod.DefDamageReduction(npc.defense) / 2;
             }
 
             if (Main.player[projectile.owner].GetModPlayer<wfPlayer>().synthDeconstruct && projectile.minion && heartDropChance < SynthDeconstruct.heartDropChance)
