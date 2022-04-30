@@ -9,6 +9,13 @@ using wfMod.Items.Accessories;
 
 namespace wfMod
 {
+    public enum wfMessageType
+    {
+        DesecrateDamage,
+        SyncPlayer,
+        NapalmGrenadesChanged
+
+    }
     public class wfMod : Mod
     {
         public static wfMod mod;
@@ -27,13 +34,19 @@ namespace wfMod
                     var player = Main.player[whoAmI];
                     Desecrate.HurtByDesecration(player);
                     break;
+                case wfMessageType.SyncPlayer:
+                    whoAmI = reader.ReadByte();
+                    player = Main.player[whoAmI];
+                    player.GetModPlayer<wfPlayer>().napalmGrenades = reader.ReadBoolean();
+                    break;
+                case wfMessageType.NapalmGrenadesChanged:
+                    whoAmI = reader.ReadByte();
+                    player = Main.player[whoAmI];
+                    player.GetModPlayer<wfPlayer>().napalmGrenades = reader.ReadBoolean();
+                    break;
                 default:
                     break;
             }
-        }
-        public enum wfMessageType
-        {
-            DesecrateDamage
         }
         public override void Load()
         {
@@ -43,7 +56,8 @@ namespace wfMod
         {
             mod = null;
         }
-        public static int DefDamageReduction(int defense){
+        public static int DefDamageReduction(int defense)
+        {
             return (int)(defense * (Main.expertMode ? 0.75f : 0.5f));
         }
         public static bool Roll(float chance)

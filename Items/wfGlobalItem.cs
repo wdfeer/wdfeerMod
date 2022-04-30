@@ -5,14 +5,33 @@ using Microsoft.Xna.Framework;
 using System;
 using wfMod.Items.Accessories;
 using wfMod.Items.Weapons;
+using System.IO;
 
 namespace wfMod.Items
 {
     public class wfGlobalItem : GlobalItem
     {
         public override bool InstancePerEntity => true;
-        public override bool CloneNewInstances => true;
-        public bool energized = false;
+        public bool energized;
+        public wfGlobalItem()
+        {
+            energized = false;
+        }
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            wfGlobalItem globalItem = new wfGlobalItem();
+            wfGlobalItem oldGlobalItem = item.GetGlobalItem<wfGlobalItem>();
+            globalItem.energized = oldGlobalItem.energized;
+            return globalItem;
+        }
+        public override void NetSend(Item item, BinaryWriter writer)
+        {
+            writer.Write(energized);
+        }
+        public override void NetReceive(Item item, BinaryReader reader)
+        {
+            energized = reader.ReadBoolean();
+        }
         public override void SetDefaults(Item item)
         {
             base.SetDefaults(item);

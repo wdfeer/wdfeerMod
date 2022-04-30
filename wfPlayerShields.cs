@@ -128,6 +128,10 @@ namespace wfMod
         {
             shield += manaConsumed * consumedManaToShieldConversion;
         }
+        public override void UpdateDead()
+        {
+            shield = 0;
+        }
     }
 }
 

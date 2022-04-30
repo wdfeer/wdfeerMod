@@ -102,6 +102,37 @@ namespace wfMod
         {
             napalmGrenades = tag.GetBool("napalmGrenades");
         }
+        public override void clientClone(ModPlayer clientClone)
+        {
+            wfPlayer clone = clientClone as wfPlayer;
+            // Here we would make a backup clone of values that are only correct on the local players Player instance.
+            // Some examples would be RPG stats from a GUI, Hotkey states, and Extra Item Slots
+            clone.napalmGrenades = napalmGrenades;
+        }
+
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            ModPacket packet = mod.GetPacket();
+            packet.Write((byte)wfMessageType.SyncPlayer);
+            packet.Write((byte)player.whoAmI);
+            packet.Write(napalmGrenades);
+            packet.Send(toWho, fromWho);
+        }
+
+        public override void SendClientChanges(ModPlayer clientPlayer)
+        {
+            // Here we would sync something like an RPG stat whenever the player changes it.
+            wfPlayer clone = clientPlayer as wfPlayer;
+            if (clone.napalmGrenades != napalmGrenades)
+            {
+                // Send a Mod Packet with the changes.
+                var packet = mod.GetPacket();
+                packet.Write((byte)wfMessageType.NapalmGrenadesChanged);
+                packet.Write((byte)player.whoAmI);
+                packet.Write(napalmGrenades);
+                packet.Send();
+            }
+        }
         public override void UpdateBadLifeRegen()
         {
             if (slashProc)

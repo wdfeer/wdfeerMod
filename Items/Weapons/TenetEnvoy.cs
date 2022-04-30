@@ -40,13 +40,12 @@ namespace wfMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(SoundID.Item61.WithVolume(0.4f));
             sound = mod.GetSound("Sounds/FulminSound").CreateInstance();
             sound.Volume = 0.3f;
-            sound.Pitch += Main.rand.NextFloat(0,0.1f);
+            sound.Pitch += Main.rand.NextFloat(0, 0.1f);
             Main.PlaySoundInstance(sound);
 
             var projectile = ShootWith(position, speedX, speedY, mod.ProjectileType("TenetEnvoyProj"), damage, knockBack, offset: item.width);

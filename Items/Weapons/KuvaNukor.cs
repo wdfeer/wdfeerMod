@@ -44,7 +44,6 @@ namespace wfMod.Items.Weapons
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
-        SoundEffectInstance sound;
         int shots = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -39,14 +39,12 @@ namespace wfMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Vectis"), 1);
             recipe.AddIngredient(ItemID.SniperRifle, 1);
             recipe.AddIngredient(ItemID.HallowedBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         int shots = 0;
         string soundPath => shots % 2 == 0 ? "Sounds/VectisPrimeSound1" : "Sounds/VectisPrimeSound2";
         public override bool CanUseItem(Player player)

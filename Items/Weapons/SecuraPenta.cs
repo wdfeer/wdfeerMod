@@ -68,7 +68,6 @@ namespace wfMod.Items.Weapons
             }
         }
         Projectile[] projs = new Projectile[5] { new Projectile(), new Projectile(), new Projectile(), new Projectile(), new Projectile() };
-        Microsoft.Xna.Framework.Audio.SoundEffectInstance sound;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("PentaProj"), damage, knockBack, offset: 16);

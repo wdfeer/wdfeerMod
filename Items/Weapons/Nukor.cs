@@ -51,7 +51,6 @@ namespace wfMod.Items.Weapons
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
-        SoundEffectInstance sound;
         int shots = 0;
         Vector2 spawnVelocity;
         Vector2 spawnPosOffset;

@@ -11,6 +11,34 @@ namespace wfMod.Projectiles
     {
         public override bool InstancePerEntity => true;
         public Projectile proj;
+        public override GlobalProjectile Clone()
+        {
+            wfGlobalProj clone = new wfGlobalProj();
+            clone.critMult = critMult;
+            clone.procChances = procChances;
+            clone.ai = ai;
+            clone.canHitNPC = canHitNPC;
+            clone.kill = kill;
+            clone.onTileCollide = onTileCollide;
+            clone.onHit = onHit;
+            clone.baseVelocity = baseVelocity;
+            clone.distTraveled = distTraveled;
+            clone.exploding = exploding;
+            clone.extraTimeLeftApplied = extraTimeLeftApplied;
+            clone.falloffStartDist = falloffStartDist;
+            clone.falloffMax = falloffMax;
+            clone.falloffMaxDist = falloffMaxDist;
+            clone.kuvaNukor = kuvaNukor;
+            clone.hitNPCs = hitNPCs;
+            clone.hits = hits;
+            clone.impaledNPC = impaledNPC;
+            clone.impaleOffset = impaleOffset;
+            return clone;
+        }
+        public wfGlobalProj()
+        {
+
+        }
         public float critMult = 1.0f;
         public Dictionary<int, ProcChance> procChances = new Dictionary<int, ProcChance>();
         public void AddProcChance(ProcChance procChance)
