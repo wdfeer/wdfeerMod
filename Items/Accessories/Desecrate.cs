@@ -53,7 +53,7 @@ namespace wfMod.Items.Accessories
         private static void SendDesecrateMessage(byte player)
         {
             var packet = wfMod.mod.GetPacket();
-            packet.Write((byte)wfMod.wfMessageType.DesecrateDamage);
+            packet.Write((byte)wfMessageType.DesecrateDamage);
             packet.Write(player);
             packet.Send();
         }

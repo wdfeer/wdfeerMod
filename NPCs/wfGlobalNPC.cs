@@ -229,6 +229,15 @@ namespace wfMod
                 case NPCID.WallofFlesh when !Main.expertMode && wfMod.Roll(33):
                     Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<QuickThinking>(), ModContent.ItemType<EnergyConversion>() });
                     break;
+                case NPCID.TheDestroyer when !Main.expertMode && wfMod.Roll(25):
+                    DropItem(npc, ModContent.ItemType<StasisField>());
+                    break;
+                case NPCID.Retinazer when !Main.expertMode && wfMod.Roll(12):
+                Acceltra:
+                    DropItem(npc, ModContent.ItemType<Acceltra>());
+                    break;
+                case NPCID.Spazmatism when !Main.expertMode && wfMod.Roll(12):
+                    goto Acceltra;
                 case NPCID.SkeletronPrime when !Main.expertMode && wfMod.Roll(25):
                     DropItem(npc, ModContent.ItemType<SecuraPenta>());
                     break;

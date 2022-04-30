@@ -33,6 +33,9 @@ namespace wfMod.Items
                 case ItemID.WallOfFleshBossBag when wfMod.Roll(33):
                     DropItem(player, new int[] { ModContent.ItemType<QuickThinking>(), ModContent.ItemType<EnergyConversion>() });
                     break;
+                case ItemID.DestroyerBossBag when wfMod.Roll(33):
+                    DropItem(player, ModContent.ItemType<StasisField>());
+                    break;
                 case ItemID.SkeletronPrimeBossBag when wfMod.Roll(25):
                     DropItem(player, ModContent.ItemType<SecuraPenta>());
                     break;

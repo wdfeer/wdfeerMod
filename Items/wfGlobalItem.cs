@@ -43,11 +43,11 @@ namespace wfMod.Items
             offset *= Main.rand.NextFloat(-player.GetModPlayer<wfPlayer>().spreadMult, player.GetModPlayer<wfPlayer>().spreadMult);
             speedX += offset.X;
             speedY += offset.Y;
-
-            if (player.HasBuff(mod.BuffType("EnergyConversionBuff")) && item.magic)
-            {
-                player.DelBuff(player.FindBuffIndex(mod.BuffType("EnergyConversionBuff")));
-            }
+            if (mod != null)
+                if (player.HasBuff(mod.BuffType("EnergyConversionBuff")) && item.magic)
+                {
+                    player.DelBuff(player.FindBuffIndex(mod.BuffType("EnergyConversionBuff")));
+                }
 
             return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }

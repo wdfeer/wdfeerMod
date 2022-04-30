@@ -33,11 +33,8 @@ namespace wfMod.Projectiles
             clone.hits = hits;
             clone.impaledNPC = impaledNPC;
             clone.impaleOffset = impaleOffset;
+            clone.stasisFieldApplied = stasisFieldApplied;
             return clone;
-        }
-        public wfGlobalProj()
-        {
-
         }
         public float critMult = 1.0f;
         public Dictionary<int, ProcChance> procChances = new Dictionary<int, ProcChance>();
@@ -47,6 +44,7 @@ namespace wfMod.Projectiles
                 procChances.Add(procChance.buffID, procChance);
             else procChances[procChance.buffID].chance = ProcChance.AddChance(procChances[procChance.buffID].chance, procChance.chance);
         }
+        public bool stasisFieldApplied = false;
         public bool kuvaNukor = false;
         public Vector2 baseVelocity;
         public Vector2 initialPosition;
