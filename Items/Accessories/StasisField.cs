@@ -13,7 +13,7 @@ namespace wfMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Generate a stasis field around your last minion, slowing all projectiles within by 69%,\nIncreasing ally projectiles' damage and decreasing enemy projectiles' damage depending on your minion slots");
+            Tooltip.SetDefault("Generate a stasis field around your pet, slowing all projectiles within by 69%,\nIncreasing ally projectiles' damage and decreasing enemy projectiles' damage depending on your minion damage multiplier");
         }
 
         public override void SetDefaults()
@@ -34,22 +34,23 @@ namespace wfMod.Items.Accessories
             {
                 var proj = projectilesWithin[i];
                 var gProj = proj.GetGlobalProjectile<wfGlobalProj>();
-                if (gProj.stasisFieldApplied)
+                if (gProj.stasisFieldApplied || Main.projHook[proj.type] || Main.projPet[proj.type])
                     continue;
                 proj.velocity *= 0.31f;
                 if (proj.friendly)
                 {
-                    proj.damage = (int)(proj.damage * (1 + player.maxMinions * 0.04f));
-                } else if (proj.hostile)
+                    proj.damage = (int)(proj.damage * (1.1f + (player.minionDamage * player.minionDamageMult - 1) * 0.4f));
+                }
+                else if (proj.hostile)
                 {
-                    proj.damage = (int)(proj.damage / (1 + player.maxMinions * 0.05));
+                    proj.damage = (int)(proj.damage * 0.85f);
                 }
                 gProj.stasisFieldApplied = true;
             }
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Projectile[] minions = Main.projectile.Where(p => p.active && p.owner == player.whoAmI && Main.projPet[p.type]).ToArray();
+            Projectile[] minions = Main.projectile.Where(p => p.active && p.owner == player.whoAmI && Main.projPet[p.type] && p.minionSlots == 0).ToArray();
             if (minions.Length > 0)
                 UpdateField(minions[0].Center, player);
         }
