@@ -13,7 +13,7 @@ namespace wfMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Generate a stasis field around your pet, slowing all projectiles within by 69%,\nIncreasing ally projectiles' damage and decreasing enemy projectiles' damage depending on your minion damage multiplier");
+            Tooltip.SetDefault("Generate a stasis field around your pet, slowing enemy projectiles within by 50% and frienly ones by 25%,\nIncreasing ally projectiles' damage depending on your minion damage multiplier");
         }
 
         public override void SetDefaults()
@@ -23,6 +23,8 @@ namespace wfMod.Items.Accessories
             item.value = Item.buyPrice(gold: 4);
         }
         const float fieldRadius = 450f;
+        const float friendlyVelocityMult = 0.75f;
+        const float hostileVelocityMult = 0.5f;
         void UpdateField(Vector2 center, Player player)
         {
             wfMod.NewDustsCircleEdge(12, center, fieldRadius, DustID.Flare_Blue, (d) => {
@@ -36,14 +38,10 @@ namespace wfMod.Items.Accessories
                 var gProj = proj.GetGlobalProjectile<wfGlobalProj>();
                 if (gProj.stasisFieldApplied || Main.projHook[proj.type] || Main.projPet[proj.type])
                     continue;
-                proj.velocity *= 0.31f;
+                proj.velocity *= proj.friendly ? friendlyVelocityMult : hostileVelocityMult;
                 if (proj.friendly)
                 {
-                    proj.damage = (int)(proj.damage * (1.1f + (player.minionDamage * player.minionDamageMult - 1) * 0.4f));
-                }
-                else if (proj.hostile)
-                {
-                    proj.damage = (int)(proj.damage * 0.85f);
+                    proj.damage = (int)(proj.damage * (1 + (player.minionDamage * player.minionDamageMult - 1) * 0.5f));
                 }
                 gProj.stasisFieldApplied = true;
             }
