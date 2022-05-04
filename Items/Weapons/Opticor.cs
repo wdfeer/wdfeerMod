@@ -3,11 +3,19 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using wfMod.Projectiles;
 
 namespace wfMod.Items.Weapons
 {
-    public class Opticor : wfWeapon
+    public class Opticor : BaseOpticor
     {
+        protected override float critDmg => 1.25f;
+        protected override string soundPath => "Sounds/OpticorSound";
+        protected override int getBaseProjTimeLeft()
+        {
+            var modPl = Main.player[item.owner].GetModPlayer<wfPlayer>();
+            return (int)(146 + 54 / modPl.fireRateMult);
+        }
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Charges to shoot a devastating beam\nFire rate cannot be increased\n+25% Critical Damage");
@@ -20,15 +28,14 @@ namespace wfMod.Items.Weapons
             item.mana = 77;
             item.width = 48;
             item.height = 16;
-            item.useTime = 120;
-            item.useAnimation = 120;
+            item.useTime = 124;
+            item.useAnimation = 124;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 20;
             item.value = Item.buyPrice(gold: 10);
             item.rare = 4;
             item.autoReuse = false;
-            //item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/OpticorSound").WithVolume(1.2f);
             item.shoot = mod.ProjectileType("OpticorProj");
             item.shootSpeed = 16f;
         }
@@ -47,23 +54,6 @@ namespace wfMod.Items.Weapons
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            sound = mod.GetSound("Sounds/OpticorSound").CreateInstance();
-            Main.PlaySoundInstance(sound);
-
-            Vector2 velocity = new Vector2(speedX, speedY);
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            wfPlayer modPl = Main.player[item.owner].GetModPlayer<wfPlayer>();
-            if (modPl.fireRateMult > 1)
-                proj.timeLeft = (int)(146 + 54 / modPl.fireRateMult);
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
-            globalProj.critMult = 1.25f;
-            globalProj.baseVelocity = velocity;
-            globalProj.initialPosition = proj.position - Main.LocalPlayer.position;
-
-            return false;
         }
     }
 }

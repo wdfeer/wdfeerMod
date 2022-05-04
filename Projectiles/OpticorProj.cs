@@ -10,6 +10,9 @@ namespace wfMod.Projectiles
     internal class OpticorProj : ModProjectile
     {
         wfGlobalProj globalProj;
+        public Player owner;
+        public Func<Vector2> getPositionNearThePlayer;
+        public Func<Vector2> getBaseVelocity;
         public override void SetDefaults()
         {
             globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
@@ -21,29 +24,31 @@ namespace wfMod.Projectiles
             projectile.penetrate = -1;
             projectile.timeLeft = 200;
             projectile.hide = true;
+            projectile.tileCollide = false;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 6;
         }
         bool playedSound = false;
-
         public override void AI()
         {
             if (projectile.timeLeft >= 95)
             {
                 if (projectile.velocity != Vector2.Zero) projectile.velocity = Vector2.Zero;
-                projectile.position = Main.LocalPlayer.position + globalProj.initialPosition;
-                var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, globalProj.baseVelocity.X + Main.LocalPlayer.velocity.X, globalProj.baseVelocity.Y + Main.LocalPlayer.velocity.Y)];
+                projectile.position = owner.position + getPositionNearThePlayer();
+                var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, getBaseVelocity().X + owner.velocity.X, getBaseVelocity().Y + owner.velocity.Y)];
                 dust.noGravity = true;
 
                 if (projectile.timeLeft == 146 && !playedSound)
                 {
                     playedSound = true;
                 }
-                if (Main.LocalPlayer.dead) projectile.Kill();
+                if (owner.dead) projectile.Kill();
             }
             else
             {
-                if (projectile.velocity == Vector2.Zero) projectile.velocity = globalProj.baseVelocity;
+                if (projectile.velocity == Vector2.Zero) projectile.velocity = getBaseVelocity();
+                if (!projectile.tileCollide)
+                    projectile.tileCollide = true;
                 projectile.extraUpdates = 100;
                 for (int num = 0; num < 8; num++)
                 {

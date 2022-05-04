@@ -6,8 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace wfMod.Items.Weapons
 {
-    public class OpticorVandal : wfWeapon
+    public class OpticorVandal : BaseOpticor
     {
+        protected override float critDmg => 1.3f;
+        protected override string soundPath => "Sounds/OpticorVandalSound";
+        protected override int getBaseProjTimeLeft()
+            => 170;
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Charges to shoot an annihilating beam\nFire rate cannot be increased\n+30% Critical Damage");
@@ -20,8 +24,8 @@ namespace wfMod.Items.Weapons
             item.mana = 42;
             item.width = 48;
             item.height = 16;
-            item.useTime = 72;
-            item.useAnimation = 72;
+            item.useTime = 76;
+            item.useAnimation = 76;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 20;
@@ -31,7 +35,6 @@ namespace wfMod.Items.Weapons
             item.shoot = mod.ProjectileType("OpticorProj");
             item.shootSpeed = 16f;
         }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -41,21 +44,6 @@ namespace wfMod.Items.Weapons
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            sound = mod.GetSound("Sounds/OpticorVandalSound").CreateInstance();
-            Main.PlaySoundInstance(sound);
-
-            Vector2 velocity = new Vector2(speedX, speedY);
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
-            proj.timeLeft = 170;
-            var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
-            globalProj.critMult = 1.3f;
-            globalProj.baseVelocity = velocity;
-            globalProj.initialPosition = proj.position - Main.LocalPlayer.position;
-
-            return false;
         }
     }
 }
