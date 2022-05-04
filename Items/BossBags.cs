@@ -42,6 +42,9 @@ namespace wfMod.Items
                 case ItemID.TwinsBossBag when wfMod.Roll(15):
                     DropItem(player, ModContent.ItemType<Acceltra>());
                     break;
+                case ItemID.PlanteraBossBag when wfMod.Roll(33):
+                    DropItem(player, ModContent.ItemType<SynergizedProspectus>());
+                    break;
                 default:
                     break;
             }

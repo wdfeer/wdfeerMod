@@ -241,6 +241,9 @@ namespace wfMod
                 case NPCID.SkeletronPrime when !Main.expertMode && wfMod.Roll(25):
                     DropItem(npc, ModContent.ItemType<SecuraPenta>());
                     break;
+                case NPCID.Plantera when !Main.expertMode && wfMod.Roll(25):
+                    DropItem(npc, ModContent.ItemType<SynergizedProspectus>());
+                    break;
                 default:
                     if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
                         DropItem(npc, ModContent.ItemType<Items.Fieldron>());
