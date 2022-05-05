@@ -244,6 +244,9 @@ namespace wfMod
                 case NPCID.Plantera when !Main.expertMode && wfMod.Roll(25):
                     DropItem(npc, ModContent.ItemType<SynergizedProspectus>());
                     break;
+                case NPCID.DukeFishron when !Main.expertMode && wfMod.Roll(33):
+                    DropItem(npc, ModContent.ItemType<Items.Weapons.Summon.Oxylus>());
+                    break;
                 default:
                     if (martianTypes.Contains(npc.type) && wfMod.Roll(2))
                         DropItem(npc, ModContent.ItemType<Items.Fieldron>());

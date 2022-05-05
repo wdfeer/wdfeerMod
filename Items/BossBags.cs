@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System;
 using wfMod.Items.Accessories;
 using wfMod.Items.Weapons;
+using wfMod.Items.Weapons.Summon;
 
 namespace wfMod.Items
 {
@@ -44,6 +45,9 @@ namespace wfMod.Items
                     break;
                 case ItemID.PlanteraBossBag when wfMod.Roll(33):
                     DropItem(player, ModContent.ItemType<SynergizedProspectus>());
+                    break;
+                case ItemID.FishronBossBag when wfMod.Roll(25):
+                    DropItem(player, ModContent.ItemType<Items.Weapons.Summon.Oxylus>());
                     break;
                 default:
                     break;
