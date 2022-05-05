@@ -37,15 +37,6 @@ namespace wfMod.Items.Weapons
             if (Main.rand.Next(0, 100) <= 66) return false;
             return base.ConsumeAmmo(player);
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Gorgon"));
-            recipe.AddIngredient(ItemID.LunarBar, 7);
-            recipe.AddTile(412);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)

@@ -18,7 +18,7 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 1400;
+            item.damage = 900;
             item.crit = 20;
             item.magic = true;
             item.mana = 42;

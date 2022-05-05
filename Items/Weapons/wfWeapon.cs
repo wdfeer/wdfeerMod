@@ -6,17 +6,22 @@ namespace wfMod.Items.Weapons
 {
     public abstract class wfWeapon : ModItem
     {
-        protected static string pathToSound = null;
+        protected string pathToSound;
+        protected SoundEffect soundEffect = null;
         protected SoundEffectInstance sound = null;
         public void PlaySound(float pitchMod = 0f, float volume = 1f)
         {
+            if (soundEffect == null)
+            {
+                soundEffect = mod.GetSound(pathToSound);
+            }
             if (sound != null)
             {
                 if (sound.State == SoundState.Playing)
                     volume /= 2;
                 sound.Dispose();
             }
-            sound = mod.GetSound(pathToSound).CreateInstance();
+            sound = soundEffect.CreateInstance();
             sound.Pitch += pitchMod;
             sound.Volume = volume;
             Main.PlaySoundInstance(sound);

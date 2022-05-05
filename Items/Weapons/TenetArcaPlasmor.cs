@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wfMod.Items.Weapons
 {
@@ -18,7 +19,7 @@ namespace wfMod.Items.Weapons
             item.damage = 697;
             item.crit = 18;
             item.magic = true;
-            item.mana = 8;
+            item.mana = 12;
             item.width = 48;
             item.height = 16;
             item.useTime = 60;
@@ -46,8 +47,7 @@ namespace wfMod.Items.Weapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float pitch = Main.rand.NextFloat(0, 0.1f);
-            PlaySound(pitch);
+            PlaySound(Main.rand.NextFloat(-0.15f, 0.1f));
 
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
             projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31, 34));

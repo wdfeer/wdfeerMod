@@ -8,7 +8,6 @@ namespace wfMod.Items.Weapons
 {
     public class RedeemerPrime : wfWeapon
     {
-        Random rand = new Random();
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Fires 6 golden pellets without consuming ammo\nDamage Falloff starts at 15 tiles, stops after 45");

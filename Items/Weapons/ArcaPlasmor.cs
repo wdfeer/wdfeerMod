@@ -18,7 +18,7 @@ namespace wfMod.Items.Weapons
             item.damage = 222;
             item.crit = 18;
             item.magic = true;
-            item.mana = 8;
+            item.mana = 15;
             item.width = 48;
             item.height = 16;
             item.useTime = 54;
