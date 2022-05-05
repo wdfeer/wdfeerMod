@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class PhantasmaProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public int chainLeft = 6;
         wfGlobalProj globalProj;
         public override void SetDefaults()

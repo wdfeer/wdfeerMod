@@ -7,6 +7,7 @@ namespace wfMod.Projectiles
 {
     public class ArsonEximusProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         List<Player> hitPlayers = new List<Player>();
         public override void SetDefaults()
         {

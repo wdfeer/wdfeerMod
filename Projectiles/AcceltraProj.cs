@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class AcceltraProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         const int explosionRadius = 200;
         wfGlobalProj globalProj;
         public Vector2 initialPos;

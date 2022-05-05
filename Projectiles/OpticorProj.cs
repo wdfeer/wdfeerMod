@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class OpticorProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         wfGlobalProj globalProj;
         public Player owner;
         public Func<Vector2> getPositionNearThePlayer;

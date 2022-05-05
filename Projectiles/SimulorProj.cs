@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class SimulorProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public const int baseTimeLeft = 660;
         wfGlobalProj gProj;
         public bool implosion = false;

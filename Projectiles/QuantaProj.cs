@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class QuantaProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         wfGlobalProj globalProj;
         Vector2 lastPos;
         public override void SetDefaults()

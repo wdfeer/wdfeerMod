@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class AmprexProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public int chainLeft = 3;
         wfGlobalProj globalProj;
         public override void SetDefaults()

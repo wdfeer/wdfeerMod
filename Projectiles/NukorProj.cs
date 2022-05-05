@@ -9,6 +9,7 @@ namespace wfMod.Projectiles
 {
     internal class NukorProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public bool chain = false;
         public int confusedChance = 28;
         wfGlobalProj globalProj;

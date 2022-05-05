@@ -7,6 +7,7 @@ namespace wfMod.Projectiles
 {
     internal class PentaNapalmProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         wfGlobalProj globalProj;
         public override void SetDefaults()
         {

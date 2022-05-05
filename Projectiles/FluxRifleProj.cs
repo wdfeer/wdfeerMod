@@ -8,6 +8,7 @@ namespace wfMod.Projectiles
 {
     internal class FluxRifleProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public override void SetDefaults()
         {
             projectile.friendly = true;

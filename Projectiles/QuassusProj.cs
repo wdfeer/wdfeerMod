@@ -7,6 +7,7 @@ namespace wfMod.Projectiles
 {
     internal class QuassusProj : ModProjectile
     {
+        public override string Texture => "wfMod/EmptyTexture";
         public override void SetDefaults()
         {
             projectile.friendly = true;
