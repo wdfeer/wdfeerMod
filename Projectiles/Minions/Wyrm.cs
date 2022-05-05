@@ -8,6 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class Wyrm : ModProjectile
     {
+        public override string Texture => "wfMod/Items/Weapons/Summon/Wyrm";
         public int attackInterval => (int)(36f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public int blastInterval => (int)(480f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);

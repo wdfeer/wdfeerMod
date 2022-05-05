@@ -8,6 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class Taxon : ModProjectile
     {
+        public override string Texture => "wfMod/Items/Weapons/Summon/Taxon";
         public int attackInterval = 7;
         public int attackTimer = 0;
         public override void SetStaticDefaults()

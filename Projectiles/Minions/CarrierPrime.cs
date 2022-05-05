@@ -8,6 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class CarrierPrime : ModProjectile
     {
+        public override string Texture => "wfMod/Items/Weapons/Summon/CarrierPrime";
         public int attackInterval => (int)(58f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()

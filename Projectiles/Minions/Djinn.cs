@@ -8,6 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class Djinn : ModProjectile
     {
+        public override string Texture => "wfMod/Items/Weapons/Summon/Djinn";
         public int attackInterval => (int)(20f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()

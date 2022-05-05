@@ -8,6 +8,7 @@ namespace wfMod.Projectiles.Minions
 {
     public class Carrier : ModProjectile
     {
+        public override string Texture => "wfMod/Items/Weapons/Summon/Carrier";
         public int attackInterval => (int)(60f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
         public override void SetStaticDefaults()
@@ -29,7 +30,7 @@ namespace wfMod.Projectiles.Minions
         {
             projectile.width = 18;
             projectile.height = 48;
-            projectile.scale = 1.6f;
+            projectile.scale = 1f;
             // Makes the minion go through tiles freely
             projectile.tileCollide = false;
 
