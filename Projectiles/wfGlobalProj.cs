@@ -80,7 +80,8 @@ namespace wfMod.Projectiles
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            wfPlayer modPl = Main.player[projectile.owner].GetModPlayer<wfPlayer>();
+            Player player = Main.player[projectile.owner];
+            wfPlayer modPl = player.GetModPlayer<wfPlayer>();
             if (projectile.penetrate >= 0 && !PlayersExtraPenetrationApplied)
             {
                 projectile.penetrate += modPl.penetrate;
@@ -91,14 +92,14 @@ namespace wfMod.Projectiles
                     projectile.localNPCHitCooldown = (projectile.velocity.Length() * (projectile.extraUpdates + 1)) > 20f ? 4 : 6;
                 }
             }
-            if (crit) damage = Convert.ToInt32(critMult * damage);
+            if (crit) damage = (int)(critMult * damage);
             if (falloffEnabled)
             {
                 distTraveled = (projectile.position - initialPosition).Length();
                 if (distTraveled > falloffStartDist)
                 {
                     float mult = 1f - falloffMax * (distTraveled < falloffMaxDist ? (distTraveled - falloffStartDist) / (falloffMaxDist - falloffStartDist) : 1.0f);
-                    damage = Convert.ToInt32(damage * mult);
+                    damage = (int)(damage * mult);
                 }
             }
 

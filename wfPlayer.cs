@@ -289,8 +289,10 @@ namespace wfMod
                 if (Main.rand.Next(100) < cc.Min()) crit = true;
                 else crit = false;
             }
-
-            damage = crit ? (int)(damage * critDmgMult) : damage;
+            if (crit)
+            {
+                damage = (int)(damage * critDmgMult);
+            }
             if (condOv)
             {
                 float buffs = 0;
@@ -321,7 +323,7 @@ namespace wfMod
         }
         public override float UseTimeMultiplier(Item item)
         {
-            if (!item.melee && item.type != mod.ItemType("Opticor") && item.type != mod.ItemType("OpticorVandal"))
+            if (item.noMelee && item.type != mod.ItemType("Opticor") && item.type != mod.ItemType("OpticorVandal"))
                 return fireRateMult;
             return base.UseTimeMultiplier(item);
         }
