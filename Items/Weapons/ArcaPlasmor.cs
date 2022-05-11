@@ -38,7 +38,7 @@ namespace wfMod.Items.Weapons
             recipe.AddIngredient(ItemID.CobaltBar, 22);
             recipe.AddIngredient(ItemID.SoulofLight, 12);
 
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
@@ -46,7 +46,7 @@ namespace wfMod.Items.Weapons
             recipe.AddIngredient(ItemID.PalladiumBar, 22);
             recipe.AddIngredient(ItemID.SoulofLight, 12);
 
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

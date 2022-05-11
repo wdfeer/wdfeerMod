@@ -9,7 +9,7 @@ namespace wfMod.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A heavy throwing dagger that inflicts poison or venom and slash with a 20% chance\n+10% Movement Speed while held\n+10% Critical damage");
+            Tooltip.SetDefault("A heavy throwing dagger that inflicts poison or venom and slash with a 20% chance\n+15% Movement Speed while held\n+10% Critical damage");
         }
         public override void SetDefaults()
         {
@@ -35,8 +35,8 @@ namespace wfMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("Karyst"));
-            recipe.AddIngredient(ItemID.HallowedBar, 17);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.SoulofNight, 17);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -51,7 +51,7 @@ namespace wfMod.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            player.moveSpeed += 0.11f;
+            player.moveSpeed += 0.15f;
         }
     }
 }
