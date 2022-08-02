@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,34 +14,33 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 29;
-            item.crit = 6;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 57;
-            item.useAnimation = 57;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7;
-            item.value = Item.buyPrice(); 
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.KarystProj>();
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
+            Item.damage = 29;
+            Item.crit = 6;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 57;
+            Item.useAnimation = 57;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7;
+            Item.value = Item.buyPrice(); 
+            Item.rare = 4;
+            Item.shoot = ModContent.ProjectileType<Projectiles.KarystProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddRecipeGroup("IronBar",8);
             recipe.AddIngredient(ItemID.Stinger, 4);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
 

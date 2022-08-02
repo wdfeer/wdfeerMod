@@ -15,12 +15,12 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 15);
+            Item.rare = 5;
+            Item.value = Item.buyPrice(gold: 15);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (PlayerHasAccessory(player, mod.ItemType("Vigor")))
+            if (PlayerHasAccessory(player, Mod.Find<ModItem>("Vigor").Type))
                 return;
             player.statLifeMax2 += 35;
             var shieldPlayer = player.GetModPlayer<wfPlayerShields>();

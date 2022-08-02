@@ -16,17 +16,16 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 2);
+            Item.rare = 5;
+            Item.value = Item.buyPrice(gold: 2);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("PiercingHit"));
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("PiercingHit").Type);
             recipe.AddIngredient(ItemID.HallowedBar, 4);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

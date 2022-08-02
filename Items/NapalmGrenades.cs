@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,31 +16,30 @@ namespace wfMod.Items
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 3;
-            item.value = Item.buyPrice(gold: 2);
-            item.maxStack = 1;
-            item.width = 44;
-            item.height = 64;
-            item.scale = 0.4f;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            Item.rare = 3;
+            Item.value = Item.buyPrice(gold: 2);
+            Item.maxStack = 1;
+            Item.width = 44;
+            Item.height = 64;
+            Item.scale = 0.4f;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.HellstoneBar, 9);
             recipe.AddIngredient(ItemID.Obsidian, 16);
-            recipe.SetResult(this);
             recipe.AddTile(TileID.Hellforge);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         public override bool CanUseItem(Player player)
         {
             wfPlayer modPlayer = player.GetModPlayer<wfPlayer>();
             modPlayer.napalmGrenades = modPlayer.napalmGrenades ? false : true;
-            if (modPlayer.napalmGrenades) Main.PlaySound(SoundID.Item20);
-            else Main.PlaySound(SoundID.Item29);
+            if (modPlayer.napalmGrenades) SoundEngine.PlaySound(SoundID.Item20);
+            else SoundEngine.PlaySound(SoundID.Item29);
             return base.CanUseItem(player);
         }
     }

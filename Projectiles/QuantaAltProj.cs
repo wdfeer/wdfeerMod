@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,34 +14,34 @@ namespace wfMod.Projectiles
         wfGlobalProj gProj;
         public override void SetDefaults()
         {
-            gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
-            projectile.friendly = true;
-            projectile.height = 20;
-            projectile.width = 20;
-            projectile.timeLeft = 488;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hide = true;
-            projectile.light = 0.4f;
+            gProj = Projectile.GetGlobalProjectile<wfGlobalProj>();
+            Projectile.friendly = true;
+            Projectile.height = 20;
+            Projectile.width = 20;
+            Projectile.timeLeft = 488;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hide = true;
+            Projectile.light = 0.4f;
         }
         public override void AI()
         {
-            if (projectile.timeLeft <= 8) gProj.Explode(300);
-            if (projectile.velocity.Length() > 0.1f) projectile.velocity -= Vector2.Normalize(projectile.velocity) * 0.5f;
+            if (Projectile.timeLeft <= 8) gProj.Explode(300);
+            if (Projectile.velocity.Length() > 0.1f) Projectile.velocity -= Vector2.Normalize(Projectile.velocity) * 0.5f;
             if (!gProj.exploding)
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     Projectile p = Main.projectile[i];
-                    if (p.active && (p.type == mod.ProjectileType("QuantaProj") || (p.type == projectile.type && p != projectile && p.GetGlobalProjectile<wfGlobalProj>().exploding)) && Rectangle.Intersect(projectile.getRect(), p.getRect()) != Rectangle.Empty)
+                    if (p.active && (p.type == Mod.Find<ModProjectile>("QuantaProj").Type || (p.type == Projectile.type && p != Projectile && p.GetGlobalProjectile<wfGlobalProj>().exploding)) && Rectangle.Intersect(Projectile.getRect(), p.getRect()) != Rectangle.Empty)
                     {
                         gProj.Explode(300);
-                        projectile.damage = (int)(projectile.damage * 1.2f);
+                        Projectile.damage = (int)(Projectile.damage * 1.2f);
                     }
                 }
             for (int i = 0; i < 3; i++)
             {
-                var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 226)];
+                var dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 226)];
                 dust.scale = 0.3f;
                 dust.noGravity = true;
             }
@@ -57,11 +58,11 @@ namespace wfMod.Projectiles
         public override void Kill(int timeLeft)
         {
             if (!gProj.exploding) return;
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
+            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), Projectile.position);
             for (int i = 0; i < 50; i++)
             {
-                var dust = Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / 3, 226, Scale: 1.15f);
-                dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * 8;
+                var dust = Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * Projectile.width / 3, 226, Scale: 1.15f);
+                dust.velocity = Vector2.Normalize(dust.position - Projectile.Center) * 8;
             }
         }
     }

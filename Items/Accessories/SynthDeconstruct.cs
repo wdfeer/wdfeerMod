@@ -19,20 +19,19 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 2;
-            item.width = 32;
-            item.height = 32;
-            item.value = Item.buyPrice(silver: 50);
+            Item.rare = 2;
+            Item.width = 32;
+            Item.height = 32;
+            Item.value = Item.buyPrice(silver: 50);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.LifeCrystal);
             recipe.AddIngredient(ItemID.GoldBar, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

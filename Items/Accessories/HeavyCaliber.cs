@@ -16,16 +16,16 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();        
-            item.rare = 4;
-            item.value = Item.buyPrice(gold: 2);
+            Item.rare = 4;
+            Item.value = Item.buyPrice(gold: 2);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             var damageMod = Main.hardMode ? 0.16f : 0.12f;
-            player.magicDamage += damageMod;
-            player.rangedDamage += damageMod;
-            player.thrownDamage += damageMod;
+            player.GetDamage(DamageClass.Magic) += damageMod;
+            player.GetDamage(DamageClass.Ranged) += damageMod;
+            player.GetDamage(DamageClass.Throwing) += damageMod;
             player.GetModPlayer<wfPlayer>().spreadMult += 0.24f;
         }
     }

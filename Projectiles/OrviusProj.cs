@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,33 +11,33 @@ namespace wfMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.ThornChakram);
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 12;
+            Projectile.CloneDefaults(ProjectileID.ThornChakram);
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-            var dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 206)];
+            var dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206)];
         }
         public void Explode()
         {
-            var gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
-            if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
-                gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
+            var gProj = Projectile.GetGlobalProjectile<wfGlobalProj>();
+            if (gProj.procChances.ContainsKey(Mod.Find<ModBuff>("SlashProc").Type))
+                gProj.procChances[Mod.Find<ModBuff>("SlashProc").Type].chance = 0;
             gProj.Explode(240);
-            projectile.idStaticNPCHitCooldown = 4;
+            Projectile.idStaticNPCHitCooldown = 4;
 
             // Play explosion sound
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), projectile.position);
+            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), Projectile.position);
 
-            wfMod.NewDustsCircleFromCenter(69, projectile.Center, projectile.width / 2, 206, 2.5f);
+            wfMod.NewDustsCircleFromCenter(69, Projectile.Center, Projectile.width / 2, 206, 2.5f);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.GetGlobalProjectile<wfGlobalProj>().exploding) target.AddBuff(BuffID.Slow, 240);
+            if (Projectile.GetGlobalProjectile<wfGlobalProj>().exploding) target.AddBuff(BuffID.Slow, 240);
         }
     }
 }

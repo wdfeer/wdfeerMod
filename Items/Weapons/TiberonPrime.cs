@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -27,51 +29,50 @@ namespace wfMod.Items.Weapons
             switch (Mode)
             {
                 case 0:
-                    item.crit = 12;
-                    item.useTime = 7;
-                    item.useAnimation = 7;
-                    item.autoReuse = true;
+                    Item.crit = 12;
+                    Item.useTime = 7;
+                    Item.useAnimation = 7;
+                    Item.autoReuse = true;
                     break;
                 case 1:
-                    item.crit = 24;
-                    item.useTime = 20;
-                    item.useAnimation = 20;
-                    item.autoReuse = false;
+                    Item.crit = 24;
+                    Item.useTime = 20;
+                    Item.useAnimation = 20;
+                    Item.autoReuse = false;
                     break;
                 default:
-                    item.crit = 26;
-                    item.useTime = 10;
-                    item.useAnimation = 10;
-                    item.autoReuse = false;
+                    Item.crit = 26;
+                    Item.useTime = 10;
+                    Item.useAnimation = 10;
+                    Item.autoReuse = false;
                     break;
             }
-            item.damage = 22;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 39;
-            item.height = 9;
-            item.scale = 1.1f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3;
-            item.value = Item.buyPrice(gold: 8);
-            item.rare = 5;
-            item.shoot = 10;
-            item.shootSpeed = 17f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 39;
+            Item.height = 9;
+            Item.scale = 1.1f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 3;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = 5;
+            Item.shoot = 10;
+            Item.shootSpeed = 17f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AvengerEmblem, 1);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Mode == 0 && Main.rand.Next(0, 100) < 75) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -86,15 +87,15 @@ namespace wfMod.Items.Weapons
                 {
                     Mode++;
                     lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
-                    Main.PlaySound(SoundID.Unlock);
+                    SoundEngine.PlaySound(SoundID.Unlock);
                 }
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            sound = mod.GetSound("Sounds/TiberonPrimeSound").CreateInstance();
+            sound = Mod.GetSound("Sounds/TiberonPrimeSound").CreateInstance();
             sound.Volume = 0.16f;
             sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
             sound.Play();
@@ -104,14 +105,14 @@ namespace wfMod.Items.Weapons
             if (Mode == 1)
             {
                 bursts = 3;
-                interval = item.useTime / 5;
+                interval = Item.useTime / 5;
             }
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, item.width, bursts: bursts, burstInterval: interval);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.002f, Item.width, bursts: bursts, burstInterval: interval);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             if (Mode == 0)
-                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 9));
+                gProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 9));
             gProj.critMult = Mode == 0 ? 1.4f : (Mode == 1 ? 1.5f : 1.7f);
 
             return false;

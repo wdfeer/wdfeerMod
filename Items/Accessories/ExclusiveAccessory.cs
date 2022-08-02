@@ -26,13 +26,13 @@ namespace wfMod.Items.Accessories
         public const float worldScale = 0.5f;
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 64;
-            item.accessory = true;
-            item.value = Item.sellPrice(gold: 1);
-            item.rare = ItemRarityID.Green;
+            Item.width = 64;
+            Item.height = 64;
+            Item.accessory = true;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = ItemRarityID.Green;
         }
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)/* tModPorter Suggestion: Consider using new hook CanAccessoryBeEquippedWith */
         {
             // To prevent the accessory from being equipped, we need to return false if there is one already in another slot
             // Therefore we go through each accessory slot ignoring vanity slots using FindSameAccessory()
@@ -57,9 +57,9 @@ namespace wfMod.Items.Accessories
             Item accessory = FindSameAccessory().accessory;
             if (accessory != null)
             {
-                tooltips.Add(new TooltipLine(mod, "Swap", "Right click to swap with '" + accessory.Name + "'!")
+                tooltips.Add(new TooltipLine(Mod, "Swap", "Right click to swap with '" + accessory.Name + "'!")
                 {
-                    overrideColor = Color.OrangeRed
+                    OverrideColor = Color.OrangeRed
                 });
             }
         }
@@ -76,7 +76,7 @@ namespace wfMod.Items.Accessories
             int maxAccessoryIndex = 5 + Main.LocalPlayer.extraAccessorySlots;
             for (int i = 13; i < 13 + maxAccessoryIndex; i++)
             {
-                if (Main.LocalPlayer.armor[i].type == item.type) return false;
+                if (Main.LocalPlayer.armor[i].type == Item.type) return false;
             }
 
             // Only allow right clicking if there is a different ExclusiveAccessory equipped
@@ -97,7 +97,7 @@ namespace wfMod.Items.Accessories
             {
                 Main.LocalPlayer.QuickSpawnClonedItem(accessory);
                 // We need to use index instead of accessory because we directly want to alter the equipped accessory
-                Main.LocalPlayer.armor[index] = item.Clone();
+                Main.LocalPlayer.armor[index] = Item.Clone();
             }
         }
 
@@ -115,9 +115,9 @@ namespace wfMod.Items.Accessories
                 // "is ExclusiveAccessory" is a way of performing pattern matching
                 // Here, inheritance helps us determine if the given item is indeed one of our ExclusiveAccessory ones
                 if (!otherAccessory.IsAir &&
-                    !item.IsTheSameAs(otherAccessory) &&
-                    otherAccessory.Name == item.Name &&
-                    otherAccessory.modItem is ExclusiveAccessory)
+                    !Item.IsTheSameAs(otherAccessory) &&
+                    otherAccessory.Name == Item.Name &&
+                    otherAccessory.ModItem is ExclusiveAccessory)
                 {
                     // If we find an item that matches these criteria, return both the index and the item itself
                     // The second argument is just for convenience, technically we don't need it since we can get the item from just i

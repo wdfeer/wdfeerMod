@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,22 +14,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 21;
-            item.crit = 10;
-            item.melee = true;
-            item.noMelee = true;
-            item.width = 48;
-            item.height = 24;
-            item.scale = 1f;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2;
-            item.value = Item.buyPrice(gold: 1);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 16f;
+            Item.damage = 21;
+            Item.crit = 10;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.width = 48;
+            Item.height = 24;
+            Item.scale = 1f;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -36,23 +37,22 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Handgun, 1);
             recipe.AddIngredient(ItemID.MeteoriteBar, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult: 0.02f, offset: item.width, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
-            projectile.ranged = false;
-            projectile.melee = true;
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, spreadMult: 0.02f, offset: Item.width, bursts: 5, burstInterval: 3, sound: SoundID.Item11);
+            projectile.ranged = false/* tModPorter Suggestion: Remove. See Item.DamageType */;
+            projectile.DamageType = DamageClass.Melee;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.SetFalloff(projectile.position, 500, 1000, 0.86f);
-            gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 28));
+            gProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 28));
 
             return false;
         }

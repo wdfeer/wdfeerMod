@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -27,46 +29,45 @@ namespace wfMod.Items.Weapons
             switch (Mode)
             {
                 case 0:
-                    item.damage = 12;
-                    item.crit = 20;
-                    item.useTime = 6;
-                    item.useAnimation = 6;
-                    item.autoReuse = true;
+                    Item.damage = 12;
+                    Item.crit = 20;
+                    Item.useTime = 6;
+                    Item.useAnimation = 6;
+                    Item.autoReuse = true;
                     break;
                 default:
-                    item.damage = 28;
-                    item.crit = 26;
-                    item.useTime = 12;
-                    item.useAnimation = 12;
-                    item.autoReuse = false;
+                    Item.damage = 28;
+                    Item.crit = 26;
+                    Item.useTime = 12;
+                    Item.useAnimation = 12;
+                    Item.autoReuse = false;
                     break;
             }
 
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 40;
-            item.height = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2;
-            item.value = Item.buyPrice(gold: 6);
-            item.rare = 2;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 40;
+            Item.height = 13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2;
+            Item.value = Item.buyPrice(gold: 6);
+            Item.rare = 2;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Stradavar"), 1);
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Stradavar").Type, 1);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Mode == 0 && Main.rand.Next(0, 100) < 70) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -81,18 +82,18 @@ namespace wfMod.Items.Weapons
                 {
                     Mode++;
                     lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
-                    Main.PlaySound(SoundID.Unlock);
+                    SoundEngine.PlaySound(SoundID.Unlock);
                 }
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Main.PlaySound(SoundID.Item11, position);
+            SoundEngine.PlaySound(SoundID.Item11, position);
 
             Vector2 spread = new Vector2(speedY, -speedX);
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, Mode == 0 ? 0.005f : 0.002f, item.width);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, Mode == 0 ? 0.005f : 0.002f, Item.width);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
             if (Mode == 1 && projectile.penetrate < 2 && projectile.penetrate != -1) projectile.penetrate = 2;

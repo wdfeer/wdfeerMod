@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -18,22 +19,22 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/KuvaKohmSound";
-            item.damage = 5;
-            item.crit = 7;
-            item.ranged = true;
-            item.width = 47;
-            item.height = 16;
-            item.useTime = maxUseTime;
-            item.useAnimation = maxUseTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1;
-            item.value = Item.buyPrice(gold: 6);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 14f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 5;
+            Item.crit = 7;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 47;
+            Item.height = 16;
+            Item.useTime = maxUseTime;
+            Item.useAnimation = maxUseTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1;
+            Item.value = Item.buyPrice(gold: 6);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 14f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
@@ -46,37 +47,37 @@ namespace wfMod.Items.Weapons
                 multishot = maxMultishot > multishot ? multishot + 1 : maxMultishot;
             else multishot = 1;
 
-            if (item.useTime > minUseTime)
+            if (Item.useTime > minUseTime)
             {
-                item.useTime = item.useTime * 2 / 3;
-                item.useAnimation = item.useTime;
+                Item.useTime = Item.useTime * 2 / 3;
+                Item.useAnimation = Item.useTime;
 
-                if (item.useTime < minUseTime)
+                if (Item.useTime < minUseTime)
                 {
-                    item.useTime = minUseTime;
-                    item.useAnimation = minUseTime;
+                    Item.useTime = minUseTime;
+                    Item.useAnimation = minUseTime;
                 }
             }
             else if (timeSinceLastShot > 16)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > maxUseTime)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > maxUseTime)
                 {
-                    item.useTime = maxUseTime;
-                    item.useAnimation = maxUseTime;
+                    Item.useTime = maxUseTime;
+                    Item.useAnimation = maxUseTime;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(-0.1f, 0.1f));
 
-            float ammoDamage = (damage / player.rangedDamageMult) / player.rangedDamage - item.damage;
-            damage = (int)((item.damage + ammoDamage / 2) * player.rangedDamageMult * player.rangedDamage);
+            float ammoDamage = (damage / player.GetDamage(DamageClass.Ranged)) / player.GetDamage(DamageClass.Ranged) - Item.damage;
+            damage = (int)((Item.damage + ammoDamage / 2) * player.GetDamage(DamageClass.Ranged) * player.GetDamage(DamageClass.Ranged));
             for (int i = 0; i < multishot; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 46 ? 0.015f : 0.08f), 52);
@@ -86,7 +87,7 @@ namespace wfMod.Items.Weapons
                 gProj.falloffMaxDist = 500;
                 gProj.falloffMax = 0.73f;
                 gProj.critMult = 1.15f;
-                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 30));
+                gProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 30));
             }
             return false;
         }

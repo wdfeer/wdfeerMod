@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Audio;
 namespace wfMod.Items.Weapons
@@ -13,7 +14,7 @@ namespace wfMod.Items.Weapons
         {
             if (soundEffect == null)
             {
-                soundEffect = mod.GetSound(pathToSound);
+                soundEffect = Mod.GetSound(pathToSound);
             }
             if (sound != null)
             {
@@ -47,7 +48,7 @@ namespace wfMod.Items.Weapons
 
             if (bursts > 1 && burstInterval > 0)
             {
-                var modPlayer = Main.player[item.owner].GetModPlayer<wfPlayer>();
+                var modPlayer = Main.player[Item.playerIndexTheItemIsReservedFor].GetModPlayer<wfPlayer>();
                 if (modPlayer.burstInterval == -1)
                 {
                     modPlayer.offsetP = position - Main.LocalPlayer.position;
@@ -63,10 +64,10 @@ namespace wfMod.Items.Weapons
                 }
             }
 
-            if (sound != null) Main.PlaySound(sound, position);
+            if (sound != null) SoundEngine.PlaySound(sound, position);
 
             Vector2 spread = new Vector2(speedY, -speedX);
-            int projNum = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, item.owner);
+            int projNum = Projectile.NewProjectile(position, new Vector2(speedX, speedY) + spread * Main.rand.NextFloat(spreadMult, -spreadMult), type, damage, knockBack, Item.playerIndexTheItemIsReservedFor);
             var projectile = Main.projectile[projNum];
             return projectile;
         }

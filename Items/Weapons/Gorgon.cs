@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,68 +15,67 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 6;
-            item.crit = 13;
-            item.ranged = true;
-            item.width = 50;
-            item.height = 19;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1;
-            item.value = Item.buyPrice(gold: 3);
-            item.rare = 3;
-            item.UseSound = SoundID.Item11.WithVolume(0.75f);
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 14f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 6;
+            Item.crit = 13;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 50;
+            Item.height = 19;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = 3;
+            Item.UseSound = SoundID.Item11.WithVolume(0.75f);
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 14f;
+            Item.useAmmo = AmmoID.Bullet;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 40) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Minishark);
             recipe.AddIngredient(ItemID.JungleSpores, 9);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
-            if (item.useTime > 6)
+            if (Item.useTime > 6)
             {
-                item.useTime -= 2;
-                item.useAnimation -= 2;
-                if (item.useTime < 6)
+                Item.useTime -= 2;
+                Item.useAnimation -= 2;
+                if (Item.useTime < 6)
                 {
-                    item.useTime = 6;
-                    item.useAnimation = 6;
+                    Item.useTime = 6;
+                    Item.useAnimation = 6;
                 }
             }
             else if (timeSinceLastShot > 14)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > 22)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > 22)
                 {
-                    item.useTime = 22;
-                    item.useAnimation = 22;
+                    Item.useTime = 22;
+                    Item.useAnimation = 22;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 40 ? 0.03f : 0.08f), 52);
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();

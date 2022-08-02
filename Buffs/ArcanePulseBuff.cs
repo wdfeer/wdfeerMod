@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcanePulseBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcane Pulse Cooldown");
             Description.SetDefault("Cannot trigger Arcane Pulse");

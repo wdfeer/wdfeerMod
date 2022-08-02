@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,23 +14,23 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 419;
-            item.crit = 31;
-            item.knockBack = 3;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 30;
-            item.height = 48;
-            item.scale = 1.2f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item38;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.rare = 10;
-            item.value = 120000;
-            item.shoot = mod.ProjectileType("KuvaBrammaProj");
-            item.shootSpeed = 20f;
-            item.useAmmo = ItemID.Grenade;
+            Item.damage = 419;
+            Item.crit = 31;
+            Item.knockBack = 3;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 30;
+            Item.height = 48;
+            Item.scale = 1.2f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item38;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.rare = 10;
+            Item.value = 120000;
+            Item.shoot = Mod.Find<ModProjectile>("KuvaBrammaProj").Type;
+            Item.shootSpeed = 20f;
+            Item.useAmmo = ItemID.Grenade;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -37,17 +38,16 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Kuva"), 12);
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 12);
             recipe.AddIngredient(ItemID.GrenadeLauncher, 1);
             recipe.AddIngredient(ItemID.Phantasm, 1);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("KuvaBrammaProj"), damage, knockBack, offset: item.width - 6);
+            var proj = ShootWith(position, speedX, speedY, Mod.Find<ModProjectile>("KuvaBrammaProj").Type, damage, knockBack, offset: Item.width - 6);
 
             return false;
         }

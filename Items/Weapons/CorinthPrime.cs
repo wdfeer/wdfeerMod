@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,22 +16,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 21;
-            item.crit = 26;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 19;
-            item.useTime = 42;
-            item.useAnimation = 42;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.value = 150000;
-            item.rare = 5;
-            item.autoReuse = false;
-            item.shoot = 10;
-            item.shootSpeed = 20f;
-            item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
+            Item.damage = 21;
+            Item.crit = 26;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 19;
+            Item.useTime = 42;
+            Item.useAnimation = 42;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = 150000;
+            Item.rare = 5;
+            Item.autoReuse = false;
+            Item.shoot = 10;
+            Item.shootSpeed = 20f;
+            Item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
         public override Vector2? HoldoutOffset()
         {
@@ -42,44 +44,43 @@ namespace wfMod.Items.Weapons
         public int lastAltShoot;
         public override bool CanUseItem(Player player)
         {
-            item.noUseGraphic = false;
+            Item.noUseGraphic = false;
             if (player.altFunctionUse == 2)
             {
-                item.crit = 0;
-                item.useTime = 20;
-                item.useAnimation = 20;
-                item.shootSpeed = 12f;
+                Item.crit = 0;
+                Item.useTime = 20;
+                Item.useAnimation = 20;
+                Item.shootSpeed = 12f;
                 if (altFireProj == null || !altFireProj.active)
                 {
-                    if (player.GetModPlayer<wfPlayer>().longTimer - lastAltShoot < 2 * item.useTime * item.GetGlobalItem<wfGlobalItem>().UseTimeMultiplier(item, player))
+                    if (player.GetModPlayer<wfPlayer>().longTimer - lastAltShoot < 2 * Item.useTime * Item.GetGlobalItem<wfGlobalItem>().UseTimeMultiplier(Item, player))
                         return false;
                 }
-                else item.noUseGraphic = true;
+                else Item.noUseGraphic = true;
             }
             else
             {
-                item.crit = 26;
-                item.useTime = 42;
-                item.useAnimation = 42;
-                item.shootSpeed = 20f;
+                Item.crit = 26;
+                Item.useTime = 42;
+                Item.useAnimation = 42;
+                Item.shootSpeed = 20f;
             }
             return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Corinth"), 1);
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Corinth").Type, 1);
             recipe.AddIngredient(ItemID.HallowedBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         Projectile altFireProj;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                sound = mod.GetSound("Sounds/CorinthPrimeSound").CreateInstance();
+                sound = Mod.GetSound("Sounds/CorinthPrimeSound").CreateInstance();
                 sound.Volume = 0.4f;
                 sound.Pitch += Main.rand.NextFloat(0, 0.1f);
                 sound.Play();
@@ -89,16 +90,16 @@ namespace wfMod.Items.Weapons
                 {
                     var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.07f, 60);
                     projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.4f;
-                    projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 4));
+                    projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 4));
                 }
             }
             else
             {
-                if (altFireProj == null || altFireProj.modProjectile == null || !altFireProj.active)
+                if (altFireProj == null || altFireProj.ModProjectile == null || !altFireProj.active)
                 {
-                    Main.PlaySound(SoundID.Item61);
+                    SoundEngine.PlaySound(SoundID.Item61);
                     lastAltShoot = player.GetModPlayer<wfPlayer>().longTimer;
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CorinthAltProj"), damage * 6, knockBack, Main.LocalPlayer.cHead);
+                    int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), Mod.Find<ModProjectile>("CorinthAltProj").Type, damage * 6, knockBack, Main.LocalPlayer.cHead);
                     altFireProj = Main.projectile[proj];
                     altFireProj.timeLeft = 80;
                     altFireProj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 0.8f;

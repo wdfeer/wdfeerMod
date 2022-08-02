@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,47 +15,45 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.crit = 26;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 48;
-            item.height = 43;
-            item.useTime = 48;
-            item.useAnimation = 48;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = Item.buyPrice(gold: 10);
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.QuassusProj>();
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
+            Item.damage = 18;
+            Item.crit = 26;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 48;
+            Item.height = 43;
+            Item.useTime = 48;
+            Item.useAnimation = 48;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 10);
+            Item.rare = 4;
+            Item.shoot = ModContent.ProjectileType<Projectiles.QuassusProj>();
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 6; i++)
             {
                 var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f);
-                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 100));
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 100));
             }
-            Main.PlaySound(SoundID.Item1, position);
+            SoundEngine.PlaySound(SoundID.Item1, position);
 
             return false;
         }

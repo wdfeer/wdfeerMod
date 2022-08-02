@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,40 +14,39 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 332;
-            item.crit = 20;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = 750000;
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.XorisProj>();
-            item.shootSpeed = 24f;
+            Item.damage = 332;
+            Item.crit = 20;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 9;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.value = 750000;
+            Item.rare = 10;
+            Item.shoot = ModContent.ProjectileType<Projectiles.XorisProj>();
+            Item.shootSpeed = 24f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             
-            recipe.AddIngredient(mod.ItemType("Falcor"), 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Falcor").Type, 1);
             recipe.AddIngredient(ItemID.FragmentSolar, 8);
             
             recipe.AddTile(412);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         Projectile proj;
         int explosionCount = 0;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (proj != null && proj.modProjectile != null && proj.active)
+            if (proj != null && proj.ModProjectile != null && proj.active)
             {
                 bool bigBoom = false;
                 if (explosionCount >= 3)
@@ -54,7 +54,7 @@ namespace wfMod.Items.Weapons
                     bigBoom = true;
                     explosionCount = 0;
                 }
-                Projectiles.XorisProj modProj = proj.modProjectile as Projectiles.XorisProj;
+                Projectiles.XorisProj modProj = proj.ModProjectile as Projectiles.XorisProj;
                 modProj.Explode(bigBoom);
                 explosionCount++;
             }

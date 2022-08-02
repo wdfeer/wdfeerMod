@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,46 +15,44 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 3;
-            item.ranged = true;
-            item.width = 16;
-            item.height = 14;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = 1500;
-            item.rare = 3;
-            item.UseSound = SoundID.Item11.WithVolume(0.8f);
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 14f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 3;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 16;
+            Item.height = 14;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = 1500;
+            Item.rare = 3;
+            Item.UseSound = SoundID.Item11.WithVolume(0.8f);
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 14f;
+            Item.useAmmo = AmmoID.Bullet;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 40) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.TinBar, 20);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.CopperBar, 20);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             ShootWith(position, speedX, speedY, type, damage, knockBack, 0.05f);
             return false;

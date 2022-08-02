@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -37,16 +38,16 @@ namespace wfMod.Items
             base.SetDefaults(item);
             if (item.type == ItemID.Grenade) item.ammo = item.type;
         }
-        public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 offset = new Vector2(speedX, -speedY);
             offset *= Main.rand.NextFloat(-player.GetModPlayer<wfPlayer>().spreadMult, player.GetModPlayer<wfPlayer>().spreadMult);
             speedX += offset.X;
             speedY += offset.Y;
-            if (mod != null)
-                if (player.HasBuff(mod.BuffType("EnergyConversionBuff")) && item.magic)
+            if (Mod != null)
+                if (player.HasBuff(Mod.Find<ModBuff>("EnergyConversionBuff").Type) && item.CountsAsClass(DamageClass.Magic))
                 {
-                    player.DelBuff(player.FindBuffIndex(mod.BuffType("EnergyConversionBuff")));
+                    player.DelBuff(player.FindBuffIndex(Mod.Find<ModBuff>("EnergyConversionBuff").Type));
                 }
 
             return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);

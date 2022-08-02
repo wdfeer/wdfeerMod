@@ -18,8 +18,8 @@ namespace wfMod.Items.Accessories
             base.SetDefaults();
             // Not calling base.SetDefaults() will override everything
             // Here we inherit all the properties from our abstract item and just change the rarity            
-            item.rare = 2;
-            item.value = Item.sellPrice(silver: 80);
+            Item.rare = 2;
+            Item.value = Item.sellPrice(silver: 80);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

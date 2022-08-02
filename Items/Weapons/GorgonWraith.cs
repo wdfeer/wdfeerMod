@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,59 +15,59 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 8;
-            item.crit = 11;
-            item.ranged = true;
-            item.width = 17;
-            item.height = 49;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = Item.buyPrice(gold: 6);
-            item.rare = 3;
-            item.UseSound = SoundID.Item11.WithVolume(0.7f);
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 8;
+            Item.crit = 11;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 17;
+            Item.height = 49;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = Item.buyPrice(gold: 6);
+            Item.rare = 3;
+            Item.UseSound = SoundID.Item11.WithVolume(0.7f);
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 60) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
-            if (item.useTime > 5)
+            if (Item.useTime > 5)
             {
-                item.useTime -= 3;
-                item.useAnimation -= 3;
-                if (item.useTime < 5)
+                Item.useTime -= 3;
+                Item.useAnimation -= 3;
+                if (Item.useTime < 5)
                 {
-                    item.useTime = 5;
-                    item.useAnimation = 5;
+                    Item.useTime = 5;
+                    Item.useAnimation = 5;
                 }
             }
             else if (timeSinceLastShot > 17)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > 19)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > 19)
                 {
-                    item.useTime = 19;
-                    item.useAnimation = 19;
+                    Item.useTime = 19;
+                    Item.useAnimation = 19;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (timeSinceLastShot > 40 ? 0.02f : 0.07f), 52);
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();

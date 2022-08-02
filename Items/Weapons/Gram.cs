@@ -14,43 +14,42 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 42;
-            item.melee = true;
-            item.width = 58;
-            item.height = 58;
-            item.useTime = 63;
-            item.useAnimation = 63;
-            item.knockBack = 11;
-            item.value = Item.buyPrice(silver: 100);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.crit = 11;
-            item.scale = 1.25f;
+            Item.damage = 42;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 58;
+            Item.height = 58;
+            Item.useTime = 63;
+            Item.useAnimation = 63;
+            Item.knockBack = 11;
+            Item.value = Item.buyPrice(silver: 100);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.crit = 11;
+            Item.scale = 1.25f;
             //The useStyle of the item. 
             //Use useStyle 1 for normal swinging or for throwing
             //use useStyle 2 for an item that drinks such as a potion,
             //use useStyle 3 to make the sword act like a shortsword
             //use useStyle 4 for use like a life crystal,
             //and use useStyle 5 for staffs or guns
-            item.useStyle = ItemUseStyleID.SwingThrow; // 1 is the useStyle
+            Item.useStyle = ItemUseStyleID.Swing; // 1 is the useStyle
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
             recipe.AddIngredient(ItemID.Amethyst, 4);            
             
             recipe.AddTile(TileID.Hellforge);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("SlashProc"), 300);
+            target.AddBuff(Mod.Find<ModBuff>("SlashProc").Type, 300);
             var slashDamage = damage / 5;
             target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
         }

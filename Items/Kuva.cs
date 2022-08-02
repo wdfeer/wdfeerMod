@@ -15,28 +15,26 @@ namespace wfMod.Items
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 5;
-            item.value = Item.buyPrice(silver: 10);
-            item.maxStack = 99;
-            item.width = 32;
-            item.height = 32;
+            Item.rare = 5;
+            Item.value = Item.buyPrice(silver: 10);
+            Item.maxStack = 99;
+            Item.width = 32;
+            Item.height = 32;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofNight, 1);
             recipe.AddIngredient(ItemID.CursedFlame, 2);
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofNight, 1);
             recipe.AddIngredient(ItemID.Ichor, 2);
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

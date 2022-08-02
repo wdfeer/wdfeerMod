@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,22 +14,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.crit = 32;
-            item.knockBack = 5;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 36;
-            item.height = 54;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item5;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.rare = 2;
-            item.value = 6000;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 16f;
-            item.useAmmo = ItemID.WoodenArrow;
+            Item.damage = 15;
+            Item.crit = 32;
+            Item.knockBack = 5;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 36;
+            Item.height = 54;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item5;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.rare = 2;
+            Item.value = 6000;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = ItemID.WoodenArrow;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -36,23 +37,21 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SilverBow, 1);
             recipe.AddIngredient(ItemID.MeteoriteBar, 11);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TungstenBow, 1);
             recipe.AddIngredient(ItemID.MeteoriteBar, 11);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 4);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width - 4);
             if (proj.penetrate != -1) proj.penetrate++;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,22 +16,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 42;
-            item.crit = 8;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 36;
-            item.height = 15;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6.9f;
-            item.value = Item.buyPrice(gold: 33);
-            item.rare = 6;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<Projectiles.SimulorProj>();
-            item.shootSpeed = 16f;
+            Item.damage = 42;
+            Item.crit = 8;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 36;
+            Item.height = 15;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6.9f;
+            Item.value = Item.buyPrice(gold: 33);
+            Item.rare = 6;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<Projectiles.SimulorProj>();
+            Item.shootSpeed = 16f;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -48,14 +49,14 @@ namespace wfMod.Items.Weapons
             projs = new List<Projectiles.SimulorProj>();
             return false;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            sound = mod.GetSound("Sounds/SynoidSimulorSound").CreateInstance();
+            sound = Mod.GetSound("Sounds/SynoidSimulorSound").CreateInstance();
             sound.Pitch += Main.rand.NextFloat(-0.08f, 0.08f);
             Main.PlaySoundInstance(sound);
 
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
-            projs.Add(proj.modProjectile as Projectiles.SimulorProj);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width + 2);
+            projs.Add(proj.ModProjectile as Projectiles.SimulorProj);
             return false;
         }
     }

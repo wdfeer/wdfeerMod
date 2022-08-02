@@ -19,8 +19,8 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 4;
-            item.value = Item.buyPrice(gold: 4);
+            Item.rare = 4;
+            Item.value = Item.buyPrice(gold: 4);
         }
         const float fieldRadius = 450f;
         const float friendlyVelocityMult = 0.75f;
@@ -41,7 +41,7 @@ namespace wfMod.Items.Accessories
                 proj.velocity *= proj.friendly ? friendlyVelocityMult : hostileVelocityMult;
                 if (proj.friendly)
                 {
-                    proj.damage = (int)(proj.damage * (1 + (player.minionDamage * player.minionDamageMult - 1) * 0.5f));
+                    proj.damage = (int)(proj.damage * (1 + (player.GetDamage(DamageClass.Summon) * player.GetDamage(DamageClass.Summon) - 1) * 0.5f));
                 }
                 gProj.stasisFieldApplied = true;
             }

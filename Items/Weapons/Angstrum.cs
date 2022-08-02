@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,22 +16,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.crit = 12;
-            item.ranged = true;
-            item.width = 27;
-            item.height = 14;
-            item.scale = 1.3f;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = Item.sellPrice(gold: 1);
-            item.rare = 3;
-            item.autoReuse = false;
-            item.shoot = 10;
-            item.shootSpeed = 20f;
+            Item.damage = 45;
+            Item.crit = 12;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 27;
+            Item.height = 14;
+            Item.scale = 1.3f;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = 3;
+            Item.autoReuse = false;
+            Item.shoot = 10;
+            Item.shootSpeed = 20f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -44,26 +45,25 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 72;
-                item.useAnimation = 72;
+                Item.useTime = 72;
+                Item.useAnimation = 72;
             }
             else
             {
-                item.useTime = 30;
-                item.useAnimation = 30;
+                Item.useTime = 30;
+                Item.useAnimation = 30;
             }
             return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.PlatinumBar, 3);
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
@@ -72,7 +72,7 @@ namespace wfMod.Items.Weapons
 
                 for (int i = 0; i < 3; i++)
                 {
-                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.18f, item.width);
+                    var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.18f, Item.width);
                 }
             }
             else
@@ -80,7 +80,7 @@ namespace wfMod.Items.Weapons
                 pathToSound = "Sounds/PrismaAngstrumSound";
                 PlaySound(Main.rand.NextFloat(0, 0.1f));
 
-                var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.005f, item.width, SoundID.Item72.WithVolume(0.6f));
+                var proj = ShootWith(position, speedX, speedY, ModContent.ProjectileType<Projectiles.AngstrumProj>(), damage, knockBack, 0.005f, Item.width, SoundID.Item72.WithVolume(0.6f));
             }
             return false;
         }

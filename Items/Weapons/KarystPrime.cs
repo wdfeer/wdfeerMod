@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,38 +14,37 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 107;
-            item.crit = 20;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7;
-            item.value = Item.buyPrice();
-            item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Projectiles.KarystPrimeProj>();
-            item.autoReuse = true;
-            item.shootSpeed = 17f;
+            Item.damage = 107;
+            Item.crit = 20;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7;
+            Item.value = Item.buyPrice();
+            Item.rare = 6;
+            Item.shoot = ModContent.ProjectileType<Projectiles.KarystPrimeProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 17f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Karyst"));
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Karyst").Type);
             recipe.AddIngredient(ItemID.SoulofNight, 17);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
-            gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 20));
+            gProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 20));
             gProj.critMult = 1.1f;
 
             return false;

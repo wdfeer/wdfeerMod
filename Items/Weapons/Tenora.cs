@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -16,79 +17,78 @@ namespace wfMod.Items.Weapons
         int spooledFireRate => Main.rand.Next(5, 7);
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.crit = 24;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 10;
-            item.useTime = baseFireRate;
-            item.useAnimation = baseFireRate;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.9f;
-            item.value = Item.buyPrice(gold: 5);
-            item.rare = 5;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 15;
+            Item.crit = 24;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 10;
+            Item.useTime = baseFireRate;
+            Item.useAnimation = baseFireRate;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.9f;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = 5;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-0.5f, 0.2f);
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 70) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Megashark);
-            recipe.AddIngredient(mod.ItemType("Pandero"), 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Pandero").Type, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
         int lastShotTime = 0;
-        int timeSinceLastShot => Main.player[item.owner].GetModPlayer<wfPlayer>().longTimer - lastShotTime;
+        int timeSinceLastShot => Main.player[Item.playerIndexTheItemIsReservedFor].GetModPlayer<wfPlayer>().longTimer - lastShotTime;
         int spooledShots = 1;
         float spreadMult => 1f / (spooledShots <= 16 ? (float)Math.Sqrt(Math.Sqrt(spooledShots)) : spooledShots / 8);
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse != 2)
             {
-                item.autoReuse = true;
-                item.crit = 24;
+                Item.autoReuse = true;
+                Item.crit = 24;
                 if (lastShotTime == -1)
                 {
-                    item.useTime = baseFireRate;
-                    item.useAnimation = baseFireRate;
+                    Item.useTime = baseFireRate;
+                    Item.useAnimation = baseFireRate;
                 }
 
-                if (item.useTime > spooledFireRate)
+                if (Item.useTime > spooledFireRate)
                 {
-                    item.useTime -= 3;
-                    item.useAnimation -= 3;
-                    if (item.useTime < spooledFireRate)
+                    Item.useTime -= 3;
+                    Item.useAnimation -= 3;
+                    if (Item.useTime < spooledFireRate)
                     {
-                        item.useTime = spooledFireRate;
-                        item.useAnimation = spooledFireRate;
+                        Item.useTime = spooledFireRate;
+                        Item.useAnimation = spooledFireRate;
                     }
                 }
                 else if (timeSinceLastShot > 16)
                 {
-                    item.useTime += timeSinceLastShot / 3;
-                    item.useAnimation += timeSinceLastShot / 3;
-                    if (item.useTime > baseFireRate)
+                    Item.useTime += timeSinceLastShot / 3;
+                    Item.useAnimation += timeSinceLastShot / 3;
+                    if (Item.useTime > baseFireRate)
                     {
-                        item.useTime = baseFireRate;
-                        item.useAnimation = baseFireRate;
+                        Item.useTime = baseFireRate;
+                        Item.useAnimation = baseFireRate;
                     }
                 }
 
@@ -99,17 +99,17 @@ namespace wfMod.Items.Weapons
             }
             else
             {
-                item.crit = 30;
-                item.useTime = 44;
-                item.useAnimation = 44;
-                item.autoReuse = false;
+                Item.crit = 30;
+                Item.useTime = 44;
+                Item.useAnimation = 44;
+                Item.autoReuse = false;
 
                 lastShotTime = -1;
             }
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool secondary = player.altFunctionUse == 2;
 

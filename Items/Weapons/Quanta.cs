@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,22 +16,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.crit = 12;
-            item.magic = true;
-            item.width = 35;
-            item.height = 48;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Item.buyPrice(gold: 1);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MagnetSphereBolt;
-            item.shootSpeed = 16f;
-            item.mana = 3;
+            Item.damage = 7;
+            Item.crit = 12;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 35;
+            Item.height = 48;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.MagnetSphereBolt;
+            Item.shootSpeed = 16f;
+            Item.mana = 3;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -39,9 +41,9 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.mana = 24;
-                item.useTime = 40;
-                item.useAnimation = 40;
+                Item.mana = 24;
+                Item.useTime = 40;
+                Item.useAnimation = 40;
             }
             else
             {
@@ -51,39 +53,37 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SpaceGun, 2);
             recipe.AddIngredient(ItemID.ShadowScale, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SpaceGun, 2);
             recipe.AddIngredient(ItemID.TissueSample, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
                 for (int i = -1; i <= 1; i += 2)
                 {
                     Vector2 offset = Vector2.Normalize(new Vector2(speedY, -speedX)) * 20 * i + Vector2.Normalize(new Vector2(speedX, speedY)) * 52;
                     Vector2 pos = position + offset;
-                    Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * item.shootSpeed;
-                    var proj = ShootWith(pos, velocity.X, velocity.Y, mod.ProjectileType("QuantaProj"), damage, knockBack);
+                    Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * Item.shootSpeed;
+                    var proj = ShootWith(pos, velocity.X, velocity.Y, Mod.Find<ModProjectile>("QuantaProj").Type, damage, knockBack);
                     var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                     globalProj.critMult = 1.1f;
                     globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 24));
 
-                    Main.PlaySound(SoundID.Item91.WithPitchVariance(0.3f).WithVolume(0.33f), pos);
+                    SoundEngine.PlaySound(SoundID.Item91.WithPitchVariance(0.3f).WithVolume(0.33f), pos);
                 }
             else
             {
-                var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("QuantaAltProj"), damage * 7, knockBack, offset: 52, sound: SoundID.Item92);
+                var proj = ShootWith(position, speedX, speedY, Mod.Find<ModProjectile>("QuantaAltProj").Type, damage * 7, knockBack, offset: 52, sound: SoundID.Item92);
                 var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 globalProj.critMult = 1.1f;
                 globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 24));

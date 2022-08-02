@@ -6,7 +6,7 @@ namespace wfMod.Buffs
 {
     public class CarrierBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carrier");
             Description.SetDefault("Will fight and provide a permanent ammo reservation buff for you");

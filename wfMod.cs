@@ -20,7 +20,7 @@ namespace wfMod
     {
         public static wfMod mod;
         public static bool EximusesEnabled => ModContent.GetInstance<wfServerConfig>().eximusSpawn;
-        public override void PreUpdateEntities()
+        public override void PreUpdateEntities()/* tModPorter Note: Removed. Use ModSystem.PreUpdateEntities */
         {
             wfPlayer.thermiteRounds = false;
         }

@@ -10,37 +10,37 @@ namespace wfMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.alpha = 128;
-            projectile.friendly = true;
-            projectile.penetrate = 6;
-            projectile.scale = 1.6f;
-            projectile.timeLeft = 18;
-            projectile.rotation = 255f;
-            projectile.light = 0.2f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.alpha = 128;
+            Projectile.friendly = true;
+            Projectile.penetrate = 6;
+            Projectile.scale = 1.6f;
+            Projectile.timeLeft = 18;
+            Projectile.rotation = 255f;
+            Projectile.light = 0.2f;
         }
         public override void AI()
         {
-            if (projectile.timeLeft <= 16)
+            if (Projectile.timeLeft <= 16)
             {
-                projectile.alpha = 255 - projectile.timeLeft * 8;
+                Projectile.alpha = 255 - Projectile.timeLeft * 8;
             }
-            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 75, default(Color), 0.6f);
+            Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 226, 0f, 0f, 75, default(Color), 0.6f);
         }
         public override void Kill(int timeLeft)
         {
             // Smoke Dust spawn
             for (int i = 0; i < 16; i++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 75, default(Color), 1.2f);
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 226, 0f, 0f, 75, default(Color), 1.2f);
             }
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Random rand = new Random();
 
-            if (rand.Next(0, 100) <= Main.LocalPlayer.rangedCrit) crit = true; else crit = false;
+            if (rand.Next(0, 100) <= Main.LocalPlayer.GetCritChance(DamageClass.Ranged)) crit = true; else crit = false;
         }
     }
 }

@@ -1,5 +1,7 @@
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -14,51 +16,50 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 166;
-            item.crit = 10;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = 750000;
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.FalcorProj>();
-            item.shootSpeed = 18f;
+            Item.damage = 166;
+            Item.crit = 10;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.value = 750000;
+            Item.rare = 8;
+            Item.shoot = ModContent.ProjectileType<Projectiles.FalcorProj>();
+            Item.shootSpeed = 18f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);    
-            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            Recipe recipe = CreateRecipe();    
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
             
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         Projectile proj;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (proj != null && proj.active && proj.modProjectile is Projectiles.FalcorProj)
+            if (proj != null && proj.active && proj.ModProjectile is Projectiles.FalcorProj)
             {
                 var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.AddProcChance(new ProcChance(BuffID.Electrified, 100));
-                if (gProj.procChances.ContainsKey(mod.BuffType("SlashProc")))
-                    gProj.procChances[mod.BuffType("SlashProc")].chance = 0;
+                if (gProj.procChances.ContainsKey(Mod.Find<ModBuff>("SlashProc").Type))
+                    gProj.procChances[Mod.Find<ModBuff>("SlashProc").Type].chance = 0;
                 gProj.Explode(320);
                 proj.idStaticNPCHitCooldown = 4;
             }
             else
             {
                 proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
-                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 36));
-                Main.PlaySound(SoundID.Item1, position);
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 36));
+                SoundEngine.PlaySound(SoundID.Item1, position);
             }
 
             return false;

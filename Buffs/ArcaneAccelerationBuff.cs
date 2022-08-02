@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcaneAccelerationBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcane Acceleration");
             Description.SetDefault("+15% Fire Rate on non-melee weapons");

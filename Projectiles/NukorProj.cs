@@ -15,30 +15,30 @@ namespace wfMod.Projectiles
         wfGlobalProj globalProj;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.magic = true;
-            projectile.friendly = true;
-            projectile.extraUpdates = 100;
-            projectile.penetrate = 1;
-            projectile.maxPenetrate = 1;
-            projectile.timeLeft = 44;
-            projectile.hide = true;
+            globalProj = Projectile.GetGlobalProjectile<wfGlobalProj>();
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 100;
+            Projectile.penetrate = 1;
+            Projectile.maxPenetrate = 1;
+            Projectile.timeLeft = 44;
+            Projectile.hide = true;
 
-            projectile.localNPCHitCooldown = -1;
-            projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
         }
         public override void AI()
         {
             for (int num = 0; num < (chain ? 4 : 3); num++)
             {
-                Vector2 position2 = projectile.position;
-                position2 -= projectile.velocity * (num * 0.25f);
+                Vector2 position2 = Projectile.position;
+                position2 -= Projectile.velocity * (num * 0.25f);
                 int num353 = Dust.NewDust(position2, 1, 1, 162);
                 Main.dust[num353].position = position2;
-                Main.dust[num353].position.X += projectile.width / 2;
-                Main.dust[num353].position.Y += projectile.height / 2;
+                Main.dust[num353].position.X += Projectile.width / 2;
+                Main.dust[num353].position.Y += Projectile.height / 2;
                 Main.dust[num353].scale = Main.rand.Next(70, 110) * (chain ? 0.015f : 0.01f);
                 Dust dust = Main.dust[num353];
                 dust.velocity *= 0.2f;

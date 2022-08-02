@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,47 +15,45 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.crit = 31;
-            item.magic = true;
-            item.mana = 3;
-            item.width = 48;
-            item.height = 11;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Item.buyPrice(gold: 3);
-            item.rare = 4;
-            item.UseSound = SoundID.Item91.WithPitchVariance(-0.2f).WithVolume(0.6f);
-            item.autoReuse = true;
-            item.shoot = mod.ProjectileType("NukorProj");
-            item.shootSpeed = 16f;
+            Item.damage = 18;
+            Item.crit = 31;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 3;
+            Item.width = 48;
+            Item.height = 11;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = 4;
+            Item.UseSound = SoundID.Item91.WithPitchVariance(-0.2f).WithVolume(0.6f);
+            Item.autoReuse = true;
+            Item.shoot = Mod.Find<ModProjectile>("NukorProj").Type;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.Ichor, 8);
             recipe.AddIngredient(ItemID.MythrilBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.Ichor, 8);
             recipe.AddIngredient(ItemID.OrichalcumBar, 8);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width);
             proj.timeLeft = 60;
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.AddProcChance(new ProcChance(BuffID.Ichor, 13));

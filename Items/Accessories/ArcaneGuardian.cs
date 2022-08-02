@@ -18,10 +18,10 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = -12;
-            item.width = 32;
-            item.height = 32;
-            item.value = Item.buyPrice(gold: 4);
+            Item.rare = -12;
+            Item.width = 32;
+            Item.height = 32;
+            Item.value = Item.buyPrice(gold: 4);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

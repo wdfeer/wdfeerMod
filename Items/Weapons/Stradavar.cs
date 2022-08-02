@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -27,46 +29,45 @@ namespace wfMod.Items.Weapons
             switch (Mode)
             {
                 case 0:
-                    item.damage = 3;
-                    item.crit = 20;
-                    item.useTime = 6;
-                    item.useAnimation = 6;
-                    item.autoReuse = true;
+                    Item.damage = 3;
+                    Item.crit = 20;
+                    Item.useTime = 6;
+                    Item.useAnimation = 6;
+                    Item.autoReuse = true;
                     break;
                 default:
-                    item.damage = 12;
-                    item.crit = 24;
-                    item.useTime = 12;
-                    item.useAnimation = 12;
-                    item.autoReuse = false;
+                    Item.damage = 12;
+                    Item.crit = 24;
+                    Item.useTime = 12;
+                    Item.useAnimation = 12;
+                    Item.autoReuse = false;
                     break;
             }
 
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 40;
-            item.height = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2;
-            item.value = Item.buyPrice(gold: 6);
-            item.rare = 2;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 40;
+            Item.height = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2;
+            Item.value = Item.buyPrice(gold: 6);
+            Item.rare = 2;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Minishark, 1);
             recipe.AddIngredient(ItemID.Handgun, 1);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Mode == 0 && Main.rand.Next(0, 100) < 50) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -81,15 +82,15 @@ namespace wfMod.Items.Weapons
                 {
                     Mode++;
                     lastModeChange = player.GetModPlayer<wfPlayer>().longTimer;
-                    Main.PlaySound(SoundID.Unlock);
+                    SoundEngine.PlaySound(SoundID.Unlock);
                 }
                 return false;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (Mode == 0 ? 0.01f : 0.005f), item.width, SoundID.Item11);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, (Mode == 0 ? 0.01f : 0.005f), Item.width, SoundID.Item11);
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = 3;
 

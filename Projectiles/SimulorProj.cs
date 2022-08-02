@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -25,47 +26,47 @@ namespace wfMod.Projectiles
         }
         public override void SetDefaults()
         {
-            gProj = projectile.GetGlobalProjectile<wfGlobalProj>();
-            projectile.friendly = true;
-            projectile.height = 20;
-            projectile.width = 20;
-            projectile.timeLeft = baseTimeLeft;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.hide = true;
-            projectile.light = 0.7f;
+            gProj = Projectile.GetGlobalProjectile<wfGlobalProj>();
+            Projectile.friendly = true;
+            Projectile.height = 20;
+            Projectile.width = 20;
+            Projectile.timeLeft = baseTimeLeft;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.hide = true;
+            Projectile.light = 0.7f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (Collision.SolidTilesVersatile((int)projectile.Left.X, (int)projectile.Left.Y, (int)projectile.Right.X, (int)projectile.Right.Y))
-                projectile.velocity.X = -oldVelocity.X * 0.5f;
-            if (Collision.SolidTilesVersatile((int)projectile.Bottom.X, (int)projectile.Bottom.Y, (int)projectile.Top.X, (int)projectile.Top.Y))
-                projectile.velocity.Y = -oldVelocity.Y * 0.5f;
+            if (Collision.SolidTilesVersatile((int)Projectile.Left.X, (int)Projectile.Left.Y, (int)Projectile.Right.X, (int)Projectile.Right.Y))
+                Projectile.velocity.X = -oldVelocity.X * 0.5f;
+            if (Collision.SolidTilesVersatile((int)Projectile.Bottom.X, (int)Projectile.Bottom.Y, (int)Projectile.Top.X, (int)Projectile.Top.Y))
+                Projectile.velocity.Y = -oldVelocity.Y * 0.5f;
             return false;
         }
         public override void AI()
         {
-            if (projectile.timeLeft <= 8) Explode();
-            if (projectile.velocity.Length() > 0.1f) projectile.velocity -= Vector2.Normalize(projectile.velocity) * 0.2f;
+            if (Projectile.timeLeft <= 8) Explode();
+            if (Projectile.velocity.Length() > 0.1f) Projectile.velocity -= Vector2.Normalize(Projectile.velocity) * 0.2f;
             if (gProj.exploding)
                 return;
             #region Interaction between projectiles
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
-                if (!proj.active || !(proj.modProjectile is SimulorProj) || proj.GetGlobalProjectile<wfGlobalProj>().exploding) continue;
-                SimulorProj simulorProj = proj.modProjectile as SimulorProj;
+                if (!proj.active || !(proj.ModProjectile is SimulorProj) || proj.GetGlobalProjectile<wfGlobalProj>().exploding) continue;
+                SimulorProj simulorProj = proj.ModProjectile as SimulorProj;
                 if (simulorProj == this) continue;
-                float dist = (proj.position - projectile.position).Length();
+                float dist = (proj.position - Projectile.position).Length();
                 if (dist > 480f) continue;
-                if (dist > projectile.width / 2)
+                if (dist > Projectile.width / 2)
                 {
-                    projectile.velocity -= Vector2.Normalize(projectile.position - proj.position) * 100 / dist;
+                    Projectile.velocity -= Vector2.Normalize(Projectile.position - proj.position) * 100 / dist;
                 }
                 else
                 {
-                    if (proj.timeLeft > projectile.timeLeft)
+                    if (proj.timeLeft > Projectile.timeLeft)
                     {
                         // Increases damage of the surviving projectile by 20% of the projectile with the highest damage
                         if (!Explode(480, 100))
@@ -82,13 +83,13 @@ namespace wfMod.Projectiles
                             continue;
                         DamageMult *= 1.2f;
                         simulorProj.DamageMult *= 1.2f;
-                        projectile.timeLeft = baseTimeLeft;
-                        projectile.velocity *= 0.1f;
+                        Projectile.timeLeft = baseTimeLeft;
+                        Projectile.velocity *= 0.1f;
                     }
                 }
             }
             #endregion
-            wfMod.NewDustsCircleEdge(3, projectile.Center, projectile.width / 2, 206, (dust) =>
+            wfMod.NewDustsCircleEdge(3, Projectile.Center, Projectile.width / 2, 206, (dust) =>
             {
                 dust.velocity *= 0.5f;
                 dust.scale = 1.2f;
@@ -103,25 +104,25 @@ namespace wfMod.Projectiles
         {
             if (gProj.exploding) return false;
             gProj.Explode(radius);
-            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Electrified, electricityChance));
+            Projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(BuffID.Electrified, electricityChance));
             if (electricityChance != 30)
             {
-                projectile.knockBack = 0f;
+                Projectile.knockBack = 0f;
                 implosion = true;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (target.boss || target.type == NPCID.TargetDummy || (target.Center - projectile.Center).Length() > projectile.width) continue;
-                    target.velocity += Vector2.Normalize(projectile.Center - target.Center) * 6f;
+                    if (target.boss || target.type == NPCID.TargetDummy || (target.Center - Projectile.Center).Length() > Projectile.width) continue;
+                    target.velocity += Vector2.Normalize(Projectile.Center - target.Center) * 6f;
                 }
             }
 
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), projectile.position);
+            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.5f), Projectile.position);
             wfMod.NewDustsCustom(radius / 6, () =>
-                Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * projectile.width / (implosion ? 2 : 3), 226),
+                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * Projectile.width / (implosion ? 2 : 3), 226),
                 (dust) =>
                 {
-                    dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * (radius / 40f);
+                    dust.velocity = Vector2.Normalize(dust.position - Projectile.Center) * (radius / 40f);
                     if (implosion) dust.velocity *= -1.2f;
                 });
             return true;
@@ -134,7 +135,7 @@ namespace wfMod.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = (int)(damage * DamageMult);
-            if (Main.rand.Next(100) < Main.player[projectile.owner].rangedCrit)
+            if (Main.rand.Next(100) < Main.player[Projectile.owner].GetCritChance(DamageClass.Ranged))
                 crit = true;
             else crit = false;
         }

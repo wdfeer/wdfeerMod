@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,11 +11,11 @@ namespace wfMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.ThornChakram);
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 12;
+            Projectile.CloneDefaults(ProjectileID.ThornChakram);
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void Kill(int timeLeft)
@@ -22,9 +23,9 @@ namespace wfMod.Projectiles
             if (timeLeft <= 0)
             {
                 // Play explosion sound
-                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), projectile.position);
+                SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14), Projectile.position);
                 // Electricity Dust spawn
-                wfMod.NewDustsCircleFromCenter(projectile.width / 3, projectile.Center, projectile.width / 2, 226, 1f);
+                wfMod.NewDustsCircleFromCenter(Projectile.width / 3, Projectile.Center, Projectile.width / 2, 226, 1f);
             }
         }
     }

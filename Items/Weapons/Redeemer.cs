@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -16,42 +17,41 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/RedeemerPrimeSound";
-            item.damage = 17;
-            item.crit = 10;
-            item.melee = true;
-            item.noMelee = true;
-            item.width = 48;
-            item.height = 24;
-            item.scale = 1f;
-            item.useTime = 72;
-            item.useAnimation = 72;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3;
-            item.value = 15000;
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 16f;
+            Item.damage = 17;
+            Item.crit = 10;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.width = 48;
+            Item.height = 24;
+            Item.scale = 1f;
+            Item.useTime = 72;
+            Item.useAnimation = 72;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 3;
+            Item.value = 15000;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddRecipeGroup("IronBar", 18);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(0f, 0.16f), 0.4f);
 
             for (int i = 0; i < 6; i++)
             {
-                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f, item.width);
-                projectile.ranged = false;
-                projectile.melee = true;
+                var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.14f, Item.width);
+                projectile.ranged = false/* tModPorter Suggestion: Remove. See Item.DamageType */;
+                projectile.DamageType = DamageClass.Melee;
                 var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
                 gProj.initialPosition = projectile.position;
                 gProj.falloffStartDist = 300;

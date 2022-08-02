@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,53 +15,51 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 69;
-            item.crit = 16;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = 750000;
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.OrviusProj>();
-            item.shootSpeed = 19f;
+            Item.damage = 69;
+            Item.crit = 16;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.value = 750000;
+            Item.rare = 4;
+            Item.shoot = ModContent.ProjectileType<Projectiles.OrviusProj>();
+            Item.shootSpeed = 19f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar, 8);
-            recipe.AddIngredient(mod.ItemType("Kuva"), 3);
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 3);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar, 8);
-            recipe.AddIngredient(mod.ItemType("Kuva"), 3);
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 3);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         Projectile proj;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (proj != null && proj.active && proj.modProjectile is Projectiles.OrviusProj)
+            if (proj != null && proj.active && proj.ModProjectile is Projectiles.OrviusProj)
             {
-                (proj.modProjectile as Projectiles.OrviusProj).Explode();
+                (proj.ModProjectile as Projectiles.OrviusProj).Explode();
             }
             else
             {
                 proj = ShootWith(position, speedX, speedY, type, damage, knockBack);
                 proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().critMult = 1.1f;
-                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 20));
-                Main.PlaySound(SoundID.Item1, position);
+                proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 20));
+                SoundEngine.PlaySound(SoundID.Item1, position);
             }
 
             return false;

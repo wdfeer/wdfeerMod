@@ -6,7 +6,7 @@ namespace wfMod.Buffs
 {
     public class DjinnBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Djinn");
             Description.SetDefault("Djinn will shoot toxic darts at enemies");

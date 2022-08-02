@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -12,69 +13,69 @@ namespace wfMod.Items.Weapons
         {
             Tooltip.SetDefault("Quickly shoots high-velocity bullets after a short spool-up\nDouble stack to increase fire rate at the cost of accuraccy\n-20% Critical Damage\n40% Chance not to consume ammo");
         }
-        bool dualWield => item.stack == 2;
+        bool dualWield => Item.stack == 2;
         int baseUseTime = 15;
         int spooledUseTime => dualWield ? 5 : 8;
         public override void SetDefaults()
         {
             pathToSound = "Sounds/SupraVandalSound";
-            item.damage = 10;
-            item.crit = 2;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 14;
-            item.useTime = baseUseTime;
-            item.useAnimation = baseUseTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.8f;
-            item.value = Item.buyPrice(gold: 4);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
-            item.maxStack = 2;
+            Item.damage = 10;
+            Item.crit = 2;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 14;
+            Item.useTime = baseUseTime;
+            Item.useAnimation = baseUseTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.8f;
+            Item.value = Item.buyPrice(gold: 4);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.maxStack = 2;
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-1, 0);
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 40) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
-            if (item.useTime > spooledUseTime)
+            if (Item.useTime > spooledUseTime)
             {
-                item.useTime -= Main.rand.Next(2, 3);
-                item.useAnimation = item.useTime;
-                if (item.useTime < spooledUseTime)
+                Item.useTime -= Main.rand.Next(2, 3);
+                Item.useAnimation = Item.useTime;
+                if (Item.useTime < spooledUseTime)
                 {
-                    item.useTime = spooledUseTime;
-                    item.useAnimation = spooledUseTime;
+                    Item.useTime = spooledUseTime;
+                    Item.useAnimation = spooledUseTime;
                 }
             }
             else if (timeSinceLastShot > spooledUseTime * 2)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > baseUseTime)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > baseUseTime)
                 {
-                    item.useTime = baseUseTime;
-                    item.useAnimation = baseUseTime;
+                    Item.useTime = baseUseTime;
+                    Item.useAnimation = baseUseTime;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(0.1f, 0.3f), 0.75f);
 

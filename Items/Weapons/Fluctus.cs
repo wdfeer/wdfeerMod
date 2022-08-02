@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -14,23 +15,23 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.crit = 18;
-            item.ranged = true;
-            item.width = 91;
-            item.height = 96;
-            item.scale = 0.8f;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7;
-            item.value = Item.buyPrice(gold: 13);
-            item.rare = 9;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item38.WithVolume(0.4f);
-            item.shoot = ModContent.ProjectileType<Projectiles.FluctusProj>();
-            item.shootSpeed = 30f;
+            Item.damage = 90;
+            Item.crit = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 91;
+            Item.height = 96;
+            Item.scale = 0.8f;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7;
+            Item.value = Item.buyPrice(gold: 13);
+            Item.rare = 9;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item38.WithVolume(0.4f);
+            Item.shoot = ModContent.ProjectileType<Projectiles.FluctusProj>();
+            Item.shootSpeed = 30f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -38,24 +39,23 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.InfluxWaver);
             recipe.AddIngredient(ItemID.ShroomiteBar, 16);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 spawnOffset = new Vector2(speedX, speedY);
             spawnOffset.Normalize();
-            spawnOffset *= item.width;
+            spawnOffset *= Item.width;
             position += spawnOffset;
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.LocalPlayer.cHead);
             var projectile = Main.projectile[proj];
-            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 16));
+            projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 16));
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;
 

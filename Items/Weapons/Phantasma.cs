@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,22 +16,22 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 44;
-            item.crit = 0;
-            item.magic = true;
-            item.width = 40;
-            item.height = 23;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Item.buyPrice(gold: 4);
-            item.rare = 8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.PhantasmaProj>();
-            item.shootSpeed = 16f;
-            item.mana = 5;
+            Item.damage = 44;
+            Item.crit = 0;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 40;
+            Item.height = 23;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = Item.buyPrice(gold: 4);
+            Item.rare = 8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Projectiles.PhantasmaProj>();
+            Item.shootSpeed = 16f;
+            Item.mana = 5;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -39,33 +41,33 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.mana = 22;
-                item.useTime = 30;
-                item.useAnimation = 30;
+                Item.mana = 22;
+                Item.useTime = 30;
+                Item.useAnimation = 30;
             }
             else
             {
-                item.mana = 5;
-                item.useTime = 5;
-                item.useAnimation = 5;
+                Item.mana = 5;
+                Item.useTime = 5;
+                Item.useAnimation = 5;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
                 damage *= 6;
                 speedX *= 0.9f;
                 speedY *= 0.9f;
-                type = mod.ProjectileType("PhantasmaProj2");
+                type = Mod.Find<ModProjectile>("PhantasmaProj2").Type;
 
-                Main.PlaySound(SoundID.Item117.WithVolume(0.6f), position);
+                SoundEngine.PlaySound(SoundID.Item117.WithVolume(0.6f), position);
             }
             else
             {
-                Main.PlaySound(SoundID.Item72.WithPitchVariance(-0.2f).WithVolume(0.4f), position);
+                SoundEngine.PlaySound(SoundID.Item72.WithPitchVariance(-0.2f).WithVolume(0.4f), position);
             }
 
             Vector2 spawnOffset = new Vector2(speedX, speedY);
@@ -82,11 +84,10 @@ namespace wfMod.Items.Weapons
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SpectreBar, 9);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

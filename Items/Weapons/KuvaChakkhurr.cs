@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,23 +16,23 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 113;
-            item.crit = 46;
-            item.ranged = true;
-            item.width = 32;
-            item.height = 10;
-            item.scale = 1.7f;
-            item.useTime = 51;
-            item.useAnimation = 51;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 10;
-            item.value = Item.buyPrice(gold: 7);
-            item.rare = 5;
-            item.autoReuse = false;
-            item.shootSpeed = 20f;
-            item.shoot = 10;
-            item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
+            Item.damage = 113;
+            Item.crit = 46;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 32;
+            Item.height = 10;
+            Item.scale = 1.7f;
+            Item.useTime = 51;
+            Item.useAnimation = 51;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 10;
+            Item.value = Item.buyPrice(gold: 7);
+            Item.rare = 5;
+            Item.autoReuse = false;
+            Item.shootSpeed = 20f;
+            Item.shoot = 10;
+            Item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
         public override Vector2? HoldoutOffset()
         {
@@ -38,28 +40,26 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar, 8);
-            recipe.AddIngredient(mod.ItemType("Kuva"), 5);
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 5);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar, 8);
-            recipe.AddIngredient(mod.ItemType("Kuva"), 5);
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 5);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            sound = mod.GetSound("Sounds/KuvaChakkhurrSound").CreateInstance();
+            sound = Mod.GetSound("Sounds/KuvaChakkhurrSound").CreateInstance();
             sound.Volume = 0.5f;
             sound.Pitch += Main.rand.NextFloat(-0.1f, 0.1f);
             sound.Play();
 
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width * item.scale + 2);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width * Item.scale + 2);
             proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().onTileCollide = () =>
             {
                 if (proj.GetGlobalProjectile<Projectiles.wfGlobalProj>().exploding) return;
@@ -71,7 +71,7 @@ namespace wfMod.Items.Weapons
             {
                 if (p.GetGlobalProjectile<Projectiles.wfGlobalProj>().exploding)
                 {
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.4f), p.position);
+                    SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.4f), p.position);
                     // Smoke Dust spawn
                     for (int i = 0; i < 50; i++)
                     {

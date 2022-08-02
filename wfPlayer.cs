@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -92,13 +93,13 @@ namespace wfMod
 
             slashProc = false;
         }
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
         {
             return new TagCompound {
                 {"napalmGrenades", napalmGrenades}
             };
         }
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             napalmGrenades = tag.GetBool("napalmGrenades");
         }
@@ -112,9 +113,9 @@ namespace wfMod
 
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
         {
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write((byte)wfMessageType.SyncPlayer);
-            packet.Write((byte)player.whoAmI);
+            packet.Write((byte)Player.whoAmI);
             packet.Write(napalmGrenades);
             packet.Send(toWho, fromWho);
         }
@@ -126,9 +127,9 @@ namespace wfMod
             if (clone.napalmGrenades != napalmGrenades)
             {
                 // Send a Mod Packet with the changes.
-                var packet = mod.GetPacket();
+                var packet = Mod.GetPacket();
                 packet.Write((byte)wfMessageType.NapalmGrenadesChanged);
-                packet.Write((byte)player.whoAmI);
+                packet.Write((byte)Player.whoAmI);
                 packet.Write(napalmGrenades);
                 packet.Send();
             }
@@ -137,20 +138,20 @@ namespace wfMod
         {
             if (slashProc)
             {
-                if (player.lifeRegen > 0)
+                if (Player.lifeRegen > 0)
                 {
-                    player.lifeRegen = 0;
+                    Player.lifeRegen = 0;
                 }
-                player.lifeRegen -= slashProcs * 2;
+                Player.lifeRegen -= slashProcs * 2;
             }
             else slashProcs = 0;
 
-            if (!player.HasBuff(mod.BuffType("BerserkerBuff"))) BerserkerProcs = 0;
-            if (!player.HasBuff(mod.BuffType("ArcaSciscoBuff")))
+            if (!Player.HasBuff(Mod.Find<ModBuff>("BerserkerBuff").Type)) BerserkerProcs = 0;
+            if (!Player.HasBuff(Mod.Find<ModBuff>("ArcaSciscoBuff").Type))
             {
                 if (arcaSciscoStacks > 1)
                 {
-                    player.AddBuff(mod.BuffType("ArcaSciscoBuff"), 180);
+                    Player.AddBuff(Mod.Find<ModBuff>("ArcaSciscoBuff").Type, 180);
                     arcaSciscoStacks--;
                 }
                 else arcaSciscoStacks = 0;
@@ -160,8 +161,8 @@ namespace wfMod
         {
             if (aviator)
             {
-                player.UpdateTouchingTiles();
-                if (!player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
+                Player.UpdateTouchingTiles();
+                if (!Player.TouchedTiles.Any()) damage = (int)(damage * 0.75f);
             }
 
             return true;
@@ -170,11 +171,11 @@ namespace wfMod
         {
             if (avenger && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 35)
             {
-                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneAvengerBuff").Type, 720);
             }
             if (guardian && damage > 4 && !npc.SpawnedFromStatue && Main.rand.Next(100) < 35)
             {
-                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneGuardianBuff").Type, 1200);
             }
 
             if (npc.HasBuff(BuffID.Weak)) damage = (int)(damage * (npc.boss ? 0.88f : 0.8f));
@@ -183,11 +184,11 @@ namespace wfMod
         {
             if (avenger && damage > 4 && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneAvengerBuff"), 720);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneAvengerBuff").Type, 720);
             }
             if (guardian && damage > 4 && Main.rand.Next(100) < 21)
             {
-                player.AddBuff(mod.BuffType("ArcaneGuardianBuff"), 1200);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneGuardianBuff").Type, 1200);
             }
 
             if (proj.owner <= Main.npc.Length && proj.owner >= 0)
@@ -199,14 +200,14 @@ namespace wfMod
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (quickThink && !player.HasBuff(BuffID.ManaSickness))
+            if (quickThink && !Player.HasBuff(BuffID.ManaSickness))
             {
-                if (player.statMana > damage * 8)
+                if (Player.statMana > damage * 8)
                 {
-                    player.statMana -= (int)(damage * 8);
+                    Player.statMana -= (int)(damage * 8);
                     return false;
                 }
-                else player.statMana = 0;
+                else Player.statMana = 0;
             }
             return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
@@ -232,23 +233,23 @@ namespace wfMod
             }
             if (berserker && crit)
             {
-                player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
+                Player.AddBuff(Mod.Find<ModBuff>("BerserkerBuff").Type, 360);
                 BerserkerProcs++;
             }
             if (arcaneStrike && Main.rand.Next(100) < 15)
-                player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneStrikeBuff").Type, 1080);
 
             if (hunterMuni && crit)
-                tempProcChances.Add(new ProcChance(mod.BuffType("SlashProc"), 30, 360));
+                tempProcChances.Add(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 30, 360));
             if (internalBleed)
-                tempProcChances.Add(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
+                tempProcChances.Add(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, (int)(30f * (knockback / 20f)), 240));
             #region Procs
             foreach (var procChance in procChances)
             {
                 var proc = procChance.Value;
                 if (proc.Proc(target))
                 {
-                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    if (proc.buffID == Mod.Find<ModBuff>("SlashProc").Type)
                     {
                         int slashDamage = damage / 5;
                         target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
@@ -265,7 +266,7 @@ namespace wfMod
             {
                 if (proc.Proc(target))
                 {
-                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    if (proc.buffID == Mod.Find<ModBuff>("SlashProc").Type)
                     {
                         int slashDamage = damage / 5;
                         target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
@@ -285,7 +286,7 @@ namespace wfMod
         {
             if (proj.minion && ModContent.GetInstance<wfServerConfig>().minionCrits)
             {
-                int[] cc = { player.meleeCrit, player.magicCrit, player.rangedCrit };
+                int[] cc = { Player.GetCritChance(DamageClass.Generic), Player.GetCritChance(DamageClass.Magic), Player.GetCritChance(DamageClass.Ranged) };
                 if (Main.rand.Next(100) < cc.Min()) crit = true;
                 else crit = false;
             }
@@ -309,21 +310,21 @@ namespace wfMod
                 float defMult = Main.expertMode ? 0.75f : 0.5f;
                 damage += (int)(target.defense * defMult * 0.18f);
             }
-            if (berserker && proj.melee && crit)
+            if (berserker && proj.CountsAsClass(DamageClass.Melee) && crit)
             {
-                player.AddBuff(mod.BuffType("BerserkerBuff"), 360);
+                Player.AddBuff(Mod.Find<ModBuff>("BerserkerBuff").Type, 360);
                 BerserkerProcs++;
             }
             if (argonScope && (Vector2.Normalize(target.velocity) + Vector2.Normalize(proj.velocity)).Length() < 0.4f)
-                player.AddBuff(mod.BuffType("ArgonScopeBuff"), 541);
+                Player.AddBuff(Mod.Find<ModBuff>("ArgonScopeBuff").Type, 541);
             if (arcaneStrike && Main.rand.Next(100) < 15)
-                player.AddBuff(mod.BuffType("ArcaneStrikeBuff"), 1080);
-            if (acceleration && crit && !proj.melee && Main.rand.Next(100) < 30)
-                player.AddBuff(mod.BuffType("ArcaneAccelerationBuff"), 540);
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneStrikeBuff").Type, 1080);
+            if (acceleration && crit && !proj.CountsAsClass(DamageClass.Melee) && Main.rand.Next(100) < 30)
+                Player.AddBuff(Mod.Find<ModBuff>("ArcaneAccelerationBuff").Type, 540);
         }
         public override float UseTimeMultiplier(Item item)
         {
-            if (item.noMelee && item.type != mod.ItemType("Opticor") && item.type != mod.ItemType("OpticorVandal"))
+            if (item.noMelee && item.type != Mod.Find<ModItem>("Opticor").Type && item.type != Mod.Find<ModItem>("OpticorVandal").Type)
                 return fireRateMult;
             return base.UseTimeMultiplier(item);
         }
@@ -341,7 +342,7 @@ namespace wfMod
         public Items.Weapons.wfWeapon burstItem;
         public override void PreUpdate()
         {
-            if (player.dead) return;
+            if (Player.dead) return;
             longTimer++;
             #region burst
             if (burstInterval != -1)
@@ -354,13 +355,13 @@ namespace wfMod
                         burstCount++;
                         burstTimer = 0;
 
-                        Vector2 posi = player.position + offsetP;
+                        Vector2 posi = Player.position + offsetP;
                         float x = speedXP;
                         float y = speedYP;
                         int t = typeP;
                         int dmg = damageP;
                         float kb = knockbackP;
-                        burstItem.Shoot(player, ref posi, ref x, ref y, ref t, ref dmg, ref kb);
+                        burstItem.Shoot(Player, ref posi, ref x, ref y, ref t, ref dmg, ref kb);
                     }
                 }
                 else
@@ -378,39 +379,39 @@ namespace wfMod
             if (!arcaneEnergize && !arcanePulse && !energyConversion) return;
             for (int i = 0; i < 400; i++)
             {
-                if (!Main.item[i].active || Main.item[i].noGrabDelay != 0 || Main.item[i].owner != this.player.whoAmI || !ItemLoader.CanPickup(Main.item[i], this.player))
+                if (!Main.item[i].active || Main.item[i].noGrabDelay != 0 || Main.item[i].playerIndexTheItemIsReservedFor != this.Player.whoAmI || !ItemLoader.CanPickup(Main.item[i], this.Player))
                 {
                     continue;
                 }
 
-                if (new Rectangle((int)this.player.position.X - 2, (int)this.player.position.Y - 2, this.player.width + 2, this.player.height + 2).Intersects(new Rectangle((int)Main.item[i].position.X, (int)Main.item[i].position.Y, Main.item[i].width, Main.item[i].height)))
+                if (new Rectangle((int)this.Player.position.X - 2, (int)this.Player.position.Y - 2, this.Player.width + 2, this.Player.height + 2).Intersects(new Rectangle((int)Main.item[i].position.X, (int)Main.item[i].position.Y, Main.item[i].width, Main.item[i].height)))
                 {
                     if ((Main.item[i].type == 184 || Main.item[i].type == 1735 || Main.item[i].type == 1868))
                     {
-                        if (energyConversion && !player.HasBuff(mod.BuffType("EnergyConversionBuff")))
+                        if (energyConversion && !Player.HasBuff(Mod.Find<ModBuff>("EnergyConversionBuff").Type))
                         {
-                            player.AddBuff(mod.BuffType("EnergyConversionBuff"), 3600);
+                            Player.AddBuff(Mod.Find<ModBuff>("EnergyConversionBuff").Type, 3600);
                         }
                         if (!Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized && arcaneEnergize)
                         {
                             if (wfMod.Roll(60))
                             {
-                                this.player.statMana += 100;
-                                this.player.ManaEffect(100);
-                                Main.PlaySound(SoundID.MenuTick);
+                                this.Player.statMana += 100;
+                                this.Player.ManaEffect(100);
+                                SoundEngine.PlaySound(SoundID.MenuTick);
                             }
 
                             Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized = true;
                         }
                     }
-                    else if ((Main.item[i].type == 58 || Main.item[i].type == 1734 || Main.item[i].type == 1867) && arcanePulse && !Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized && !this.player.HasBuff(mod.BuffType("ArcanePulseBuff")))
+                    else if ((Main.item[i].type == 58 || Main.item[i].type == 1734 || Main.item[i].type == 1867) && arcanePulse && !Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized && !this.Player.HasBuff(Mod.Find<ModBuff>("ArcanePulseBuff").Type))
                     {
                         if (Main.rand.Next(100) < 60)
                         {
-                            this.player.statLife += 40;
-                            this.player.HealEffect(40);
-                            this.player.AddBuff(mod.BuffType("ArcanePulseBuff"), 900);
-                            Main.PlaySound(SoundID.MenuTick);
+                            this.Player.statLife += 40;
+                            this.Player.HealEffect(40);
+                            this.Player.AddBuff(Mod.Find<ModBuff>("ArcanePulseBuff").Type, 900);
+                            SoundEngine.PlaySound(SoundID.MenuTick);
                         }
 
                         Main.item[i].GetGlobalItem<Items.wfGlobalItem>().energized = true;

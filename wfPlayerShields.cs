@@ -32,9 +32,9 @@ namespace wfMod
             if (shield > MaxShield)
                 shield = MaxShield;
 
-            if (immuneTimeNeedsToBeModified && player.immuneTime > 0)
+            if (immuneTimeNeedsToBeModified && Player.immuneTime > 0)
             {
-                player.immuneTime /= 2;
+                Player.immuneTime /= 2;
                 immuneTimeNeedsToBeModified = false;
             }
 
@@ -60,7 +60,7 @@ namespace wfMod
                 {
                     Vector2 pos = new Vector2((float)(distance * Math.Cos(radians)), (float)(distance * Math.Sin(radians)));
                     radians -= 2 * Math.PI / count * circlePortion;
-                    pos += player.Center;
+                    pos += Player.Center;
                     var dust = Dust.NewDustPerfect(pos, type);
                     dust.scale = scale * intensity;
                     return dust;
@@ -108,7 +108,7 @@ namespace wfMod
             (float damageToShield, int damageToHealth) = ModifyIncomingDamage(damage);
             shield -= damageToShield;
             if (damageToShield > 0)
-                CombatText.NewText(player.getRect(), Color.Cyan, (int)damageToShield);
+                CombatText.NewText(Player.getRect(), Color.Cyan, (int)damageToShield);
             damage = damageToHealth;
 
             onShieldsDamaged.ForEach(act => act(damageToShield, damageToHealth));

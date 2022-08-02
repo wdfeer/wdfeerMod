@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcaSciscoBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arca Scisco");
             Description.SetDefault("+5% Crit and Slash chance on the Arca Scisco");

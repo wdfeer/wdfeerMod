@@ -16,16 +16,16 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 4;
-            item.value = Item.buyPrice(gold: 2);
+            Item.rare = 4;
+            Item.value = Item.buyPrice(gold: 2);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             int critBoost = Main.hardMode ? 20 : 12;
-            player.magicCrit += critBoost;
-            player.meleeCrit += critBoost;
-            player.rangedCrit += critBoost;
+            player.GetCritChance(DamageClass.Magic) += critBoost;
+            player.GetCritChance(DamageClass.Generic) += critBoost;
+            player.GetCritChance(DamageClass.Ranged) += critBoost;
             player.GetModPlayer<wfPlayer>().fireRateMult -= 0.1f;
         }
     }

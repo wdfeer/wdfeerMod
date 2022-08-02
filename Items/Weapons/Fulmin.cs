@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -14,36 +15,35 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/FulminSound";
-            item.damage = 27;
-            item.crit = 26;
-            item.ranged = true;
-            item.width = 48;
-            item.height = 15;
-            item.useTime = 28;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8;
-            item.value = 15000;
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.FulminProj>();
-            item.shootSpeed = 36f;
+            Item.damage = 27;
+            Item.crit = 26;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 48;
+            Item.height = 15;
+            Item.useTime = 28;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8;
+            Item.value = 15000;
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Projectiles.FulminProj>();
+            Item.shootSpeed = 36f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(0, 0.15f), 0.6f);
 
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 2);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width - 2);
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.2f;
             globalProj.AddProcChance(new ProcChance(BuffID.Electrified, 16));

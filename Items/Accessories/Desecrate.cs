@@ -19,13 +19,13 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = ItemRarityID.Expert;
-            item.value = Item.sellPrice(gold: 9);
+            Item.rare = ItemRarityID.Expert;
+            Item.value = Item.sellPrice(gold: 9);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            item.rare = ItemRarityID.Expert;
+            Item.rare = ItemRarityID.Expert;
             player.GetModPlayer<wfPlayer>().desecrate = true;
         }
         public static void HurtByDesecration(Player player)

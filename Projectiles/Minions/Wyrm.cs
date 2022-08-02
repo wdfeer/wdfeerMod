@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -9,46 +10,46 @@ namespace wfMod.Projectiles.Minions
     public class Wyrm : ModProjectile
     {
         public override string Texture => "wfMod/Items/Weapons/Summon/Wyrm";
-        public int attackInterval => (int)(36f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
+        public int attackInterval => (int)(36f / Main.player[Projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int attackTimer = 0;
-        public int blastInterval => (int)(480f / Main.player[projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
+        public int blastInterval => (int)(480f / Main.player[Projectile.owner].GetModPlayer<wfPlayer>().fireRateMult);
         public int blastTimer = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wyrm Sentinel");
             // This is necessary for right-click targeting
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
             // These below are needed for a minion
             // Denotes that this projectile is a pet or minion
-            Main.projPet[projectile.type] = true;
+            Main.projPet[Projectile.type] = true;
             // This is needed so your minion can properly spawn when summoned and replaced when other minions are summoned
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             // Don't mistake this with "if this is true, then it will automatically home". It is just for damage reduction for certain NPCs
-            ProjectileID.Sets.Homing[projectile.type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
         }
 
         public sealed override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 32;
-            projectile.scale = 1f;
+            Projectile.width = 24;
+            Projectile.height = 32;
+            Projectile.scale = 1f;
             // Makes the minion go through tiles freely
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
 
             // These below are needed for a minion weapon
             // Only controls if it deals damage to enemies on contact (more on that later)
-            projectile.friendly = true;
+            Projectile.friendly = true;
             // Only determines the damage type
-            projectile.minion = true;
+            Projectile.minion = true;
             // Amount of slots this minion occupies from the total minion slots available to the player (more on that later)
-            projectile.minionSlots = 1f;
+            Projectile.minionSlots = 1f;
             // Needed so the minion doesn't despawn on collision with enemies or tiles
-            projectile.penetrate = -1;
+            Projectile.penetrate = -1;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
             #region Active check
             // This is the "active check", makes sure the minion is alive while the player is alive, and despawns if not
@@ -58,7 +59,7 @@ namespace wfMod.Projectiles.Minions
             }
             else if (player.HasBuff(ModContent.BuffType<Buffs.WyrmBuff>()))
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
             #endregion
 
@@ -68,21 +69,21 @@ namespace wfMod.Projectiles.Minions
 
             // If your minion doesn't aimlessly move around when it's idle, you need to "put" it into the line of other summoned minions
             // The index is projectile.minionPos
-            float minionPositionOffsetX = (10 + projectile.minionPos * 40) * -player.direction;
+            float minionPositionOffsetX = (10 + Projectile.minionPos * 40) * -player.direction;
             idlePosition.X += minionPositionOffsetX; // Go behind the player
 
             // All of this code below this line is adapted from Spazmamini code (ID 388, aiStyle 66)
 
             // Teleport to player if distance is too big
-            Vector2 vectorToIdlePosition = idlePosition - projectile.Center;
+            Vector2 vectorToIdlePosition = idlePosition - Projectile.Center;
             float distanceToIdlePosition = vectorToIdlePosition.Length();
             if (Main.myPlayer == player.whoAmI && distanceToIdlePosition > 2000f)
             {
                 // Whenever you deal with non-regular events that change the behavior or position drastically, make sure to only run the code on the owner of the projectile,
                 // and then set netUpdate to true
-                projectile.position = idlePosition;
-                projectile.velocity *= 0.1f;
-                projectile.netUpdate = true;
+                Projectile.position = idlePosition;
+                Projectile.velocity *= 0.1f;
+                Projectile.netUpdate = true;
             }
 
             // If your minion is flying, you want to do this independently of any conditions
@@ -91,13 +92,13 @@ namespace wfMod.Projectiles.Minions
             {
                 // Fix overlap with other minions
                 Projectile other = Main.projectile[i];
-                if (i != projectile.whoAmI && other.active && other.owner == projectile.owner && Math.Abs(projectile.position.X - other.position.X) + Math.Abs(projectile.position.Y - other.position.Y) < projectile.width)
+                if (i != Projectile.whoAmI && other.active && other.owner == Projectile.owner && Math.Abs(Projectile.position.X - other.position.X) + Math.Abs(Projectile.position.Y - other.position.Y) < Projectile.width)
                 {
-                    if (projectile.position.X < other.position.X) projectile.velocity.X -= overlapVelocity;
-                    else projectile.velocity.X += overlapVelocity;
+                    if (Projectile.position.X < other.position.X) Projectile.velocity.X -= overlapVelocity;
+                    else Projectile.velocity.X += overlapVelocity;
 
-                    if (projectile.position.Y < other.position.Y) projectile.velocity.Y -= overlapVelocity;
-                    else projectile.velocity.Y += overlapVelocity;
+                    if (Projectile.position.Y < other.position.Y) Projectile.velocity.Y -= overlapVelocity;
+                    else Projectile.velocity.Y += overlapVelocity;
                 }
             }
             #endregion
@@ -105,14 +106,14 @@ namespace wfMod.Projectiles.Minions
             #region Find target
             // Starting search distance
             float distanceFromTarget = 700f;
-            Vector2 targetCenter = projectile.position;
+            Vector2 targetCenter = Projectile.position;
             bool foundTarget = false;
 
             // This code is required if your minion weapon has the targeting feature
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                float between = Vector2.Distance(npc.Center, projectile.Center);
+                float between = Vector2.Distance(npc.Center, Projectile.Center);
                 // Reasonable distance away so it doesn't target across multiple screens
                 if (between < 2000f)
                 {
@@ -129,10 +130,10 @@ namespace wfMod.Projectiles.Minions
                     NPC npc = Main.npc[i];
                     if (npc.CanBeChasedBy())
                     {
-                        float between = Vector2.Distance(npc.Center, projectile.Center);
-                        bool closest = Vector2.Distance(projectile.Center, targetCenter) > between;
+                        float between = Vector2.Distance(npc.Center, Projectile.Center);
+                        bool closest = Vector2.Distance(Projectile.Center, targetCenter) > between;
                         bool inRange = between < distanceFromTarget;
-                        bool lineOfSight = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                        bool lineOfSight = Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height);
                         // Additional check for this specific minion behavior, otherwise it will stop attacking once it dashed through an enemy while flying though tiles afterwards
                         // The number depends on various parameters seen in the movement code below. Test different ones out until it works alright
                         bool closeThroughWall = between < 100f;
@@ -158,13 +159,13 @@ namespace wfMod.Projectiles.Minions
             if (foundTarget)
             {
                 // Minion has a target: attack (here, fly towards the enemy)
-                if (distanceFromTarget > 640f || (blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f) || !Collision.CanHitLine(projectile.Center, 1, 1, targetCenter, 1, 1))
+                if (distanceFromTarget > 640f || (blastTimer <= 0 && distanceFromTarget > 200f && (targetCenter - player.Center).Length() < 200f) || !Collision.CanHitLine(Projectile.Center, 1, 1, targetCenter, 1, 1))
                 {
                     // The immediate range around the target (so it doesn't latch onto it when close)
-                    Vector2 direction = targetCenter - projectile.Center;
+                    Vector2 direction = targetCenter - Projectile.Center;
                     direction.Normalize();
                     direction *= speed;
-                    projectile.velocity = (projectile.velocity * (inertia - 1) + direction) / inertia;
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1) + direction) / inertia;
                 }
                 else
                 {
@@ -203,42 +204,42 @@ namespace wfMod.Projectiles.Minions
                     // This is a simple movement formula using the two parameters and its desired direction to create a "homing" movement
                     vectorToIdlePosition.Normalize();
                     vectorToIdlePosition *= speed;
-                    projectile.velocity = (projectile.velocity * (inertia - 1) + vectorToIdlePosition) / inertia;
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1) + vectorToIdlePosition) / inertia;
                 }
-                else if (projectile.velocity == Vector2.Zero)
+                else if (Projectile.velocity == Vector2.Zero)
                 {
                     // If there is a case where it's not moving at all, give it a little "poke"
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
             #endregion
 
             #region Animation and visuals
             // So it will lean slightly towards the direction it's moving
-            projectile.rotation = projectile.velocity.X * 0.05f;
-            if (projectile.velocity.X < 0) projectile.spriteDirection = -1; else projectile.spriteDirection = 1;
+            Projectile.rotation = Projectile.velocity.X * 0.05f;
+            if (Projectile.velocity.X < 0) Projectile.spriteDirection = -1; else Projectile.spriteDirection = 1;
             // Some visuals here
-            Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.78f);
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.78f);
             #endregion
         }
         void Attack(Vector2 targetCenter)
         {
-            Main.PlaySound(SoundID.Item12, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item12, Projectile.position);
 
-            Vector2 projVelocity = Vector2.Normalize(targetCenter - projectile.Top) * 16;
+            Vector2 projVelocity = Vector2.Normalize(targetCenter - Projectile.Top) * 16;
             Vector2 spread = new Vector2(projVelocity.X, -projVelocity.Y);
-            var proj = Main.projectile[Projectile.NewProjectile(projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, projectile.damage, projectile.knockBack, projectile.owner)];
+            var proj = Main.projectile[Projectile.NewProjectile(Projectile.Top, projVelocity + spread * Main.rand.NextFloat(-0.06f, 0.06f), ProjectileID.LaserMachinegunLaser, Projectile.damage, Projectile.knockBack, Projectile.owner)];
             proj.tileCollide = false;
             proj.timeLeft = 60;
-            proj.ranged = false;
+            proj.ranged = false/* tModPorter Suggestion: Remove. See Item.DamageType */;
             proj.minion = true;
         }
         void AltAttack()
         {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.35f), projectile.position);
+            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithVolume(0.35f), Projectile.position);
 
-            var proj = Main.projectile[Projectile.NewProjectile(projectile.Center, Vector2.Zero, 0, projectile.damage, 20, projectile.owner)];
+            var proj = Main.projectile[Projectile.NewProjectile(Projectile.Center, Vector2.Zero, 0, Projectile.damage, 20, Projectile.owner)];
             proj.friendly = true;
             proj.usesLocalNPCImmunity = true;
             proj.localNPCHitCooldown = -1;

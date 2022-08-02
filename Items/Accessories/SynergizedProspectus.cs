@@ -20,8 +20,8 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 4, silver: 20);
+            Item.rare = 5;
+            Item.value = Item.buyPrice(gold: 4, silver: 20);
         }
         double timeWhenLastUpdated = -1;
         const int attackCooldown = 300;
@@ -56,7 +56,7 @@ namespace wfMod.Items.Accessories
                 Vector2 projVelocity = target.Center - element.Center;
                 projVelocity.Normalize();
                 projVelocity *= attackProjectileVelocity;
-                int projectile = Projectile.NewProjectile(element.Center, projVelocity, ProjectileID.DD2LightningBugZap, (int)(baseDamage * player.minionDamage * player.minionDamageMult), 1, player.whoAmI);
+                int projectile = Projectile.NewProjectile(element.Center, projVelocity, ProjectileID.DD2LightningBugZap, (int)(baseDamage * player.GetDamage(DamageClass.Summon) * player.GetDamage(DamageClass.Summon)), 1, player.whoAmI);
                 Projectile proj = Main.projectile[projectile];
                 proj.tileCollide = false;
                 proj.hostile = false;

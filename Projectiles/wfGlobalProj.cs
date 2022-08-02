@@ -103,8 +103,8 @@ namespace wfMod.Projectiles
                 }
             }
 
-            if (modPl.hunterMuni && crit) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 30, 240));
-            if (modPl.internalBleed) AddProcChance(new ProcChance(mod.BuffType("SlashProc"), (int)(30f * (knockback / 20f)), 240));
+            if (modPl.hunterMuni && crit) AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 30, 240));
+            if (modPl.internalBleed) AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, (int)(30f * (knockback / 20f)), 240));
             foreach (var keyValue in modPl.procChances)
             {
                 AddProcChance(keyValue.Value);
@@ -114,7 +114,7 @@ namespace wfMod.Projectiles
                 var proc = procChance.Value;
                 if (proc.Proc(target))
                 {
-                    if (proc.buffID == mod.BuffType("SlashProc"))
+                    if (proc.buffID == Mod.Find<ModBuff>("SlashProc").Type)
                     {
                         int slashDamage = (crit ? 2 : 1) * damage / 5;
                         target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
@@ -180,10 +180,10 @@ namespace wfMod.Projectiles
         void VsArcticEximusLogic(Projectile thisProj)
         {
             if (!thisProj.active || !thisProj.friendly || thisProj.damage <= 0) return;
-            Projectile[] arcticEximuses = Main.projectile.Where(x => x.modProjectile is ArcticEximus).ToArray();
+            Projectile[] arcticEximuses = Main.projectile.Where(x => x.ModProjectile is ArcticEximus).ToArray();
             foreach (var p in arcticEximuses)
             {
-                ArcticEximus arctic = p.modProjectile as ArcticEximus;
+                ArcticEximus arctic = p.ModProjectile as ArcticEximus;
                 if (arctic.CollidingWith(thisProj))
                 {
                     arctic.HitByProjectile(thisProj);

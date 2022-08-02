@@ -15,11 +15,11 @@ namespace wfMod.Items
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 8; 
-            item.value = Item.buyPrice(gold: 3);
-            item.maxStack = 99;
-            item.width = 32;
-            item.height = 32;
+            Item.rare = 8; 
+            Item.value = Item.buyPrice(gold: 3);
+            Item.maxStack = 99;
+            Item.width = 32;
+            Item.height = 32;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,35 +14,34 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 63;
-            item.crit = 26;
-            item.knockBack = 9;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 37;
-            item.height = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item61;
-            item.useTime = 56;
-            item.useAnimation = 56;
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 2, silver: 40);
-            item.shoot = mod.ProjectileType("TonkorProj");
-            item.shootSpeed = 17f;
-            item.useAmmo = ItemID.Grenade;
+            Item.damage = 63;
+            Item.crit = 26;
+            Item.knockBack = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 37;
+            Item.height = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item61;
+            Item.useTime = 56;
+            Item.useAnimation = 56;
+            Item.rare = 5;
+            Item.value = Item.buyPrice(gold: 2, silver: 40);
+            Item.shoot = Mod.Find<ModProjectile>("TonkorProj").Type;
+            Item.shootSpeed = 17f;
+            Item.useAmmo = ItemID.Grenade;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Tonkor"));
-            recipe.AddIngredient(mod.ItemType("Kuva"), 5);
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Tonkor").Type);
+            recipe.AddIngredient(Mod.Find<ModItem>("Kuva").Type, 5);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("TonkorProj"), damage, knockBack, offset: item.width + 2);
+            var proj = ShootWith(position, speedX, speedY, Mod.Find<ModProjectile>("TonkorProj").Type, damage, knockBack, offset: Item.width + 2);
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             return false;
         }

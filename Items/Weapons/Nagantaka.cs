@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,39 +15,37 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 54;
-            item.crit = 11;
-            item.ranged = true;
-            item.width = 42;
-            item.height = 19;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.9f;
-            item.value = Item.buyPrice(gold: 2);
-            item.rare = 5;
-            item.autoReuse = false;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Dart; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
+            Item.damage = 54;
+            Item.crit = 11;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 42;
+            Item.height = 19;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.9f;
+            Item.value = Item.buyPrice(gold: 2);
+            Item.rare = 5;
+            Item.autoReuse = false;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Dart; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar, 9);
             recipe.AddIngredient(ItemID.SoulofNight, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar, 9);
             recipe.AddIngredient(ItemID.SoulofNight, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -56,23 +55,23 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 63;
-                item.useAnimation = 63;
+                Item.useTime = 63;
+                Item.useAnimation = 63;
             }
             else
             {
-                item.useTime = 25;
-                item.useAnimation = 25;
+                Item.useTime = 25;
+                Item.useAnimation = 25;
             }
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float spreadMult = player.altFunctionUse == 2 ? 0.005f : 0.015f;
-            var projectile = ShootWith(position, speedX, speedY, type, player.altFunctionUse != 2 ? damage : (int)(damage * 0.8f), knockBack, spreadMult, 44, SoundID.Item98.WithVolume(0.8f), bursts: (player.altFunctionUse == 2 ? 5 : -1), burstInterval: (player.altFunctionUse == 2 ? item.useTime / 8 : -1));
+            var projectile = ShootWith(position, speedX, speedY, type, player.altFunctionUse != 2 ? damage : (int)(damage * 0.8f), knockBack, spreadMult, 44, SoundID.Item98.WithVolume(0.8f), bursts: (player.altFunctionUse == 2 ? 5 : -1), burstInterval: (player.altFunctionUse == 2 ? Item.useTime / 8 : -1));
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.15f;
-            globalProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 32));
+            globalProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 32));
 
             return false;
         }

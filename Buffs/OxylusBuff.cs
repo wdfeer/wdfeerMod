@@ -6,7 +6,7 @@ namespace wfMod.Buffs
 {
     public class OxylusBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oxylus");
             Description.SetDefault("Oxylus electrifies your foes for you! +33% Increased fishing power");

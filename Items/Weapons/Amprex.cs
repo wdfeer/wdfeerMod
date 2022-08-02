@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,43 +15,41 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 26;
-            item.crit = 28;
-            item.magic = true;
-            item.width = 45;
-            item.height = 10;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Item.buyPrice(gold: 5);
-            item.rare = 7;
-            item.UseSound = SoundID.Item93.WithPitchVariance(0f).WithVolume(0.1f);
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.AmprexProj>();
-            item.shootSpeed = 16f;
-            item.mana = 4;
+            Item.damage = 26;
+            Item.crit = 28;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 45;
+            Item.height = 10;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = 7;
+            Item.UseSound = SoundID.Item93.WithPitchVariance(0f).WithVolume(0.1f);
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Projectiles.AmprexProj>();
+            Item.shootSpeed = 16f;
+            Item.mana = 4;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar,14);
             recipe.AddIngredient(ItemID.Nanites, 16);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar,14);
             recipe.AddIngredient(ItemID.Nanites, 16);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var projectile = ShootWith(position,speedX,speedY,type,damage,knockBack, offset: 64, sound: SoundID.Item91.WithVolume(0.3f));
             var globalProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();

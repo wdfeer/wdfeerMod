@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +19,7 @@ namespace wfMod.NPCs
         int ArsonProj = 0;
         Projectile arsonProj => Main.projectile[ArsonProj];
         const int arcticTimer = 750;
-        Projectiles.ArcticEximus ArcticEximus => ArcticProj.modProjectile as Projectiles.ArcticEximus;
+        Projectiles.ArcticEximus ArcticEximus => ArcticProj.ModProjectile as Projectiles.ArcticEximus;
         Projectile ArcticProj;
         int abilityTimer = 0;
         public override void SetDefaults(NPC npc)
@@ -72,17 +73,17 @@ namespace wfMod.NPCs
                     if (abilityTimer >= arsonTimer)
                     {
                         abilityTimer = 0;
-                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArsonEximusProj"), Main.hardMode ? 18 : 3, 10f);
-                        Main.PlaySound(SoundID.Item20, npc.Center);
+                        ArsonProj = Projectile.NewProjectile(npc.Center, Vector2.Zero, Mod.Find<ModProjectile>("ArsonEximusProj").Type, Main.hardMode ? 18 : 3, 10f);
+                        SoundEngine.PlaySound(SoundID.Item20, npc.Center);
                         npc.velocity *= 0.2f;
                     }
                     break;
                 case EximusType.Arctic:
                     abilityTimer += DeltaAbilityTimer;
-                    if ((ArcticProj == null || !ArcticProj.active || ArcticProj.type != mod.ProjectileType("ArcticEximus")) && abilityTimer > arcticTimer)
+                    if ((ArcticProj == null || !ArcticProj.active || ArcticProj.type != Mod.Find<ModProjectile>("ArcticEximus").Type) && abilityTimer > arcticTimer)
                     {
                         abilityTimer = 0;
-                        ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("ArcticEximus"), 0, 0, ai0: npc.whoAmI)];
+                        ArcticProj = Main.projectile[Projectile.NewProjectile(npc.Center, Vector2.Zero, Mod.Find<ModProjectile>("ArcticEximus").Type, 0, 0, ai0: npc.whoAmI)];
                         ArcticEximus.parentNPC = npc;
                         ArcticEximus.Life = npc.life;
                         ArcticEximus.SetDefaultLife();
@@ -99,7 +100,7 @@ namespace wfMod.NPCs
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (ArcticProj != null && ArcticProj.active && ArcticProj.type == mod.ProjectileType("ArcticEximus")) damage /= 2;
+            if (ArcticProj != null && ArcticProj.active && ArcticProj.type == Mod.Find<ModProjectile>("ArcticEximus").Type) damage /= 2;
         }
     }
 }

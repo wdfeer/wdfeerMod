@@ -16,13 +16,13 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 2;
-            item.value = Item.buyPrice(gold: 4);
+            Item.rare = 2;
+            Item.value = Item.buyPrice(gold: 4);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamage += 0.07f;
+            player.GetDamage(DamageClass.Magic) += 0.07f;
             var shieldPl = player.GetModPlayer<wfPlayerShields>();
             shieldPl.consumedManaToShieldConversion += 0.05f;
         }

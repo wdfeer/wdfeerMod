@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcaneStrikeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcane Strike");
             Description.SetDefault("+18% Melee Speed");
@@ -15,7 +15,7 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeSpeed += 0.18f; 
+            player.GetAttackSpeed(DamageClass.Melee) += 0.18f; 
         }
     }
 }

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
@@ -15,38 +16,37 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 59;
-            item.crit = 10;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 64;
-            item.height = 14;
-            item.useTime = 5;
-            item.useAnimation = 5;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = 500000;
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MagnetSphereBolt;
-            item.shootSpeed = 16f;
+            Item.damage = 59;
+            Item.crit = 10;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 64;
+            Item.height = 14;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = 500000;
+            Item.rare = 10;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.MagnetSphereBolt;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Glaxion"), 1);
-            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Glaxion").Type, 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type);
             recipe.AddIngredient(ItemID.FragmentNebula, 8);
             recipe.AddTile(412);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         int shots = 0;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
@@ -58,16 +58,16 @@ namespace wfMod.Items.Weapons
                 switch (rand)
                 {
                     case 0:
-                        sound = mod.GetSound("Sounds/GlaxionLoop1").CreateInstance();
+                        sound = Mod.GetSound("Sounds/GlaxionLoop1").CreateInstance();
                         break;
                     case 1:
-                        sound = mod.GetSound("Sounds/GlaxionLoop2").CreateInstance();
+                        sound = Mod.GetSound("Sounds/GlaxionLoop2").CreateInstance();
                         break;
                     case 2:
-                        sound = mod.GetSound("Sounds/GlaxionLoop3").CreateInstance();
+                        sound = Mod.GetSound("Sounds/GlaxionLoop3").CreateInstance();
                         break;
                     default:
-                        sound = mod.GetSound("Sounds/GlaxionLoop4").CreateInstance();
+                        sound = Mod.GetSound("Sounds/GlaxionLoop4").CreateInstance();
                         break;
                 }
                 sound.Volume = 0.2f;
@@ -76,7 +76,7 @@ namespace wfMod.Items.Weapons
             }
             shots++;
 
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 2);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width + 2);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.onTileCollide = () =>
             {

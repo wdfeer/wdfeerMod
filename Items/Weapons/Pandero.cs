@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,38 +15,36 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 17;
-            item.crit = 26;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 17;
-            item.useTime = 20;
-            item.useAnimation = item.useTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.75f;
-            item.value = Item.buyPrice(gold: 2);
-            item.rare = 3;
-            item.autoReuse = false;
-            item.shoot = 10;
-            item.shootSpeed = 17f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 17;
+            Item.crit = 26;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 17;
+            Item.useTime = 20;
+            Item.useAnimation = Item.useTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.75f;
+            Item.value = Item.buyPrice(gold: 2);
+            Item.rare = 3;
+            Item.autoReuse = false;
+            Item.shoot = 10;
+            Item.shootSpeed = 17f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.FlintlockPistol);
             recipe.AddIngredient(ItemID.DemoniteBar, 7);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.FlintlockPistol);
             recipe.AddIngredient(ItemID.CrimtaneBar, 7);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -55,18 +54,18 @@ namespace wfMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 40;
-                item.useAnimation = 40;
+                Item.useTime = 40;
+                Item.useAnimation = 40;
             }
             else
             {
-                item.useTime = 20;
-                item.useAnimation = 20;
+                Item.useTime = 20;
+                Item.useAnimation = 20;
             }
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int bursts = -1;
             int burstInt = -1;

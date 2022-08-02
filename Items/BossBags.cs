@@ -20,16 +20,16 @@ namespace wfMod.Items
                     DropItem(player, new int[] { ModContent.ItemType<Sobek>(), ModContent.ItemType<Redirection>() });
                     break;
                 case ItemID.EaterOfWorldsBossBag when wfMod.Roll(40):
-                    DropItem(player, new int[] {ModContent.ItemType<Tetra>(), mod.ItemType("Vigor")});
+                    DropItem(player, new int[] {ModContent.ItemType<Tetra>(), Mod.Find<ModItem>("Vigor").Type});
                     break;
                 case ItemID.BrainOfCthulhuBossBag when wfMod.Roll(40):
-                    DropItem(player, new int[] { ModContent.ItemType<GorgonWraith>(), mod.ItemType("Vigor")});
+                    DropItem(player, new int[] { ModContent.ItemType<GorgonWraith>(), Mod.Find<ModItem>("Vigor").Type});
                     break;
                 case ItemID.QueenBeeBossBag when wfMod.Roll(33):
                     DropItem(player, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>() });
                     break;
                 case ItemID.SkeletronBossBag:
-                    DropItem(player, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>(), mod.ItemType("Desecrate") });
+                    DropItem(player, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>(), Mod.Find<ModItem>("Desecrate").Type });
                     break;
                 case ItemID.WallOfFleshBossBag when wfMod.Roll(33):
                     DropItem(player, new int[] { ModContent.ItemType<QuickThinking>(), ModContent.ItemType<EnergyConversion>() });

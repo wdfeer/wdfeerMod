@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,39 +16,37 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.crit = -2;
-            item.magic = true;
-            item.width = 32;
-            item.height = 24;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Item.buyPrice(silver: 45);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.NukorProj>();
-            item.shootSpeed = 16f;
-            item.mana = 2;
+            Item.damage = 7;
+            Item.crit = -2;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 32;
+            Item.height = 24;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0;
+            Item.value = Item.buyPrice(silver: 45);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Projectiles.NukorProj>();
+            Item.shootSpeed = 16f;
+            Item.mana = 2;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.DemoniteBar, 8);
             recipe.AddRecipeGroup("IronBar", 12);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.CrimtaneBar, 8);
             recipe.AddRecipeGroup("IronBar", 12);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
@@ -61,7 +60,7 @@ namespace wfMod.Items.Weapons
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
             return base.CanUseItem(player);
         }
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (timeSinceLastShot < 12)
             {
@@ -72,11 +71,11 @@ namespace wfMod.Items.Weapons
                 }
             }
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            spawnPosOffset = position + wfWeapon.findOffset(speedX, speedY, item.width + 1) - player.position;
+            spawnPosOffset = position + wfWeapon.findOffset(speedX, speedY, Item.width + 1) - player.position;
             spawnVelocity = new Vector2(speedX, speedY);
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width + 1);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width + 1);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.kill = (Projectile projectile, int timeLeft) =>
             {
@@ -86,7 +85,7 @@ namespace wfMod.Items.Weapons
 
             if (timeSinceLastShot > 12)
             {
-                sound = mod.GetSound("Sounds/KuvaNukorStartSound").CreateInstance();
+                sound = Mod.GetSound("Sounds/KuvaNukorStartSound").CreateInstance();
                 sound.Volume = 0.4f;
                 sound.Play();
             }
@@ -97,13 +96,13 @@ namespace wfMod.Items.Weapons
                 switch (rand)
                 {
                     case 0:
-                        sound = mod.GetSound("Sounds/KuvaNukorLoop1").CreateInstance();
+                        sound = Mod.GetSound("Sounds/KuvaNukorLoop1").CreateInstance();
                         break;
                     case 1:
-                        sound = mod.GetSound("Sounds/KuvaNukorLoop2").CreateInstance();
+                        sound = Mod.GetSound("Sounds/KuvaNukorLoop2").CreateInstance();
                         break;
                     default:
-                        sound = mod.GetSound("Sounds/KuvaNukorLoop3").CreateInstance();
+                        sound = Mod.GetSound("Sounds/KuvaNukorLoop3").CreateInstance();
                         break;
                 }
 

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -15,34 +16,34 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/BoarPrimeSound";
-            item.damage = 5;
-            item.crit = 7;
-            item.ranged = true;
-            item.width = 42;
-            item.height = 14;
-            item.scale = 1.2f;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = Item.sellPrice(silver: 80);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
+            Item.damage = 5;
+            Item.crit = 7;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 42;
+            Item.height = 14;
+            Item.scale = 1.2f;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = Item.sellPrice(silver: 80);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(6, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(0.3f, 0.6f), 0.69f);
             for (int i = 0; i < 4; i++)
             {
-                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.09f, item.width - 6);
+                var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, 0.09f, Item.width - 6);
             }
             return false;
         }

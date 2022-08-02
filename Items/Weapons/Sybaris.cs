@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,21 +14,21 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.crit = 21;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 46;
-            item.height = 14;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 2.4f;
-            item.value = Item.buyPrice(gold: 1, silver: 80);
-            item.rare = 2;
-            item.autoReuse = false;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 16f;
+            Item.damage = 25;
+            Item.crit = 21;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 46;
+            Item.height = 14;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 2.4f;
+            Item.value = Item.buyPrice(gold: 1, silver: 80);
+            Item.rare = 2;
+            Item.autoReuse = false;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -35,14 +36,13 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Musket);
             recipe.AddIngredient(ItemID.FlintlockPistol);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: 48, bursts: 2, burstInterval: 3, sound: SoundID.Item11,spreadMult: 0.008f);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();

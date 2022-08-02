@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,35 +14,34 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.crit = 8;
-            item.magic = true;
-            item.mana = 2;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 11;
-            item.height = 48;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4;
-            item.value = 750000;
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.RaktaDarkDaggerProj>();
-            item.autoReuse = true;
-            item.shootSpeed = 16f;
+            Item.damage = 24;
+            Item.crit = 8;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 2;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 11;
+            Item.height = 48;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4;
+            Item.value = 750000;
+            Item.rare = 4;
+            Item.shoot = ModContent.ProjectileType<Projectiles.RaktaDarkDaggerProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.MagicDagger, 1);
             recipe.AddIngredient(ItemID.SoulofNight, 16);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, sound: SoundID.Item1);
 

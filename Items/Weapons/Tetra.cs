@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,33 +16,33 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/TenetTetraPrimarySound";
-            item.damage = 21;
-            item.crit = 0;
-            item.mana = 6;
-            item.magic = true;
-            item.width = 40;
-            item.height = 14;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3;
-            item.value = Item.sellPrice(gold: 1);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
+            Item.damage = 21;
+            Item.crit = 0;
+            Item.mana = 6;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 40;
+            Item.height = 14;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = 3;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(2, 0);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float pitch = Main.rand.NextFloat(-0.1f, 0.1f);
             PlaySound(pitch);
 
-            var proj = ShootWith(position, speedX * 2.5f, speedY * 2.5f, ProjectileID.LaserMachinegunLaser, damage, knockBack, 0.04f, item.width);
+            var proj = ShootWith(position, speedX * 2.5f, speedY * 2.5f, ProjectileID.LaserMachinegunLaser, damage, knockBack, 0.04f, Item.width);
 
             return false;
         }

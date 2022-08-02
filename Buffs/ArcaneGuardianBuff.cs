@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcaneGuardianBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcane Guardian");
             Description.SetDefault("+11 Defense");

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -27,15 +28,15 @@ namespace wfMod.Items.Weapons
             return diff;
         }
         bool shootRight = true;
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             Vector2 diff = MousePlayerDiff(player);
             
             player.itemRotation = (float)(Math.Atan2(diff.Y, diff.X) + (shootRight ? 0 : Math.PI));
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            sound = mod.GetSound(soundPath).CreateInstance();
+            sound = Mod.GetSound(soundPath).CreateInstance();
             Main.PlaySoundInstance(sound);
 
             if (speedX < 0)
@@ -44,16 +45,16 @@ namespace wfMod.Items.Weapons
                 shootRight = true;
 
             Vector2 velocity = new Vector2(speedX, speedY);
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width);
             wfPlayer modPl = player.GetModPlayer<wfPlayer>();
             proj.timeLeft = getBaseProjTimeLeft();
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = critDmg;
-            OpticorProj modProj = proj.modProjectile as OpticorProj;
+            OpticorProj modProj = proj.ModProjectile as OpticorProj;
             modProj.owner = player;
             modProj.getPositionNearThePlayer = () => {
                 var diff = MousePlayerDiffNormalized(player);
-                return diff * item.width;
+                return diff * Item.width;
             };
             modProj.getBaseVelocity = () =>
             {

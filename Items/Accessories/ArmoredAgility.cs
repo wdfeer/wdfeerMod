@@ -16,19 +16,18 @@ namespace wfMod.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-            item.rare = 3;
-            item.value = Item.buyPrice(silver: 40);
+            Item.rare = 3;
+            Item.value = Item.buyPrice(silver: 40);
         }
 
         public override void AddRecipes()
         {
             // because we don't call base.AddRecipes(), we erase the previously defined recipe and can now make a different one
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Shackle, 1);
             recipe.AddIngredient(ItemID.AnkletoftheWind, 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

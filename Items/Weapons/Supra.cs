@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,67 +16,66 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/SupraVandalSound";
-            item.damage = 47;
-            item.crit = 8;
-            item.ranged = true;
-            item.width = 17;
-            item.height = 48;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2;
-            item.value = Item.buyPrice(gold: 5);
-            item.rare = 9;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MartianWalkerLaser;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 47;
+            Item.crit = 8;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 17;
+            Item.height = 48;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = 9;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.MartianWalkerLaser;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
         }
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) <= 69) return false;
-            return base.ConsumeAmmo(player);
+            return base.CanConsumeAmmo(player);
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.LaserMachinegun);
-            recipe.AddIngredient(mod.ItemType("Fieldron"), 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
         public override bool CanUseItem(Player player)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
-            if (item.useTime > 5)
+            if (Item.useTime > 5)
             {
-                item.useTime -= 3;
-                item.useAnimation -= 3;
-                if (item.useTime < 5)
+                Item.useTime -= 3;
+                Item.useAnimation -= 3;
+                if (Item.useTime < 5)
                 {
-                    item.useTime = 5;
-                    item.useAnimation = 5;
+                    Item.useTime = 5;
+                    Item.useAnimation = 5;
                 }
             }
             else if (timeSinceLastShot > 15)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > 16)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > 16)
                 {
-                    item.useTime = 16;
-                    item.useAnimation = 16;
+                    Item.useTime = 16;
+                    Item.useAnimation = 16;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var volume = 0.7f;
             var pitch = Main.rand.NextFloat(-0.05f, 0.1f);

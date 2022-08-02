@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArcaneAvengerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcane Avenger");
             Description.SetDefault("+45% Critical Chance");
@@ -15,9 +15,9 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.magicCrit += 45;
-            player.meleeCrit += 45;
-            player.rangedCrit += 45;
+            player.GetCritChance(DamageClass.Magic) += 45;
+            player.GetCritChance(DamageClass.Generic) += 45;
+            player.GetCritChance(DamageClass.Ranged) += 45;
         }
     }
 }

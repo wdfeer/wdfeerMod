@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,7 +10,7 @@ namespace wfMod.Buffs
     public class BerserkerBuff : ModBuff
     {
         Texture2D[] textures = new Texture2D[4];
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Berserker");
             Description.SetDefault("+7% Melee Speed");
@@ -23,8 +24,8 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeSpeed += (0.07f * player.GetModPlayer<wfPlayer>().BerserkerProcs);
-            Main.buffTexture[Type] = textures[player.GetModPlayer<wfPlayer>().BerserkerProcs - 1];
+            player.GetAttackSpeed(DamageClass.Melee) += (0.07f * player.GetModPlayer<wfPlayer>().BerserkerProcs);
+            TextureAssets.Buff[Type].Value = textures[player.GetModPlayer<wfPlayer>().BerserkerProcs - 1];
         }
 
         public override void ModifyBuffTip(ref string tip, ref int rare)

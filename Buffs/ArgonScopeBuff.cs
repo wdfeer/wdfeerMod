@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class ArgonScopeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Argon Scope");
             Description.SetDefault("+15% Critical Chance");
@@ -15,9 +15,9 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeCrit += 15;
-            player.magicCrit += 15;
-            player.rangedCrit += 15;
+            player.GetCritChance(DamageClass.Generic) += 15;
+            player.GetCritChance(DamageClass.Magic) += 15;
+            player.GetCritChance(DamageClass.Ranged) += 15;
         }
     }
 }

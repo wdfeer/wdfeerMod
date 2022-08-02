@@ -6,7 +6,7 @@ namespace wfMod.Buffs
 {
     public class TaxonBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Taxon");
             Description.SetDefault("Taxon will aid you by slowing your enemies");

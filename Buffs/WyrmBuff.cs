@@ -6,7 +6,7 @@ namespace wfMod.Buffs
 {
     public class WyrmBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wyrm");
             Description.SetDefault("Will periodically release a shockwave with high knockback when an enemy is nearby");

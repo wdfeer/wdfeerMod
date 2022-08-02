@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -14,41 +16,40 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 733;
-            item.crit = 18;
-            item.ranged = true;
-            item.width = 48;
-            item.height = 16;
-            item.useTime = 64;
-            item.useAnimation = 64;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7;
-            item.value = 180000;
-            item.rare = 10;
-            item.autoReuse = false;
-            item.shoot = 1;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Rocket;
+            Item.damage = 733;
+            Item.crit = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 48;
+            Item.height = 16;
+            Item.useTime = 64;
+            Item.useAnimation = 64;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7;
+            Item.value = 180000;
+            Item.rare = 10;
+            Item.autoReuse = false;
+            Item.shoot = 1;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Rocket;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Fieldron"), 2);
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type, 2);
             recipe.AddIngredient(ItemID.FragmentVortex, 11);
             recipe.AddTile(412);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Main.PlaySound(SoundID.Item61.WithVolume(0.4f));
-            sound = mod.GetSound("Sounds/FulminSound").CreateInstance();
+            SoundEngine.PlaySound(SoundID.Item61.WithVolume(0.4f));
+            sound = Mod.GetSound("Sounds/FulminSound").CreateInstance();
             sound.Volume = 0.3f;
             sound.Pitch += Main.rand.NextFloat(0, 0.1f);
             Main.PlaySoundInstance(sound);
 
-            var projectile = ShootWith(position, speedX, speedY, mod.ProjectileType("TenetEnvoyProj"), damage, knockBack, offset: item.width);
+            var projectile = ShootWith(position, speedX, speedY, Mod.Find<ModProjectile>("TenetEnvoyProj").Type, damage, knockBack, offset: Item.width);
             var gProj = projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.AddProcChance(new ProcChance(BuffID.Slow, 20));
             gProj.critMult = 1.3f;

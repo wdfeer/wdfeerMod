@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -16,44 +17,43 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/TenetArcaPlasmorSound";
-            item.damage = 697;
-            item.crit = 18;
-            item.magic = true;
-            item.mana = 12;
-            item.width = 48;
-            item.height = 16;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7;
-            item.value = 150000;
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ArcaPlasmorProj>();
-            item.shootSpeed = 30f;
+            Item.damage = 697;
+            Item.crit = 18;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
+            Item.width = 48;
+            Item.height = 16;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7;
+            Item.value = 150000;
+            Item.rare = 10;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Projectiles.ArcaPlasmorProj>();
+            Item.shootSpeed = 30f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
 
-            recipe.AddIngredient(mod.ItemType("ArcaPlasmor"), 1);
-            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            recipe.AddIngredient(Mod.Find<ModItem>("ArcaPlasmor").Type, 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type);
             recipe.AddIngredient(ItemID.FragmentNebula, 8);
 
             recipe.AddTile(412);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(-0.15f, 0.1f));
 
-            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width);
+            var projectile = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width);
             projectile.GetGlobalProjectile<Projectiles.wfGlobalProj>().AddProcChance(new ProcChance(31, 34));
             projectile.extraUpdates = 1;
             projectile.timeLeft = 44;
-            var modProj = projectile.modProjectile as Projectiles.ArcaPlasmorProj;
+            var modProj = projectile.ModProjectile as Projectiles.ArcaPlasmorProj;
             modProj.tenet = true;
             float rotation = Convert.ToSingle(-Math.Atan2(speedX, speedY));
             projectile.rotation = rotation;

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,23 +16,23 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/FerroxSound";
-            item.damage = 177;
-            item.crit = 28;
-            item.magic = true;
-            item.mana = 13;
-            item.width = 95;
-            item.height = 6;
-            item.scale = 1f;
-            item.useTime = 40;
-            item.useAnimation = 40;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4;
-            item.value = 50000;
-            item.rare = 7;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MagnetSphereBolt;
-            item.shootSpeed = 16f;
+            Item.damage = 177;
+            Item.crit = 28;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 13;
+            Item.width = 95;
+            Item.height = 6;
+            Item.scale = 1f;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4;
+            Item.value = 50000;
+            Item.rare = 7;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.MagnetSphereBolt;
+            Item.shootSpeed = 16f;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -39,19 +40,18 @@ namespace wfMod.Items.Weapons
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Nanites, 16);
             recipe.AddIngredient(ItemID.Gungnir, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var pitch = Main.rand.NextFloat(-0.1f, 0.1f);
             PlaySound(pitch);
 
-            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: item.width - 20);
+            var proj = ShootWith(position, speedX, speedY, type, damage, knockBack, offset: Item.width - 20);
             var globalProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             globalProj.critMult = 1.4f;
             proj.penetrate = 3;

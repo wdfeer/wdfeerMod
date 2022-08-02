@@ -5,7 +5,7 @@ namespace wfMod.Buffs
 {
     public class EnergyConversionBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Energy Conversion");
             Description.SetDefault("+100% Damage on the next magic cast");
@@ -15,7 +15,7 @@ namespace wfMod.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.magicDamageMult += 1f;
+            player.GetDamage(DamageClass.Magic) += 1f;
         }
     }
 }

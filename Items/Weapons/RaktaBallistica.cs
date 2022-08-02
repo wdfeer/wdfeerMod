@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -14,41 +15,40 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 4;
-            item.crit = 16;
-            item.ranged = true;
-            item.width = 30;
-            item.height = 32;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1;
-            item.value = Item.sellPrice(silver: 42);
-            item.rare = 2;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = false;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Arrow; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
+            Item.damage = 4;
+            Item.crit = 16;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 30;
+            Item.height = 32;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1;
+            Item.value = Item.sellPrice(silver: 42);
+            Item.rare = 2;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = false;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Arrow; // The "ammo Id" of the ammo item that this weapon uses. Note that this is not an item Id, but just a magic value.
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Ballistica"));
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Ballistica").Type);
             recipe.AddIngredient(ItemID.TissueSample, 17);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         float lastShotTime = 0;
         float timeSinceLastShot = 60;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             timeSinceLastShot = player.GetModPlayer<wfPlayer>().longTimer - lastShotTime;
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
-            float chargeMult = timeSinceLastShot / item.useTime;
+            float chargeMult = timeSinceLastShot / Item.useTime;
             if (chargeMult < 1)
                 chargeMult = 1;
             else if (chargeMult > 2)
@@ -56,7 +56,7 @@ namespace wfMod.Items.Weapons
 
             for (int i = 0; i < 4; i++)
             {
-                var proj = ShootWith(position, speedX, speedY, type, (int)(damage * chargeMult), knockBack, 0.069f / chargeMult, item.width);
+                var proj = ShootWith(position, speedX, speedY, type, (int)(damage * chargeMult), knockBack, 0.069f / chargeMult, Item.width);
                 proj.localNPCHitCooldown = -1;
                 proj.usesLocalNPCImmunity = true;
                 var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();

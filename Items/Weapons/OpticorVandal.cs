@@ -18,32 +18,31 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 900;
-            item.crit = 20;
-            item.magic = true;
-            item.mana = 42;
-            item.width = 48;
-            item.height = 16;
-            item.useTime = 76;
-            item.useAnimation = 76;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 20;
-            item.value = Item.buyPrice(gold: 15);
-            item.rare = 10;
-            item.autoReuse = false;
-            item.shoot = mod.ProjectileType("OpticorProj");
-            item.shootSpeed = 16f;
+            Item.damage = 900;
+            Item.crit = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 42;
+            Item.width = 48;
+            Item.height = 16;
+            Item.useTime = 76;
+            Item.useAnimation = 76;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 20;
+            Item.value = Item.buyPrice(gold: 15);
+            Item.rare = 10;
+            Item.autoReuse = false;
+            Item.shoot = Mod.Find<ModProjectile>("OpticorProj").Type;
+            Item.shootSpeed = 16f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Opticor"), 1);
-            recipe.AddIngredient(mod.ItemType("Fieldron"));
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(Mod.Find<ModItem>("Opticor").Type, 1);
+            recipe.AddIngredient(Mod.Find<ModItem>("Fieldron").Type);
             recipe.AddIngredient(ItemID.FragmentNebula, 12);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

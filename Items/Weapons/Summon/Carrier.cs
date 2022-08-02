@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace wfMod.Items.Weapons.Summon
@@ -11,37 +12,37 @@ namespace wfMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Carrier");
             Tooltip.SetDefault("Summons a Carrier Sentinel to fight and save ammo for you\nShoots 4 pellets once every second\nCan be affected by fire rate bonuses\nOnly one Carrier can be active at a time");
-            ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
-            ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
+            ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true; // This lets the player target anywhere on the whole screen while using a controller.
+            ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 8;
-            item.knockBack = 4f;
-            item.mana = 10;
-            item.width = 18;
-            item.height = 32;
-            item.noUseGraphic = true;
-            item.useTime = 36;
-            item.useAnimation = 36;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 3, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item44;
+            Item.damage = 8;
+            Item.knockBack = 4f;
+            Item.mana = 10;
+            Item.width = 18;
+            Item.height = 32;
+            Item.noUseGraphic = true;
+            Item.useTime = 36;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 3, 0, 0);
+            Item.rare = 2;
+            Item.UseSound = SoundID.Item44;
 
             // These below are needed for a minion weapon
-            item.noMelee = true;
-            item.summon = true;
-            item.buffType = ModContent.BuffType<Buffs.CarrierBuff>();
+            Item.noMelee = true;
+            Item.DamageType = DamageClass.Summon;
+            Item.buffType = ModContent.BuffType<Buffs.CarrierBuff>();
             // No buffTime because otherwise the item tooltip would say something like "1 minute duration"
-            item.shoot = ModContent.ProjectileType<Projectiles.Minions.Carrier>();
+            Item.shoot = ModContent.ProjectileType<Projectiles.Minions.Carrier>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.HasBuff(item.buffType)) return false;
-            player.AddBuff(item.buffType, 2);
+            if (player.HasBuff(Item.buffType)) return false;
+            player.AddBuff(Item.buffType, 2);
 
             position = Main.MouseWorld;
             return true;
@@ -49,19 +50,17 @@ namespace wfMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Boomstick, 1);
             recipe.AddIngredient(ItemID.DemoniteBar, 16);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Boomstick, 1);
             recipe.AddIngredient(ItemID.CrimtaneBar, 16);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

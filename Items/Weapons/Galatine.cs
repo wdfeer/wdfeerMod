@@ -14,37 +14,36 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.melee = true;
-            item.width = 58;
-            item.height = 58;
-            item.useTime = 48;
-            item.useAnimation = 48;
-            item.knockBack = 9;
-            item.value = Item.buyPrice(silver: 180);
-            item.rare = ItemRarityID.Orange;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.crit = 10;
-            item.scale = 1.1f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Melee/* tModPorter Suggestion: Consider MeleeNoSpeed for no attack speed scaling */;
+            Item.width = 58;
+            Item.height = 58;
+            Item.useTime = 48;
+            Item.useAnimation = 48;
+            Item.knockBack = 9;
+            Item.value = Item.buyPrice(silver: 180);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.crit = 10;
+            Item.scale = 1.1f;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
                        
             recipe.AddIngredient(ItemID.Muramasa);
             recipe.AddIngredient(ItemID.MeteoriteBar,8);
             
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("SlashProc"), 300);
+            target.AddBuff(Mod.Find<ModBuff>("SlashProc").Type, 300);
             var slashDamage = damage / 5;
             target.GetGlobalNPC<wfGlobalNPC>().AddStackableProc(ProcType.Slash, 300, slashDamage);
         }

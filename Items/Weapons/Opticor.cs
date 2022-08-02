@@ -13,7 +13,7 @@ namespace wfMod.Items.Weapons
         protected override string soundPath => "Sounds/OpticorSound";
         protected override int getBaseProjTimeLeft()
         {
-            var modPl = Main.player[item.owner].GetModPlayer<wfPlayer>();
+            var modPl = Main.player[Item.playerIndexTheItemIsReservedFor].GetModPlayer<wfPlayer>();
             return (int)(146 + 54 / modPl.fireRateMult);
         }
         public override void SetStaticDefaults()
@@ -22,38 +22,36 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 690;
-            item.crit = 16;
-            item.magic = true;
-            item.mana = 77;
-            item.width = 48;
-            item.height = 16;
-            item.useTime = 124;
-            item.useAnimation = 124;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 20;
-            item.value = Item.buyPrice(gold: 10);
-            item.rare = 4;
-            item.autoReuse = false;
-            item.shoot = mod.ProjectileType("OpticorProj");
-            item.shootSpeed = 16f;
+            Item.damage = 690;
+            Item.crit = 16;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 77;
+            Item.width = 48;
+            Item.height = 16;
+            Item.useTime = 124;
+            Item.useAnimation = 124;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 20;
+            Item.value = Item.buyPrice(gold: 10);
+            Item.rare = 4;
+            Item.autoReuse = false;
+            Item.shoot = Mod.Find<ModProjectile>("OpticorProj").Type;
+            Item.shootSpeed = 16f;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofSight, 7);
             recipe.AddIngredient(ItemID.TitaniumBar, 11);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
 
-            recipe = new ModRecipe(mod);
+            recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.SoulofSight, 7);
             recipe.AddIngredient(ItemID.AdamantiteBar, 11);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

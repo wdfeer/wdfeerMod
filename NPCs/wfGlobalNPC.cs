@@ -37,7 +37,7 @@ namespace wfMod
                     totalDamage += procs[i].type == ProcType.Electricity ? procs[i].dmg : 0;
                 damage += totalDamage;
             }
-            if (npc.HasBuff(mod.BuffType("SlashProc")))
+            if (npc.HasBuff(Mod.Find<ModBuff>("SlashProc").Type))
             {
                 int totalDamage = 0;
                 for (int i = 0; i < procs.Count; i++)
@@ -50,7 +50,7 @@ namespace wfMod
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             corrosion = (npc.HasBuff(BuffID.Electrified) && npc.HasBuff(BuffID.Poisoned)) || (npc.HasBuff(BuffID.Electrified) && npc.HasBuff(BuffID.Venom));
-            if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc"))))
+            if ((npc.HasBuff(BuffID.Electrified) || npc.HasBuff(Mod.Find<ModBuff>("SlashProc").Type)))
             {
                 npc.lifeRegen = 0;
                 stackableProcTickTimer++;
@@ -98,7 +98,7 @@ namespace wfMod
                     dust.noGravity = true;
                 }
             }
-            if (npc.HasBuff(BuffID.Electrified) || npc.HasBuff(mod.BuffType("SlashProc")))
+            if (npc.HasBuff(BuffID.Electrified) || npc.HasBuff(Mod.Find<ModBuff>("SlashProc").Type))
                 for (int i = 0; i < procs.Count; i++)
                     procs[i].Update();
 
@@ -172,7 +172,7 @@ namespace wfMod
         public int[] martianTypes = { NPCID.MartianDrone, NPCID.MartianEngineer, NPCID.MartianSaucerCore, NPCID.MartianTurret, NPCID.MartianOfficer, NPCID.MartianWalker };
         public int[] goblins = { NPCID.GoblinArcher, NPCID.GoblinSorcerer, NPCID.GoblinWarrior, NPCID.GoblinThief, NPCID.GoblinSummoner };
         public int heartDropChance = 0; //Percent
-        public override void NPCLoot(NPC npc)
+        public override void OnKill(NPC npc)
         {
             if (npc.SpawnedFromStatue) return;
 
@@ -221,7 +221,7 @@ namespace wfMod
                     DropItem(npc, ModContent.ItemType<GorgonWraith>());
                     break;
                 case NPCID.QueenBee when !Main.expertMode:
-                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>(), mod.ItemType("Vigor") });
+                    Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<Shred>(), ModContent.ItemType<Kohm>(), Mod.Find<ModItem>("Vigor").Type });
                     break;
                 case NPCID.SkeletronHead when !Main.expertMode && wfMod.Roll(40):
                     Drop1ItemAtRandom(npc, new int[] { ModContent.ItemType<InternalBleeding>(), ModContent.ItemType<Cestra>() });

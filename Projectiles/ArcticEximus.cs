@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace wfMod.Projectiles
             {
                 life = value;
                 if (life <= 0)
-                    projectile.timeLeft = 0;
+                    Projectile.timeLeft = 0;
             }
         }
         public void SetDefaultLife()
@@ -28,25 +29,25 @@ namespace wfMod.Projectiles
         {
             
 
-            projectile.damage = 0;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.width = 240;
-            projectile.height = 240;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 99999;
-            projectile.alpha = 90;
+            Projectile.damage = 0;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.width = 240;
+            Projectile.height = 240;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 99999;
+            Projectile.alpha = 90;
         }
         public NPC parentNPC;
         public override void AI()
         {
             if (parentNPC is null || !parentNPC.active)
             {
-                projectile.timeLeft = 0;
+                Projectile.timeLeft = 0;
                 return;
             }
-            projectile.Center = parentNPC.Center;
-            wfMod.NewDustsCircle(2, projectile.Center, projectile.width / 2, 51, (d) => { d.velocity *= 0; });
+            Projectile.Center = parentNPC.Center;
+            wfMod.NewDustsCircle(2, Projectile.Center, Projectile.width / 2, 51, (d) => { d.velocity *= 0; });
 
             iFramesTimer++;
         }
@@ -56,11 +57,11 @@ namespace wfMod.Projectiles
         {
             if (iFramesTimer < immunityFrames) return false;
 
-            float distance = (p.Center - projectile.Center).Length();
+            float distance = (p.Center - Projectile.Center).Length();
             var rect = p.getRect();
-            if (distance > rect.Width / 2 + projectile.width / 2) return false;
-            if (distance > rect.Height / 2 + projectile.width / 2) return false;
-            if (projectile.getRect().Intersects(rect))
+            if (distance > rect.Width / 2 + Projectile.width / 2) return false;
+            if (distance > rect.Height / 2 + Projectile.width / 2) return false;
+            if (Projectile.getRect().Intersects(rect))
             {
                 return true;
             }
@@ -68,7 +69,7 @@ namespace wfMod.Projectiles
         }
         public void HitByProjectile(Projectile thatProj)
         {
-            Main.PlaySound(SoundID.Item50, thatProj.Center);
+            SoundEngine.PlaySound(SoundID.Item50, thatProj.Center);
             if (thatProj.damage < Life)
             {
                 thatProj.velocity *= 0.8f;

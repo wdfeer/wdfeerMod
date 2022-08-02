@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -18,31 +19,30 @@ namespace wfMod.Items.Weapons
         public override void SetDefaults()
         {
             pathToSound = "Sounds/KuvaKohmSound";
-            item.damage = 21;
-            item.crit = 15;
-            item.ranged = true;
-            item.width = 47;
-            item.height = 16;
-            item.useTime = maxUseTime;
-            item.useAnimation = maxUseTime;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1;
-            item.value = Item.buyPrice(gold: 11);
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 14f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 21;
+            Item.crit = 15;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 47;
+            Item.height = 16;
+            Item.useTime = maxUseTime;
+            Item.useAnimation = maxUseTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1;
+            Item.value = Item.buyPrice(gold: 11);
+            Item.rare = 10;
+            Item.autoReuse = true;
+            Item.shoot = 10;
+            Item.shootSpeed = 14f;
+            Item.useAmmo = AmmoID.Bullet;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.FragmentVortex, 9);
             recipe.AddIngredient(ModContent.ItemType<Kuva>(), 6);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
         int lastShotTime = 0;
         int timeSinceLastShot = 60;
@@ -55,32 +55,32 @@ namespace wfMod.Items.Weapons
                 multishot = maxMultishot > multishot ? multishot + 1 : maxMultishot;
             else multishot = 1;
 
-            if (item.useTime > minUseTime)
+            if (Item.useTime > minUseTime)
             {
-                item.useTime = item.useTime * 2 / 3;
-                item.useAnimation = item.useTime;
+                Item.useTime = Item.useTime * 2 / 3;
+                Item.useAnimation = Item.useTime;
 
-                if (item.useTime < minUseTime)
+                if (Item.useTime < minUseTime)
                 {
-                    item.useTime = minUseTime;
-                    item.useAnimation = minUseTime;
+                    Item.useTime = minUseTime;
+                    Item.useAnimation = minUseTime;
                 }
             }
             else if (timeSinceLastShot > 16)
             {
-                item.useTime += timeSinceLastShot / 3;
-                item.useAnimation += timeSinceLastShot / 3;
-                if (item.useTime > maxUseTime)
+                Item.useTime += timeSinceLastShot / 3;
+                Item.useAnimation += timeSinceLastShot / 3;
+                if (Item.useTime > maxUseTime)
                 {
-                    item.useTime = maxUseTime;
-                    item.useAnimation = maxUseTime;
+                    Item.useTime = maxUseTime;
+                    Item.useAnimation = maxUseTime;
                 }
             }
             lastShotTime = player.GetModPlayer<wfPlayer>().longTimer;
 
             return base.CanUseItem(player);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             PlaySound(Main.rand.NextFloat(-0.1f, 0.1f));
 
@@ -93,7 +93,7 @@ namespace wfMod.Items.Weapons
                 gProj.falloffMaxDist = 800;
                 gProj.falloffMax = 0.94f;
                 gProj.critMult = 1.15f;
-                gProj.AddProcChance(new ProcChance(mod.BuffType("SlashProc"), 35));
+                gProj.AddProcChance(new ProcChance(Mod.Find<ModBuff>("SlashProc").Type, 35));
             }
             return false;
         }

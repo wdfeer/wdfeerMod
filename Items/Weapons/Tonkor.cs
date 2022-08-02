@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,27 +14,27 @@ namespace wfMod.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.damage = 29;
-            item.crit = 21;
-            item.knockBack = 5.5f;
-            item.ranged = true;
-            item.noMelee = true;
-            item.width = 37;
-            item.height = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item61;
-            item.useTime = 66;
-            item.useAnimation = 66;
-            item.rare = 2;
-            item.value = Item.buyPrice(gold: 2);
-            item.shoot = mod.ProjectileType("TonkorProj");
-            item.shootSpeed = 16f;
-            item.useAmmo = ItemID.Grenade;
+            Item.damage = 29;
+            Item.crit = 21;
+            Item.knockBack = 5.5f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.noMelee = true;
+            Item.width = 37;
+            Item.height = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item61;
+            Item.useTime = 66;
+            Item.useAnimation = 66;
+            Item.rare = 2;
+            Item.value = Item.buyPrice(gold: 2);
+            Item.shoot = Mod.Find<ModProjectile>("TonkorProj").Type;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = ItemID.Grenade;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var proj = ShootWith(position, speedX, speedY, mod.ProjectileType("TonkorProj"), damage, knockBack, offset: item.width + 2);
-            proj.damage = (int)(item.damage * player.rangedDamageMult);
+            var proj = ShootWith(position, speedX, speedY, Mod.Find<ModProjectile>("TonkorProj").Type, damage, knockBack, offset: Item.width + 2);
+            proj.damage = (int)(Item.damage * player.GetDamage(DamageClass.Ranged));
             var gProj = proj.GetGlobalProjectile<Projectiles.wfGlobalProj>();
             gProj.critMult = 1.25f;
             gProj.ai = () =>

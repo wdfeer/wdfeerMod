@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,24 +14,24 @@ namespace wfMod.Projectiles
         const int explosionRadius = 200;
         wfGlobalProj globalProj;
         public Vector2 initialPos;
-        float distanceToInitialPos => (initialPos - projectile.position).Length();
+        float distanceToInitialPos => (initialPos - Projectile.position).Length();
         bool canExplode => distanceToInitialPos >= explosionRadius;
         public override void SetDefaults()
         {
-            globalProj = projectile.GetGlobalProjectile<wfGlobalProj>();
+            globalProj = Projectile.GetGlobalProjectile<wfGlobalProj>();
             globalProj.exploding = false;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.knockBack = 6;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.extraUpdates = 0;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 400;
-            projectile.hide = true;
-            projectile.light = 0.2f;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.knockBack = 6;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 0;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 400;
+            Projectile.hide = true;
+            Projectile.light = 0.2f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
         public override void AI()
         {
@@ -39,7 +40,7 @@ namespace wfMod.Projectiles
 
             for (int num = 0; num < 2; num++)
             {
-                int num353 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.WhiteTorch);
+                int num353 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WhiteTorch);
                 Dust dust = Main.dust[num353];
                 dust.noLight = true;
                 dust.scale = Main.rand.Next(80, 130) * 0.01f;
@@ -63,7 +64,7 @@ namespace wfMod.Projectiles
             {
                 knockback *= 2;
                 damage /= 2;
-                projectile.penetrate = 0;
+                Projectile.penetrate = 0;
             }
         }
         public bool ExplodeIfConditionsAreMet()
@@ -72,14 +73,14 @@ namespace wfMod.Projectiles
             if (!canExplode) return false;
 
             globalProj.Explode(explosionRadius);
-            Main.PlaySound(SoundID.Item14.WithVolume(0.5f), projectile.Center);
-            projectile.light = 0.8f;
-            wfMod.NewDustsCircle(30, projectile.Center, projectile.width / 3, DustID.AncientLight,
+            SoundEngine.PlaySound(SoundID.Item14.WithVolume(0.5f), Projectile.Center);
+            Projectile.light = 0.8f;
+            wfMod.NewDustsCircle(30, Projectile.Center, Projectile.width / 3, DustID.AncientLight,
             (d) =>
             {
                 d.scale = 1.5f;
                 d.noGravity = true;
-                d.velocity += Vector2.Normalize(d.position - projectile.Center) * 4f;
+                d.velocity += Vector2.Normalize(d.position - Projectile.Center) * 4f;
             });
             return true;
         }
